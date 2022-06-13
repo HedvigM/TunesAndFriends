@@ -3,6 +3,8 @@ import Link from 'next/link';
 import Container from '@mui/material/Container';
 import Brightness3OutlinedIcon from '@mui/icons-material/Brightness3Outlined';
 import { Button, ButtonGroup, Switch } from '@mui/material';
+import { Auth0 } from '../components/Auth0'
+
 
 export const StartPage = () => {
   return (
@@ -17,6 +19,7 @@ export const StartPage = () => {
         }}
       >
         <h1>Tunes & Friends start page</h1>
+        <Auth0/>
         <Switch color='secondary' />
         <h2>
           <Link href='/'>
@@ -36,3 +39,5 @@ export const StartPage = () => {
 };
 
 export default StartPage;
+
+

@@ -8,6 +8,7 @@ export default function FirstPost() {
       <h2>
         <Link href="/">
           <a>Back to home</a>
+        
         </Link>
       </h2>
     </>

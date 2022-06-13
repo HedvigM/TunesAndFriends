@@ -3,8 +3,11 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { Container, Box, Paper, Typography } from '@mui/material';
 import Link from 'next/link';
+import { useUser } from '@auth0/nextjs-auth0';
 
 const IndexPage: NextPage<{}> = ({}) => {
+  const {user} = useUser();
+  console.log(user)
   return (
     <Container maxWidth='md'>
       <Head>
