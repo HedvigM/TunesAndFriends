@@ -1,30 +1,43 @@
 import React from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { Container, Box, Paper, Typography } from '@mui/material';
+import { Container, Box, Paper, Typography, Button } from '@mui/material';
 import Link from 'next/link';
-
-import LoginBtn from './api/auth/LoginBtn';
+import { useUser } from '@auth0/nextjs-auth0';
 
 const IndexPage: NextPage<{}> = ({}) => {
+  const { user } = useUser();
+  console.log(user);
+
   return (
     <Container maxWidth='md'>
       <Head>
-        <title>NextJS Typescript Starter</title>
+        <title>Tunes & Friends</title>
       </Head>
       <Box mt={6}>
         <Paper>
           <Box p={2}>
-            <Typography variant={'h1'}>
-              Opinionated NextJS Typescript starter
-            </Typography>
-            <Typography variant={'subtitle1'}>With Material-UI</Typography>
+            <Typography variant={'h1'}>Tunes & Friends</Typography>
+            <Typography variant={'subtitle1'}>Your tune reminder</Typography>
             <p>
-              This is my preferred starter template for building NextJS apps in
-              Typescript. This version also includes{' '}
-              <a href='https://mui.com/'>MUI</a>
+              This is the new tunes and friends landingpage. It's using the mui
+              library: <a href='https://mui.com/'>MUI</a>
             </p>
-            <LoginBtn />
+            {user ? (
+              <Box>
+                {user.name}
+                <Button variant='contained' href='/api/auth/logout'>
+                  Log out
+                </Button>
+              </Box>
+            ) : (
+              <Box>
+                Ej inloggad
+                <Button variant='contained' href='/api/auth/login'>
+                  Logga in
+                </Button>
+              </Box>
+            )}
 
             <Link href='/first-post'>
               <a>This page!</a>
