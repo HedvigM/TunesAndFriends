@@ -6,7 +6,9 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { theme } from 'styles/theme';
 
-import { UserProvider } from '@auth0/nextjs-auth0';
+import { UserProvider, useUser } from '@auth0/nextjs-auth0';
+import { Header } from 'styles/components/Header';
+import { Footer } from 'styles/components/Footer';
 
 const clientSideEmotionCache = createCache({ key: 'css', prepend: true });
 
@@ -27,8 +29,10 @@ function MyApp({
           />
         </Head>
         <ThemeProvider theme={theme}>
+          <Header />
           <CssBaseline />
           <Component {...pageProps} key={router.asPath} />
+          <Footer />
         </ThemeProvider>
       </CacheProvider>
     </UserProvider>
