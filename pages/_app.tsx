@@ -29,10 +29,8 @@ function MyApp({
           />
         </Head>
         <ThemeProvider theme={theme}>
-          <Header />
           <CssBaseline />
           <Component {...pageProps} key={router.asPath} />
-          <Footer />
         </ThemeProvider>
       </CacheProvider>
     </UserProvider>
