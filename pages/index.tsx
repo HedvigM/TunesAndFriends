@@ -3,11 +3,10 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { Container, Box, Paper, Typography } from '@mui/material';
 import Link from 'next/link';
-import { useUser } from '@auth0/nextjs-auth0';
+
+import LoginBtn from './api/auth/LoginBtn';
 
 const IndexPage: NextPage<{}> = ({}) => {
-  const {user} = useUser();
-  console.log(user)
   return (
     <Container maxWidth='md'>
       <Head>
@@ -25,14 +24,13 @@ const IndexPage: NextPage<{}> = ({}) => {
               Typescript. This version also includes{' '}
               <a href='https://mui.com/'>MUI</a>
             </p>
+            <LoginBtn />
+
             <Link href='/first-post'>
               <a>This page!</a>
             </Link>
             <Link href='/start'>
               <a>Tunes and friends</a>
-            </Link>
-            <Link href='/hej'>
-              <a>hej</a>
             </Link>
           </Box>
         </Paper>

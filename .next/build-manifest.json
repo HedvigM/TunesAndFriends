@@ -30,11 +30,6 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/first-post": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/first-post.js"
-    ],
     "/start": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
