@@ -11,7 +11,11 @@ export const Footer = () => {
 
   return (
     <>
-      <Container>
+      <Box
+        sx={{
+          backgroundColor: 'primary.dark',
+        }}
+      >
         <Icons>
           <Icon
             href='https://github.com/HedvigM'
@@ -54,14 +58,10 @@ export const Footer = () => {
             </Typography>
           </Icon>
         </Icons>
-      </Container>
+      </Box>
     </>
   );
 };
-
-const Container = styled('div')`
-  background: green;
-`;
 
 const Icons = styled.div`
   display: flex;

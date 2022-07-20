@@ -28,12 +28,22 @@ export const Header = () => {
       </LinkBox>
     </StyledHeader>
   ) : (
-    <Typography
-      variant={'h1'}
-      style={{ display: 'flex', justifyContent: 'center', padding: '2%' }}
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'flex-end',
+        paddingX: '10%',
+        paddingY: '2%',
+        backgroundColor: 'primary.dark',
+      }}
     >
-      Tunes & Friends
-    </Typography>
+      <Typography variant={'h1'} sx={{ paddingX: '2%' }}>
+        Tunes & Friends
+      </Typography>
+      <Button variant='contained' href='/api/auth/login'>
+        Logga in
+      </Button>
+    </Box>
   );
 };
 
