@@ -7,16 +7,20 @@ import { Footer } from 'styles/components/Footer';
 import { Header } from 'styles/components/Header';
 import { TeasersList } from 'styles/components/landingPage/TeasersList';
 import { ImageBG } from 'styles/components/landingPage/ImageBG';
+import { User } from '@auth0/auth0-react';
 
 const IndexPage: NextPage<{}> = ({}) => {
   const { user } = useUser();
-  console.log(user);
 
   return (
     <>
       <Header />
       <TeasersList />
-      <ImageBG />
+      {!User && (
+        <>
+          <ImageBG />
+        </>
+      )}
       <Container maxWidth='md'>
         <Head>
           <title>Tunes & Friends</title>
