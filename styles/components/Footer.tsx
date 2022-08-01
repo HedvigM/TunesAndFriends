@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, Typography } from '@mui/material';
 import React from 'react';
 import { faMountain } from '@fortawesome/free-solid-svg-icons';
+import { color } from '@mui/system';
 
 export const Footer = () => {
   library.add(fab);
@@ -13,7 +14,7 @@ export const Footer = () => {
     <>
       <Box
         sx={{
-          backgroundColor: 'primary.dark',
+          backgroundColor: 'secondary.dark',
         }}
       >
         <Icons>
@@ -24,7 +25,10 @@ export const Footer = () => {
             aria-label='a link to my GitHub account'
           >
             <Typography variant={'h1'}>
-              <FontAwesomeIcon icon={['fab', 'github']} />
+              <FontAwesomeIcon
+                icon={['fab', 'github']}
+                style={{ color: 'white' }}
+              />
             </Typography>
           </Icon>
           <Icon
@@ -34,7 +38,10 @@ export const Footer = () => {
             aria-label='a link to my linkedin account'
           >
             <Typography variant={'h1'}>
-              <FontAwesomeIcon icon={['fab', 'linkedin']} />
+              <FontAwesomeIcon
+                icon={['fab', 'linkedin']}
+                style={{ color: 'white' }}
+              />
             </Typography>
           </Icon>
           <Icon
@@ -44,7 +51,10 @@ export const Footer = () => {
             aria-label='a link to my stack-overflow account'
           >
             <Typography variant={'h1'}>
-              <FontAwesomeIcon icon={['fab', 'stack-overflow']} />
+              <FontAwesomeIcon
+                icon={['fab', 'stack-overflow']}
+                style={{ color: 'white' }}
+              />
             </Typography>
           </Icon>
           <Icon
@@ -54,7 +64,7 @@ export const Footer = () => {
             aria-label='a link to my portfolio'
           >
             <Typography variant={'h1'}>
-              <FontAwesomeIcon icon={faMountain} />{' '}
+              <FontAwesomeIcon icon={faMountain} style={{ color: 'white' }} />{' '}
             </Typography>
           </Icon>
         </Icons>
@@ -77,6 +87,6 @@ const Icon = styled.a`
   transition-property: transform;
   :hover {
     -webkit-transform: scale(1.5);
-    transform: scale(1.5);
+    transform: scale(1.1);
   }
 `;
