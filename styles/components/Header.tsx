@@ -1,39 +1,166 @@
-import { Box, Button, Link, Typography } from '@mui/material';
-import React from 'react';
-import { styled } from '@mui/system';
+import {
+  AppBar,
+  Box,
+  Button,
+  Toolbar,
+  Typography,
+  Drawer,
+  List,
+  Divider,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Tooltip,
+  Avatar,
+  Menu,
+  MenuItem,
+} from '@mui/material';
+import React, { useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
+import { Search } from '@mui/icons-material';
+import { styled } from '@mui/material/styles';
+
+import IconButton from '@mui/material/IconButton';
+import InputBase from '@mui/material/InputBase';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { faUsersViewfinder } from '@fortawesome/free-solid-svg-icons';
 
 export const Header = () => {
   const { user } = useUser();
+  const [drawer, setDrawer] = useState(false);
+  const settings = ['Profile', 'Account', 'Dashboard'];
+
+  /* clean the code below up a bit */
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
+
+  /* clean the code below up a bit */
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+
+    setDrawer(open);
+  };
+
   return user ? (
-    <StyledHeader>
-      <StyledLogo>
-        <Typography variant={'h1'}>Tunes & Friends</Typography>
-        <Typography variant={'subtitle1'}>Your tune reminder</Typography>
-      </StyledLogo>
-      <LinkBox>
-        <StyledLink href='/start'>
-          <a>Tunes and friends</a>
-        </StyledLink>
-        <StyledLink href='/first-post'>
-          <a>This page!</a>
-        </StyledLink>
-        <Button
-          variant='contained'
-          href='/api/auth/logout'
-          style={{ display: 'inline' }}
-        >
-          Log out
-        </Button>
-      </LinkBox>
-    </StyledHeader>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position='static'>
+        <Toolbar>
+          <IconButton
+            size='large'
+            edge='start'
+            color='inherit'
+            aria-label='open drawer'
+            sx={{ mr: 2 }}
+            onClick={toggleDrawer(true)}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            variant='h1'
+            noWrap
+            component='div'
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+          >
+            Tunes & Friends
+          </Typography>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder='Search…'
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
+          {/* Searcfield don't work at the moment */}
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title='Open settings'>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt='users avatar' src={user.picture} />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id='menu-appbar'
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign='center'>{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        </Toolbar>
+        <Drawer anchor='left' open={drawer} onClose={toggleDrawer(false)}>
+          <List>
+            <Typography
+              variant='h4'
+              component='div'
+              sx={{
+                display: 'flex',
+                textAlign: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              {user.name}
+            </Typography>
+            <Divider />
+            <ListItemButton
+              key={'Logga ut'}
+              component='a'
+              href='/api/auth/logout'
+            >
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Logga ut'} />
+            </ListItemButton>
+            <ListItemButton key={'tunes'} component='a' href='/tunes'>
+              <ListItemText primary={'Tunes'} />
+            </ListItemButton>
+            <ListItemButton key={'friends'} component='a' href='/friends'>
+              <ListItemText primary={'Friends'} />
+            </ListItemButton>
+          </List>
+        </Drawer>
+      </AppBar>
+    </Box>
   ) : (
     <Box
       sx={{
         display: 'flex',
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         paddingX: '10%',
-        paddingY: '2%',
+        paddingY: '20%',
         backgroundColor: 'primary.dark',
       }}
     >
@@ -47,24 +174,29 @@ export const Header = () => {
   );
 };
 
-const StyledHeader = styled('div')`
-  background-color: rgb(27, 104, 8);
-  padding: 0% 10%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
 
-const StyledLogo = styled('div')`
-  text-align: center;
-`;
-
-const StyledLink = styled('a')`
-  padding: 10px;
-  text-decoration: none;
-  color: black;
-`;
-const LinkBox = styled('div')`
-  display: flex;
-  justify-content: flex-end;
-`;
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '12ch',
+      '&:focus': {
+        width: '20ch',
+      },
+    },
+  },
+}));
