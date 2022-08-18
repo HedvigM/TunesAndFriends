@@ -25,7 +25,7 @@ import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { faUsersViewfinder } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
 
 export const Header = () => {
   const { user } = useUser();
@@ -133,22 +133,28 @@ export const Header = () => {
               {user.name}
             </Typography>
             <Divider />
-            <ListItemButton
-              key={'Logga ut'}
-              component='a'
-              href='/api/auth/logout'
-            >
-              <ListItemIcon>
-                <LogoutIcon />
-              </ListItemIcon>
-              <ListItemText primary={'Logga ut'} />
-            </ListItemButton>
-            <ListItemButton key={'tunes'} component='a' href='/tunes'>
-              <ListItemText primary={'Tunes'} />
-            </ListItemButton>
-            <ListItemButton key={'friends'} component='a' href='/friends'>
-              <ListItemText primary={'Friends'} />
-            </ListItemButton>
+            <Link href='/api/auth/logout'>
+              <ListItemButton
+                key={'Logga ut'}
+                component='a'
+                /*   href='/api/auth/logout' */
+              >
+                <ListItemIcon>
+                  <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText primary={'Logga ut'} />
+              </ListItemButton>
+            </Link>
+            <Link href='/tunes'>
+              <ListItemButton key={'tunes'} component='a'>
+                <ListItemText primary={'Tunes'} />
+              </ListItemButton>
+            </Link>
+            <Link href='/friends'>
+              <ListItemButton key={'friends'} component='a'>
+                <ListItemText primary={'Friends'} />
+              </ListItemButton>
+            </Link>
           </List>
         </Drawer>
       </AppBar>
