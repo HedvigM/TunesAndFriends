@@ -160,7 +160,7 @@ export const Header = () => {
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingX: '10%',
-        paddingY: '20%',
+        paddingY: '2%',
         backgroundColor: 'primary.dark',
       }}
     >
