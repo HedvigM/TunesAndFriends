@@ -1,12 +1,14 @@
 import React from 'react';
-import { Header } from 'styles/components/Header';
-import { Footer } from 'styles/components/Footer';
 import { Box, Container, Typography } from '@mui/material';
+import { Header } from 'components/Header';
+import { SearchTunes } from 'components/SearchTunes';
+import { Footer } from 'components/Footer';
 
 export default function Tunes() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Header />
+      <SearchTunes />
       <Container
         sx={{
           borderRadius: 2,
