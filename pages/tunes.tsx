@@ -1,10 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Container, Pagination, Typography } from '@mui/material';
+import {
+  Box,
+  Container,
+  Pagination,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
 import { Header } from 'components/Header';
 import { SearchTunes } from 'components/SearchTunes';
 import { Footer } from 'components/Footer';
 import { POPULAR_URL } from 'utils/urls';
 import Link from 'next/link';
+import { DataGrid } from '@mui/x-data-grid';
 
 export default function Tunes() {
   const [popularList, setPopularList] = useState([]);
@@ -20,6 +31,8 @@ export default function Tunes() {
         setLoading(false);
       });
   }, [page]);
+
+  console.log('tunes', popularList[0]);
 
   const onPaginationChangeHandle = (
     event: React.ChangeEvent<unknown>,
@@ -71,9 +84,59 @@ export default function Tunes() {
           Popular tunes
         </Typography>
 
+        <Table sx={{ minWidth: 650 }}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Type</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {popularList.map((tune) => (
+              <TableRow
+                key={tune.id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component='th' scope='row'>
+                  {tune.name}
+                </TableCell>
+                <TableCell>{tune.type}</TableCell>
+                <TableCell>
+                  {' '}
+                  <Link
+                    href={{
+                      pathname: `/detailedtune/[slug]`,
+                      query: { slug: `${tune.id}` },
+                    }}
+                  >
+                    To detaild tune page!
+                  </Link>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+
+        {/* data presentation nr: 2 */}
+        <div style={{ height: 400, width: '100%' }}>
+          <DataGrid
+            rows={popularList.map((tune) => ({
+              id: tune.id,
+              tune: tune.name,
+              type: tune.type,
+            }))}
+            columns={[
+              { field: 'tune', headerName: 'Tune', width: 130 },
+              { field: 'type', headerName: 'Type', width: 130 },
+            ]}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+          />
+        </div>
+        {/* data presentation nr: 3 */}
         {popularList.map((tune) => (
           <Box
-            key={tune.id}
             sx={{
               display: 'flex',
               justifyContent: 'space-around',
@@ -97,21 +160,26 @@ export default function Tunes() {
                 {tune.name}
               </Typography>
             </Link>
-            <Link href='/'>
-              <Typography
-                variant='body2'
-                sx={{
-                  color: 'primary.dark',
-                  cursor: 'pointer',
+            <Typography
+              variant='body2'
+              sx={{
+                color: 'primary.dark',
+                cursor: 'pointer',
 
-                  '&:hover': {
-                    color: 'primary.light',
-                  },
+                '&:hover': {
+                  color: 'primary.light',
+                },
+              }}
+            >
+              <Link
+                href={{
+                  pathname: `/detailedtune/[slug]`,
+                  query: { slug: `${tune.id}` },
                 }}
               >
                 To detaild tune page!
-              </Typography>
-            </Link>
+              </Link>
+            </Typography>
           </Box>
         ))}
         <Box
