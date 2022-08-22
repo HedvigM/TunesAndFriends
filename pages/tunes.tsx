@@ -16,6 +16,7 @@ import { Footer } from 'components/Footer';
 import { POPULAR_URL } from 'utils/urls';
 import Link from 'next/link';
 import { DataGrid } from '@mui/x-data-grid';
+import { A } from 'styles/theme';
 
 export default function Tunes() {
   const [popularList, setPopularList] = useState([]);
@@ -89,6 +90,7 @@ export default function Tunes() {
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell>Type</TableCell>
+              <TableCell>To detaild page</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -109,7 +111,7 @@ export default function Tunes() {
                       query: { slug: `${tune.id}` },
                     }}
                   >
-                    To detaild tune page!
+                    <A>To detaild tune page!</A>
                   </Link>
                 </TableCell>
               </TableRow>
