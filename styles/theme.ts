@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material';
+import { createTheme, styled, Typography } from '@mui/material';
 
 export const theme = createTheme({
   palette: {
@@ -8,7 +8,11 @@ export const theme = createTheme({
     },
    secondary: {
      main: '#673929'
-   }
+   },
+   text: {
+     primary: '#000',
+     secondary: 'grey',
+   },
 
   },
   typography: {
@@ -49,3 +53,19 @@ export const theme = createTheme({
     }
   }
 });
+
+export const A = styled(Typography)((props) => ({
+  fontSize: '1rem',
+  fontWeight: 300,
+  color: props.theme.palette.primary.dark,
+  display: 'inline',
+  textAlign: 'center',
+  fontFamily: 'Roboto',
+  margin: '1px',
+
+
+  '&:hover': {
+    color: props.theme.palette.text.primary,
+    backgroundColor: props.theme.palette.primary.main
+  },
+}))
