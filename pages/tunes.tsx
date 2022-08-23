@@ -12,10 +12,10 @@ import {
 } from '@mui/material';
 import { Header } from 'components/Header';
 import { SearchTunes } from 'components/SearchTunes';
+import { TunesIncommon } from 'components/TunesIncommon';
 import { Footer } from 'components/Footer';
 import { POPULAR_URL } from 'utils/urls';
 import Link from 'next/link';
-import { DataGrid } from '@mui/x-data-grid';
 import { A } from 'styles/theme';
 
 export default function Tunes() {
@@ -33,8 +33,6 @@ export default function Tunes() {
       });
   }, [page]);
 
-  console.log('tunes', popularList[0]);
-
   const onPaginationChangeHandle = (
     event: React.ChangeEvent<unknown>,
     value: number
@@ -46,6 +44,7 @@ export default function Tunes() {
     return (
       <>
         <Header />
+
         <Container
           sx={{
             borderRadius: 2,
@@ -70,6 +69,7 @@ export default function Tunes() {
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Header />
       <SearchTunes />
+      <TunesIncommon />
       <Container
         sx={{
           borderRadius: 2,
@@ -119,71 +119,6 @@ export default function Tunes() {
           </TableBody>
         </Table>
 
-        {/* data presentation nr: 2 */}
-        <div style={{ height: 400, width: '100%' }}>
-          <DataGrid
-            rows={popularList.map((tune) => ({
-              id: tune.id,
-              tune: tune.name,
-              type: tune.type,
-            }))}
-            columns={[
-              { field: 'tune', headerName: 'Tune', width: 130 },
-              { field: 'type', headerName: 'Type', width: 130 },
-            ]}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-            checkboxSelection
-          />
-        </div>
-        {/* data presentation nr: 3 */}
-        {popularList.map((tune) => (
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-around',
-              border: '1px solid black',
-              borderRadius: '5px',
-              margin: '20px',
-            }}
-          >
-            <Link href='/'>
-              <Typography
-                variant='body1'
-                sx={{
-                  color: 'black',
-                  cursor: 'pointer',
-
-                  '&:hover': {
-                    color: 'pink',
-                  },
-                }}
-              >
-                {tune.name}
-              </Typography>
-            </Link>
-            <Typography
-              variant='body2'
-              sx={{
-                color: 'primary.dark',
-                cursor: 'pointer',
-
-                '&:hover': {
-                  color: 'primary.light',
-                },
-              }}
-            >
-              <Link
-                href={{
-                  pathname: `/detailedtune/[slug]`,
-                  query: { slug: `${tune.id}` },
-                }}
-              >
-                To detaild tune page!
-              </Link>
-            </Typography>
-          </Box>
-        ))}
         <Box
           sx={{ paddingTop: '50px', display: 'flex', justifyContent: 'center' }}
         >
