@@ -66,6 +66,7 @@ export const A = styled(Typography)((props) => ({
 
   '&:hover': {
     color: props.theme.palette.text.primary,
-    backgroundColor: props.theme.palette.primary.main
+    backgroundColor: props.theme.palette.primary.main,
+    cursor: 'pointer',
   },
 }))
