@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   Box,
+  CircularProgress,
   Container,
   Pagination,
   Table,
@@ -16,11 +17,15 @@ import { Footer } from 'components/Footer';
 import { POPULAR_URL } from 'utils/urls';
 import Link from 'next/link';
 import { A } from 'styles/theme';
+import { useUser } from '@auth0/nextjs-auth0';
+import { useRouter } from 'next/router';
 
 export default function Tunes() {
   const [popularList, setPopularList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const { user } = useUser();
+  const router = useRouter();
 
   useEffect(() => {
     setLoading(true);
@@ -29,6 +34,9 @@ export default function Tunes() {
       .then((data) => {
         setPopularList(data.tunes);
         setLoading(false);
+        if (!user) {
+          router.push('/');
+        }
       });
   }, [page]);
 
@@ -57,7 +65,7 @@ export default function Tunes() {
             justifyContent: 'center',
           }}
         >
-          <Typography variant='h1'>Loading...</Typography>
+          <CircularProgress color='secondary' />
         </Container>
         <Footer />
       </>

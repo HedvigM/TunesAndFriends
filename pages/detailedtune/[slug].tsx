@@ -1,4 +1,3 @@
-import { Router } from '@mui/icons-material';
 import { Box, Container, Typography } from '@mui/material';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header';
@@ -7,6 +6,8 @@ import React, { useEffect, useState } from 'react';
 import { TUNE_URL } from 'utils/urls';
 import abcjs from 'abcjs';
 import { TunesIncommon } from 'components/tunesIncommon';
+import Link from 'next/link';
+import { useUser } from '@auth0/nextjs-auth0';
 
 const detailedtune = () => {
   const [loading, setLoading] = useState(false);
@@ -18,6 +19,8 @@ const detailedtune = () => {
 
   const router = useRouter();
   const { slug: slug } = router.query;
+  const { user } = useUser();
+  const abcjs = process.browser ? require('abcjs') : null;
 
   useEffect(() => {
     setLoading(true);
@@ -25,8 +28,13 @@ const detailedtune = () => {
       .then((res) => res.json())
       .then((data) => {
         setDetails(data);
-        setAbc(data.settings[0].abc);
+        if (data.settings) {
+          setAbc(data.settings[0].abc);
+        }
         setLoading(false);
+        if (!user) {
+          router.push('/');
+        }
       });
   }, [slug]);
 
@@ -34,7 +42,9 @@ const detailedtune = () => {
     return string.replaceAll('!', '\n');
   };
 
-  abcjs.renderAbc('sheetMusic', lineBreak(abc), { responsive: 'resize' });
+  if (abcjs) {
+    abcjs.renderAbc('sheetMusic', lineBreak(abc), { responsive: 'resize' });
+  }
 
   return (
     <>
