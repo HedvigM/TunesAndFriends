@@ -8,7 +8,10 @@ import { useUser } from '@auth0/nextjs-auth0';
 
 const detailedtune = () => {
   const [loading, setLoading] = useState(false);
-  const [details, setDetails] = useState([]);
+  const [details, setDetails] = useState({
+    name: 'Loading...',
+    type: 'Loading...',
+  });
   const [key, setKey] = useState('');
   const [abc, setAbc] = useState(
     '|:E2BE dEBE|E2BE AFDF|E2BE dEBE|BABc dAFD:|!d2fd c2ec|defg afge|d2fd c2ec|BABc dAFA|!d2fd c2ec|defg afge|afge fdec|BABc dAFD|'
@@ -86,7 +89,6 @@ const detailedtune = () => {
           <div style={{ width: '100%' }} id='sheetMusic'></div>
         </Container>
       )}
-      <TunesIncommon />
       <Footer />
     </>
   );
