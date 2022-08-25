@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { TUNE_URL } from 'utils/urls';
 import abcjs from 'abcjs';
-import { TunesIncommon, tunesIncommon } from 'components/TunesIncommon';
+import { TunesIncommon } from 'components/tunesIncommon';
 
 const detailedtune = () => {
   const [loading, setLoading] = useState(false);
@@ -26,20 +26,9 @@ const detailedtune = () => {
       .then((data) => {
         setDetails(data);
         setAbc(data.settings[0].abc);
+        setLoading(false);
       });
   }, [slug]);
-
-  /*   useEffect(() => {
-    Promise.all(
-      fetch(TUNE_URL(slug))
-        .then((res) => res.json())
-        .then((data) => {
-          setDetails(data);
-          setAbc(data.settings[0].abc);
-          setKey(data.settings[0].key);
-        })
-    );
-  }, [slug]); */
 
   let lineBreak = (string) => {
     return string.replaceAll('!', '\n');
@@ -47,26 +36,24 @@ const detailedtune = () => {
 
   abcjs.renderAbc('sheetMusic', lineBreak(abc), { responsive: 'resize' });
 
-  console.log(details);
-
   return (
     <>
       <Header />
-      <Container
-        sx={{
-          borderRadius: 2,
-          boxShadow: 20,
-          fontWeight: 'fontWeightLight',
-          width: '75%',
-          paddingY: '10px',
-          marginY: '30px',
-          flexGrow: '1',
-        }}
-      >
-        <Typography variant='h1' textAlign='center'>
-          {details.name}
-        </Typography>
-        {details && (
+      {details && (
+        <Container
+          sx={{
+            borderRadius: 2,
+            boxShadow: 20,
+            fontWeight: 'fontWeightLight',
+            width: '75%',
+            paddingY: '10px',
+            marginY: '30px',
+            flexGrow: '1',
+          }}
+        >
+          <Typography variant='h1' textAlign='center'>
+            {details.name}
+          </Typography>
           <>
             <Typography textAlign='left' variant='body1'>
               Slug: {slug}
@@ -75,8 +62,8 @@ const detailedtune = () => {
               {details.type}
             </Typography>
           </>
-        )}
-      </Container>
+        </Container>
+      )}
       {details && (
         <Container
           sx={{

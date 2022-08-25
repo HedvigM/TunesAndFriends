@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 import { Header } from 'components/Header';
 import { SearchTunes } from 'components/SearchTunes';
-import { TunesIncommon } from 'components/TunesIncommon';
 import { Footer } from 'components/Footer';
 import { POPULAR_URL } from 'utils/urls';
 import Link from 'next/link';
@@ -69,7 +68,6 @@ export default function Tunes() {
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Header />
       <SearchTunes />
-      <TunesIncommon />
       <Container
         sx={{
           borderRadius: 2,
