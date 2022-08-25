@@ -1,12 +1,9 @@
-import { Box, Container, Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { TUNE_URL } from 'utils/urls';
-import abcjs from 'abcjs';
-import { TunesIncommon } from 'components/tunesIncommon';
-import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0';
 
 const detailedtune = () => {

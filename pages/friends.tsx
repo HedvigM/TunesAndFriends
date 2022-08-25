@@ -4,7 +4,6 @@ import { Typography } from '@mui/material';
 import { Header } from 'components/Header';
 import { Footer } from 'components/Footer';
 import { useUser } from '@auth0/nextjs-auth0';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 export default function Friends() {
