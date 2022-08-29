@@ -30,7 +30,6 @@ import Link from 'next/link';
 export const Header = () => {
   const { user } = useUser();
   const [drawer, setDrawer] = useState(false);
-  const settings = ['Profile', 'Account', 'Dashboard'];
 
   /* clean the code below up a bit */
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -111,11 +110,26 @@ export const Header = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+              {/*      {settings.map((setting) => (
+                <MenuItem key={setting}>
                   <Typography textAlign='center'>{setting}</Typography>
                 </MenuItem>
-              ))}
+              ))}  */}
+              <MenuItem key={'profile'}>
+                <Link href='/profile'>
+                  <Typography textAlign='center'>{'Profile'}</Typography>
+                </Link>
+              </MenuItem>
+              <MenuItem key={'account'}>
+                <Link href='/account'>
+                  <Typography textAlign='center'>{'Account'}</Typography>
+                </Link>
+              </MenuItem>
+              <MenuItem key={'daschboard'}>
+                <Link href='/daschboard'>
+                  <Typography textAlign='center'>{'Daschboard'}</Typography>
+                </Link>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
