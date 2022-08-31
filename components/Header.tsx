@@ -26,9 +26,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Link from 'next/link';
+import { addUser } from 'services/local';
 
 export const Header = () => {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
   const [drawer, setDrawer] = useState(false);
 
   /* clean the code below up a bit */
@@ -55,6 +56,11 @@ export const Header = () => {
 
     setDrawer(open);
   };
+
+  if (typeof user !== 'undefined' && isLoading === false) {
+    addUser(user);
+  }
+  console.log('USER:', user);
 
   return user ? (
     <Box sx={{ flexGrow: 1 }}>
@@ -148,11 +154,7 @@ export const Header = () => {
             </Typography>
             <Divider />
             <Link href='/api/auth/logout'>
-              <ListItemButton
-                key={'Logga ut'}
-                component='a'
-                /*   href='/api/auth/logout' */
-              >
+              <ListItemButton key={'Logga ut'} component='a'>
                 <ListItemIcon>
                   <LogoutIcon />
                 </ListItemIcon>
