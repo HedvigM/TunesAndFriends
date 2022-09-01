@@ -15,7 +15,6 @@ export default function Profile() {
       router.push('/');
     }
   });
-  console.log('User', user);
 
   return (
     <>
@@ -33,28 +32,32 @@ export default function Profile() {
         <Typography textAlign='center' variant='h1'>
           The Account page
         </Typography>
-        <Avatar
-          alt='users avatar'
-          sx={{ width: 200, height: 200 }}
-          src={user.picture}
-        />
-        <Box sx={{ paddingTop: '30px' }}>
-          <Typography textAlign='left' variant='body1'>
-            Given Name: {user.given_name}
-          </Typography>
-          <Typography textAlign='left' variant='body1'>
-            Family Name: {user.family_name}
-          </Typography>
-          <Typography textAlign='left' variant='body1'>
-            Nickname: {user.nickname}
-          </Typography>
-          <Typography textAlign='left' variant='body1'>
-            Email: {user.email}
-          </Typography>
-          <Typography textAlign='left' variant='body1'>
-            Languae: {user.locale}
-          </Typography>
-        </Box>
+        {user && (
+          <>
+            <Avatar
+              alt='users avatar'
+              sx={{ width: 200, height: 200 }}
+              src={user.picture}
+            />
+            <Box sx={{ paddingTop: '30px' }}>
+              <Typography textAlign='left' variant='body1'>
+                Given Name: {user.given_name}
+              </Typography>
+              <Typography textAlign='left' variant='body1'>
+                Family Name: {user.family_name}
+              </Typography>
+              <Typography textAlign='left' variant='body1'>
+                Nickname: {user.nickname}
+              </Typography>
+              <Typography textAlign='left' variant='body1'>
+                Email: {user.email}
+              </Typography>
+              <Typography textAlign='left' variant='body1'>
+                Languae: {user.locale}
+              </Typography>
+            </Box>
+          </>
+        )}
       </Container>
 
       <Footer />

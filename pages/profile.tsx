@@ -15,7 +15,6 @@ export default function Profile() {
       router.push('/');
     }
   });
-  console.log('User', user);
 
   return (
     <>
@@ -33,11 +32,15 @@ export default function Profile() {
         <Typography textAlign='center' variant='h1'>
           The Profile page
         </Typography>
-        <Avatar
-          alt='users avatar'
-          sx={{ width: 50, height: 50 }}
-          src={user.picture}
-        />
+        {user && (
+          <>
+            <Avatar
+              alt='users avatar'
+              sx={{ width: 50, height: 50 }}
+              src={user.picture}
+            />
+          </>
+        )}
       </Container>
 
       <Footer />
