@@ -8,9 +8,10 @@ import { Header } from 'components/Header';
 import { TeasersList } from 'components/landingPage/TeasersList';
 import { ImageBG } from 'components/landingPage/ImageBG';
 import { Footer } from 'components/Footer';
+import { addUser } from 'services/local';
 
 const IndexPage: NextPage<{}> = ({}) => {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
 
   return (
     <>
