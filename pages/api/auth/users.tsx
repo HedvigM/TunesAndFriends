@@ -1,3 +1,4 @@
+import { User } from '@auth0/auth0-react';
 import { PrismaClient } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -52,6 +53,39 @@ const listUsers = async () => {
     console.log(error);
   }
 };
+
+/* 
+Todo:
+- Find one user by id.
+- update that users town or profileText info.
+*/
+
+/* const updateUser = async (user: User) => {
+  try {
+    const findSingleUser = await prisma.user.findUnique({
+      where: { email: user.email },
+    });
+
+    if (findSingleUser !== null) {
+      const createResult = await prisma.user.update({
+        data: {
+          town: user.town,
+          profileText: user.profileText,
+        },
+      });
+      if (createResult === null) {
+        return { message: `The user ${user.name} were created` };
+      } else {
+        return { message: 'Something went wrong while creating a user' };
+      }
+    } else {
+      return { message: 'The user already exists' };
+    }
+  } catch (error) {
+    console.log(error);
+    return { message: 'An error were cathed in the terminal' };
+  }
+}; */
 
 const users = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
