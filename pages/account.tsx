@@ -18,12 +18,6 @@ import { useRouter } from 'next/router';
 import { getUser, updateUser } from 'services/local';
 import { User } from '@prisma/client';
 
-/* 
-TODO: 
-- Fix the type problems.
-- change info in textbox. (only town and profile text to start with. later you have to be able to change the email.)
-- Swal pop up (look at the old project.)
-*/
 export default function Profile() {
   const router = useRouter();
   const { user } = useUser();
@@ -37,7 +31,6 @@ export default function Profile() {
     if (databaseUser && databaseUser.id) {
       updateUser(databaseUser, town, profileText);
     }
-    /* skicka in updated town till en funktion som uppdaterar databasen.  */
   };
 
   useEffect(() => {
@@ -55,13 +48,11 @@ export default function Profile() {
     fetchUser();
   }, [user]);
 
-  /*
   useEffect(() => {
     if (!user) {
       router.push('/');
     }
   });
-  */
 
   return (
     <>
@@ -191,7 +182,7 @@ export default function Profile() {
             margin='normal'
             id='outlined'
             label='Town'
-            defaultValue={town}
+            value={town}
             onChange={(event) => setTown(event.target.value)}
           />
 
@@ -199,7 +190,7 @@ export default function Profile() {
             margin='normal'
             id='outlined'
             label='Presentation'
-            defaultValue={profileText}
+            value={profileText}
             onChange={(event) => setProfileText(event.target.value)}
             multiline
           />
@@ -209,7 +200,6 @@ export default function Profile() {
           </Button>
         </Box>
       </Container>
-
       <Footer />
     </>
   );
