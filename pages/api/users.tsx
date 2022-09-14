@@ -1,14 +1,10 @@
+import { UserProfile } from '@auth0/nextjs-auth0';
 import { PrismaClient } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-interface User {
-  name: string;
-  email: string;
-}
-
 const prisma = new PrismaClient();
 
-const addUser = async (user: User) => {
+const addUser = async (user: UserProfile) => {
   try {
     const findSingleUser = await prisma.user.findUnique({
       where: { email: user.email },
@@ -31,7 +27,7 @@ const addUser = async (user: User) => {
     }
   } catch (error) {
     console.log(error);
-    return { message: 'An error were cathed in the terminal' };
+    return { message: 'An error was caught in the terminal' };
   }
 };
 
@@ -53,10 +49,34 @@ const listUsers = async () => {
   }
 };
 
+/* 
+Todo:
+PATCH
+-email, town, profileText
+*/
+
+const updateUser = async (email: string, town: string, profileText: string) => {
+  try {
+    const updateUser = await prisma.user.update({
+      where: { email: email },
+      data: { town: town, profileText: profileText },
+    });
+
+    if (updateUser !== null) {
+      return { message: `The user ${updateUser.name} updated` };
+    } else {
+      return { message: 'Something went wrong while creating a user' };
+    }
+  } catch (error) {
+    console.log(error);
+    return { message: 'An error was caught in the terminal' };
+  }
+};
+
 const users = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     return new Promise((resolve) => {
-      const { name, email }: User = req.body;
+      const { name, email } = req.body;
 
       addUser({
         name,
@@ -91,7 +111,27 @@ const users = async (req: NextApiRequest, res: NextApiResponse) => {
           await prisma.$disconnect();
         });
     });
+  }
+  if (req.method === 'PATCH') {
+    return new Promise((resolve) => {
+      const { email, town, profileText } = req.body;
+
+      updateUser(email, town, profileText)
+        .then((result) => {
+          console.log('result', result);
+          res.status(200).json(result);
+          resolve('');
+        })
+        .catch((error) => {
+          res.status(500).end(error);
+          resolve('');
+        })
+        .finally(async () => {
+          await prisma.$disconnect();
+        });
+    });
   } else {
+    console.log('what the fuck');
     res.status(404).end();
   }
 };
