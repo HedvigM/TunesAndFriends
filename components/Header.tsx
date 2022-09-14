@@ -15,7 +15,7 @@ import {
   Menu,
   MenuItem,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 import { Search } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
@@ -57,9 +57,11 @@ export const Header = () => {
     setDrawer(open);
   };
 
-  if (typeof user !== 'undefined' && isLoading === false) {
-    addUser(user);
-  }
+  useEffect(() => {
+    if (typeof user !== 'undefined' && isLoading === false) {
+      addUser(user);
+    }
+  }, [user, isLoading]);
 
   return user ? (
     <Box sx={{ flexGrow: 1 }}>
