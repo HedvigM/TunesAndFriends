@@ -60,7 +60,6 @@ export const Header = () => {
   if (typeof user !== 'undefined' && isLoading === false) {
     addUser(user);
   }
-  console.log('USER:', user);
 
   return user ? (
     <Box sx={{ flexGrow: 1 }}>

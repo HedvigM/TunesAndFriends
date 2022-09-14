@@ -29,6 +29,7 @@ interface UserEmail {
 }
 
 const user = async (req: NextApiRequest, res: NextApiResponse) => {
+  console.log('inkommande request till [email].tsx');
   if (req.method === 'GET') {
     const { email } = req.query as unknown as UserEmail;
     console.log('email', email);
@@ -49,6 +50,7 @@ const user = async (req: NextApiRequest, res: NextApiResponse) => {
         });
     });
   } else {
+    console.log('fel i [email.tsx]');
     res.status(404).end();
   }
 };
