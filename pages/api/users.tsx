@@ -49,12 +49,6 @@ const listUsers = async () => {
   }
 };
 
-/* 
-Todo:
-PATCH
--email, town, profileText
-*/
-
 const updateUser = async (email: string, town: string, profileText: string) => {
   try {
     const updateUser = await prisma.user.update({
