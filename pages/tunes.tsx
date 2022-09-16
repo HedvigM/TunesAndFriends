@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   Box,
+  Button,
   CircularProgress,
   Container,
   Pagination,
@@ -20,6 +21,16 @@ import { A } from 'styles/theme';
 import { useUser } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
 
+/* 
+- knapp att lägga till en låt man kan.
+- knapp att lägga till låtar man vill lära sig.
+- skriva en lägg till funktion i local. 
+- skriva till en lägg till funktion i ett nytt dokument i api mappen. 
+
+
+- (ta bort låt från listan)
+*/
+
 export default function Tunes() {
   const [popularList, setPopularList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,9 +45,9 @@ export default function Tunes() {
       .then((data) => {
         setPopularList(data.tunes);
         setLoading(false);
-        if (!user) {
+        /*  if (!user) {
           router.push('/');
-        }
+        } */
       });
   }, [page]);
 
@@ -65,17 +76,20 @@ export default function Tunes() {
             justifyContent: 'center',
           }}
         >
-          <CircularProgress color='secondary' />
+          <CircularProgress color='primary' />
         </Container>
         <Footer />
       </>
     );
   }
+  const onKnowHandle = () => {
+    console.log('hej');
+  };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Header />
-      <SearchTunes />
+      {/* <SearchTunes /> */}
       <Container
         sx={{
           borderRadius: 2,
@@ -107,6 +121,11 @@ export default function Tunes() {
               >
                 <TableCell component='th' scope='row'>
                   {tune.name}
+                </TableCell>
+                <TableCell component='th' scope='row'>
+                  <Button variant='contained' onClick={() => onKnowHandle()}>
+                    Know
+                  </Button>
                 </TableCell>
                 <TableCell>{tune.type}</TableCell>
                 <TableCell>
