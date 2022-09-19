@@ -140,3 +140,34 @@ export const listUsers = (): Promise<ResponseType<User[]>> => {
       };
     });
 };
+
+export const addTune = (tune, email) => {
+  const defaultHeaders = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json;charset=UTF-8',
+  };
+  const url = 'api/tunes/tune';
+  const options = {
+    method: 'POST',
+    headers: defaultHeaders,
+    body: JSON.stringify({
+      tune: tune,
+      email: email,
+    }),
+  };
+
+  fetch(url, options)
+    .then((response) => {
+      if (response.status === 200) {
+        response
+          .json()
+          .then((data) => console.log(data))
+          .catch((error) => console.log(error));
+      } else {
+        console.log(response.status);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};

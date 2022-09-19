@@ -18,12 +18,17 @@ model User {
   email       String   @unique
   town        String?
   profileText String?
-  knowTunes   Int?
-  learnTunes  Int?
+  knowTunes   Tune[]   @relation("knowTunes")
+  learnTunes  Tune[]   @relation("learnTunes")
 
   @@map("users")
 }
 
-// gör istället en egen model för tunes, blir enklare att använda datan sedan som när man tex klickar på en låt för att se vilka vänner som kan den låten. 
+model Tune {
+  id        Int    @id @default(autoincrement())
+  sessionId Int    @unique
+  knowedBy  User[] @relation("knowTunes")
+  staredBy  User[] @relation("learnTunes")
+}
 
 // uuid är en funktion som tillhandahåller randomiserade id:n - anses vara mkt säkrare än ett id system som bygger på increment.

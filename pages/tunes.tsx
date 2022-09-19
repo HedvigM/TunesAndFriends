@@ -20,6 +20,7 @@ import Link from 'next/link';
 import { A } from 'styles/theme';
 import { useUser } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
+import { addTune } from 'services/local';
 
 /* 
 - knapp att lägga till en låt man kan.
@@ -58,6 +59,10 @@ export default function Tunes() {
     setPage(value);
   };
 
+  const onKnowHandle = (tuneID, userEmail) => {
+    addTune(tuneID, userEmail);
+  };
+
   if (loading) {
     return (
       <>
@@ -82,9 +87,6 @@ export default function Tunes() {
       </>
     );
   }
-  const onKnowHandle = () => {
-    console.log('hej');
-  };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -109,6 +111,7 @@ export default function Tunes() {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
+              <TableCell>Know?</TableCell>
               <TableCell>Type</TableCell>
               <TableCell>To detaild page</TableCell>
             </TableRow>
@@ -123,7 +126,10 @@ export default function Tunes() {
                   {tune.name}
                 </TableCell>
                 <TableCell component='th' scope='row'>
-                  <Button variant='contained' onClick={() => onKnowHandle()}>
+                  <Button
+                    variant='contained'
+                    onClick={() => onKnowHandle(tune.id, user.email)}
+                  >
                     Know
                   </Button>
                 </TableCell>
