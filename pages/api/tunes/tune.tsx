@@ -1,11 +1,9 @@
-import { UserProfile } from '@auth0/nextjs-auth0';
-import { AddTaskRounded } from '@mui/icons-material';
 import { PrismaClient } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 const prisma = new PrismaClient();
 
-const addTune = async (tune, email, knowOrLearn) => {
+const addTune = async (tune: number, email: string, knowOrLearn: string) => {
   try {
     const findSingleTune = await prisma.tune.findUnique({
       where: { sessionId: tune },
