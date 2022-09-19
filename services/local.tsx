@@ -141,7 +141,7 @@ export const listUsers = (): Promise<ResponseType<User[]>> => {
     });
 };
 
-export const addTune = (tune, email) => {
+export const addTune = (tune, email, knowOrLearn) => {
   const defaultHeaders = {
     Accept: 'application/json',
     'Content-Type': 'application/json;charset=UTF-8',
@@ -153,6 +153,7 @@ export const addTune = (tune, email) => {
     body: JSON.stringify({
       tune: tune,
       email: email,
+      knowOrLearn: knowOrLearn,
     }),
   };
 

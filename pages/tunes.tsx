@@ -60,7 +60,12 @@ export default function Tunes() {
   };
 
   const onKnowHandle = (tuneID, userEmail) => {
-    addTune(tuneID, userEmail);
+    addTune(tuneID, userEmail, 'know');
+  };
+
+  const onLearnHandle = (tuneID, userEmail) => {
+    addTune(tuneID, userEmail, 'learn');
+    console.log(tuneID, userEmail);
   };
 
   if (loading) {
@@ -111,6 +116,7 @@ export default function Tunes() {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
+              <TableCell>Learn?</TableCell>
               <TableCell>Know?</TableCell>
               <TableCell>Type</TableCell>
               <TableCell>To detaild page</TableCell>
@@ -124,6 +130,14 @@ export default function Tunes() {
               >
                 <TableCell component='th' scope='row'>
                   {tune.name}
+                </TableCell>
+                <TableCell component='th' scope='row'>
+                  <Button
+                    variant='outlined'
+                    onClick={() => onLearnHandle(tune.id, user.email)}
+                  >
+                    Learn
+                  </Button>
                 </TableCell>
                 <TableCell component='th' scope='row'>
                   <Button
@@ -166,4 +180,7 @@ export default function Tunes() {
       <Footer />
     </Box>
   );
+}
+function addLearnTune(tuneID: any, userEmail: any, arg2: string) {
+  throw new Error('Function not implemented.');
 }
