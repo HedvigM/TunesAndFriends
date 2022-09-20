@@ -172,3 +172,35 @@ export const addTune = (tune, email, knowOrLearn) => {
       console.error(error);
     });
 };
+
+export const getStaredTunes = () => {
+  const defaultHeaders = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json;charset=UTF-8',
+  };
+  const url = '/api/tunes/tune';
+  const options = {
+    method: 'GET',
+    headers: defaultHeaders,
+  };
+  return fetch(url, options)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        throw new Error(response.statusText);
+      }
+    })
+    .then((response) => {
+      return {
+        success: true as const,
+        data: response.data,
+      };
+    })
+    .catch((error) => {
+      return {
+        success: false,
+        error: error,
+      };
+    });
+};

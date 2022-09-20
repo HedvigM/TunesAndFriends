@@ -32,8 +32,6 @@ const addUser = async (user: UserProfile) => {
 };
 
 const listUsers = async () => {
-  console.log('nu kör vi listUsers i APIt');
-
   try {
     const listUsersPrisma = await prisma.user.findMany();
     if (listUsersPrisma === null) {

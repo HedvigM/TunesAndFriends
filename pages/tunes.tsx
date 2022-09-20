@@ -4,6 +4,7 @@ import {
   Button,
   CircularProgress,
   Container,
+  Icon,
   Pagination,
   Table,
   TableBody,
@@ -21,16 +22,7 @@ import { A } from 'styles/theme';
 import { useUser } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
 import { addTune } from 'services/local';
-
-/* 
-- knapp att lägga till en låt man kan.
-- knapp att lägga till låtar man vill lära sig.
-- skriva en lägg till funktion i local. 
-- skriva till en lägg till funktion i ett nytt dokument i api mappen. 
-
-
-- (ta bort låt från listan)
-*/
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 export default function Tunes() {
   const [popularList, setPopularList] = useState([]);
@@ -70,7 +62,14 @@ export default function Tunes() {
 
   if (loading) {
     return (
-      <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignContent: 'center',
+          justifyContent: 'center',
+        }}
+      >
         <Header />
 
         <Container
@@ -89,20 +88,27 @@ export default function Tunes() {
           <CircularProgress color='primary' />
         </Container>
         <Footer />
-      </>
+      </Box>
     );
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
       <Header />
       {/* <SearchTunes /> */}
       <Container
+        maxWidth='sm'
         sx={{
           borderRadius: 2,
           boxShadow: 20,
           fontWeight: 'fontWeightLight',
-          width: '75%',
+          width: '95%',
           paddingY: '10px',
           marginY: '30px',
           flexGrow: '1',
@@ -112,35 +118,57 @@ export default function Tunes() {
           Popular tunes
         </Typography>
 
-        <Table sx={{ minWidth: 650 }}>
-          <TableHead>
+        <Table size='small' sx={{ margin: '0', padding: '0' }}>
+          <TableHead
+            sx={{
+              padding: '0',
+              margin: '0',
+            }}
+          >
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell>Learn?</TableCell>
-              <TableCell>Know?</TableCell>
+              <TableCell>
+                <StarBorderIcon />
+              </TableCell>
+              <TableCell>Know</TableCell>
               <TableCell>Type</TableCell>
-              <TableCell>To detaild page</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {popularList.map((tune) => (
               <TableRow
                 key={tune.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{
+                  '&:last-child td, &:last-child th': { border: 0 },
+                }}
               >
                 <TableCell component='th' scope='row'>
-                  {tune.name}
+                  <Link
+                    href={{
+                      pathname: `/detailedtune/[slug]`,
+                      query: { slug: `${tune.id}` },
+                    }}
+                  >
+                    <A>{tune.name}</A>
+                  </Link>
                 </TableCell>
-                <TableCell component='th' scope='row'>
+                <TableCell
+                  component='th'
+                  scope='row'
+                  sx={{ padding: '0', margin: '0' }}
+                >
                   <Button
-                    variant='outlined'
+                    size='small'
+                    variant='text'
+                    sx={{ padding: '0', margin: '0' }}
                     onClick={() => onLearnHandle(tune.id, user.email)}
                   >
-                    Learn
+                    <StarBorderIcon />
                   </Button>
                 </TableCell>
                 <TableCell component='th' scope='row'>
                   <Button
+                    size='small'
                     variant='contained'
                     onClick={() => onKnowHandle(tune.id, user.email)}
                   >
@@ -148,17 +176,6 @@ export default function Tunes() {
                   </Button>
                 </TableCell>
                 <TableCell>{tune.type}</TableCell>
-                <TableCell>
-                  {' '}
-                  <Link
-                    href={{
-                      pathname: `/detailedtune/[slug]`,
-                      query: { slug: `${tune.id}` },
-                    }}
-                  >
-                    <A>To detaild tune page!</A>
-                  </Link>
-                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -180,7 +197,4 @@ export default function Tunes() {
       <Footer />
     </Box>
   );
-}
-function addLearnTune(tuneID: any, userEmail: any, arg2: string) {
-  throw new Error('Function not implemented.');
 }
