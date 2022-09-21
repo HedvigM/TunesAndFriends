@@ -5,7 +5,7 @@ import { Header } from 'components/Header';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-/* Profile page and friend page is the same...  */
+/* Profile page and friend page is the same, decide vilken to use.  */
 
 const friend = () => {
   const router = useRouter();

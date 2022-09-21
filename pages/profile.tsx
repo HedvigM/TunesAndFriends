@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
-import { Avatar, Box, Button, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  CircularProgress,
+  Typography,
+} from '@mui/material';
 import { Header } from 'components/Header';
 import { Footer } from 'components/Footer';
-import { useUser } from '@auth0/nextjs-auth0';
+import {
+  useUser,
+  withPageAuthRequired,
+  WithPageAuthRequiredProps,
+} from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
 import { getUser } from 'services/local';
 import { User } from '@prisma/client';
+import { NextPage } from 'next';
 /* Profile page and friend page is the same...  */
 
-export default function Profile() {
+const Profile: NextPage<{}> = () => {
   const { user } = useUser();
   const router = useRouter();
   const [databaseUser, setDatabaseUser] = useState<User>();
-
-  /*   useEffect(() => {
-    if (!user) {
-      router.push('/');
-    }
-  }); */
-  console.log('user', user);
-  console.log('databaseuser', databaseUser);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -35,10 +39,11 @@ export default function Profile() {
     fetchUser();
   }, [user]);
 
-  return (
-    <>
-      <Header />
-      {databaseUser && (
+  if (databaseUser && !loading) {
+    return (
+      <>
+        <Header />
+
         <Container
           sx={{
             borderRadius: 2,
@@ -70,21 +75,46 @@ export default function Profile() {
           </Typography>
           <Button variant='contained'>Friends / become friends</Button>
         </Container>
-      )}
-      <Container
-        sx={{
-          borderRadius: 2,
-          boxShadow: 20,
-          fontWeight: 'fontWeightLight',
-          width: '75%',
-          paddingY: '10px',
-          marginY: '30px',
-        }}
-      >
-        <Typography variant='h2'>Tunes incommon:</Typography>
-      </Container>
 
-      <Footer />
-    </>
-  );
-}
+        <Container
+          sx={{
+            borderRadius: 2,
+            boxShadow: 20,
+            fontWeight: 'fontWeightLight',
+            width: '75%',
+            paddingY: '10px',
+            marginY: '30px',
+          }}
+        >
+          <Typography variant='h2'>Tunes incommon:</Typography>
+        </Container>
+
+        <Footer />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Header />
+
+        <Container
+          sx={{
+            borderRadius: 2,
+            boxShadow: 20,
+            fontWeight: 'fontWeightLight',
+            width: '75%',
+            paddingY: '10px',
+            marginY: '30px',
+            flexGrow: '1',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <CircularProgress color='primary' />
+        </Container>
+        <Footer />
+      </>
+    );
+  }
+};
+export default withPageAuthRequired<WithPageAuthRequiredProps>(Profile);

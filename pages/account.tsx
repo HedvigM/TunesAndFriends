@@ -4,6 +4,7 @@ import {
   Avatar,
   Box,
   Button,
+  CircularProgress,
   Table,
   TableBody,
   TableCell,
@@ -13,17 +14,23 @@ import {
 } from '@mui/material';
 import { Header } from 'components/Header';
 import { Footer } from 'components/Footer';
-import { useUser } from '@auth0/nextjs-auth0';
+import {
+  useUser,
+  withPageAuthRequired,
+  WithPageAuthRequiredProps,
+} from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
 import { getUser, updateUser } from 'services/local';
 import { User } from '@prisma/client';
+import { NextPage } from 'next';
 
-export default function Profile() {
+const Account: NextPage<{}> = () => {
   const router = useRouter();
   const { user } = useUser();
   const [town, setTown] = useState('');
   const [profileText, setProfileText] = useState('');
   const [databaseUser, setDatabaseUser] = useState<User>();
+  const [loading, setLoading] = useState(false);
 
   const handleChange = () => {
     console.log('ordinary', town, profileText);
@@ -54,26 +61,26 @@ export default function Profile() {
     }
   });
 
-  return (
-    <>
-      <Header />
-      <Container
-        maxWidth='sm'
-        sx={{
-          borderRadius: 2,
-          boxShadow: 20,
-          fontWeight: 'fontWeightLight',
-          minWidth: '350px',
-          width: '75%',
-          paddingY: '10px',
-          marginY: '30px',
-          flexGrow: '1',
-        }}
-      >
-        <Typography textAlign='center' variant='h1'>
-          The Account page
-        </Typography>
-        {user && (
+  if (user && !loading) {
+    return (
+      <>
+        <Header />
+        <Container
+          maxWidth='sm'
+          sx={{
+            borderRadius: 2,
+            boxShadow: 20,
+            fontWeight: 'fontWeightLight',
+            minWidth: '350px',
+            width: '75%',
+            paddingY: '10px',
+            marginY: '30px',
+            flexGrow: '1',
+          }}
+        >
+          <Typography textAlign='center' variant='h1'>
+            The Account page
+          </Typography>
           <>
             <Box
               sx={{
@@ -169,38 +176,64 @@ export default function Profile() {
               </Table>
             </Box>
           </>
-        )}
-        <Box
+
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-evenly',
+              padding: '30px',
+            }}
+          >
+            <TextField
+              margin='normal'
+              id='outlined'
+              label='Town'
+              value={town}
+              onChange={(event) => setTown(event.target.value)}
+            />
+
+            <TextField
+              margin='normal'
+              id='outlined'
+              label='Presentation'
+              value={profileText}
+              onChange={(event) => setProfileText(event.target.value)}
+              multiline
+            />
+
+            <Button size='medium' onClick={() => handleChange()}>
+              Save
+            </Button>
+          </Box>
+        </Container>
+        <Footer />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Header />
+
+        <Container
           sx={{
+            borderRadius: 2,
+            boxShadow: 20,
+            fontWeight: 'fontWeightLight',
+            width: '75%',
+            paddingY: '10px',
+            marginY: '30px',
+            flexGrow: '1',
             display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-evenly',
-            padding: '30px',
+            justifyContent: 'center',
           }}
         >
-          <TextField
-            margin='normal'
-            id='outlined'
-            label='Town'
-            value={town}
-            onChange={(event) => setTown(event.target.value)}
-          />
+          <CircularProgress color='primary' />
+        </Container>
+        <Footer />
+      </>
+    );
+  }
+};
 
-          <TextField
-            margin='normal'
-            id='outlined'
-            label='Presentation'
-            value={profileText}
-            onChange={(event) => setProfileText(event.target.value)}
-            multiline
-          />
-
-          <Button size='medium' onClick={() => handleChange()}>
-            Save
-          </Button>
-        </Box>
-      </Container>
-      <Footer />
-    </>
-  );
-}
+export default withPageAuthRequired<WithPageAuthRequiredProps>(Account);

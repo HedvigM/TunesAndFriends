@@ -1,12 +1,17 @@
-import { Container, Typography } from '@mui/material';
+import { CircularProgress, Container, Typography } from '@mui/material';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { TUNE_URL } from 'utils/urls';
-import { useUser } from '@auth0/nextjs-auth0';
+import {
+  useUser,
+  withPageAuthRequired,
+  WithPageAuthRequiredProps,
+} from '@auth0/nextjs-auth0';
+import { NextPage } from 'next';
 
-const detailedtune = () => {
+const detailedtune: NextPage<{}> = () => {
   const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState({
     name: 'Loading...',
@@ -46,10 +51,11 @@ const detailedtune = () => {
     abcjs.renderAbc('sheetMusic', lineBreak(abc), { responsive: 'resize' });
   }
 
-  return (
-    <>
-      <Header />
-      {details && (
+  if (details && !loading) {
+    return (
+      <>
+        <Header />
+
         <Container
           sx={{
             borderRadius: 2,
@@ -73,8 +79,7 @@ const detailedtune = () => {
             </Typography>
           </>
         </Container>
-      )}
-      {details && (
+
         <Container
           sx={{
             borderRadius: 2,
@@ -88,10 +93,33 @@ const detailedtune = () => {
         >
           <div style={{ width: '100%' }} id='sheetMusic'></div>
         </Container>
-      )}
-      <Footer />
-    </>
-  );
-};
 
-export default detailedtune;
+        <Footer />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Header />
+
+        <Container
+          sx={{
+            borderRadius: 2,
+            boxShadow: 20,
+            fontWeight: 'fontWeightLight',
+            width: '75%',
+            paddingY: '10px',
+            marginY: '30px',
+            flexGrow: '1',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <CircularProgress color='primary' />
+        </Container>
+        <Footer />
+      </>
+    );
+  }
+};
+export default withPageAuthRequired<WithPageAuthRequiredProps>(detailedtune);

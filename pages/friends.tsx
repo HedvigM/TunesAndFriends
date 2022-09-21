@@ -3,30 +3,33 @@ import Container from '@mui/material/Container';
 import {
   Button,
   CircularProgress,
-  Link,
+  Paper,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
+  TableHead,
   TableRow,
   Typography,
 } from '@mui/material';
+import Link from 'next/link';
 import { Header } from 'components/Header';
 import { Footer } from 'components/Footer';
-import { useUser } from '@auth0/nextjs-auth0';
+import {
+  useUser,
+  withPageAuthRequired,
+  WithPageAuthRequiredProps,
+} from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
 import { listUsers } from 'services/local';
+import { A } from 'styles/theme';
+import { NextPage } from 'next';
 
-export default function Friends() {
+const Friends: NextPage<{}> = () => {
   const { user } = useUser();
   const router = useRouter();
   const [usersList, setUsersList] = useState();
   const [loading, setLoading] = useState(false);
-
-  /*  useEffect(() => {
-    if (!user) {
-      router.push('/');
-    }
-  }); */
 
   useEffect(() => {
     setLoading(true);
@@ -40,9 +43,75 @@ export default function Friends() {
 
     fetchListOfUsers();
   }, []);
-  console.log('LIST:', usersList);
 
-  if (loading) {
+  if (usersList && !loading) {
+    return (
+      <>
+        <Header />
+        <Container
+          maxWidth='sm'
+          sx={{
+            borderRadius: 2,
+            boxShadow: 20,
+            fontWeight: 'fontWeightLight',
+            width: '75%',
+            paddingY: '10px',
+            marginY: '30px',
+          }}
+        >
+          <Typography textAlign='center' variant='h1'>
+            The Friends page
+          </Typography>
+
+          <Table size='small' sx={{ margin: '0', padding: '0' }}>
+            <TableHead
+              sx={{
+                padding: '0',
+                margin: '0',
+              }}
+            >
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>town</TableCell>
+                <TableCell>friends?</TableCell>
+              </TableRow>
+            </TableHead>
+            {usersList.map((user) => (
+              <TableBody>
+                <TableRow>
+                  <TableCell component='th' scope='row'>
+                    <Link
+                      href={{
+                        pathname: `/friend/[slug]`,
+                        query: { slug: `${user.id}` },
+                      }}
+                    >
+                      <A>{user.name}</A>
+                    </Link>
+                  </TableCell>
+                  <TableCell component='th' scope='row'>
+                    {user.town}
+                  </TableCell>
+                  <TableCell component='th' scope='row'>
+                    {' '}
+                    <Button
+                      size='small'
+                      variant='text'
+                      sx={{ padding: '0', margin: '0' }}
+                    >
+                      XX
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            ))}
+          </Table>
+        </Container>
+
+        <Footer />
+      </>
+    );
+  } else {
     return (
       <>
         <Header />
@@ -66,64 +135,5 @@ export default function Friends() {
       </>
     );
   }
-
-  return (
-    <>
-      <Header />
-      <Container
-        maxWidth='sm'
-        sx={{
-          borderRadius: 2,
-          boxShadow: 20,
-          fontWeight: 'fontWeightLight',
-          width: '75%',
-          paddingY: '10px',
-          marginY: '30px',
-        }}
-      >
-        <Typography textAlign='center' variant='h1'>
-          The Friends page
-        </Typography>
-        {usersList &&
-          usersList.map((user) => (
-            <Table
-              key={user.id}
-              sx={{
-                maxWidth: '500px',
-                borderTop: '2px solid black',
-              }}
-            >
-              <TableBody>
-                <TableRow
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell>
-                    <Typography textAlign='left' variant='body1'>
-                      {user.name}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography textAlign='left' variant='body1'>
-                      lägg till/ ta bort vän
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Link
-                      href={{
-                        pathname: `/friend/[slug]`,
-                        query: { slug: `${user.id}` },
-                      }}
-                    >
-                      <a>Link to friend!</a>
-                    </Link>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          ))}
-      </Container>
-
-      <Footer />
-    </>
-  );
-}
+};
+export default withPageAuthRequired<WithPageAuthRequiredProps>(Friends);
