@@ -9,6 +9,10 @@ const getUser = async (email: string) => {
   try {
     const findSingleUser = await prisma.user.findUnique({
       where: { email: email },
+      include: {
+        knowTunes: true,
+        learnTunes: true,
+      },
     });
     if (findSingleUser) {
       return {
