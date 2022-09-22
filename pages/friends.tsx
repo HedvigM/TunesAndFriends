@@ -3,11 +3,9 @@ import Container from '@mui/material/Container';
 import {
   Button,
   CircularProgress,
-  Paper,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   Typography,
@@ -16,18 +14,14 @@ import Link from 'next/link';
 import { Header } from 'components/Header';
 import { Footer } from 'components/Footer';
 import {
-  useUser,
   withPageAuthRequired,
   WithPageAuthRequiredProps,
 } from '@auth0/nextjs-auth0';
-import { useRouter } from 'next/router';
 import { listUsers } from 'services/local';
 import { A } from 'styles/theme';
 import { NextPage } from 'next';
 
 const Friends: NextPage<{}> = () => {
-  const { user } = useUser();
-  const router = useRouter();
   const [usersList, setUsersList] = useState();
   const [loading, setLoading] = useState(false);
 
