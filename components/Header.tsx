@@ -64,7 +64,7 @@ export const Header = () => {
   }, [user, isLoading]);
 
   return user ? (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box>
       <AppBar position='static'>
         <Toolbar>
           <IconButton
@@ -94,7 +94,7 @@ export const Header = () => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          {/* Searcfield don't work at the moment */}
+          {/*  Searcfield don't work at the moment */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title='Open settings'>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -117,11 +117,6 @@ export const Header = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {/*      {settings.map((setting) => (
-                <MenuItem key={setting}>
-                  <Typography textAlign='center'>{setting}</Typography>
-                </MenuItem>
-              ))}  */}
               <MenuItem key={'profile'}>
                 <Link href='/profile'>
                   <Typography textAlign='center'>{'Profile'}</Typography>
