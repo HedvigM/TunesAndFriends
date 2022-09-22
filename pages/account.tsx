@@ -57,7 +57,14 @@ const Account: NextPage<{}> = () => {
 
   if (user && !loading) {
     return (
-      <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          height: '100vh',
+        }}
+      >
         <Header />
         <Container
           maxWidth='sm'
@@ -69,7 +76,6 @@ const Account: NextPage<{}> = () => {
             width: '75%',
             paddingY: '10px',
             marginY: '30px',
-            flexGrow: '1',
           }}
         >
           <Typography textAlign='center' variant='h1'>
@@ -202,30 +208,31 @@ const Account: NextPage<{}> = () => {
           </Box>
         </Container>
         <Footer />
-      </>
+      </Box>
     );
   } else {
     return (
-      <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          height: '100vh',
+        }}
+      >
         <Header />
 
         <Container
           sx={{
-            borderRadius: 2,
-            boxShadow: 20,
-            fontWeight: 'fontWeightLight',
-            width: '75%',
-            paddingY: '10px',
-            marginY: '30px',
-            flexGrow: '1',
             display: 'flex',
             justifyContent: 'center',
+            alignContent: 'center',
           }}
         >
           <CircularProgress color='primary' />
         </Container>
         <Footer />
-      </>
+      </Box>
     );
   }
 };

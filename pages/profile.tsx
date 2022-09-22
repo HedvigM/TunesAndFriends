@@ -22,7 +22,6 @@ import { NextPage } from 'next';
 
 const Profile: NextPage<{}> = () => {
   const { user } = useUser();
-  const router = useRouter();
   const [databaseUser, setDatabaseUser] = useState<User>();
   const [loading, setLoading] = useState(false);
 
@@ -41,7 +40,14 @@ const Profile: NextPage<{}> = () => {
 
   if (databaseUser && !loading) {
     return (
-      <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          height: '100vh',
+        }}
+      >
         <Header />
 
         <Container
@@ -90,30 +96,30 @@ const Profile: NextPage<{}> = () => {
         </Container>
 
         <Footer />
-      </>
+      </Box>
     );
   } else {
     return (
-      <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          height: '100vh',
+        }}
+      >
         <Header />
-
         <Container
           sx={{
-            borderRadius: 2,
-            boxShadow: 20,
-            fontWeight: 'fontWeightLight',
-            width: '75%',
-            paddingY: '10px',
-            marginY: '30px',
-            flexGrow: '1',
             display: 'flex',
             justifyContent: 'center',
+            alignContent: 'center',
           }}
         >
           <CircularProgress color='primary' />
         </Container>
         <Footer />
-      </>
+      </Box>
     );
   }
 };

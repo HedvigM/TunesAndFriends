@@ -92,6 +92,7 @@ const Tunes: NextPage<{}> = () => {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
+          height: '100vh',
         }}
       >
         <Header />
@@ -105,7 +106,6 @@ const Tunes: NextPage<{}> = () => {
             width: '95%',
             paddingY: '10px',
             marginY: '30px',
-            flexGrow: '1',
           }}
         >
           <Typography textAlign='center' variant='h1'>
@@ -215,21 +215,13 @@ const Tunes: NextPage<{}> = () => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          alignContent: 'center',
-          justifyContent: 'center',
+          justifyContent: 'space-between',
+          height: '100vh',
         }}
       >
         <Header />
-
         <Container
           sx={{
-            borderRadius: 2,
-            boxShadow: 20,
-            fontWeight: 'fontWeightLight',
-            width: '75%',
-            paddingY: '10px',
-            marginY: '30px',
-            flexGrow: '1',
             display: 'flex',
             justifyContent: 'center',
           }}

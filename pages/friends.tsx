@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import {
+  Box,
   Button,
   CircularProgress,
   Table,
@@ -40,7 +41,14 @@ const Friends: NextPage<{}> = () => {
 
   if (usersList && !loading) {
     return (
-      <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          height: '100vh',
+        }}
+      >
         <Header />
         <Container
           maxWidth='sm'
@@ -103,30 +111,30 @@ const Friends: NextPage<{}> = () => {
         </Container>
 
         <Footer />
-      </>
+      </Box>
     );
   } else {
     return (
-      <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          height: '100vh',
+        }}
+      >
         <Header />
-
         <Container
           sx={{
-            borderRadius: 2,
-            boxShadow: 20,
-            fontWeight: 'fontWeightLight',
-            width: '75%',
-            paddingY: '10px',
-            marginY: '30px',
-            flexGrow: '1',
             display: 'flex',
             justifyContent: 'center',
+            alignContent: 'center',
           }}
         >
           <CircularProgress color='primary' />
         </Container>
         <Footer />
-      </>
+      </Box>
     );
   }
 };

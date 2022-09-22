@@ -1,4 +1,4 @@
-import { CircularProgress, Container, Typography } from '@mui/material';
+import { Box, CircularProgress, Container, Typography } from '@mui/material';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header';
 import { useRouter } from 'next/router';
@@ -53,7 +53,14 @@ const detailedtune: NextPage<{}> = () => {
 
   if (details && !loading) {
     return (
-      <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          height: '100vh',
+        }}
+      >
         <Header />
 
         <Container
@@ -95,30 +102,30 @@ const detailedtune: NextPage<{}> = () => {
         </Container>
 
         <Footer />
-      </>
+      </Box>
     );
   } else {
     return (
-      <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          height: '100vh',
+        }}
+      >
         <Header />
-
         <Container
           sx={{
-            borderRadius: 2,
-            boxShadow: 20,
-            fontWeight: 'fontWeightLight',
-            width: '75%',
-            paddingY: '10px',
-            marginY: '30px',
-            flexGrow: '1',
             display: 'flex',
             justifyContent: 'center',
+            alignContent: 'center',
           }}
         >
           <CircularProgress color='primary' />
         </Container>
         <Footer />
-      </>
+      </Box>
     );
   }
 };
