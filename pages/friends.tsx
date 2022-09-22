@@ -21,6 +21,7 @@ import {
 import { listUsers } from 'services/local';
 import { A } from 'styles/theme';
 import { NextPage } from 'next';
+import { LoadingSpinner } from 'components/LoadingSpinner';
 
 const Friends: NextPage<{}> = () => {
   const [usersList, setUsersList] = useState();
@@ -114,28 +115,7 @@ const Friends: NextPage<{}> = () => {
       </Box>
     );
   } else {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          height: '100vh',
-        }}
-      >
-        <Header />
-        <Container
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignContent: 'center',
-          }}
-        >
-          <CircularProgress color='primary' />
-        </Container>
-        <Footer />
-      </Box>
-    );
+    return <LoadingSpinner />;
   }
 };
 export default withPageAuthRequired<WithPageAuthRequiredProps>(Friends);

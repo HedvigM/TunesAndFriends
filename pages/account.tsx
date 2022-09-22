@@ -23,6 +23,7 @@ import { useRouter } from 'next/router';
 import { getUser, updateUser } from 'services/local';
 import { User } from '@prisma/client';
 import { NextPage } from 'next';
+import { LoadingSpinner } from 'components/LoadingSpinner';
 
 const Account: NextPage<{}> = () => {
   const router = useRouter();
@@ -211,29 +212,7 @@ const Account: NextPage<{}> = () => {
       </Box>
     );
   } else {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          height: '100vh',
-        }}
-      >
-        <Header />
-
-        <Container
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignContent: 'center',
-          }}
-        >
-          <CircularProgress color='primary' />
-        </Container>
-        <Footer />
-      </Box>
-    );
+    return <LoadingSpinner />;
   }
 };
 

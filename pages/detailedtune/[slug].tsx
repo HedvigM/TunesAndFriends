@@ -10,6 +10,7 @@ import {
   WithPageAuthRequiredProps,
 } from '@auth0/nextjs-auth0';
 import { NextPage } from 'next';
+import { LoadingSpinner } from 'components/LoadingSpinner';
 
 const detailedtune: NextPage<{}> = () => {
   const [loading, setLoading] = useState(false);
@@ -105,28 +106,7 @@ const detailedtune: NextPage<{}> = () => {
       </Box>
     );
   } else {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          height: '100vh',
-        }}
-      >
-        <Header />
-        <Container
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignContent: 'center',
-          }}
-        >
-          <CircularProgress color='primary' />
-        </Container>
-        <Footer />
-      </Box>
-    );
+    return <LoadingSpinner />;
   }
 };
 export default withPageAuthRequired<WithPageAuthRequiredProps>(detailedtune);

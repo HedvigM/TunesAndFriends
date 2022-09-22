@@ -30,6 +30,7 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 import { User } from '@prisma/client';
 import { NextPage } from 'next';
+import { LoadingSpinner } from 'components/LoadingSpinner';
 
 const Tunes: NextPage<{}> = () => {
   const [popularList, setPopularList] = useState([]);
@@ -210,27 +211,7 @@ const Tunes: NextPage<{}> = () => {
       </Box>
     );
   } else {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          height: '100vh',
-        }}
-      >
-        <Header />
-        <Container
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <CircularProgress color='primary' />
-        </Container>
-        <Footer />
-      </Box>
-    );
+    return <LoadingSpinner />;
   }
 };
 export default withPageAuthRequired<WithPageAuthRequiredProps>(Tunes);

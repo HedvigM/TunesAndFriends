@@ -18,6 +18,7 @@ import { useRouter } from 'next/router';
 import { getUser } from 'services/local';
 import { User } from '@prisma/client';
 import { NextPage } from 'next';
+import { LoadingSpinner } from 'components/LoadingSpinner';
 /* Profile page and friend page is the same...  */
 
 const Profile: NextPage<{}> = () => {
@@ -99,28 +100,7 @@ const Profile: NextPage<{}> = () => {
       </Box>
     );
   } else {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          height: '100vh',
-        }}
-      >
-        <Header />
-        <Container
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignContent: 'center',
-          }}
-        >
-          <CircularProgress color='primary' />
-        </Container>
-        <Footer />
-      </Box>
-    );
+    return <LoadingSpinner />;
   }
 };
 export default withPageAuthRequired<WithPageAuthRequiredProps>(Profile);

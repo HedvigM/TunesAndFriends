@@ -8,6 +8,7 @@ import { Header } from 'components/Header';
 import { TeasersList } from 'components/landingPage/TeasersList';
 import { ImageBG } from 'components/landingPage/ImageBG';
 import { Footer } from 'components/Footer';
+import { LoadingSpinner } from 'components/LoadingSpinner';
 
 const IndexPage: NextPage<{}> = ({}) => {
   const { user, isLoading } = useUser();
@@ -35,28 +36,7 @@ const IndexPage: NextPage<{}> = ({}) => {
       </Box>
     );
   } else {
-    return (
-      <>
-        <Header />
-
-        <Container
-          sx={{
-            borderRadius: 2,
-            boxShadow: 20,
-            fontWeight: 'fontWeightLight',
-            width: '75%',
-            paddingY: '10px',
-            marginY: '30px',
-            flexGrow: '1',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <CircularProgress color='primary' />
-        </Container>
-        <Footer />
-      </>
-    );
+    return <LoadingSpinner />;
   }
 };
 
