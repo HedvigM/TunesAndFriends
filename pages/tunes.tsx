@@ -67,9 +67,6 @@ const Tunes: NextPage<{}> = () => {
       .then((data) => {
         setPopularList(data.tunes);
         setLoading(false);
-        /*  if (!user) {
-          router.push('/');
-        } */
       });
   }, [page]);
 

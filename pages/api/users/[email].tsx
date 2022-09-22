@@ -4,8 +4,6 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const getUser = async (email: string) => {
-  console.log('nu kör vi getUser i APIt');
-
   try {
     const findSingleUser = await prisma.user.findUnique({
       where: { email: email },

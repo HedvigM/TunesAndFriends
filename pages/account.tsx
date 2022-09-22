@@ -55,12 +55,6 @@ const Account: NextPage<{}> = () => {
     fetchUser();
   }, [user]);
 
-  useEffect(() => {
-    if (!user) {
-      router.push('/');
-    }
-  });
-
   if (user && !loading) {
     return (
       <>
