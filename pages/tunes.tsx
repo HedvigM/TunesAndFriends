@@ -16,7 +16,7 @@ import {
 import { Header } from 'components/Header';
 import { SearchTunes } from 'components/SearchTunes';
 import { Footer } from 'components/Footer';
-import { POPULAR_URL } from 'utils/urls';
+import { POPULAR_URL, TUNE_URL } from 'utils/urls';
 import Link from 'next/link';
 import { A } from 'styles/theme';
 import {
@@ -42,6 +42,7 @@ const Tunes: NextPage<{}> = () => {
   const [userWithId, setUserWithId] = useState<User>();
   const [mapLearn, setMapLearn] = useState([]);
   const [mapKnow, setMapKnow] = useState([]);
+  const [knowTunes, setKnowTunes] = useState();
 
   useEffect(() => {
     setLoading(true);
@@ -50,9 +51,15 @@ const Tunes: NextPage<{}> = () => {
         const newUserWithId = await getUser(user.email);
 
         if (newUserWithId.success) {
+          console.log(newUserWithId);
           setUserWithId(newUserWithId.data);
-          setMapLearn(newUserWithId.learnTunes.map((tunes) => tunes.sessionId));
-          setMapKnow(newUserWithId.knowTunes.map((tunes) => tunes.sessionId));
+          setMapLearn(
+            newUserWithId.data.learnTunes.map((tunes) => tunes.sessionId)
+          );
+          setMapKnow(
+            newUserWithId.data.knowTunes.map((tunes) => tunes.sessionId)
+          );
+          console.log('mapKnow', mapKnow);
           setLoading(false);
         }
       }
