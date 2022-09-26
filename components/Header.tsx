@@ -83,24 +83,34 @@ export const Header = () => {
             component='div'
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            Tunes & Friends
+            <Link href={{ pathname: '/' }}>
+              <A>Tunes & Friends</A>
+            </Link>
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder='Search…'
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-          {/*  Searcfield don't work at the moment */}
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title='Open settings'>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt='users avatar' src={user.picture} />
-              </IconButton>
-            </Tooltip>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '0 30px',
+            }}
+          >
+            <Search sx={{ margin: '0 30px' }}>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder='Search…'
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Search>
+            {/*  Searcfield don't work at the moment */}
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title='Open settings'>
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt='users avatar' src={user.picture} />
+                </IconButton>
+              </Tooltip>
+            </Box>
             <Menu
               sx={{ mt: '45px' }}
               id='menu-appbar'
@@ -183,7 +193,9 @@ export const Header = () => {
       }}
     >
       <Typography variant={'h1'} sx={{ paddingX: '2%' }}>
-        Tunes & Friends
+        <Link href={{ pathname: '/' }}>
+          <A>Tunes & Friends</A>
+        </Link>
       </Typography>
       <Button variant='contained' href='/api/auth/login'>
         Logga in
@@ -191,6 +203,14 @@ export const Header = () => {
     </Box>
   );
 };
+
+const A = styled('a')(({ theme }) => ({
+  textDecoration: 'none',
+  color: 'black',
+  '&:hover': {
+    cursor: 'pointer',
+  },
+}));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
