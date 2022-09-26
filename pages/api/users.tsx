@@ -91,7 +91,6 @@ const users = async (req: NextApiRequest, res: NextApiResponse) => {
     return new Promise((resolve) => {
       listUsers()
         .then((result) => {
-          console.log('result', result);
           res.status(200).json(result);
           resolve('');
         })

@@ -56,7 +56,7 @@ const addTune = async (tune: number, email: string, knowOrLearn: string) => {
           message: `The tune with id: ${tune} was updated or created`,
         };
       } else {
-        return { message: 'Something went wrong while creating a user' };
+        return { message: 'Something went wrong updating or creating a tune' };
       }
     }
   } catch (error) {

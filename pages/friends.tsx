@@ -15,17 +15,20 @@ import Link from 'next/link';
 import { Header } from 'components/Header';
 import { Footer } from 'components/Footer';
 import {
+  useUser,
   withPageAuthRequired,
   WithPageAuthRequiredProps,
 } from '@auth0/nextjs-auth0';
-import { listUsers } from 'services/local';
+import { addNewRelation, listUsers } from 'services/local';
 import { A } from 'styles/theme';
 import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
+import { User } from '@prisma/client';
 
 const Friends: NextPage<{}> = () => {
   const [usersList, setUsersList] = useState();
   const [loading, setLoading] = useState(false);
+  const { user } = useUser();
 
   useEffect(() => {
     setLoading(true);
@@ -39,6 +42,12 @@ const Friends: NextPage<{}> = () => {
 
     fetchListOfUsers();
   }, []);
+
+  const onClickHandle = (addingEmail, addedEmail) => {
+    console.log('addingEmail', addingEmail);
+    console.log('addedEmail', addedEmail);
+    addNewRelation(addingEmail, addedEmail);
+  };
 
   if (usersList && !loading) {
     return (
@@ -79,17 +88,17 @@ const Friends: NextPage<{}> = () => {
                 <TableCell>friends?</TableCell>
               </TableRow>
             </TableHead>
-            {usersList.map((user) => (
-              <TableBody>
+            {usersList.map((databaseUser) => (
+              <TableBody key={databaseUser.id}>
                 <TableRow>
                   <TableCell component='th' scope='row'>
                     <Link
                       href={{
                         pathname: `/friend/[slug]`,
-                        query: { slug: `${user.id}` },
+                        query: { slug: `${databaseUser.id}` },
                       }}
                     >
-                      <A>{user.name}</A>
+                      <A>{databaseUser.name}</A>
                     </Link>
                   </TableCell>
                   <TableCell component='th' scope='row'>
@@ -99,8 +108,11 @@ const Friends: NextPage<{}> = () => {
                     {' '}
                     <Button
                       size='small'
-                      variant='text'
+                      variant='contained'
                       sx={{ padding: '0', margin: '0' }}
+                      onClick={() => {
+                        onClickHandle(user.email, databaseUser.email);
+                      }}
                     >
                       XX
                     </Button>
