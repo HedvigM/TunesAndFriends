@@ -113,7 +113,7 @@ const Profile: NextPage<{}> = () => {
                 <Typography variant='body1'>
                   <b>siffra</b>
                 </Typography>
-                <Typography variant='body1'>inlägg</Typography>
+                <Typography variant='body1'>tunes</Typography>
               </Box>
               <Box sx={{ padding: '10px' }}>
                 <Typography variant='body1'>
