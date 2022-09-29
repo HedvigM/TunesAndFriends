@@ -3,7 +3,6 @@ import Container from '@mui/material/Container';
 import {
   Box,
   Button,
-  CircularProgress,
   Table,
   TableBody,
   TableCell,
@@ -23,11 +22,10 @@ import { addNewRelation, listUsers } from 'services/local';
 import { A } from 'styles/theme';
 import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
-import { User } from '@prisma/client';
 
 const Friends: NextPage<{}> = () => {
-  const [usersList, setUsersList] = useState();
-  const [loading, setLoading] = useState(false);
+  const [usersList, setUsersList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { user } = useUser();
 
   useEffect(() => {
@@ -44,8 +42,6 @@ const Friends: NextPage<{}> = () => {
   }, []);
 
   const onClickHandle = (addingEmail, addedEmail) => {
-    console.log('addingEmail', addingEmail);
-    console.log('addedEmail', addedEmail);
     addNewRelation(addingEmail, addedEmail);
   };
 
@@ -114,7 +110,7 @@ const Friends: NextPage<{}> = () => {
                         onClickHandle(user.email, databaseUser.email);
                       }}
                     >
-                      XX
+                      add friend
                     </Button>
                   </TableCell>
                 </TableRow>

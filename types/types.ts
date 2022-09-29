@@ -1,4 +1,6 @@
   export interface SuccessResponse<T> {
+    learnTunes: any;
+    knowTunes: any;
     success: true;
     data: T;
   }

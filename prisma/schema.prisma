@@ -20,6 +20,8 @@ model User {
   profileText String?
   knowTunes   Tune[]   @relation("knowTunes")
   learnTunes  Tune[]   @relation("learnTunes")
+  following   User[]   @relation("follows")
+  followedBy  User[]   @relation("follows")
 
   @@map("users")
 }

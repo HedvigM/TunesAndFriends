@@ -34,7 +34,7 @@ export const addUser = (user: UserProfile) => {
     });
 };
 
-export const getUser = (email: string): Promise<ResponseType<User>> => {
+export const getUser = (email: string) => {
   const defaultHeaders = {
     Accept: 'application/json',
     'Content-Type': 'application/json;charset=UTF-8',
@@ -60,17 +60,13 @@ export const getUser = (email: string): Promise<ResponseType<User>> => {
     })
     .catch((error) => {
       return {
-        success: false,
+        success: false as const,
         error: error,
       };
     });
 };
 
-export const updateUser = (
-  user: User,
-  town: string,
-  profileText: string
-): Promise<ResponseType<User[]>> => {
+export const updateUser = (user: User, town: string, profileText: string) => {
   const defaultFeaders = {
     Accept: 'application/json',
     'content-Type': 'application/json;charset=UTF-8',
@@ -103,13 +99,13 @@ export const updateUser = (
     })
     .catch((error) => {
       return {
-        success: false,
+        success: false as const,
         error: error,
       };
     });
 };
 
-export const listUsers = (): Promise<ResponseType<User[]>> => {
+export const listUsers = () => {
   const defaultHeaders = {
     Accept: 'application/json',
     'Content-Type': 'application/json;charset=UTF-8',
@@ -135,7 +131,7 @@ export const listUsers = (): Promise<ResponseType<User[]>> => {
     })
     .catch((error) => {
       return {
-        success: false,
+        success: false as const,
         error: error,
       };
     });
@@ -199,8 +195,44 @@ export const getStaredTunes = () => {
     })
     .catch((error) => {
       return {
-        success: false,
+        success: false as const,
         error: error,
       };
     });
 };
+
+export const addNewRelation = (addingEmail, addedEmail) => {
+  const defaultHeaders = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json;charset=UTF-8',
+  };
+
+  const url = 'api/relations/relations';
+  const options = {
+    method: 'POST',
+    headers: defaultHeaders,
+    body: JSON.stringify({
+      addingEmail: addingEmail,
+      addedEmail: addedEmail,
+    }),
+  };
+
+  fetch(url, options)
+    .then((response) => {
+      if (response.status === 200) {
+        response
+          .json()
+          .then((data) => console.log(data))
+          .catch((error) => console.log(error));
+      } else {
+        console.log(response.status);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+/* export const KnowTuneNames = (databaseUser) => {
+
+} */
