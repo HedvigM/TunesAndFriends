@@ -43,7 +43,7 @@ const Profile: NextPage<{}> = () => {
         if (fetchedUser.success) {
           setDatabaseUser(fetchedUser.data);
           Promise.all(
-            fetchedUser.data.knowTunes.map((tunes) =>
+            fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
               fetch(TUNE_URL(tunes.sessionId))
                 .then((res) => res.json())
                 .then((data) => {

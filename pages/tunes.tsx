@@ -54,12 +54,15 @@ const Tunes: NextPage<{}> = () => {
           console.log(newUserWithId);
           setUserWithId(newUserWithId.data);
           setMapLearn(
-            newUserWithId.data.learnTunes.map((tunes) => tunes.sessionId)
+            newUserWithId.data.learnTunes.map(
+              (tunes: { sessionId: number }) => tunes.sessionId
+            )
           );
           setMapKnow(
-            newUserWithId.data.knowTunes.map((tunes) => tunes.sessionId)
+            newUserWithId.data.knowTunes.map(
+              (tunes: { sessionId: number }) => tunes.sessionId
+            )
           );
-          console.log('mapKnow', mapKnow);
           setLoading(false);
         }
       }
@@ -85,11 +88,11 @@ const Tunes: NextPage<{}> = () => {
     setPage(value);
   };
 
-  const onKnowHandle = (tuneID, userEmail) => {
+  const onKnowHandle = (tuneID: number, userEmail: string) => {
     addTune(tuneID, userEmail, 'know');
   };
 
-  const onLearnHandle = (tuneID, userEmail) => {
+  const onLearnHandle = (tuneID: number, userEmail: string) => {
     addTune(tuneID, userEmail, 'learn');
   };
 

@@ -65,22 +65,6 @@ const addTune = async (tune: number, email: string, knowOrLearn: string) => {
   }
 };
 
-const listStaredTunes = async () => {
-  try {
-    const listStaredTunes = await prisma.XXX.findMany();
-    if (listStaredTunes === null) {
-      return { message: 'No users were returned' };
-    } else {
-      return {
-        message: 'Det gick bra, här är användarna',
-        data: listStaredTunes,
-      };
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const tune = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     return new Promise((resolve) => {
@@ -100,24 +84,7 @@ const tune = async (req: NextApiRequest, res: NextApiResponse) => {
           await prisma.$disconnect();
         });
     });
-  } else if (req.method === 'GET') {
-    return new Promise((resolve) => {
-      listStaredTunes()
-        .then((result) => {
-          console.log('result', result);
-          res.status(200).json(result);
-          resolve('');
-        })
-        .catch((error) => {
-          res.status(500).end(error);
-          resolve('');
-        })
-        .finally(async () => {
-          await prisma.$disconnect();
-        });
-    });
   } else {
-    console.log('what the fuck');
     res.status(404).end();
   }
 };
