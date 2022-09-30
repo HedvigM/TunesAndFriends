@@ -100,7 +100,7 @@ const Friends: NextPage<{}> = () => {
                       </Link>
                     </TableCell>
                     <TableCell component='th' scope='row'>
-                      {user.town}
+                      {databaseUser.town}
                     </TableCell>
                     <TableCell component='th' scope='row'>
                       {' '}
