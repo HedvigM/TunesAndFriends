@@ -84,38 +84,40 @@ const Friends: NextPage<{}> = () => {
                 <TableCell>friends?</TableCell>
               </TableRow>
             </TableHead>
-            {usersList.map((databaseUser) => (
-              <TableBody key={databaseUser.id}>
-                <TableRow>
-                  <TableCell component='th' scope='row'>
-                    <Link
-                      href={{
-                        pathname: `/friend/[slug]`,
-                        query: { slug: `${databaseUser.id}` },
-                      }}
-                    >
-                      <A>{databaseUser.name}</A>
-                    </Link>
-                  </TableCell>
-                  <TableCell component='th' scope='row'>
-                    {user.town}
-                  </TableCell>
-                  <TableCell component='th' scope='row'>
-                    {' '}
-                    <Button
-                      size='small'
-                      variant='contained'
-                      sx={{ padding: '0', margin: '0' }}
-                      onClick={() => {
-                        onClickHandle(user.email, databaseUser.email);
-                      }}
-                    >
-                      add friend
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            ))}
+            {usersList
+              .filter((item) => item.email !== user.email)
+              .map((databaseUser) => (
+                <TableBody key={databaseUser.id}>
+                  <TableRow>
+                    <TableCell component='th' scope='row'>
+                      <Link
+                        href={{
+                          pathname: `/friend/[slug]`,
+                          query: { slug: `${databaseUser.id}` },
+                        }}
+                      >
+                        <A>{databaseUser.name}</A>
+                      </Link>
+                    </TableCell>
+                    <TableCell component='th' scope='row'>
+                      {user.town}
+                    </TableCell>
+                    <TableCell component='th' scope='row'>
+                      {' '}
+                      <Button
+                        size='small'
+                        variant='contained'
+                        sx={{ padding: '0', margin: '0' }}
+                        onClick={() => {
+                          onClickHandle(user.email, databaseUser.email);
+                        }}
+                      >
+                        add friend
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              ))}
           </Table>
         </Container>
 
