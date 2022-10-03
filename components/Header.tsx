@@ -26,11 +26,28 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Link from 'next/link';
-import { addUser } from 'services/local';
+import { addUser, getUser } from 'services/local';
+import { TUNE_URL } from 'utils/urls';
+import { User } from '@prisma/client';
 
 export const Header = () => {
   const { user, isLoading } = useUser();
+  const [databaseUser, setDatabaseUser] = useState<User>();
+  const [loading, setLoading] = useState(false);
   const [drawer, setDrawer] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (user) {
+        const fetchedUser = await getUser(user.email);
+        if (fetchedUser.success) {
+          setDatabaseUser(fetchedUser.data);
+        }
+      }
+    };
+
+    fetchUser();
+  }, [user]);
 
   /* clean the code below up a bit */
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -63,7 +80,7 @@ export const Header = () => {
     }
   }, [user, isLoading]);
 
-  return user ? (
+  return user && databaseUser ? (
     <Box>
       <AppBar position='static'>
         <Toolbar>
@@ -128,7 +145,12 @@ export const Header = () => {
               onClose={handleCloseUserMenu}
             >
               <MenuItem key={'profile'}>
-                <Link href='/profile'>
+                <Link
+                  href={{
+                    pathname: `/friend/[slug]`,
+                    query: { slug: `${databaseUser.id}` },
+                  }}
+                >
                   <Typography textAlign='center'>{'Profile'}</Typography>
                 </Link>
               </MenuItem>

@@ -181,13 +181,21 @@ const Friend: NextPage<{}> = () => {
                 {databaseUser.id.toString() !== slug ? (
                   <Box>
                     <Typography textAlign='left' variant='body1'>
-                      <b>{userById.followedBy.length}</b>
+                      {userById.followedById ? (
+                        <b>{userById.followedBy.length}</b>
+                      ) : (
+                        <b>0</b>
+                      )}
                     </Typography>
                   </Box>
                 ) : (
                   <Box>
                     <Typography textAlign='left' variant='body1'>
-                      <b>{databaseUser.followedBy.length}</b>
+                      {databaseUser.followedById ? (
+                        <b>{databaseUser.followedBy.length}</b>
+                      ) : (
+                        <b>0</b>
+                      )}
                     </Typography>
                   </Box>
                 )}
@@ -197,13 +205,21 @@ const Friend: NextPage<{}> = () => {
                 {databaseUser.id.toString() !== slug ? (
                   <Box>
                     <Typography textAlign='left' variant='body1'>
-                      <b>{userById.following.length}</b>
+                      {userById.following ? (
+                        <b>{userById.following.length}</b>
+                      ) : (
+                        <b>0</b>
+                      )}
                     </Typography>
                   </Box>
                 ) : (
                   <Box>
                     <Typography textAlign='left' variant='body1'>
-                      <b>{databaseUser.followedBy.length}</b>
+                      {databaseUser.following ? (
+                        <b>{databaseUser.following.length}</b>
+                      ) : (
+                        <b>0</b>
+                      )}
                     </Typography>
                   </Box>
                 )}

@@ -10,6 +10,8 @@ const getUser = async (email: string) => {
       include: {
         knowTunes: true,
         learnTunes: true,
+        following: true,
+        followedBy: true,
       },
     });
     if (findSingleUser) {
