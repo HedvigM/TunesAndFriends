@@ -239,7 +239,7 @@ export const addNewRelation = (addingEmail, addedEmail) => {
     'Content-Type': 'application/json;charset=UTF-8',
   };
 
-  const url = 'api/relations/relations';
+  const url = '/api/relations/relations';
   const options = {
     method: 'POST',
     headers: defaultHeaders,
@@ -264,7 +264,3 @@ export const addNewRelation = (addingEmail, addedEmail) => {
       console.error(error);
     });
 };
-
-/* export const KnowTuneNames = (databaseUser) => {
-
-} */

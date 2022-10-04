@@ -27,7 +27,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Link from 'next/link';
 import { addUser, getUser } from 'services/local';
-import { TUNE_URL } from 'utils/urls';
 import { User } from '@prisma/client';
 
 export const Header = () => {

@@ -34,8 +34,6 @@ const Account: NextPage<{}> = () => {
   const [loading, setLoading] = useState(false);
 
   const handleChange = () => {
-    console.log('ordinary', town, profileText);
-
     if (databaseUser && databaseUser.id) {
       updateUser(databaseUser, town, profileText);
     }

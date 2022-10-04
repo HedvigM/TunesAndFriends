@@ -51,7 +51,6 @@ const Tunes: NextPage<{}> = () => {
         const newUserWithId = await getUser(user.email);
 
         if (newUserWithId.success) {
-          console.log(newUserWithId);
           setUserWithId(newUserWithId.data);
           setMapLearn(
             newUserWithId.data.learnTunes.map(
