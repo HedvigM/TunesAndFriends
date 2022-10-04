@@ -37,7 +37,7 @@ const Friend: NextPage<{}> = () => {
   const [userById, setUserById] = useState<User>();
   const [knowTuneNamesById, setKnowTuneNamesById] = useState([]);
   const [mapFollowing, setMapFollowing] = useState([]);
-  const [followingButton, setFollowingButton] = useState(true);
+  const [followingButton, setFollowingButton] = useState(false);
 
   const router = useRouter();
   const { slug: slug } = router.query;
@@ -81,6 +81,13 @@ const Friend: NextPage<{}> = () => {
               return followedUsers.id;
             })
           );
+          if (userById) {
+            if (mapFollowing.includes(userById.id)) {
+              setFollowingButton(true);
+            } else {
+              setFollowingButton(false);
+            }
+          }
 
           Promise.all(
             fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
@@ -104,6 +111,7 @@ const Friend: NextPage<{}> = () => {
 
   const onClickHandle = (addingEmail, addedEmail) => {
     addNewRelation(addingEmail, addedEmail);
+    setFollowingButton(false);
   };
 
   if (databaseUser && userById && !loading) {
@@ -118,34 +126,72 @@ const Friend: NextPage<{}> = () => {
       >
         <Header />
         <Container
+          maxWidth='sm'
           sx={{
             borderRadius: 2,
             boxShadow: 20,
             fontWeight: 'fontWeightLight',
-            width: '75%',
+            /*  width: '75%', */
             paddingY: '10px',
             marginY: '30px',
           }}
         >
-          {databaseUser.id.toString() !== slug ? (
-            <Typography textAlign='center' variant='h1'>
-              {userById.name}
-            </Typography>
-          ) : (
-            <Typography textAlign='center' variant='h1'>
-              {databaseUser.name}
-            </Typography>
-          )}
-          {databaseUser.id.toString() !== slug ? (
-            <Typography textAlign='center' variant='h1'>
-              {userById.town}
-            </Typography>
-          ) : (
-            <Typography textAlign='center' variant='h1'>
-              {databaseUser.town}
-            </Typography>
-          )}
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Box
+              sx={{
+                maxWidth: '500px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyItems: 'center',
+              }}
+            >
+              {databaseUser.id.toString() !== slug ? (
+                <Typography
+                  variant='h1'
+                  textAlign='left'
+                  sx={{
+                    padding: '5px',
+                    wordBreak: 'break-word',
+                  }}
+                >
+                  {userById.name}
+                </Typography>
+              ) : (
+                <Typography
+                  variant='h1'
+                  textAlign='left'
+                  sx={{
+                    padding: '5px',
+                    wordBreak: 'break-word',
+                  }}
+                >
+                  {databaseUser.name}
+                </Typography>
+              )}
+              {databaseUser.id.toString() !== slug ? (
+                <Typography
+                  variant='h2'
+                  sx={{
+                    padding: '5px',
 
+                    wordBreak: 'break-word',
+                  }}
+                >
+                  {userById.town}
+                </Typography>
+              ) : (
+                <Typography textAlign='center' variant='h2'>
+                  {databaseUser.town}
+                </Typography>
+              )}
+            </Box>
+          </Box>
           <Box
             sx={{
               display: 'flex',
@@ -267,24 +313,23 @@ const Friend: NextPage<{}> = () => {
               justifyContent: 'left',
             }}
           >
-            {databaseUser.id.toString() !== slug &&
-              (mapFollowing.includes(userById.id) ? (
-                <Button
-                  variant='outlined'
-                  size='medium'
-                  onClick={() => onClickHandle(user.email, userById.email)}
-                >
-                  Unfollow {<KeyboardArrowDown />}
-                </Button>
-              ) : (
-                <Button
-                  variant='contained'
-                  size='medium'
-                  onClick={() => onClickHandle(user.email, userById.email)}
-                >
-                  Follow {<KeyboardArrowDown />}
-                </Button>
-              ))}
+            {databaseUser.id.toString() !== slug && followingButton === true ? (
+              <Button
+                variant='outlined'
+                size='medium'
+                onClick={() => onClickHandle(user.email, userById.email)}
+              >
+                Unfollow {<KeyboardArrowDown />}
+              </Button>
+            ) : (
+              <Button
+                variant='contained'
+                size='medium'
+                onClick={() => onClickHandle(user.email, userById.email)}
+              >
+                Follow {<KeyboardArrowDown />}
+              </Button>
+            )}
           </Box>
           {databaseUser.id.toString() !== slug ? (
             <Box sx={{ padding: '50px 0' }}>
