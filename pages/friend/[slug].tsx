@@ -20,7 +20,7 @@ import {
   WithPageAuthRequiredProps,
 } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
-import { getUser, getUserById } from 'services/local';
+import { addNewRelation, getUser, getUserById } from 'services/local';
 import { User } from '@prisma/client';
 import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
@@ -36,6 +36,8 @@ const Friend: NextPage<{}> = () => {
   const [knowTuneNames, setKnowTuneNames] = useState([]);
   const [userById, setUserById] = useState<User>();
   const [knowTuneNamesById, setKnowTuneNamesById] = useState([]);
+  const [mapFollowing, setMapFollowing] = useState([]);
+  const [followingButton, setFollowingButton] = useState(true);
 
   const router = useRouter();
   const { slug: slug } = router.query;
@@ -74,6 +76,12 @@ const Friend: NextPage<{}> = () => {
         const fetchedUser = await getUser(user.email);
         if (fetchedUser.success) {
           setDatabaseUser(fetchedUser.data);
+          setMapFollowing(
+            fetchedUser.data.following.map((followedUsers: { id: number }) => {
+              return followedUsers.id;
+            })
+          );
+
           Promise.all(
             fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
               fetch(TUNE_URL(tunes.sessionId))
@@ -93,6 +101,10 @@ const Friend: NextPage<{}> = () => {
 
     fetchUser();
   }, [user]);
+
+  const onClickHandle = (addingEmail, addedEmail) => {
+    addNewRelation(addingEmail, addedEmail);
+  };
 
   if (databaseUser && userById && !loading) {
     return (
@@ -181,7 +193,7 @@ const Friend: NextPage<{}> = () => {
                 {databaseUser.id.toString() !== slug ? (
                   <Box>
                     <Typography textAlign='left' variant='body1'>
-                      {userById.followedById ? (
+                      {userById.followedBy ? (
                         <b>{userById.followedBy.length}</b>
                       ) : (
                         <b>0</b>
@@ -191,7 +203,7 @@ const Friend: NextPage<{}> = () => {
                 ) : (
                   <Box>
                     <Typography textAlign='left' variant='body1'>
-                      {databaseUser.followedById ? (
+                      {databaseUser.followedBy ? (
                         <b>{databaseUser.followedBy.length}</b>
                       ) : (
                         <b>0</b>
@@ -255,9 +267,24 @@ const Friend: NextPage<{}> = () => {
               justifyContent: 'left',
             }}
           >
-            <Button variant='contained' size='medium'>
-              Follow {<KeyboardArrowDown />}
-            </Button>
+            {databaseUser.id.toString() !== slug &&
+              (mapFollowing.includes(userById.id) ? (
+                <Button
+                  variant='outlined'
+                  size='medium'
+                  onClick={() => onClickHandle(user.email, userById.email)}
+                >
+                  Unfollow {<KeyboardArrowDown />}
+                </Button>
+              ) : (
+                <Button
+                  variant='contained'
+                  size='medium'
+                  onClick={() => onClickHandle(user.email, userById.email)}
+                >
+                  Follow {<KeyboardArrowDown />}
+                </Button>
+              ))}
           </Box>
           {databaseUser.id.toString() !== slug ? (
             <Box sx={{ padding: '50px 0' }}>

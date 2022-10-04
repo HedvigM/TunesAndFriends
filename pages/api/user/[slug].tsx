@@ -33,10 +33,8 @@ interface UserId {
 }
 
 const user = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log('inkommande request till [slug].tsx');
   if (req.method === 'GET') {
     const { slug } = req.query as unknown as UserId;
-    console.log('Slug i slug', slug);
 
     return new Promise((resolve) => {
       getUserById(parseInt(slug))
@@ -54,7 +52,7 @@ const user = async (req: NextApiRequest, res: NextApiResponse) => {
         });
     });
   } else {
-    console.log('fel i [email.tsx]');
+    console.log('fel i [slug.tsx]');
     res.status(404).end();
   }
 };
