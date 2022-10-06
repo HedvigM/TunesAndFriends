@@ -340,7 +340,6 @@ const Friend: NextPage<{}> = () => {
               </Button>
             )}
           </Box>
-          <TunesTable tunes={knowTuneNamesById} />
 
           {databaseUser.id.toString() !== slug ? (
             <>
