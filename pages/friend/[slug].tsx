@@ -21,23 +21,27 @@ import {
 } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
 import { addNewRelation, getUser, getUserById } from 'services/local';
-import { User } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { KeyboardArrowDown } from '@mui/icons-material';
 import { TUNE_URL } from 'utils/urls';
-import StarIcon from '@mui/icons-material/Star';
+import { TunesTable } from 'components/TunesTable';
 /* Profile page and friend page is the same...  */
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
-  const [databaseUser, setDatabaseUser] = useState<User>();
+  const [databaseUser, setDatabaseUser] = useState<UserWithRelations>();
   const [loading, setLoading] = useState(false);
   const [knowTuneNames, setKnowTuneNames] = useState([]);
-  const [userById, setUserById] = useState<User>();
+  const [userById, setUserById] = useState<UserWithRelations>();
   const [knowTuneNamesById, setKnowTuneNamesById] = useState([]);
   const [mapFollowing, setMapFollowing] = useState([]);
-  const [followingButton, setFollowingButton] = useState(false);
+  const [followingButton, setFollowingButton] = useState(true);
+
+  type UserWithRelations = Prisma.UserGetPayload<{
+    include: { following: true; followedBy: true };
+  }>;
 
   const router = useRouter();
   const { slug: slug } = router.query;
@@ -114,7 +118,13 @@ const Friend: NextPage<{}> = () => {
     setFollowingButton(false);
   };
 
-  if (databaseUser && userById && !loading) {
+  if (
+    databaseUser &&
+    userById &&
+    knowTuneNames &&
+    knowTuneNamesById &&
+    !loading
+  ) {
     return (
       <Box
         sx={{
@@ -131,7 +141,6 @@ const Friend: NextPage<{}> = () => {
             borderRadius: 2,
             boxShadow: 20,
             fontWeight: 'fontWeightLight',
-            /*  width: '75%', */
             paddingY: '10px',
             marginY: '30px',
           }}
@@ -331,32 +340,39 @@ const Friend: NextPage<{}> = () => {
               </Button>
             )}
           </Box>
+          <TunesTable tunes={knowTuneNamesById} />
+
           {databaseUser.id.toString() !== slug ? (
-            <Box sx={{ padding: '50px 0' }}>
-              {knowTuneNamesById && (
-                <Table size='small' sx={{ margin: '0', padding: '0px' }}>
-                  <TableHead
-                    sx={{
-                      padding: '0',
-                      margin: '0',
-                    }}
-                  >
-                    <TableRow>
-                      <TableCell>Tune</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {knowTuneNamesById.map((tune) => (
-                      <TableRow key={tune.id}>
-                        <TableCell>
-                          <Typography variant='body1'>{tune}</Typography>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              )}
-            </Box>
+            <>
+              <Box sx={{ padding: '50px 0' }}>
+                {knowTuneNamesById && (
+                  <>
+                    <Table size='small' sx={{ margin: '0', padding: '0px' }}>
+                      <TableHead
+                        sx={{
+                          padding: '0',
+                          margin: '0',
+                        }}
+                      >
+                        <TableRow>
+                          <TableCell>Tunes</TableCell>
+                          <TableCell>Tunes incommon</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {knowTuneNamesById.map((tune) => (
+                          <TableRow key={tune.id}>
+                            <TableCell>
+                              <Typography variant='body1'>{tune}</Typography>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </>
+                )}
+              </Box>
+            </>
           ) : (
             <Box sx={{ padding: '50px 0' }}>
               {knowTuneNames && (
