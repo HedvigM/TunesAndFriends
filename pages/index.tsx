@@ -12,9 +12,8 @@ import { LoadingSpinner } from 'components/LoadingSpinner';
 
 const IndexPage: NextPage<{}> = ({}) => {
   const { user, isLoading } = useUser();
-  const [loading, setLoading] = useState(false);
 
-  if (user && !loading) {
+  if (!isLoading) {
     return (
       <Box
         sx={{
