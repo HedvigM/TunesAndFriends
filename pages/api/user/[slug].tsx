@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-const getUserById = async (id) => {
+const getUserById = async (id: number) => {
   try {
     const findSingleUser = await prisma.user.findUnique({
       where: { id: id },

@@ -26,7 +26,6 @@ const addUser = async (user: UserProfile) => {
       return { message: 'The user already exists' };
     }
   } catch (error) {
-    console.log(error);
     return { message: 'An error was caught in the terminal' };
   }
 };

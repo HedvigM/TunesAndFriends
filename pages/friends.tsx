@@ -27,6 +27,7 @@ const Friends: NextPage<{}> = () => {
   const [usersList, setUsersList] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user } = useUser();
+  const [relationButton, setRelationButton] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -43,6 +44,7 @@ const Friends: NextPage<{}> = () => {
 
   const onClickHandle = (addingEmail, addedEmail) => {
     addNewRelation(addingEmail, addedEmail);
+    setRelationButton(false);
   };
 
   if (usersList && !loading) {
