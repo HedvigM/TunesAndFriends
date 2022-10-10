@@ -1,19 +1,43 @@
-import { Box, CircularProgress, Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { TUNE_URL } from 'utils/urls';
 import {
-  useUser,
   withPageAuthRequired,
   WithPageAuthRequiredProps,
 } from '@auth0/nextjs-auth0';
 import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 
+export const Music = (props) => {
+  let lineBreak = (string: string) => {
+    return string.replaceAll('!', '\n');
+  };
+
+  useEffect(() => {
+    const abcjsInit = async () => {
+      const abcjs = await import('abcjs');
+      abcjs.renderAbc('paper', lineBreak(props.abcNotes));
+      console.log(props.abcNotes);
+    };
+    abcjsInit();
+  }, []);
+
+  return (
+    <div
+      style={{
+        width: '100%',
+        backgroundColor: 'papayawhip',
+      }}
+      id='paper'
+    ></div>
+  );
+};
+
 const detailedtune: NextPage<{}> = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [details, setDetails] = useState({
     name: 'Loading...',
     type: 'Loading...',
@@ -25,7 +49,7 @@ const detailedtune: NextPage<{}> = () => {
 
   const router = useRouter();
   const { slug: slug } = router.query;
-  const { user } = useUser();
+
   const abcjs = process.browser ? require('abcjs') : null;
 
   useEffect(() => {
@@ -38,19 +62,9 @@ const detailedtune: NextPage<{}> = () => {
           setAbc(data.settings[0].abc);
         }
         setLoading(false);
-        if (!user) {
-          router.push('/');
-        }
       });
   }, [slug]);
-
-  let lineBreak = (string) => {
-    return string.replaceAll('!', '\n');
-  };
-
-  if (abcjs) {
-    abcjs.renderAbc('sheetMusic', lineBreak(abc), { responsive: 'resize' });
-  }
+  console.log('DETAILS', details);
 
   if (details && !loading) {
     return (
@@ -67,12 +81,12 @@ const detailedtune: NextPage<{}> = () => {
         <Container
           sx={{
             borderRadius: 2,
-            boxShadow: 20,
+            boxShadow: 5,
             fontWeight: 'fontWeightLight',
-            width: '75%',
-            paddingY: '10px',
-            marginY: '30px',
-            flexGrow: '1',
+            width: '95%',
+            /* paddingY: '10px', */
+            /* marginY: '30px', */
+            /* flexGrow: '1',  */
           }}
         >
           <Typography variant='h1' textAlign='center'>
@@ -88,19 +102,11 @@ const detailedtune: NextPage<{}> = () => {
           </>
         </Container>
 
-        <Container
-          sx={{
-            borderRadius: 2,
-            boxShadow: 20,
-            fontWeight: 'fontWeightLight',
-            width: '75%',
-            paddingY: '10px',
-            marginY: '30px',
-            flexGrow: '1',
-          }}
-        >
-          <div style={{ width: '100%' }} id='sheetMusic'></div>
-        </Container>
+        <Box>
+          <Typography variant='body1'>{abc}</Typography>
+
+          <Music abcNotes={abc} />
+        </Box>
 
         <Footer />
       </Box>
