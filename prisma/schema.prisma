@@ -19,7 +19,7 @@ model User {
   town           String?
   profileText    String?
   knowTunes      Tune[]          @relation("knowTunes")
-  starredTunes   Tune[]          @relation("starredTunes")
+  learnTunes     Tune[]          @relation("learnTunes")
   following      User[]          @relation("follows")
   followedBy     User[]          @relation("follows")
   userPreference UserPreference?
@@ -44,7 +44,7 @@ model Tune {
   id        Int    @id @default(autoincrement())
   sessionId Int    @unique
   knowedBy  User[] @relation("knowTunes")
-  starredBy User[] @relation("starredTunes")
+  staredBy  User[] @relation("learnTunes")
 }
 
 // uuid är en funktion som tillhandahåller randomiserade id:n - anses vara mkt säkrare än ett id system som bygger på increment.
