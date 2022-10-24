@@ -26,7 +26,6 @@ import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { KeyboardArrowDown } from '@mui/icons-material';
 import { TUNE_URL } from 'utils/urls';
-import { TunesTable } from 'components/TunesTable';
 /* Profile page and friend page is the same...  */
 
 const Friend: NextPage<{}> = () => {

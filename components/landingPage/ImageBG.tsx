@@ -25,9 +25,7 @@ export const ImageBG = () => {
         mt={2}
         align={'center'}
         sx={{ padding: '100px' }}
-      >
-        "Here should be a text that makes you want to create an account"
-      </Typography>
+      ></Typography>
     </Box>
   );
 };

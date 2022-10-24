@@ -29,7 +29,6 @@ const IndexPage: NextPage<{}> = ({}) => {
             <title>Tunes & Friends</title>
           </Head>
           <TeasersList />
-          <ImageBG />
         </Container>
         <Footer />
       </Box>

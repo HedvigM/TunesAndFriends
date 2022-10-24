@@ -3,6 +3,7 @@ import {
   Card,
   CardActions,
   CardContent,
+  CardMedia,
   Paper,
   styled,
   Typography,
@@ -22,74 +23,55 @@ export const TeasersList = () => {
           Welcome, {user.name} to the Tunes and friends community!
         </Typography>
       ) : (
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Box
-            sx={{
-              width: 300,
-              height: 300,
-              margin: '10px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-around',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              backgroundColor: 'primary.dark',
-              '&:hover': {
-                backgroundColor: 'primary.main',
-                opacity: [0.9, 0.8, 0.7],
-              },
-            }}
-          >
-            <PianoIcon color='secondary' sx={{ fontSize: 100 }} />
-            <Typography variant={'body1'} sx={{ padding: '10%' }}>
-              Gather your friends to a session
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              width: 300,
-              height: 300,
-              margin: '10px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-around',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              backgroundColor: 'primary.dark',
-              '&:hover': {
-                backgroundColor: 'primary.main',
-                opacity: [0.9, 0.8, 0.7],
-              },
-            }}
-          >
-            {' '}
-            <PianoIcon color='secondary' sx={{ fontSize: 100 }} />
-            <Typography variant={'body1'} sx={{ padding: '10%' }}>
-              Mark the tunes you know and the ones you would like to learn.
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              width: 300,
-              height: 300,
-              margin: '10px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-around',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              backgroundColor: 'primary.dark',
-              '&:hover': {
-                backgroundColor: 'primary.main',
-                opacity: [0.9, 0.8, 0.7],
-              },
-            }}
-          >
-            <PianoIcon color='secondary' sx={{ fontSize: 100 }} />
-            <Typography variant={'body1'} sx={{ padding: '10%' }}>
-              Find out which tunes you and your friends have in common.
-            </Typography>
-          </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+          <Card sx={{ width: 345 }}>
+            <CardMedia
+              component='img'
+              height='140'
+              image='/.././assets/plant.jpeg'
+              alt='plant'
+            />
+            <CardContent>
+              <Typography gutterBottom variant='h5' component='div'>
+                Save tunes to your library
+              </Typography>
+              <Typography variant='body2' color='text.secondary'>
+                Gather your friends to a session
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card sx={{ width: 345 }}>
+            <CardMedia
+              component='img'
+              height='140'
+              image='/.././assets/violin.jpeg'
+              alt='plant'
+            />
+            <CardContent>
+              <Typography gutterBottom variant='h5' component='div'>
+                Follow your friends
+              </Typography>
+              <Typography variant='body2' color='text.secondary'>
+                Follow your friends
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card sx={{ width: 345 }}>
+            <CardMedia
+              component='img'
+              height='140'
+              image='/.././assets/violin2.jpeg'
+              alt='plant'
+            />
+            <CardContent>
+              <Typography gutterBottom variant='h5' component='div'>
+                be reminded of the tunes you have in common
+              </Typography>
+              <Typography variant='body2' color='text.secondary'>
+                be reminded of the tunes you have in common
+              </Typography>
+            </CardContent>
+          </Card>
         </Box>
       )}
     </>
