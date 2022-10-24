@@ -18,7 +18,7 @@ const addUser = async (user: UserProfile) => {
         },
       });
       if (createResult !== null) {
-        return { message: `The user ${user.name} were created` };
+        return { message: `The user ${user.name} was created` };
       } else {
         return { message: 'Something went wrong while creating a user' };
       }
