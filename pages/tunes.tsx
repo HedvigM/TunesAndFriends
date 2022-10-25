@@ -31,6 +31,7 @@ import StarIcon from '@mui/icons-material/Star';
 import { User } from '@prisma/client';
 import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
+import { getMyCache } from 'services/functions';
 
 const Tunes: NextPage<{}> = () => {
   const [popularList, setPopularList] = useState([]);
@@ -70,7 +71,7 @@ const Tunes: NextPage<{}> = () => {
     fetchUserWithId();
   }, [user]);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     setLoading(true);
     fetch(POPULAR_URL(page))
       .then((res) => res.json())
@@ -78,6 +79,16 @@ const Tunes: NextPage<{}> = () => {
         setPopularList(data.tunes);
         setLoading(false);
       });
+  }, [page]); */
+
+  useEffect(() => {
+    const getPopularTunes = async () => {
+      const data = await getMyCache(POPULAR_URL(page));
+      setPopularList(data.tunes);
+      setLoading(false);
+    };
+
+    getPopularTunes();
   }, [page]);
 
   const onPaginationChangeHandle = (
