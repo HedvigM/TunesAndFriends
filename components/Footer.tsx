@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, Typography } from '@mui/material';
 import React from 'react';
 import { faMountain } from '@fortawesome/free-solid-svg-icons';
-import { color } from '@mui/system';
 
 export const Footer = () => {
   library.add(fab);
@@ -14,7 +13,7 @@ export const Footer = () => {
     <>
       <Box
         sx={{
-          backgroundColor: 'secondary.dark',
+          backgroundColor: 'secondary.contrastText',
         }}
       >
         <Icons>
