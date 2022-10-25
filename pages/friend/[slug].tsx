@@ -1,16 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
-import {
-  Avatar,
-  Box,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { Header } from 'components/Header';
 import { Footer } from 'components/Footer';
 import {
