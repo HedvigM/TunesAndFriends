@@ -1,4 +1,6 @@
 import { Box, Typography } from '@mui/material';
+import Link from 'next/link';
+import { A } from 'styles/theme';
 
 export const MapTunes = (props) => {
   console.log('props', props);
@@ -12,14 +14,27 @@ export const MapTunes = (props) => {
           minWidth: '350px',
         }}
       >
-        <Box sx={{}}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignContent: 'flex-start',
+          }}
+        >
           <Typography variant='h2' sx={{ borderBottom: '1px solid black' }}>
             Tunes
           </Typography>
-          {props.tunes.map((tune, index) => (
-            <Typography key={index} variant='body1'>
-              {tune}
-            </Typography>
+          {props.tunes.map((tunes, index) => (
+            <Box key={index}>
+              <Link
+                href={{
+                  pathname: `/detailedtune/[slug]`,
+                  query: { slug: `${tunes.id}` },
+                }}
+              >
+                <A>{tunes}</A>
+              </Link>
+            </Box>
           ))}
         </Box>
         <Box
@@ -37,9 +52,14 @@ export const MapTunes = (props) => {
           {props.commonTunes &&
             props.commonTunes.map((tunes, index) => (
               <Box key={index} sx={{}}>
-                <Typography key={index} variant='body1'>
-                  {tunes}
-                </Typography>
+                <Link
+                  href={{
+                    pathname: `/detailedtune/[slug]`,
+                    query: { slug: `${tunes.id}` },
+                  }}
+                >
+                  <A>{tunes}</A>
+                </Link>
               </Box>
             ))}
         </Box>
