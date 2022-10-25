@@ -9,7 +9,7 @@ const getUser = async (email: string) => {
       where: { email: email },
       include: {
         knowTunes: true,
-        learnTunes: true,
+        starredTunes: true,
         following: true,
         followedBy: true,
       },

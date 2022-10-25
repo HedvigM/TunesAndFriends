@@ -53,7 +53,7 @@ const Tunes: NextPage<{}> = () => {
         if (newUserWithId.success) {
           setUserWithId(newUserWithId.data);
           setMapLearn(
-            newUserWithId.data.learnTunes.map(
+            newUserWithId.data.starredTunes.map(
               (tunes: { sessionId: number }) => tunes.sessionId
             )
           );

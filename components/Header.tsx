@@ -81,14 +81,16 @@ export const Header = () => {
 
   return user && databaseUser ? (
     <Box>
-      <AppBar position='static'>
+      <AppBar
+        position='static'
+        sx={{ backgroundColor: 'primary.contrastText' }}
+      >
         <Toolbar>
           <IconButton
             size='large'
             edge='start'
-            color='inherit'
             aria-label='open drawer'
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, color: 'secondary.contrastText' }}
             onClick={toggleDrawer(true)}
           >
             <MenuIcon />
@@ -210,7 +212,7 @@ export const Header = () => {
         alignItems: 'center',
         paddingX: '10%',
         paddingY: '2%',
-        backgroundColor: 'primary.dark',
+        backgroundColor: 'primary.contrastText',
       }}
     >
       <Typography variant={'h1'} sx={{ paddingX: '2%' }}>
@@ -244,7 +246,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
+  backgroundColor: theme.palette.primary.contrastText,
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
