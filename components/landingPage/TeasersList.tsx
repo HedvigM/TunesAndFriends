@@ -1,16 +1,5 @@
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Paper,
-  styled,
-  Typography,
-} from '@mui/material';
+import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import PianoIcon from '@mui/icons-material/Piano';
-import { Container } from '@mui/system';
 import React from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 

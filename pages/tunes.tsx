@@ -14,7 +14,6 @@ import {
   Typography,
 } from '@mui/material';
 import { Header } from 'components/Header';
-import { SearchTunes } from 'components/SearchTunes';
 import { Footer } from 'components/Footer';
 import { POPULAR_URL, TUNE_URL } from 'utils/urls';
 import Link from 'next/link';
@@ -71,16 +70,6 @@ const Tunes: NextPage<{}> = () => {
     fetchUserWithId();
   }, [user]);
 
-  /*   useEffect(() => {
-    setLoading(true);
-    fetch(POPULAR_URL(page))
-      .then((res) => res.json())
-      .then((data) => {
-        setPopularList(data.tunes);
-        setLoading(false);
-      });
-  }, [page]); */
-
   useEffect(() => {
     const getPopularTunes = async () => {
       const data = await getMyCache(POPULAR_URL(page));
@@ -127,6 +116,7 @@ const Tunes: NextPage<{}> = () => {
             width: '95%',
             paddingY: '10px',
             marginY: '30px',
+            backgroundColor: 'primary.main',
           }}
         >
           <Typography textAlign='center' variant='h1'>
@@ -175,7 +165,11 @@ const Tunes: NextPage<{}> = () => {
                     <Button
                       size='small'
                       variant='text'
-                      sx={{ padding: '0', margin: '0' }}
+                      sx={{
+                        padding: '0',
+                        margin: '0',
+                        color: 'primary.contrastText',
+                      }}
                       onClick={() => onLearnHandle(tune.id, user.email)}
                     >
                       {mapLearn.includes(tune.id) ? (
@@ -190,6 +184,7 @@ const Tunes: NextPage<{}> = () => {
                       <Button
                         size='small'
                         variant='outlined'
+                        sx={{ color: 'secondary.contrastText' }}
                         onClick={() => onKnowHandle(tune.id, user.email)}
                       >
                         Know
@@ -197,6 +192,10 @@ const Tunes: NextPage<{}> = () => {
                     ) : (
                       <Button
                         size='small'
+                        sx={{
+                          color: 'text.primary',
+                          backgroundColor: 'primary.contrastText',
+                        }}
                         variant='contained'
                         onClick={() => onKnowHandle(tune.id, user.email)}
                       >

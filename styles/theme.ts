@@ -4,19 +4,13 @@ export const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#EAF6F6',
+      main: '#F0F3EB',
       contrastText: '#AED67A'
     },
     secondary: {
       main: '#fff',
       contrastText: '#673929',
     },
- /*    primary: {
-      main: '#AED67A'
-    },
-   secondary: {
-     main: '#673929'
-   }, */
    text: {
      primary: '#000',
      secondary: 'grey',
@@ -65,7 +59,7 @@ export const theme = createTheme({
 export const A = styled(Typography)((props) => ({
   fontSize: '1rem',
   fontWeight: 300,
-  color: props.theme.palette.primary.dark,
+  color: props.theme.palette.text.primary,
   display: 'inline',
   textAlign: 'center',
   fontFamily: 'Roboto',
@@ -73,8 +67,8 @@ export const A = styled(Typography)((props) => ({
 
 
   '&:hover': {
-    color: props.theme.palette.text.primary,
-    backgroundColor: props.theme.palette.primary.main,
+    color: props.theme.palette.secondary.contrastText,
+    backgroundColor: props.theme.palette.primary.contrastText,
     cursor: 'pointer',
   },
 }))
