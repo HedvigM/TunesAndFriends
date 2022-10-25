@@ -40,13 +40,13 @@ const addTune = async (tune: number, email: string, knowOrLearn: string) => {
           sessionId: tune,
         },
         update: {
-          staredBy: {
+          starredBy: {
             connect: [{ email: email }],
           },
         },
         create: {
           sessionId: tune,
-          staredBy: {
+          starredBy: {
             connect: [{ email: email }],
           },
         },
