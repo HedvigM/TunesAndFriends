@@ -9,7 +9,7 @@ const getUserById = async (id: number) => {
       where: { id: id },
       include: {
         knowTunes: true,
-        learnTunes: true,
+        starredTunes: true,
         following: true,
         followedBy: true,
       },
