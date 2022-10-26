@@ -22,6 +22,7 @@ import { addNewRelation, listUsers } from 'services/local';
 import { A } from 'styles/theme';
 import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
+import { getCachedListOfUsers } from 'services/functions';
 
 const Friends: NextPage<{}> = () => {
   const [usersList, setUsersList] = useState([]);
@@ -31,15 +32,12 @@ const Friends: NextPage<{}> = () => {
 
   useEffect(() => {
     setLoading(true);
-    const fetchListOfUsers = async () => {
-      const fetchedList = await listUsers();
-      if (fetchedList.success) {
-        setUsersList(fetchedList.data);
-      }
+    const getUsersList = async (user) => {
+      const data = await getCachedListOfUsers(user);
+      setUsersList(data);
       setLoading(false);
     };
-
-    fetchListOfUsers();
+    getUsersList(user);
   }, []);
 
   const onClickHandle = (addingEmail, addedEmail) => {
