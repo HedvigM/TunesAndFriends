@@ -36,12 +36,10 @@ const Tunes: NextPage<{}> = () => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const { user } = useUser();
-  const router = useRouter();
 
   const [userWithId, setUserWithId] = useState<User>();
   const [mapLearn, setMapLearn] = useState([]);
   const [mapKnow, setMapKnow] = useState([]);
-  const [knowTunes, setKnowTunes] = useState();
 
   useEffect(() => {
     setLoading(true);

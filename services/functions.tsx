@@ -24,7 +24,6 @@ export const getCachedListOfUsers = async (user) => {
   const expiryTime = new Date().getTime() - 1000 * 60 * 60 * 6;
 
   if (cachedResponse && cachedResponse.timestamp > expiryTime) {
-    console.log('cached data');
     return cachedResponse.data;
   } else {
     const fetchedList = await listUsers();
