@@ -17,6 +17,7 @@ import { KeyboardArrowDown } from '@mui/icons-material';
 import { TUNE_URL } from 'utils/urls';
 import { Presentation } from 'components/profile/presentation';
 import { MapTunes } from 'components/profile/MapTunes';
+import { getMyCache } from 'services/functions';
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
@@ -42,14 +43,12 @@ const Friend: NextPage<{}> = () => {
         const fetchedUser = await getUserById(slug);
         if (fetchedUser.success) {
           setUserById(fetchedUser.data);
-
+          /* Here is to look when solving the tunes id routing */
           Promise.all(
             fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
-              fetch(TUNE_URL(tunes.sessionId))
-                .then((res) => res.json())
-                .then((data) => {
-                  return data.name;
-                })
+              getMyCache(TUNE_URL(tunes.sessionId)).then(
+                (response) => response.name
+              )
             )
           ).then((values) => {
             setKnowTuneNamesById(values);
@@ -83,11 +82,9 @@ const Friend: NextPage<{}> = () => {
 
           Promise.all(
             fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
-              fetch(TUNE_URL(tunes.sessionId))
-                .then((res) => res.json())
-                .then((data) => {
-                  return data.name;
-                })
+              getMyCache(TUNE_URL(tunes.sessionId)).then((response) => {
+                return response.name;
+              })
             )
           ).then((values) => {
             setKnowTuneNames(values);
@@ -110,11 +107,9 @@ const Friend: NextPage<{}> = () => {
 
           Promise.all(
             commonTunes.map((tunes) =>
-              fetch(TUNE_URL(tunes.sessionId))
-                .then((res) => res.json())
-                .then((data) => {
-                  return data.name;
-                })
+              getMyCache(TUNE_URL(tunes.sessionId)).then((response) => {
+                return response.name;
+              })
             )
           ).then((values) => {
             setCommonTunes(values);
