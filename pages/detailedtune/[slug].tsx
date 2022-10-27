@@ -10,6 +10,7 @@ import {
 } from '@auth0/nextjs-auth0';
 import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
+import { getMyCache } from 'services/functions';
 
 export const Music = (props) => {
   let lineBreak = (string: string) => {
@@ -54,17 +55,13 @@ const detailedtune: NextPage<{}> = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(TUNE_URL(slug))
-      .then((res) => res.json())
-      .then((data) => {
-        setDetails(data);
-        if (data.settings) {
-          setAbc(data.settings[0].abc);
-        }
-        setLoading(false);
-      });
+    const getDetailedTune = async () => {
+      const data = await getMyCache(TUNE_URL(slug));
+      setDetails(data);
+      setLoading(false);
+    };
+    getDetailedTune();
   }, [slug]);
-  console.log('DETAILS', details);
 
   if (details && !loading) {
     return (
