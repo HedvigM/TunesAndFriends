@@ -15,7 +15,7 @@ const addUser = async (user: UserProfile) => {
         data: {
           name: user.name,
           email: user.email,
-          auth0UserId: user.auth0UserId,
+          auth0UserId: user.auth0UserId as string,
         },
       });
       if (createResult !== null) {
@@ -69,6 +69,7 @@ const users = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     return new Promise((resolve) => {
       const { name, email, auth0UserId } = req.body;
+      console.log('api users', auth0UserId);
       addUser({
         name,
         email,
