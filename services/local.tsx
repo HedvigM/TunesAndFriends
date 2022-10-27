@@ -1,6 +1,7 @@
 import { UserProfile } from '@auth0/nextjs-auth0';
 import { User } from '@prisma/client';
 import { ResponseType } from 'types/types';
+import { getMyCache } from './functions';
 
 export const addUser = (user: UserProfile) => {
   const defaultHeaders = {
@@ -14,6 +15,7 @@ export const addUser = (user: UserProfile) => {
     body: JSON.stringify({
       name: user.name,
       email: user.email,
+      auth0UserId: user.sid,
     }),
   };
   fetch(url, options)
@@ -66,16 +68,20 @@ export const getUserById = (slug) => {
     });
 };
 
-export const getUser = (email: string) => {
+export const getUser = (auth0UserId: string) => {
+  console.log('auth0UserId get user1', auth0UserId);
   const defaultHeaders = {
     Accept: 'application/json',
     'Content-Type': 'application/json;charset=UTF-8',
   };
-  const url = '/api/users/' + email;
+
+  const url = `/api/users/${auth0UserId}`;
   const options = {
     method: 'GET',
     headers: defaultHeaders,
   };
+
+  /* getMyCache...*/
   return fetch(url, options)
     .then((response) => {
       if (response.status === 200) {
