@@ -8,9 +8,65 @@ export const TeasersList = () => {
   return (
     <>
       {user ? (
-        <Typography variant={'h1'} sx={{ padding: '10%' }}>
-          Welcome, {user.name} to the Tunes and friends community!
-        </Typography>
+        <>
+          <Typography variant={'h1'} sx={{ padding: '10%' }}>
+            Welcome, {user.name} to the Tunes and friends community!
+          </Typography>
+          <Box sx={{ backgroundColor: 'papayawhip' }}>
+            <Box
+              sx={{
+                backgroundColor: 'pink',
+                height: '50px',
+                width: '100%',
+                marginTop: '10px',
+              }}
+            >
+              <Typography variant={'h2'} sx={{ padding: '10%' }}>
+                Your three latest tunes you know:
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                backgroundColor: 'gold',
+                height: '50px',
+                width: '100%',
+                marginTop: '10px',
+              }}
+            >
+              <Typography variant={'h2'} sx={{ padding: '10%' }}>
+                Your three newest friends:
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                backgroundColor: 'deepskyblue',
+                height: '50px',
+                width: '100%',
+                marginTop: '10px',
+              }}
+            >
+              <Typography variant={'h2'} sx={{ padding: '10%' }}>
+                Your latest starred tunes:
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                backgroundColor: 'mediumaquamarine',
+                height: '50px',
+                width: '100%',
+                marginTop: '10px',
+              }}
+            ></Box>
+            <Box
+              sx={{
+                backgroundColor: 'thistle',
+                height: '50px',
+                width: '100%',
+                marginTop: '10px',
+              }}
+            ></Box>
+          </Box>
+        </>
       ) : (
         <Box sx={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
           <Card sx={{ width: 345 }}>
