@@ -31,7 +31,7 @@ const Friend: NextPage<{}> = () => {
   const [commonTunes, setCommonTunes] = useState([]);
 
   type UserWithRelations = Prisma.UserGetPayload<{
-    include: { following: true; followedBy: true };
+    include: { following: true; followedBy: true; knowTunes: true };
   }>;
 
   const router = useRouter();
