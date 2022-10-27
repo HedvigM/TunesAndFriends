@@ -41,7 +41,7 @@ const Friend: NextPage<{}> = () => {
   useEffect(() => {
     const fetchUser = async () => {
       if (slug) {
-        const fetchedUser = await getUser(slug);
+        const fetchedUser = await getUser(slug as string);
         if (fetchedUser.success) {
           setUserById(fetchedUser.data);
           /* Here is to look when solving the tunes id routing */
@@ -66,7 +66,7 @@ const Friend: NextPage<{}> = () => {
       setLoading(true);
       if (user) {
         console.log('auth0UserId call', user.sid);
-        const fetchedUser = await getUser(user.sid);
+        const fetchedUser = await getUser(user.sid as string);
         if (fetchedUser.success) {
           setDatabaseUser(fetchedUser.data);
           setMapFollowing(
