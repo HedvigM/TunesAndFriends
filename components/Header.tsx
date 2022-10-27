@@ -31,22 +31,8 @@ import { User } from '@prisma/client';
 
 export const Header = () => {
   const { user, isLoading } = useUser();
-  const [databaseUser, setDatabaseUser] = useState<User>();
   const [loading, setLoading] = useState(false);
   const [drawer, setDrawer] = useState(false);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (user) {
-        const fetchedUser = await getUser(user.email);
-        if (fetchedUser.success) {
-          setDatabaseUser(fetchedUser.data);
-        }
-      }
-    };
-
-    fetchUser();
-  }, [user]);
 
   /* clean the code below up a bit */
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -75,44 +61,51 @@ export const Header = () => {
 
   useEffect(() => {
     if (typeof user !== 'undefined' && isLoading === false) {
+      console.log('addUser i header.tsx', user);
       addUser(user);
     }
   }, [user, isLoading]);
 
-  return user && databaseUser ? (
+  return user ? (
     <Box>
-      <AppBar
-        position='static'
-        sx={{ backgroundColor: 'primary.contrastText' }}
-      >
+      <AppBar position='static' sx={{ backgroundColor: 'primary.main' }}>
         <Toolbar>
           <IconButton
             size='large'
             edge='start'
             aria-label='open drawer'
-            sx={{ mr: 2, color: 'secondary.contrastText' }}
+            sx={{ mr: 2, color: 'secondary.main' }}
             onClick={toggleDrawer(true)}
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant='h1'
-            noWrap
-            component='div'
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-          >
-            <Link href={{ pathname: '/' }}>
-              <A>Tunes & Friends</A>
-            </Link>
-          </Typography>
+          <Link href={{ pathname: '/' }}>
+            <Typography
+              variant='h1'
+              noWrap
+              component='div'
+              sx={{
+                flexGrow: 1,
+                display: { xs: 'none', sm: 'block' },
+                textDecoration: 'none',
+                color: 'black',
+                ':hover': {
+                  cursor: 'pointer',
+                  color: 'deeppink',
+                },
+              }}
+            >
+              Tunes & Friends
+            </Typography>
+          </Link>
           <Box
             sx={{
               display: 'flex',
               alignItems: 'center',
-              padding: '0 30px',
+              height: '70px',
             }}
           >
-            <Search sx={{ margin: '0 30px' }}>
+            <Search sx={{ margin: '0 30px', color: 'secondary.main' }}>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
@@ -149,7 +142,7 @@ export const Header = () => {
                 <Link
                   href={{
                     pathname: `/friend/[slug]`,
-                    query: { slug: `${databaseUser.id}` },
+                    query: { slug: `${user.sid}` },
                   }}
                 >
                   <Typography textAlign='center'>{'Profile'}</Typography>
@@ -210,15 +203,22 @@ export const Header = () => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingX: '10%',
-        paddingY: '2%',
-        backgroundColor: 'primary.contrastText',
+        height: '70px',
+        backgroundColor: 'primary.main',
       }}
     >
-      <Typography variant={'h1'} sx={{ paddingX: '2%' }}>
-        <Link href={{ pathname: '/' }}>
-          <A>Tunes & Friends</A>
-        </Link>
+      <Typography
+        variant='h1'
+        noWrap
+        component='div'
+        sx={{
+          flexGrow: 1,
+          display: { xs: 'none', sm: 'block' },
+          textDecoration: 'none',
+          color: 'black',
+        }}
+      >
+        Tunes & Friends
       </Typography>
       <Button variant='contained' href='/api/auth/login'>
         Logga in
@@ -226,14 +226,6 @@ export const Header = () => {
     </Box>
   );
 };
-
-const A = styled('a')(({ theme }) => ({
-  textDecoration: 'none',
-  color: 'black',
-  '&:hover': {
-    cursor: 'pointer',
-  },
-}));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
