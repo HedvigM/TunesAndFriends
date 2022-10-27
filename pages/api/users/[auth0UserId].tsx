@@ -3,10 +3,11 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-const getUser = async (email: string) => {
+const getUser = async (auth0UserId: string) => {
+  console.log('API call', auth0UserId);
   try {
     const findSingleUser = await prisma.user.findUnique({
-      where: { email: email },
+      where: { auth0UserId: auth0UserId },
       include: {
         knowTunes: true,
         starredTunes: true,
@@ -28,16 +29,16 @@ const getUser = async (email: string) => {
   }
 };
 
-interface UserEmail {
-  email: string;
+interface UserAuth0 {
+  auth0UserId: string;
 }
 
 const user = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
-    const { email } = req.query as unknown as UserEmail;
+    const { auth0UserId } = req.query as unknown as UserAuth0;
 
     return new Promise((resolve) => {
-      getUser(email)
+      getUser(auth0UserId)
         .then((result) => {
           console.log('result', result);
           res.status(200).json(result);

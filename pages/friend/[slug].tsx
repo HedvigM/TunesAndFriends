@@ -37,10 +37,11 @@ const Friend: NextPage<{}> = () => {
   const router = useRouter();
   const { slug: slug } = router.query;
 
+  /* At the moment this exact function is in two places. fetching users the same way "friend" or loged in user.Dont use getUserById at all anymore?? */
   useEffect(() => {
     const fetchUser = async () => {
       if (slug) {
-        const fetchedUser = await getUserById(slug);
+        const fetchedUser = await getUser(slug);
         if (fetchedUser.success) {
           setUserById(fetchedUser.data);
           /* Here is to look when solving the tunes id routing */
@@ -64,7 +65,8 @@ const Friend: NextPage<{}> = () => {
     const fetchUser = async () => {
       setLoading(true);
       if (user) {
-        const fetchedUser = await getUser(user.email);
+        console.log('auth0UserId call', user.sid);
+        const fetchedUser = await getUser(user.sid);
         if (fetchedUser.success) {
           setDatabaseUser(fetchedUser.data);
           setMapFollowing(
@@ -119,6 +121,7 @@ const Friend: NextPage<{}> = () => {
     }
   }, [userById, databaseUser]);
 
+  /* Add new relation vith auth0 instead... */
   const onClickHandle = (addingEmail, addedEmail) => {
     addNewRelation(addingEmail, addedEmail);
     setFollowingButton(false);

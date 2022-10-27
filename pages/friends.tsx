@@ -19,7 +19,6 @@ import {
   WithPageAuthRequiredProps,
 } from '@auth0/nextjs-auth0';
 import { addNewRelation, listUsers } from 'services/local';
-import { A } from 'styles/theme';
 import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { getCachedListOfUsers } from 'services/functions';
@@ -86,14 +85,16 @@ const Friends: NextPage<{}> = () => {
             </TableHead>
             {usersList
               .filter((item) => item.email !== user.email)
-              .map((databaseUser) => (
-                <TableBody key={databaseUser.id}>
+              .map((fetchedListOfFriends) => (
+                <TableBody key={fetchedListOfFriends.auth0UserId}>
                   <TableRow>
                     <TableCell component='th' scope='row'>
                       <Link
                         href={{
                           pathname: `/friend/[slug]`,
-                          query: { slug: `${databaseUser.id}` },
+                          query: {
+                            slug: `${fetchedListOfFriends.auth0UserId}`,
+                          },
                         }}
                       >
                         <Typography
@@ -115,12 +116,12 @@ const Friends: NextPage<{}> = () => {
                             },
                           }}
                         >
-                          {databaseUser.name}
+                          {fetchedListOfFriends.name}
                         </Typography>
                       </Link>
                     </TableCell>
                     <TableCell component='th' scope='row'>
-                      {databaseUser.town}
+                      {fetchedListOfFriends.town}
                     </TableCell>
                     <TableCell component='th' scope='row'>
                       {' '}
@@ -133,7 +134,7 @@ const Friends: NextPage<{}> = () => {
                           color: 'text.primary',
                         }}
                         onClick={() => {
-                          onClickHandle(user.email, databaseUser.email);
+                          onClickHandle(user.email, fetchedListOfFriends.email);
                         }}
                       >
                         add friend

@@ -14,7 +14,7 @@ model User {
   id             Int             @id @default(autoincrement())
   createdAt      DateTime        @default(now())
   name           String
-  auth0UserId    String?         @unique @map("auth0_user_id")
+  auth0UserId    String          @unique
   email          String          @unique
   town           String?
   profileText    String?

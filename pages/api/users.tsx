@@ -15,6 +15,7 @@ const addUser = async (user: UserProfile) => {
         data: {
           name: user.name,
           email: user.email,
+          auth0UserId: user.auth0UserId,
         },
       });
       if (createResult !== null) {
@@ -67,11 +68,11 @@ const updateUser = async (email: string, town: string, profileText: string) => {
 const users = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     return new Promise((resolve) => {
-      const { name, email } = req.body;
-
+      const { name, email, auth0UserId } = req.body;
       addUser({
         name,
         email,
+        auth0UserId,
       })
         .then((result) => {
           console.log('result', result);
