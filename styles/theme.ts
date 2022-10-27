@@ -4,12 +4,12 @@ export const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#F0F3EB',
-      contrastText: '#AED67A'
+      main: '#AED67A',
+      contrastText: '#F0F3EB'
     },
     secondary: {
-      main: '#fff',
-      contrastText: '#673929',
+      main: '#673929',
+      contrastText: '#fff',
     },
    text: {
      primary: '#000',
@@ -55,6 +55,7 @@ export const theme = createTheme({
     }
   }
 });
+/* A style for body1 with linkes. tex friends on the friendslist and tunes everywhere. */
 
 export const A = styled(Typography)((props) => ({
   fontSize: '1rem',

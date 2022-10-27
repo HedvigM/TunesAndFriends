@@ -175,7 +175,7 @@ const Friend: NextPage<{}> = () => {
               <Button
                 variant='outlined'
                 size='medium'
-                sx={{ color: 'primary.contrastText' }}
+                sx={{ color: 'primary.main' }}
                 onClick={() => onClickHandle(user.email, userById.email)}
               >
                 Unfollow {<KeyboardArrowDown />}

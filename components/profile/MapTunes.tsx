@@ -32,7 +32,27 @@ export const MapTunes = (props) => {
                   query: { slug: `${tunes.id}` },
                 }}
               >
-                <A>{tunes}</A>
+                <Typography
+                  variant='body1'
+                  sx={{
+                    fontSize: '1rem',
+                    fontWeight: 300,
+                    color: 'text.primary',
+                    display: 'inline',
+                    textAlign: 'center',
+                    fontFamily: 'Roboto',
+                    margin: '1px',
+                    padding: '0 3px',
+                    ':hover': {
+                      color: 'text.primary',
+                      backgroundColor: 'deeppink',
+                      cursor: 'pointer',
+                      padding: '0 3px',
+                    },
+                  }}
+                >
+                  {tunes}
+                </Typography>
               </Link>
             </Box>
           ))}
@@ -58,7 +78,27 @@ export const MapTunes = (props) => {
                     query: { slug: `${tunes.id}` },
                   }}
                 >
-                  <A>{tunes}</A>
+                  <Typography
+                    variant='body1'
+                    sx={{
+                      fontSize: '1rem',
+                      fontWeight: 300,
+                      color: 'text.primary',
+                      display: 'inline',
+                      textAlign: 'center',
+                      fontFamily: 'Roboto',
+                      margin: '1px',
+                      padding: '0 3px',
+                      ':hover': {
+                        color: 'text.primary',
+                        backgroundColor: 'deeppink',
+                        cursor: 'pointer',
+                        padding: '0 3px',
+                      },
+                    }}
+                  >
+                    {tunes}
+                  </Typography>
                 </Link>
               </Box>
             ))}

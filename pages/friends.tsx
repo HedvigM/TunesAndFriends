@@ -96,7 +96,27 @@ const Friends: NextPage<{}> = () => {
                           query: { slug: `${databaseUser.id}` },
                         }}
                       >
-                        <A>{databaseUser.name}</A>
+                        <Typography
+                          variant='body1'
+                          sx={{
+                            fontSize: '1rem',
+                            fontWeight: 300,
+                            color: 'text.primary',
+                            display: 'inline',
+                            textAlign: 'center',
+                            fontFamily: 'Roboto',
+                            margin: '1px',
+                            padding: '0 3px',
+                            ':hover': {
+                              color: 'text.primary',
+                              backgroundColor: 'deeppink',
+                              cursor: 'pointer',
+                              padding: '0 3px',
+                            },
+                          }}
+                        >
+                          {databaseUser.name}
+                        </Typography>
                       </Link>
                     </TableCell>
                     <TableCell component='th' scope='row'>
@@ -107,7 +127,11 @@ const Friends: NextPage<{}> = () => {
                       <Button
                         size='small'
                         variant='contained'
-                        sx={{ padding: '0', margin: '0' }}
+                        sx={{
+                          padding: '0 3px',
+                          margin: '0',
+                          color: 'text.primary',
+                        }}
                         onClick={() => {
                           onClickHandle(user.email, databaseUser.email);
                         }}

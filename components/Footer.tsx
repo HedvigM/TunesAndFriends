@@ -13,7 +13,7 @@ export const Footer = () => {
     <>
       <Box
         sx={{
-          backgroundColor: 'secondary.contrastText',
+          backgroundColor: 'secondary.main',
         }}
       >
         <Icons>
