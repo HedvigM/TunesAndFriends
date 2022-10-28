@@ -20,11 +20,7 @@ export const TeasersList = () => {
                 width: '100%',
                 marginTop: '10px',
               }}
-            >
-              <Typography variant={'h2'} sx={{ padding: '10%' }}>
-                Your three latest tunes you know:
-              </Typography>
-            </Box>
+            ></Box>
             <Box
               sx={{
                 backgroundColor: 'gold',
@@ -33,7 +29,7 @@ export const TeasersList = () => {
                 marginTop: '10px',
               }}
             >
-              <Typography variant={'h2'} sx={{ padding: '10%' }}>
+              <Typography variant={'h2'} sx={{ padding: '10px' }}>
                 Your three newest friends:
               </Typography>
             </Box>
@@ -45,7 +41,7 @@ export const TeasersList = () => {
                 marginTop: '10px',
               }}
             >
-              <Typography variant={'h2'} sx={{ padding: '10%' }}>
+              <Typography variant={'h2'} sx={{ padding: '10px' }}>
                 Your latest starred tunes:
               </Typography>
             </Box>
@@ -56,7 +52,11 @@ export const TeasersList = () => {
                 width: '100%',
                 marginTop: '10px',
               }}
-            ></Box>
+            >
+              <Typography variant={'h2'} sx={{ padding: '10px' }}>
+                Your three latest tunes you know:
+              </Typography>
+            </Box>
             <Box
               sx={{
                 backgroundColor: 'thistle',
