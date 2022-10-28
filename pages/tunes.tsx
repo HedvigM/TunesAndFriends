@@ -45,7 +45,7 @@ const Tunes: NextPage<{}> = () => {
     setLoading(true);
     const fetchUserWithId = async () => {
       if (user && user.email) {
-        const newUserWithId = await getUser(user.email);
+        const newUserWithId = await getUser(user.sid as string);
 
         if (newUserWithId.success) {
           setUserWithId(newUserWithId.data);
@@ -151,7 +151,26 @@ const Tunes: NextPage<{}> = () => {
                         query: { slug: `${tune.id}` },
                       }}
                     >
-                      <A>{tune.name}</A>
+                      <Typography
+                        variant='body1'
+                        sx={{
+                          fontSize: '1rem',
+                          fontWeight: '300',
+                          color: 'text.primary',
+                          display: 'inline',
+                          textAlign: 'center',
+                          fontFamily: 'Roboto',
+                          margin: '1px',
+
+                          '&:hover': {
+                            color: 'text.primary',
+                            backgroundColor: 'deeppink',
+                            cursor: 'pointer',
+                          },
+                        }}
+                      >
+                        {tune.name}
+                      </Typography>
                     </Link>
                   </TableCell>
                   <TableCell
@@ -170,9 +189,9 @@ const Tunes: NextPage<{}> = () => {
                       onClick={() => onLearnHandle(tune.id, user.email)}
                     >
                       {mapLearn.includes(tune.id) ? (
-                        <StarBorderIcon />
-                      ) : (
                         <StarIcon />
+                      ) : (
+                        <StarBorderIcon />
                       )}
                     </Button>
                   </TableCell>
