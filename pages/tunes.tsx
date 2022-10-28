@@ -113,7 +113,7 @@ const Tunes: NextPage<{}> = () => {
             width: '95%',
             paddingY: '10px',
             marginY: '30px',
-            backgroundColor: 'primary.main',
+            backgroundColor: 'primary.contrastText',
           }}
         >
           <Typography textAlign='center' variant='h1'>

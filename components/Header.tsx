@@ -220,7 +220,11 @@ export const Header = () => {
       >
         Tunes & Friends
       </Typography>
-      <Button variant='contained' href='/api/auth/login'>
+      <Button
+        variant='contained'
+        href='/api/auth/login'
+        sx={{ color: 'text.primary' }}
+      >
         Logga in
       </Button>
     </Box>
