@@ -165,7 +165,7 @@ const Tunes: NextPage<{}> = () => {
                       sx={{
                         padding: '0',
                         margin: '0',
-                        color: 'primary.contrastText',
+                        color: 'primary.main',
                       }}
                       onClick={() => onLearnHandle(tune.id, user.email)}
                     >
@@ -181,7 +181,7 @@ const Tunes: NextPage<{}> = () => {
                       <Button
                         size='small'
                         variant='outlined'
-                        sx={{ color: 'secondary.contrastText' }}
+                        sx={{ color: 'secondary.main' }}
                         onClick={() => onKnowHandle(tune.id, user.email)}
                       >
                         Know
@@ -191,7 +191,7 @@ const Tunes: NextPage<{}> = () => {
                         size='small'
                         sx={{
                           color: 'text.primary',
-                          backgroundColor: 'primary.contrastText',
+                          backgroundColor: 'primary.main',
                         }}
                         variant='contained'
                         onClick={() => onKnowHandle(tune.id, user.email)}
