@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import { Header } from 'components/Header';
 import { Footer } from 'components/Footer';
-import { POPULAR_URL, TUNE_URL } from 'utils/urls';
+import { POPULAR_URL } from 'utils/urls';
 import Link from 'next/link';
 import { A } from 'styles/theme';
 import {

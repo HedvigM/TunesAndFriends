@@ -65,7 +65,6 @@ const Friend: NextPage<{}> = () => {
     const fetchUser = async () => {
       setLoading(true);
       if (user) {
-        console.log('auth0UserId call', user.sid);
         const fetchedUser = await getUser(user.sid as string);
         if (fetchedUser.success) {
           setDatabaseUser(fetchedUser.data);

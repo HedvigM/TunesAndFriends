@@ -61,7 +61,6 @@ export const Header = () => {
 
   useEffect(() => {
     if (typeof user !== 'undefined' && isLoading === false) {
-      console.log('addUser i header.tsx', user);
       addUser(user);
     }
   }, [user, isLoading]);
