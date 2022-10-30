@@ -68,7 +68,12 @@ export const Header = () => {
 
   return user ? (
     <Box>
-      <AppBar position='static' sx={{ backgroundColor: 'primary.main' }}>
+      <AppBar
+        position='static'
+        sx={{
+          backgroundColor: 'primary.main',
+        }}
+      >
         <Toolbar>
           <IconButton
             size='large'
@@ -201,35 +206,50 @@ export const Header = () => {
     <Box
       sx={{
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
-        height: '70px',
         backgroundColor: 'primary.main',
       }}
     >
-      <Typography
-        variant='h1'
-        noWrap
-        component='div'
-        sx={{
-          flexGrow: 1,
-          display: { xs: 'none', sm: 'block' },
-          textDecoration: 'none',
-          color: 'black',
-        }}
-      >
-        Tunes & Friends
-      </Typography>
-      <Button
-        variant='contained'
-        href='/api/auth/login'
-        sx={{ color: 'text.primary' }}
-      >
-        Logga in
-      </Button>
+      <FlexCardContainer>
+        <Typography
+          variant='h1'
+          noWrap
+          component='div'
+          sx={{
+            display: { xs: 'block', sm: 'block' },
+            textDecoration: 'none',
+            color: 'black',
+            padding: '0 10px',
+          }}
+        >
+          Tunes & Friends
+        </Typography>
+        <Button
+          size='small'
+          variant='contained'
+          href='/api/auth/login'
+          sx={{ color: 'text.primary', margin: '10px 0' }}
+        >
+          Logga in
+        </Button>
+      </FlexCardContainer>
     </Box>
   );
 };
+
+const FlexCardContainer = styled('div')(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+
+  [theme.breakpoints.up('sm')]: {
+    width: 345,
+  },
+  [theme.breakpoints.up('md')]: {
+    width: 700,
+  },
+}));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
