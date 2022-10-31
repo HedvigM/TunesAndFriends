@@ -45,7 +45,7 @@ const Tunes: NextPage<{}> = () => {
     setLoading(true);
     const fetchUserWithId = async () => {
       if (user && user.email) {
-        const newUserWithId = await getUser(user.email);
+        const newUserWithId = await getUser(user.sid as string);
 
         if (newUserWithId.success) {
           setUserWithId(newUserWithId.data);
@@ -113,7 +113,7 @@ const Tunes: NextPage<{}> = () => {
             width: '95%',
             paddingY: '10px',
             marginY: '30px',
-            backgroundColor: 'primary.main',
+            backgroundColor: 'primary.contrastText',
           }}
         >
           <Typography textAlign='center' variant='h1'>
@@ -151,7 +151,26 @@ const Tunes: NextPage<{}> = () => {
                         query: { slug: `${tune.id}` },
                       }}
                     >
-                      <A>{tune.name}</A>
+                      <Typography
+                        variant='body1'
+                        sx={{
+                          fontSize: '1rem',
+                          fontWeight: '300',
+                          color: 'text.primary',
+                          display: 'inline',
+                          textAlign: 'center',
+                          fontFamily: 'Roboto',
+                          margin: '1px',
+
+                          '&:hover': {
+                            color: 'text.primary',
+                            backgroundColor: 'deeppink',
+                            cursor: 'pointer',
+                          },
+                        }}
+                      >
+                        {tune.name}
+                      </Typography>
                     </Link>
                   </TableCell>
                   <TableCell
@@ -165,14 +184,14 @@ const Tunes: NextPage<{}> = () => {
                       sx={{
                         padding: '0',
                         margin: '0',
-                        color: 'primary.contrastText',
+                        color: 'primary.main',
                       }}
                       onClick={() => onLearnHandle(tune.id, user.email)}
                     >
                       {mapLearn.includes(tune.id) ? (
-                        <StarBorderIcon />
-                      ) : (
                         <StarIcon />
+                      ) : (
+                        <StarBorderIcon />
                       )}
                     </Button>
                   </TableCell>
@@ -181,7 +200,7 @@ const Tunes: NextPage<{}> = () => {
                       <Button
                         size='small'
                         variant='outlined'
-                        sx={{ color: 'secondary.contrastText' }}
+                        sx={{ color: 'secondary.main' }}
                         onClick={() => onKnowHandle(tune.id, user.email)}
                       >
                         Know
@@ -191,7 +210,7 @@ const Tunes: NextPage<{}> = () => {
                         size='small'
                         sx={{
                           color: 'text.primary',
-                          backgroundColor: 'primary.contrastText',
+                          backgroundColor: 'primary.main',
                         }}
                         variant='contained'
                         onClick={() => onKnowHandle(tune.id, user.email)}

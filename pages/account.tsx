@@ -42,7 +42,7 @@ const Account: NextPage<{}> = () => {
   useEffect(() => {
     const fetchUser = async () => {
       if (user) {
-        const fetchedUser = await getUser(user.email);
+        const fetchedUser = await getUser(user.sid as string);
         if (fetchedUser.success) {
           setDatabaseUser(fetchedUser.data);
           setTown(fetchedUser.data.town);
@@ -201,7 +201,12 @@ const Account: NextPage<{}> = () => {
               multiline
             />
 
-            <Button size='medium' onClick={() => handleChange()}>
+            <Button
+              size='medium'
+              variant='contained'
+              sx={{ color: 'text.primary' }}
+              onClick={() => handleChange()}
+            >
               Save
             </Button>
           </Box>
