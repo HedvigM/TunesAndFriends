@@ -18,30 +18,38 @@ import {
   withPageAuthRequired,
   WithPageAuthRequiredProps,
 } from '@auth0/nextjs-auth0';
-import { addNewRelation, listUsers } from 'services/local';
+import { addNewRelation } from 'services/local';
 import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { getCachedListOfUsers } from 'services/functions';
+import { styled } from '@mui/material';
 
 const Friends: NextPage<{}> = () => {
   const [usersList, setUsersList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [mapFriendsId, setMapFriendsId] = useState([]);
   const { user } = useUser();
-  const [relationButton, setRelationButton] = useState(true);
 
   useEffect(() => {
     setLoading(true);
     const getUsersList = async (user) => {
       const data = await getCachedListOfUsers(user);
       setUsersList(data);
+      setMapFriendsId(data.map((user) => user.auth0UserId));
       setLoading(false);
     };
     getUsersList(user);
   }, []);
 
-  const onClickHandle = (addingEmail, addedEmail) => {
+  const onClickHandle = (
+    addingEmail: string,
+    addedEmail: string,
+    addedId: string
+  ) => {
+    let newMapFriendsId = mapFriendsId.slice();
+    newMapFriendsId.push(addedId);
+    setMapFriendsId(newMapFriendsId);
     addNewRelation(addingEmail, addedEmail);
-    setRelationButton(false);
   };
 
   if (usersList && !loading) {
@@ -125,20 +133,20 @@ const Friends: NextPage<{}> = () => {
                     </TableCell>
                     <TableCell component='th' scope='row'>
                       {' '}
-                      <Button
-                        size='small'
-                        variant='contained'
-                        sx={{
-                          padding: '0 3px',
-                          margin: '0',
-                          color: 'text.primary',
-                        }}
+                      <FriendsButton
+                        primary={mapFriendsId.includes(
+                          fetchedListOfFriends.auth0UserId
+                        )}
                         onClick={() => {
-                          onClickHandle(user.email, fetchedListOfFriends.email);
+                          onClickHandle(
+                            user.email,
+                            fetchedListOfFriends.email,
+                            fetchedListOfFriends.auth0UserId
+                          );
                         }}
                       >
-                        add friend
-                      </Button>
+                        know
+                      </FriendsButton>
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -153,4 +161,19 @@ const Friends: NextPage<{}> = () => {
     return <LoadingSpinner />;
   }
 };
+
+const FriendsButton = styled('button')((props) => ({
+  backgroundColor: props.primary ? 'inherit' : props.theme.palette.primary.main,
+  padding: '5px 10px',
+  border: 'none',
+  borderRadius: '3px',
+  boxShadow: '1px 1px 0px deeppink',
+
+  '&:hover': {
+    backgroundColor: props.primary
+      ? props.theme.palette.primary.light
+      : props.theme.palette.primary.dark,
+    cursor: 'pointer',
+  },
+}));
 export default withPageAuthRequired<WithPageAuthRequiredProps>(Friends);
