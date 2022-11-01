@@ -36,6 +36,10 @@ const Friend: NextPage<{}> = () => {
 
   const router = useRouter();
   const { slug: slug } = router.query;
+  /* 
+  userById = slugFriend
+  databaseUser = loged in friend
+  */
 
   /* At the moment this exact function is in two places. fetching users the same way "friend" or loged in user.Dont use getUserById at all anymore?? */
   useEffect(() => {
@@ -65,7 +69,6 @@ const Friend: NextPage<{}> = () => {
     const fetchUser = async () => {
       setLoading(true);
       if (user) {
-        console.log('auth0UserId call', user.sid);
         const fetchedUser = await getUser(user.sid as string);
         if (fetchedUser.success) {
           setDatabaseUser(fetchedUser.data);
@@ -154,19 +157,12 @@ const Friend: NextPage<{}> = () => {
             marginY: '30px',
           }}
         >
-          {databaseUser.id.toString() !== slug ? (
-            <Presentation
-              user={userById}
-              tunes={knowTuneNamesById}
-              followingButton={followingButton}
-            />
+          {databaseUser.auth0UserId.toString() !== slug ? (
+            <Presentation user={userById} tunes={knowTuneNamesById} />
           ) : (
-            <Presentation
-              user={databaseUser}
-              tunes={knowTuneNames}
-              followingButton={followingButton}
-            />
+            <Presentation user={databaseUser} tunes={knowTuneNames} />
           )}
+
           <Box
             sx={{
               padding: '10px 100px',
@@ -174,13 +170,17 @@ const Friend: NextPage<{}> = () => {
               justifyContent: 'left',
             }}
           >
-            {databaseUser.id.toString() !== slug && followingButton === true ? (
+            {databaseUser.auth0UserId.toString() === slug ? (
               <Button
+                disabled
                 variant='outlined'
                 size='medium'
-                sx={{ color: 'primary.main' }}
-                onClick={() => onClickHandle(user.email, userById.email)}
+                sx={{ display: 'none' }}
               >
+                Unfollow {<KeyboardArrowDown />}
+              </Button>
+            ) : followingButton ? (
+              <Button disabled variant='outlined' size='medium'>
                 Unfollow {<KeyboardArrowDown />}
               </Button>
             ) : (
@@ -194,7 +194,7 @@ const Friend: NextPage<{}> = () => {
               </Button>
             )}
           </Box>
-          {databaseUser.id.toString() !== slug ? (
+          {databaseUser.auth0UserId.toString() !== slug ? (
             <MapTunes tunes={knowTuneNamesById} commonTunes={commonTunes} />
           ) : (
             <MapTunes tunes={knowTuneNames} />
