@@ -33,11 +33,9 @@ const Tunes: NextPage<{}> = () => {
   const [popularList, setPopularList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const { user } = useUser();
-
-  const [userWithId, setUserWithId] = useState<User>();
-  const [mapLearn, setMapLearn] = useState([]);
+  const [mapStar, setMapStar] = useState([]);
   const [mapKnow, setMapKnow] = useState([]);
+  const { user } = useUser();
 
   useEffect(() => {
     setLoading(true);
@@ -45,8 +43,7 @@ const Tunes: NextPage<{}> = () => {
       if (user) {
         const newUserWithId = await getUser(user.sid as string);
         if (newUserWithId.success) {
-          setUserWithId(newUserWithId.data);
-          setMapLearn(
+          setMapStar(
             newUserWithId.data.starredTunes.map(
               (tunes: { sessionId: number }) => tunes.sessionId
             )
@@ -89,13 +86,13 @@ const Tunes: NextPage<{}> = () => {
   };
 
   const onStarHandle = (tuneID: number, userEmail: string) => {
-    let newMapStar = mapLearn.slice();
+    let newMapStar = mapStar.slice();
     newMapStar.push(tuneID);
-    setMapLearn(newMapStar);
+    setMapStar(newMapStar);
     addTune(tuneID, userEmail, 'learn');
   };
 
-  if (popularList && mapLearn && mapKnow && !loading) {
+  if (popularList && mapStar && mapKnow && !loading) {
     return (
       <Box
         sx={{
@@ -182,7 +179,7 @@ const Tunes: NextPage<{}> = () => {
                     sx={{ padding: '0', margin: '0' }}
                   >
                     <LearnButton
-                      primary={mapLearn.includes(tune.id)}
+                      included={mapStar.includes(tune.id)}
                       onClick={() => onStarHandle(tune.id, user.email)}
                     >
                       <StarIcon />
@@ -190,7 +187,7 @@ const Tunes: NextPage<{}> = () => {
                   </TableCell>
                   <TableCell component='th' scope='row'>
                     <KnowButton
-                      primary={mapKnow.includes(tune.id)}
+                      included={mapKnow.includes(tune.id)}
                       onClick={() => onKnowHandle(tune.id, user.email)}
                     >
                       know
@@ -227,26 +224,36 @@ const Tunes: NextPage<{}> = () => {
   }
 };
 
-const KnowButton = styled('button')((props) => ({
-  backgroundColor: props.primary ? 'inherit' : props.theme.palette.primary.main,
+interface buttonProps {
+  readonly included: boolean;
+}
+
+const KnowButton = styled('button', {
+  shouldForwardProp: (prop) => prop !== 'included',
+})<buttonProps>((props) => ({
+  backgroundColor: props.included
+    ? 'inherit'
+    : props.theme.palette.primary.main,
   padding: '5px 10px',
   border: 'none',
   borderRadius: '3px',
   boxShadow: '1px 1px 0px deeppink',
 
   '&:hover': {
-    backgroundColor: props.primary
+    backgroundColor: props.included
       ? props.theme.palette.primary.light
       : props.theme.palette.primary.dark,
     cursor: 'pointer',
   },
 }));
 
-const LearnButton = styled('button')((props) => ({
-  backgroundColor: props.primary
+const LearnButton = styled('button', {
+  shouldForwardProp: (prop) => prop !== 'included',
+})<buttonProps>((props) => ({
+  backgroundColor: props.included
     ? props.theme.palette.primary.contrastText
     : props.theme.palette.primary.main,
-  color: props.primary
+  color: props.included
     ? props.theme.palette.primary.main
     : props.theme.palette.primary.contrastText,
   padding: '5px 10px',
@@ -254,7 +261,7 @@ const LearnButton = styled('button')((props) => ({
   borderRadius: '3px',
 
   '&:hover': {
-    backgroundColor: props.primary
+    backgroundColor: props.included
       ? props.theme.palette.primary.light
       : props.theme.palette.primary.dark,
     cursor: 'pointer',
