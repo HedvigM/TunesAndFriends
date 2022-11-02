@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header';
 import { useRouter } from 'next/router';
@@ -11,7 +11,6 @@ import {
 import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { getMyCache } from 'services/functions';
-import { Image } from '@mui/icons-material';
 
 export const Music = (props) => {
   let lineBreak = (string: string) => {
@@ -57,6 +56,10 @@ const detailedtune: NextPage<{}> = () => {
     getDetailedTune();
   }, [slug]);
 
+  const onClickHandle = () => {
+    router.back();
+  };
+
   if (details && !loading) {
     return (
       <Box
@@ -68,7 +71,6 @@ const detailedtune: NextPage<{}> = () => {
         }}
       >
         <Header />
-
         <Container maxWidth='lg'>
           <Box
             sx={{
@@ -95,6 +97,16 @@ const detailedtune: NextPage<{}> = () => {
           </Box>
           <Music abcNotes={abc} />
         </Container>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Button size='large' variant='contained' onClick={onClickHandle}>
+            Back
+          </Button>
+        </Box>
 
         <Footer />
       </Box>
