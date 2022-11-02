@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
   Box,
-  Button,
-  CircularProgress,
   Container,
   Pagination,
   Table,
@@ -16,7 +14,6 @@ import { Header } from 'components/Header';
 import { Footer } from 'components/Footer';
 import { POPULAR_URL } from 'utils/urls';
 import Link from 'next/link';
-import { A } from 'styles/theme';
 import {
   useUser,
   withPageAuthRequired,
@@ -30,6 +27,7 @@ import { User } from '@prisma/client';
 import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { getMyCache } from 'services/functions';
+import { styled } from '@mui/material';
 
 const Tunes: NextPage<{}> = () => {
   const [popularList, setPopularList] = useState([]);
@@ -44,9 +42,8 @@ const Tunes: NextPage<{}> = () => {
   useEffect(() => {
     setLoading(true);
     const fetchUserWithId = async () => {
-      if (user && user.email) {
+      if (user) {
         const newUserWithId = await getUser(user.sid as string);
-
         if (newUserWithId.success) {
           setUserWithId(newUserWithId.data);
           setMapLearn(
@@ -85,10 +82,16 @@ const Tunes: NextPage<{}> = () => {
   };
 
   const onKnowHandle = (tuneID: number, userEmail: string) => {
+    let newMapKnow = mapKnow.slice();
+    newMapKnow.push(tuneID);
+    setMapKnow(newMapKnow);
     addTune(tuneID, userEmail, 'know');
   };
 
-  const onLearnHandle = (tuneID: number, userEmail: string) => {
+  const onStarHandle = (tuneID: number, userEmail: string) => {
+    let newMapStar = mapLearn.slice();
+    newMapStar.push(tuneID);
+    setMapLearn(newMapStar);
     addTune(tuneID, userEmail, 'learn');
   };
 
@@ -178,46 +181,20 @@ const Tunes: NextPage<{}> = () => {
                     scope='row'
                     sx={{ padding: '0', margin: '0' }}
                   >
-                    <Button
-                      size='small'
-                      variant='text'
-                      sx={{
-                        padding: '0',
-                        margin: '0',
-                        color: 'primary.main',
-                      }}
-                      onClick={() => onLearnHandle(tune.id, user.email)}
+                    <LearnButton
+                      primary={mapLearn.includes(tune.id)}
+                      onClick={() => onStarHandle(tune.id, user.email)}
                     >
-                      {mapLearn.includes(tune.id) ? (
-                        <StarIcon />
-                      ) : (
-                        <StarBorderIcon />
-                      )}
-                    </Button>
+                      <StarIcon />
+                    </LearnButton>
                   </TableCell>
                   <TableCell component='th' scope='row'>
-                    {mapKnow.includes(tune.id) ? (
-                      <Button
-                        size='small'
-                        variant='outlined'
-                        sx={{ color: 'secondary.main' }}
-                        onClick={() => onKnowHandle(tune.id, user.email)}
-                      >
-                        Know
-                      </Button>
-                    ) : (
-                      <Button
-                        size='small'
-                        sx={{
-                          color: 'text.primary',
-                          backgroundColor: 'primary.main',
-                        }}
-                        variant='contained'
-                        onClick={() => onKnowHandle(tune.id, user.email)}
-                      >
-                        Know
-                      </Button>
-                    )}
+                    <KnowButton
+                      primary={mapKnow.includes(tune.id)}
+                      onClick={() => onKnowHandle(tune.id, user.email)}
+                    >
+                      know
+                    </KnowButton>
                   </TableCell>
                   <TableCell>{tune.type}</TableCell>
                 </TableRow>
@@ -249,4 +226,39 @@ const Tunes: NextPage<{}> = () => {
     return <LoadingSpinner />;
   }
 };
+
+const KnowButton = styled('button')((props) => ({
+  backgroundColor: props.primary ? 'inherit' : props.theme.palette.primary.main,
+  padding: '5px 10px',
+  border: 'none',
+  borderRadius: '3px',
+  boxShadow: '1px 1px 0px deeppink',
+
+  '&:hover': {
+    backgroundColor: props.primary
+      ? props.theme.palette.primary.light
+      : props.theme.palette.primary.dark,
+    cursor: 'pointer',
+  },
+}));
+
+const LearnButton = styled('button')((props) => ({
+  backgroundColor: props.primary
+    ? props.theme.palette.primary.contrastText
+    : props.theme.palette.primary.main,
+  color: props.primary
+    ? props.theme.palette.primary.main
+    : props.theme.palette.primary.contrastText,
+  padding: '5px 10px',
+  border: 'none',
+  borderRadius: '3px',
+
+  '&:hover': {
+    backgroundColor: props.primary
+      ? props.theme.palette.primary.light
+      : props.theme.palette.primary.dark,
+    cursor: 'pointer',
+  },
+}));
+
 export default withPageAuthRequired<WithPageAuthRequiredProps>(Tunes);

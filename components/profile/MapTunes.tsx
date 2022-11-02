@@ -1,9 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
-import { A } from 'styles/theme';
 
 export const MapTunes = (props) => {
-  console.log('props', props);
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <Box

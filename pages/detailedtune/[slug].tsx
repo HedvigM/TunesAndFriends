@@ -11,6 +11,7 @@ import {
 import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { getMyCache } from 'services/functions';
+import { Image } from '@mui/icons-material';
 
 export const Music = (props) => {
   let lineBreak = (string: string) => {
@@ -20,21 +21,14 @@ export const Music = (props) => {
   useEffect(() => {
     const abcjsInit = async () => {
       const abcjs = await import('abcjs');
-      abcjs.renderAbc('paper', lineBreak(props.abcNotes));
-      console.log(props.abcNotes);
+      abcjs.renderAbc('paper', lineBreak(props.abcNotes), {
+        responsive: 'resize',
+      });
     };
     abcjsInit();
   }, []);
 
-  return (
-    <div
-      style={{
-        width: '100%',
-        backgroundColor: 'papayawhip',
-      }}
-      id='paper'
-    ></div>
-  );
+  return <div id='paper'></div>;
 };
 
 const detailedtune: NextPage<{}> = () => {
@@ -75,35 +69,32 @@ const detailedtune: NextPage<{}> = () => {
       >
         <Header />
 
-        <Container
-          sx={{
-            borderRadius: 2,
-            boxShadow: 5,
-            fontWeight: 'fontWeightLight',
-            width: '95%',
-            /* paddingY: '10px', */
-            /* marginY: '30px', */
-            /* flexGrow: '1',  */
-          }}
-        >
-          <Typography variant='h1' textAlign='center'>
-            {details.name}
-          </Typography>
-          <>
-            <Typography textAlign='left' variant='body1'>
-              Slug: {slug}
-            </Typography>
-            <Typography variant='body1' textAlign='left'>
-              {details.type}
-            </Typography>
-          </>
-        </Container>
-
-        <Box>
-          <Typography variant='body1'>{abc}</Typography>
-
+        <Container maxWidth='lg'>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Box
+              sx={{
+                width: '80%',
+              }}
+            >
+              <Typography variant='h1' textAlign='left'>
+                {details.name}
+              </Typography>
+              <Typography
+                variant='h2'
+                textAlign='left'
+                sx={{ padding: '20px 0' }}
+              >
+                {details.type}
+              </Typography>
+            </Box>
+          </Box>
           <Music abcNotes={abc} />
-        </Box>
+        </Container>
 
         <Footer />
       </Box>
