@@ -3,6 +3,8 @@ import {
   Box,
   Container,
   Pagination,
+  PaginationItem,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -21,21 +23,25 @@ import {
 } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
 import { addTune, getUser } from 'services/local';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
-import { User } from '@prisma/client';
 import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { getMyCache } from 'services/functions';
 import { styled } from '@mui/material';
+import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 
 const Tunes: NextPage<{}> = () => {
   const [popularList, setPopularList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
+  /* const [page, setPage] = useState(1); */
   const [mapStar, setMapStar] = useState([]);
   const [mapKnow, setMapKnow] = useState([]);
   const { user } = useUser();
+  const [statePage, setStatePage] = useState(1);
+  const router = useRouter();
+
+  const page = parseInt((router.query.page as string) || '1', 10);
+  console.log(mapKnow);
 
   useEffect(() => {
     setLoading(true);
@@ -70,13 +76,6 @@ const Tunes: NextPage<{}> = () => {
 
     getPopularTunes();
   }, [page]);
-
-  const onPaginationChangeHandle = (
-    event: React.ChangeEvent<unknown>,
-    value: number
-  ) => {
-    setPage(value);
-  };
 
   const onKnowHandle = (tuneID: number, userEmail: string) => {
     let newMapKnow = mapKnow.slice();
@@ -130,7 +129,7 @@ const Tunes: NextPage<{}> = () => {
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>
-                  <StarBorderIcon />
+                  <StarIcon />
                 </TableCell>
                 <TableCell>Know</TableCell>
                 <TableCell>Type</TableCell>
@@ -206,14 +205,23 @@ const Tunes: NextPage<{}> = () => {
               justifyContent: 'center',
             }}
           >
-            <Pagination
-              count={10}
-              page={page}
-              variant='outlined'
-              shape='rounded'
-              size='small'
-              onChange={onPaginationChangeHandle}
-            />
+            <Stack spacing={2}>
+              <Pagination
+                count={10}
+                page={page}
+                color='primary'
+                size='small'
+                renderItem={(item) => (
+                  <PaginationItem
+                    component={'a'}
+                    href={`/tunes${
+                      item.page === 1 ? '' : `?page=${item.page}`
+                    }`}
+                    {...item}
+                  />
+                )}
+              />
+            </Stack>
           </Box>
         </Container>
         <Footer />
