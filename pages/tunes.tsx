@@ -4,6 +4,7 @@ import {
   Container,
   Pagination,
   PaginationItem,
+  Skeleton,
   Stack,
   Table,
   TableBody,
@@ -25,14 +26,51 @@ import { useRouter } from 'next/router';
 import { addTune, getUser } from 'services/local';
 import StarIcon from '@mui/icons-material/Star';
 import { NextPage } from 'next';
-import { LoadingSpinner } from 'components/LoadingSpinner';
 import { getMyCache } from 'services/functions';
 import { styled } from '@mui/material';
+
+export const SkeletonTable = () => {
+  return (
+    <TableRow
+      sx={{
+        '&:last-child td, &:last-child th': { border: 0 },
+      }}
+    >
+      <TableCell component='th' scope='row'>
+        <Skeleton
+          variant='text'
+          animation='wave'
+          sx={{ width: '100%', margin: '0', fontSize: '1.3rem' }}
+        />
+      </TableCell>
+      <TableCell component='th' scope='row'>
+        <Skeleton
+          variant='text'
+          animation='wave'
+          sx={{ width: '100%', margin: '0', fontSize: '1.3rem' }}
+        />
+      </TableCell>
+      <TableCell component='th' scope='row'>
+        <Skeleton
+          variant='text'
+          animation='wave'
+          sx={{ width: '100%', margin: '0', fontSize: '1.3rem' }}
+        />
+      </TableCell>
+      <TableCell component='th' scope='row'>
+        <Skeleton
+          variant='text'
+          animation='wave'
+          sx={{ width: '100%', margin: '0', fontSize: '1.3rem' }}
+        />
+      </TableCell>
+    </TableRow>
+  );
+};
 
 const Tunes: NextPage<{}> = () => {
   const [popularList, setPopularList] = useState([]);
   const [loading, setLoading] = useState(true);
-  /* const [page, setPage] = useState(1); */
   const [mapStar, setMapStar] = useState([]);
   const [mapKnow, setMapKnow] = useState([]);
   const { user } = useUser();
@@ -89,7 +127,7 @@ const Tunes: NextPage<{}> = () => {
     addTune(tuneID, userEmail, 'learn');
   };
 
-  if (popularList && mapStar && mapKnow && !loading) {
+  if (popularList.length > 0 && mapStar && mapKnow && !loading) {
     return (
       <Box
         sx={{
@@ -104,13 +142,9 @@ const Tunes: NextPage<{}> = () => {
         <Container
           maxWidth='sm'
           sx={{
-            borderRadius: 2,
-            boxShadow: 20,
-            fontWeight: 'fontWeightLight',
             width: '95%',
             paddingY: '10px',
             marginY: '30px',
-            backgroundColor: 'primary.contrastText',
           }}
         >
           <Typography textAlign='center' variant='h1'>
@@ -126,7 +160,13 @@ const Tunes: NextPage<{}> = () => {
             >
               <TableRow>
                 <TableCell>Name</TableCell>
-                <TableCell>
+                <TableCell
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
                   <StarIcon />
                 </TableCell>
                 <TableCell>Know</TableCell>
@@ -173,7 +213,10 @@ const Tunes: NextPage<{}> = () => {
                   <TableCell
                     component='th'
                     scope='row'
-                    sx={{ padding: '0', margin: '0' }}
+                    sx={{
+                      padding: '0',
+                      margin: '0',
+                    }}
                   >
                     <LearnButton
                       included={mapStar.includes(tune.id)}
@@ -226,7 +269,87 @@ const Tunes: NextPage<{}> = () => {
       </Box>
     );
   } else {
-    return <LoadingSpinner />;
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          height: '100vh',
+        }}
+      >
+        <Header />
+        <Container
+          maxWidth='sm'
+          sx={{
+            width: '95%',
+            paddingY: '10px',
+            marginY: '30px',
+          }}
+        >
+          <Typography textAlign='center' variant='h1'>
+            Popular tunes
+          </Typography>
+
+          <Table size='small' sx={{ margin: '0', padding: '0' }}>
+            <TableHead
+              sx={{
+                padding: '0',
+                margin: '0',
+              }}
+            >
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>
+                  <StarIcon />
+                </TableCell>
+                <TableCell>Know</TableCell>
+                <TableCell>Type</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <SkeletonTable />
+              <SkeletonTable />
+              <SkeletonTable />
+              <SkeletonTable />
+              <SkeletonTable />
+              <SkeletonTable />
+              <SkeletonTable />
+              <SkeletonTable />
+              <SkeletonTable />
+              <SkeletonTable />
+            </TableBody>
+          </Table>
+
+          <Box
+            sx={{
+              paddingTop: '50px',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Stack spacing={2}>
+              <Pagination
+                count={10}
+                page={page}
+                color='primary'
+                size='small'
+                renderItem={(item) => (
+                  <PaginationItem
+                    component={'a'}
+                    href={`/tunes${
+                      item.page === 1 ? '' : `?page=${item.page}`
+                    }`}
+                    {...item}
+                  />
+                )}
+              />
+            </Stack>
+          </Box>
+        </Container>
+        <Footer />
+      </Box>
+    );
   }
 };
 
