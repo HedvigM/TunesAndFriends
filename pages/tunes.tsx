@@ -28,7 +28,6 @@ import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { getMyCache } from 'services/functions';
 import { styled } from '@mui/material';
-import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 
 const Tunes: NextPage<{}> = () => {
   const [popularList, setPopularList] = useState([]);
@@ -41,7 +40,6 @@ const Tunes: NextPage<{}> = () => {
   const router = useRouter();
 
   const page = parseInt((router.query.page as string) || '1', 10);
-  console.log(mapKnow);
 
   useEffect(() => {
     setLoading(true);

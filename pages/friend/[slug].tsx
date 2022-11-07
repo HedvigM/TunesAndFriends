@@ -9,7 +9,7 @@ import {
   WithPageAuthRequiredProps,
 } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
-import { addNewRelation, getUser, getUserById } from 'services/local';
+import { addNewRelation, getUser } from 'services/local';
 import { Prisma } from '@prisma/client';
 import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
@@ -41,7 +41,7 @@ const Friend: NextPage<{}> = () => {
   databaseUser = loged in friend
   */
 
-  /* At the moment this exact function is in two places. fetching users the same way "friend" or loged in user.Dont use getUserById at all anymore?? */
+  /* At the moment this exact function is in two places. fetching users the same way "friend" or loged in user. */
   useEffect(() => {
     const fetchUser = async () => {
       if (slug) {
