@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import {
   Box,
+  Skeleton,
   Table,
   TableBody,
   TableCell,
@@ -65,9 +66,6 @@ const Friends: NextPage<{}> = () => {
         <Container
           maxWidth='sm'
           sx={{
-            borderRadius: 2,
-            boxShadow: 20,
-            fontWeight: 'fontWeightLight',
             width: '75%',
             paddingY: '10px',
             marginY: '30px',
@@ -87,7 +85,7 @@ const Friends: NextPage<{}> = () => {
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>town</TableCell>
-                <TableCell>friends?</TableCell>
+                <TableCell>friends</TableCell>
               </TableRow>
             </TableHead>
             {usersList
@@ -157,7 +155,51 @@ const Friends: NextPage<{}> = () => {
       </Box>
     );
   } else {
-    return <LoadingSpinner />;
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          height: '100vh',
+        }}
+      >
+        <Header />
+        <Container
+          maxWidth='sm'
+          sx={{
+            width: '75%',
+            paddingY: '10px',
+            marginY: '30px',
+          }}
+        >
+          <Typography textAlign='center' variant='h1'>
+            The Friends page
+          </Typography>
+
+          <Skeleton
+            variant='rectangular'
+            animation='wave'
+            height={30}
+            sx={{ width: '100%', margin: ' 5px 0' }}
+          />
+          <Skeleton
+            variant='rectangular'
+            animation='wave'
+            height={30}
+            sx={{ width: '100%', margin: '5px 0' }}
+          />
+          <Skeleton
+            variant='rectangular'
+            animation='wave'
+            height={30}
+            sx={{ width: '100%', margin: '5px 0' }}
+          />
+        </Container>
+
+        <Footer />
+      </Box>
+    );
   }
 };
 
