@@ -133,7 +133,7 @@ const Friends: NextPage<{}> = () => {
                     <TableCell component='th' scope='row'>
                       {' '}
                       <FriendsButton
-                        primary={mapFriendsId.includes(
+                        included={mapFriendsId.includes(
                           fetchedListOfFriends.auth0UserId
                         )}
                         onClick={() => {
@@ -161,15 +161,23 @@ const Friends: NextPage<{}> = () => {
   }
 };
 
-const FriendsButton = styled('button')((props) => ({
-  backgroundColor: props.primary ? 'inherit' : props.theme.palette.primary.main,
+interface buttonProps {
+  readonly included: boolean;
+}
+
+const FriendsButton = styled('button', {
+  shouldForwardProp: (prop) => prop !== 'included',
+})<buttonProps>((props) => ({
+  backgroundColor: props.included
+    ? 'inherit'
+    : props.theme.palette.primary.main,
   padding: '5px 10px',
   border: 'none',
   borderRadius: '3px',
   boxShadow: '1px 1px 0px deeppink',
 
   '&:hover': {
-    backgroundColor: props.primary
+    backgroundColor: props.included
       ? props.theme.palette.primary.light
       : props.theme.palette.primary.dark,
     cursor: 'pointer',
