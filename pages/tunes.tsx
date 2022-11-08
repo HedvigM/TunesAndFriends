@@ -74,7 +74,6 @@ const Tunes: NextPage<{}> = () => {
   const [mapStar, setMapStar] = useState([]);
   const [mapKnow, setMapKnow] = useState([]);
   const { user } = useUser();
-  const [statePage, setStatePage] = useState(1);
   const router = useRouter();
 
   const page = parseInt((router.query.page as string) || '1', 10);

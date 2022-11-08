@@ -130,7 +130,7 @@ const Account: NextPage<{}> = () => {
                     <TableCell
                       component='th'
                       scope='row'
-                      sx={{ padding: '0', margin: '0' }}
+                      sx={{ padding: '5px', margin: '0' }}
                     >
                       Given name:
                     </TableCell>
