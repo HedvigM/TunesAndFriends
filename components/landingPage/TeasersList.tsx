@@ -1,15 +1,53 @@
 import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 import { styled } from '@mui/material/styles';
+import { getUser } from 'services/local';
 
 export const TeasersList = () => {
   const { user } = useUser();
+  const [loading, setLoading] = useState(true);
+  const [logedinUser, setLogedinUser] = useState([]);
+  const [mapFollowing, setMapFollowing] = useState([]);
+
+  console.log('mapFollowing', mapFollowing);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      setLoading(true);
+      if (user) {
+        const fetchedUser = await getUser(user.sid as string);
+        if (fetchedUser.success) {
+          setLogedinUser(fetchedUser.data);
+          setMapFollowing(
+            fetchedUser.data.following.map(
+              (followedUsers: { name: string }) => {
+                return followedUsers.name;
+              }
+            )
+          );
+
+          /*      Promise.all(
+            fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
+              getMyCache(TUNE_URL(tunes.sessionId)).then((response) => {
+                return response.name;
+              })
+            )
+          ).then((values) => {
+            setKnowTuneNames(values);
+          }); */
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchUser();
+  }, [user]);
 
   return (
     <>
-      {user ? (
+      {user && mapFollowing ? (
         <>
           <Typography variant={'h1'} sx={{ padding: '10%' }}>
             Welcome, {user.given_name} to the Tunes and friends community!
@@ -22,6 +60,13 @@ export const TeasersList = () => {
                 Your three newest friends:
               </Typography>
             </ContentBox>
+            <Box sx={{ padding: '0 0 0 60px' }}>
+              {mapFollowing.map((friends) => (
+                <Typography key={friends} sx={{ whiteSpace: 'nowrap' }}>
+                  ⭐️ {friends}
+                </Typography>
+              ))}
+            </Box>
             <ContentBox>
               <EmojiBox sx={{ backgroundColor: 'mediumaquamarine' }}>
                 ☀️
@@ -30,6 +75,11 @@ export const TeasersList = () => {
                 Your latest starred tunes:
               </Typography>
             </ContentBox>
+            <Box sx={{ padding: '0 0 0 60px' }}>
+              <Typography sx={{ whiteSpace: 'nowrap' }}>🎻 tunes</Typography>
+              <Typography sx={{ whiteSpace: 'nowrap' }}>🎻 tunes</Typography>
+              <Typography sx={{ whiteSpace: 'nowrap' }}>🎻 tunes</Typography>
+            </Box>
 
             <ContentBox>
               <EmojiBox sx={{ backgroundColor: 'gold' }}>🦄</EmojiBox>
@@ -37,6 +87,11 @@ export const TeasersList = () => {
                 Your three latest tunes:
               </Typography>
             </ContentBox>
+            <Box sx={{ padding: '0 0 0 60px' }}>
+              <Typography sx={{ whiteSpace: 'nowrap' }}>🎻 tunes</Typography>
+              <Typography sx={{ whiteSpace: 'nowrap' }}>🎻 tunes</Typography>
+              <Typography sx={{ whiteSpace: 'nowrap' }}>🎻 tunes</Typography>
+            </Box>
             <ContentBox>
               <EmojiBox sx={{ backgroundColor: 'thistle' }}>✨</EmojiBox>
             </ContentBox>
