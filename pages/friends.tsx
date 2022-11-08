@@ -83,9 +83,15 @@ const Friends: NextPage<{}> = () => {
               }}
             >
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>town</TableCell>
-                <TableCell>friends</TableCell>
+                <TableCell sx={{ padding: '0 3px', margin: '0' }}>
+                  Name
+                </TableCell>
+                <TableCell sx={{ padding: '0 3px', margin: '0' }}>
+                  town
+                </TableCell>
+                <TableCell sx={{ padding: '0 3px', margin: '0' }}>
+                  friends
+                </TableCell>
               </TableRow>
             </TableHead>
             {usersList
@@ -93,7 +99,16 @@ const Friends: NextPage<{}> = () => {
               .map((fetchedListOfFriends) => (
                 <TableBody key={fetchedListOfFriends.auth0UserId}>
                   <TableRow>
-                    <TableCell component='th' scope='row'>
+                    <TableCell
+                      component='th'
+                      scope='row'
+                      sx={{
+                        padding: '5px 0',
+                        margin: '0',
+                        maxWidth: '150px',
+                        overflow: 'hidden',
+                      }}
+                    >
                       <Link
                         href={{
                           pathname: `/friend/[slug]`,
@@ -125,10 +140,18 @@ const Friends: NextPage<{}> = () => {
                         </Typography>
                       </Link>
                     </TableCell>
-                    <TableCell component='th' scope='row'>
+                    <TableCell
+                      component='th'
+                      scope='row'
+                      sx={{ padding: '5px', margin: '0' }}
+                    >
                       {fetchedListOfFriends.town}
                     </TableCell>
-                    <TableCell component='th' scope='row'>
+                    <TableCell
+                      component='th'
+                      scope='row'
+                      sx={{ padding: '0', margin: '0' }}
+                    >
                       {' '}
                       <FriendsButton
                         included={mapFriendsId.includes(
