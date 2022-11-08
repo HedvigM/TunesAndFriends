@@ -26,12 +26,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Link from 'next/link';
-import { addUser, getUser } from 'services/local';
-import { User } from '@prisma/client';
+import { addUser } from 'services/local';
 
 export const Header = () => {
   const { user, isLoading } = useUser();
-  const [loading, setLoading] = useState(false);
   const [drawer, setDrawer] = useState(false);
 
   /* clean the code below up a bit */
@@ -73,7 +71,12 @@ export const Header = () => {
           backgroundColor: 'primary.main',
         }}
       >
-        <Toolbar>
+        <Toolbar
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-around',
+          }}
+        >
           <IconButton
             size='large'
             edge='start'
@@ -89,8 +92,7 @@ export const Header = () => {
               noWrap
               component='div'
               sx={{
-                flexGrow: 1,
-                display: { xs: 'none', sm: 'block' },
+                display: { xs: 'none', sm: 'inline' },
                 textDecoration: 'none',
                 color: 'black',
                 ':hover': {
