@@ -15,7 +15,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import { Header } from 'components/Header';
 import { Footer } from 'components/Footer';
 import {
@@ -30,7 +29,6 @@ import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 
 const Account: NextPage<{}> = () => {
-  const router = useRouter();
   const { user } = useUser();
   const [town, setTown] = useState('');
   const [profileText, setProfileText] = useState('');
@@ -84,7 +82,6 @@ const Account: NextPage<{}> = () => {
           sx={{
             borderRadius: 2,
             boxShadow: 20,
-            fontWeight: 'fontWeightLight',
             minWidth: '350px',
             width: '75%',
             paddingY: '10px',
@@ -104,13 +101,16 @@ const Account: NextPage<{}> = () => {
             >
               <Avatar
                 alt='users avatar'
-                sx={{ width: 200, height: 200 }}
+                sx={{
+                  width: { xs: '100px', sm: '200px' },
+                  height: { xs: '100px', sm: '200px' },
+                }}
                 src={user.picture}
               />
             </Box>
             <Box
               sx={{
-                paddingTop: '30px',
+                padding: '30px 10px',
                 display: 'flex',
                 justifyContent: 'center',
               }}
@@ -123,12 +123,18 @@ const Account: NextPage<{}> = () => {
               >
                 <TableBody>
                   <TableRow
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    sx={{
+                      '&:last-child td, &:last-child th': { border: 0 },
+                    }}
                   >
-                    <TableCell component='th' scope='row'>
+                    <TableCell
+                      component='th'
+                      scope='row'
+                      sx={{ padding: '0', margin: '0' }}
+                    >
                       Given name:
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ padding: '5px', margin: '0' }}>
                       <Typography textAlign='left' variant='body1'>
                         {user.given_name}
                       </Typography>
@@ -137,10 +143,14 @@ const Account: NextPage<{}> = () => {
                   <TableRow
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    <TableCell component='th' scope='row'>
+                    <TableCell
+                      component='th'
+                      scope='row'
+                      sx={{ padding: '5px', margin: '0' }}
+                    >
                       Family Name:
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ padding: '5px', margin: '0' }}>
                       <Typography textAlign='left' variant='body1'>
                         {user.family_name}
                       </Typography>
@@ -150,10 +160,14 @@ const Account: NextPage<{}> = () => {
                   <TableRow
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    <TableCell component='th' scope='row'>
+                    <TableCell
+                      component='th'
+                      scope='row'
+                      sx={{ padding: '5px', margin: '0' }}
+                    >
                       Nickname:
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ padding: '5px', margin: '0' }}>
                       <Typography textAlign='left' variant='body1'>
                         {user.nickname}
                       </Typography>
@@ -161,12 +175,18 @@ const Account: NextPage<{}> = () => {
                   </TableRow>
 
                   <TableRow
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    sx={{
+                      '&:last-child td, &:last-child th': { border: 0 },
+                    }}
                   >
-                    <TableCell component='th' scope='row'>
+                    <TableCell
+                      component='th'
+                      scope='row'
+                      sx={{ padding: '5px', margin: '0' }}
+                    >
                       Email:
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ padding: '5px', margin: '0' }}>
                       <Typography textAlign='left' variant='body1'>
                         {user.email}
                       </Typography>
@@ -175,16 +195,7 @@ const Account: NextPage<{}> = () => {
 
                   <TableRow
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    <TableCell component='th' scope='row'>
-                      Languae:
-                    </TableCell>
-                    <TableCell>
-                      <Typography textAlign='left' variant='body1'>
-                        {user.locale}
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
+                  ></TableRow>
                 </TableBody>
               </Table>
             </Box>
@@ -195,12 +206,13 @@ const Account: NextPage<{}> = () => {
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-evenly',
-              padding: '30px',
+              padding: '10px',
             }}
           >
             <TextField
               margin='normal'
               id='outlined'
+              size='small'
               label='Town'
               value={town}
               onChange={(event) => setTown(event.target.value)}
@@ -209,6 +221,7 @@ const Account: NextPage<{}> = () => {
             <TextField
               margin='normal'
               id='outlined'
+              size='small'
               label='Presentation'
               value={profileText}
               onChange={(event) => setProfileText(event.target.value)}
@@ -217,7 +230,7 @@ const Account: NextPage<{}> = () => {
             <Button
               variant='contained'
               onClick={() => handleChange()}
-              sx={{ color: 'text.primary' }}
+              sx={{ color: 'text.primary', marginTop: '10px' }}
             >
               Save
             </Button>
