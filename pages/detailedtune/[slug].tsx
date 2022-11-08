@@ -36,7 +36,6 @@ const detailedtune: NextPage<{}> = () => {
     name: 'Loading...',
     type: 'Loading...',
   });
-  const [key, setKey] = useState('');
   const [abc, setAbc] = useState(
     '|:E2BE dEBE|E2BE AFDF|E2BE dEBE|BABc dAFD:|!d2fd c2ec|defg afge|d2fd c2ec|BABc dAFA|!d2fd c2ec|defg afge|afge fdec|BABc dAFD|'
   );
@@ -96,17 +95,18 @@ const detailedtune: NextPage<{}> = () => {
             </Box>
           </Box>
           <Music abcNotes={abc} />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'left',
+              padding: '15px 0',
+            }}
+          >
+            <Button size='small' variant='contained' onClick={onClickHandle}>
+              Back
+            </Button>
+          </Box>
         </Container>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <Button size='large' variant='contained' onClick={onClickHandle}>
-            Back
-          </Button>
-        </Box>
 
         <Footer />
       </Box>
