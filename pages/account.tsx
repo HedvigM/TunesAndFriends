@@ -49,8 +49,12 @@ const Account: NextPage<{}> = () => {
         const fetchedUser = await getUser(user.sid as string);
         if (fetchedUser.success) {
           setDatabaseUser(fetchedUser.data);
-          setTown(fetchedUser.data.town);
-          setProfileText(fetchedUser.data.profileText);
+          if (fetchedUser.data?.town) {
+            setTown(fetchedUser.data.town);
+          }
+          if (fetchedUser.data?.profileText) {
+            setProfileText(fetchedUser.data.profileText);
+          }
         }
       }
     };
