@@ -35,10 +35,11 @@ const Friends: NextPage<{}> = () => {
     const getUsersList = async (user) => {
       const data = await getCachedListOfUsers(user);
       setUsersList(data);
+
       setMapFriendsId(data.map((user) => user.auth0UserId));
-      setLoading(false);
     };
     getUsersList(user);
+    setLoading(false);
   }, []);
 
   const onClickHandle = (

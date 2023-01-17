@@ -148,7 +148,7 @@ export const Header = () => {
                 <Link
                   href={{
                     pathname: `/friend/[slug]`,
-                    query: { slug: `${user.sid}` },
+                    query: { slug: `${user.sub}` },
                   }}
                 >
                   <Typography textAlign='center'>{'Profile'}</Typography>

@@ -69,7 +69,7 @@ const Friend: NextPage<{}> = () => {
     const fetchUser = async () => {
       setLoading(true);
       if (user) {
-        const fetchedUser = await getUser(user.sid as string);
+        const fetchedUser = await getUser(user.sub as string);
         if (fetchedUser.success) {
           setDatabaseUser(fetchedUser.data);
           setMapFollowing(

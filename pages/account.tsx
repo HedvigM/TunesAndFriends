@@ -46,7 +46,7 @@ const Account: NextPage<{}> = () => {
   useEffect(() => {
     const fetchUser = async () => {
       if (user) {
-        const fetchedUser = await getUser(user.sid as string);
+        const fetchedUser = await getUser(user.sub as string);
         if (fetchedUser.success) {
           setDatabaseUser(fetchedUser.data);
           if (fetchedUser.data?.town) {

@@ -15,7 +15,7 @@ export const addUser = (user: UserProfile) => {
     body: JSON.stringify({
       name: user.name,
       email: user.email,
-      auth0UserId: user.sid,
+      auth0UserId: user.sub,
     }),
   };
   fetch(url, options)

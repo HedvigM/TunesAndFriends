@@ -11,15 +11,14 @@ export const TeasersList = () => {
   const [logedinUser, setLogedinUser] = useState([]);
   const [mapFollowing, setMapFollowing] = useState([]);
 
-  console.log('mapFollowing', mapFollowing);
-
   useEffect(() => {
     const fetchUser = async () => {
       setLoading(true);
       if (user) {
         const fetchedUser = await getUser(user.sid as string);
-        if (fetchedUser.success) {
+        if (fetchedUser.data) {
           setLogedinUser(fetchedUser.data);
+          console.log('fetched user', fetchedUser);
           setMapFollowing(
             fetchedUser.data.following.map(
               (followedUsers: { name: string }) => {
@@ -48,7 +47,7 @@ export const TeasersList = () => {
   return (
     <>
       {user && mapFollowing ? (
-        <>
+        <div style={{ border: '1px solid lime' }}>
           <Typography variant={'h1'} sx={{ padding: '10%' }}>
             Welcome, {user.given_name} to the Tunes and friends community!
           </Typography>
@@ -92,11 +91,11 @@ export const TeasersList = () => {
               <Typography sx={{ whiteSpace: 'nowrap' }}>🎻 tunes</Typography>
               <Typography sx={{ whiteSpace: 'nowrap' }}>🎻 tunes</Typography>
             </Box>
-            <ContentBox>
+            <ContentBox sx={{ border: '1px solid lime' }}>
               <EmojiBox sx={{ backgroundColor: 'thistle' }}>✨</EmojiBox>
             </ContentBox>
           </Box>
-        </>
+        </div>
       ) : (
         <ComponentContainer>
           <GridContainer>

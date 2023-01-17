@@ -82,20 +82,18 @@ const Tunes: NextPage<{}> = () => {
     setLoading(true);
     const fetchUserWithId = async () => {
       if (user) {
-        const newUserWithId = await getUser(user.sid as string);
-        if (newUserWithId.success) {
-          setMapStar(
-            newUserWithId.data.starredTunes.map(
-              (tunes: { sessionId: number }) => tunes.sessionId
-            )
+        const newUserWithId = await getUser(user?.sub as string);
+        if (newUserWithId.success !== undefined) {
+          let newStarredTunes = await newUserWithId.data?.starredTunes?.map(
+            (tunes: { sessionId: number }) => tunes.sessionId
           );
-          setMapKnow(
-            newUserWithId.data.knowTunes.map(
-              (tunes: { sessionId: number }) => tunes.sessionId
-            )
+          setMapStar(newStarredTunes);
+          let newKnowTunes = await newUserWithId.data?.knowTunes?.map(
+            (tunes: { sessionId: number }) => tunes.sessionId
           );
-          setLoading(false);
+          setMapKnow(newKnowTunes);
         }
+        setLoading(false);
       }
     };
 
