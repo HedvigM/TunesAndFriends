@@ -12,7 +12,7 @@ export default class MyDocument extends Document {
     ctx.renderPage = () =>
       originalRenderPage({
         // eslint-disable-next-line react/display-name
-        enhanceApp: (App) => (props) => <App emotionCache={cache} {...props} />
+        enhanceApp: (App) => (props) => <App emotionCache={cache} {...props} />,
       });
 
     const initialProps = await Document.getInitialProps(ctx);
@@ -29,19 +29,19 @@ export default class MyDocument extends Document {
       ...initialProps,
       styles: [
         ...React.Children.toArray(initialProps.styles),
-        ...emotionStyleTags
-      ]
+        ...emotionStyleTags,
+      ],
     };
   }
 
   render() {
     return (
-      <Html lang="en">
+      <Html lang='en'>
         <Head>
-          <meta charSet="utf-8" />
+          <meta charSet='utf-8' />
           <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel='stylesheet'
+            href='https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap'
           />
         </Head>
         <body>

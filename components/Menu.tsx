@@ -23,6 +23,23 @@ export const Menu = () => {
   return user ? (
     <Box>
       <OuterContainer>
+        <LinkContainer href='/test'>
+          <Link href='/test'>
+            <Typography
+              variant='body1'
+              noWrap
+              sx={{
+                textDecoration: 'none',
+                color: 'black',
+                display: 'flex',
+                justifyContent: 'center',
+                alignContent: 'center',
+              }}
+            >
+              <HomeIcon />
+            </Typography>
+          </Link>
+        </LinkContainer>
         <LinkContainer href='/friends'>
           <Link href='/friends'>
             <Typography
@@ -57,23 +74,7 @@ export const Menu = () => {
             </Typography>
           </Link>
         </LinkContainer>
-        <LinkContainer href='/test'>
-          <Link href='/test'>
-            <Typography
-              variant='body1'
-              noWrap
-              sx={{
-                textDecoration: 'none',
-                color: 'black',
-                display: 'flex',
-                justifyContent: 'center',
-                alignContent: 'center',
-              }}
-            >
-              <HomeIcon />
-            </Typography>
-          </Link>
-        </LinkContainer>
+
         <LinkContainer href='/inställningar'>
           <Link href='/inställningar'>
             <Typography
@@ -104,14 +105,6 @@ export const Menu = () => {
     >
       <Link href='/api/auth/login'>
         <Div index='1'>
-          {/*   <Button
-          size='small'
-          variant='contained'
-          href='/api/auth/login'
-          sx={{ color: 'text.primary', margin: '10px 0' }}
-        >
-          Logga in
-        </Button> */}
           <Typography
             variant='h1'
             noWrap
@@ -121,9 +114,10 @@ export const Menu = () => {
               display: 'flex',
               justifyContent: 'center',
               alignContent: 'center',
+              fontWeight: '400',
             }}
           >
-            Log in
+            LOG IN
           </Typography>
         </Div>
       </Link>
@@ -138,9 +132,10 @@ export const Menu = () => {
               display: 'flex',
               justifyContent: 'center',
               alignContent: 'center',
+              fontWeight: '400',
             }}
           >
-            About
+            ABOUT
           </Typography>
         </Link>
       </Div>
@@ -155,9 +150,10 @@ export const Menu = () => {
               display: 'flex',
               justifyContent: 'center',
               alignContent: 'center',
+              fontWeight: '400',
             }}
           >
-            Hello
+            HELLO
           </Typography>
         </Link>
       </Div>
@@ -172,9 +168,10 @@ export const Menu = () => {
               display: 'flex',
               justifyContent: 'center',
               alignContent: 'center',
+              fontWeight: '400',
             }}
           >
-            Party
+            PARTY
           </Typography>
         </Link>
       </Div>

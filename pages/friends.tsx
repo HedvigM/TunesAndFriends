@@ -24,6 +24,7 @@ import { LoadingSpinner } from 'components/LoadingSpinner';
 import { getCachedListOfUsers } from 'services/functions';
 import { styled } from '@mui/material';
 import { Menu } from 'components/Menu';
+import { Header2 } from 'components/Header2';
 
 const Friends: NextPage<{}> = () => {
   const [usersList, setUsersList] = useState([]);
@@ -72,9 +73,7 @@ const Friends: NextPage<{}> = () => {
             marginY: '30px',
           }}
         >
-          <Typography textAlign='center' variant='h1'>
-            The Friends page
-          </Typography>
+          <Header2>Friends</Header2>
 
           <Table size='small' sx={{ margin: '0', padding: '0' }}>
             <TableHead

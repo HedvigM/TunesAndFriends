@@ -5,12 +5,14 @@ import {
 import { Header } from 'components/Header';
 import { Header2 } from 'components/Header2';
 import { Menu } from 'components/Menu';
+import { StyledTable } from 'components/Table';
 import { NextPage } from 'next';
 const Test: NextPage<{}> = () => {
   return (
     <>
       <Header />
-      <Header2 />
+      <Header2>Hej</Header2>
+      <StyledTable />
       <Menu />
     </>
   );
