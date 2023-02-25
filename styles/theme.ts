@@ -4,7 +4,11 @@ export const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#AED67A',
+      main: '#AED67A', //old green
+      first: '#D8F508', // yellow
+      second: '#9BBABB', // blue
+      third: '#111F22', // dark blus
+      fourth: '#D7D2BF', // light
       contrastText: '#F0F3EB'
     },
     secondary: {
@@ -15,13 +19,13 @@ export const theme = createTheme({
      primary: '#000',
      secondary: 'grey',
    },
-
   },
   typography: {
     fontSize: 16,
     h1: {
       fontSize: '2rem',
-      fontWeight: 700
+      fontWeight: 700,
+      fontFamily: 'monospace'
     },
     h2: {
       fontSize: '1.5rem',

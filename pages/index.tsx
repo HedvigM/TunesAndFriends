@@ -8,6 +8,7 @@ import { Header } from 'components/Header';
 import { TeasersList } from 'components/landingPage/TeasersList';
 import { Footer } from 'components/Footer';
 import { LoadingSpinner } from 'components/LoadingSpinner';
+import { Menu } from 'components/Menu';
 
 const IndexPage: NextPage<{}> = ({}) => {
   const { user, isLoading } = useUser();
@@ -22,7 +23,7 @@ const IndexPage: NextPage<{}> = ({}) => {
           height: '100vh',
         }}
       >
-        <Header />
+        <Menu />
         <Container maxWidth='md'>
           <Head>
             <title>Tunes & Friends</title>

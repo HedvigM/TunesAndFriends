@@ -159,11 +159,6 @@ export const Header = () => {
                   <Typography textAlign='center'>{'Account'}</Typography>
                 </Link>
               </MenuItem>
-              <MenuItem key={'daschboard'}>
-                <Link href='/daschboard'>
-                  <Typography textAlign='center'>{'Daschboard'}</Typography>
-                </Link>
-              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

@@ -23,6 +23,7 @@ import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { getCachedListOfUsers } from 'services/functions';
 import { styled } from '@mui/material';
+import { Menu } from 'components/Menu';
 
 const Friends: NextPage<{}> = () => {
   const [usersList, setUsersList] = useState([]);
@@ -36,7 +37,7 @@ const Friends: NextPage<{}> = () => {
       const data = await getCachedListOfUsers(user);
       setUsersList(data);
 
-      setMapFriendsId(data.map((user) => user.auth0UserId));
+      /* setMapFriendsId(data.map((user) => user.auth0UserId)); */
     };
     getUsersList(user);
     setLoading(false);
@@ -63,7 +64,6 @@ const Friends: NextPage<{}> = () => {
           height: '100vh',
         }}
       >
-        <Header />
         <Container
           maxWidth='sm'
           sx={{
@@ -175,7 +175,7 @@ const Friends: NextPage<{}> = () => {
           </Table>
         </Container>
 
-        <Footer />
+        <Menu />
       </Box>
     );
   } else {
