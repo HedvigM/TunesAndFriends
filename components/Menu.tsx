@@ -94,53 +94,109 @@ export const Menu = () => {
       </OuterContainer>
     </Box>
   ) : (
-    <Box
+    <Container
       sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'primary.main',
+        height: '100vh',
+        display: 'grid',
+        gridTemplateRows: '1fr 1fr 1fr 1fr',
+        padding: '0',
       }}
     >
-      <FlexCardContainer>
-        <Typography
-          variant='h1'
-          noWrap
-          component='div'
-          sx={{
-            display: { xs: 'block', sm: 'block' },
-            textDecoration: 'none',
-            color: 'black',
-            padding: '0 10px',
-          }}
-        >
-          Tunes & Friends
-        </Typography>
-        <Button
+      <Link href='/api/auth/login'>
+        <Div index='1'>
+          {/*   <Button
           size='small'
           variant='contained'
           href='/api/auth/login'
           sx={{ color: 'text.primary', margin: '10px 0' }}
         >
           Logga in
-        </Button>
-      </FlexCardContainer>
-    </Box>
+        </Button> */}
+          <Typography
+            variant='h1'
+            noWrap
+            sx={{
+              textDecoration: 'none',
+              color: 'black',
+              display: 'flex',
+              justifyContent: 'center',
+              alignContent: 'center',
+            }}
+          >
+            Log in
+          </Typography>
+        </Div>
+      </Link>
+      <Div index='2'>
+        <Link href='/friends'>
+          <Typography
+            variant='h1'
+            noWrap
+            sx={{
+              textDecoration: 'none',
+              color: 'black',
+              display: 'flex',
+              justifyContent: 'center',
+              alignContent: 'center',
+            }}
+          >
+            About
+          </Typography>
+        </Link>
+      </Div>
+      <Div index='3'>
+        <Link href='/friends'>
+          <Typography
+            variant='h1'
+            noWrap
+            sx={{
+              textDecoration: 'none',
+              color: 'white',
+              display: 'flex',
+              justifyContent: 'center',
+              alignContent: 'center',
+            }}
+          >
+            Hello
+          </Typography>
+        </Link>
+      </Div>
+      <Div index='4'>
+        <Link href='/friends'>
+          <Typography
+            variant='h1'
+            noWrap
+            sx={{
+              textDecoration: 'none',
+              color: 'black',
+              display: 'flex',
+              justifyContent: 'center',
+              alignContent: 'center',
+            }}
+          >
+            Party
+          </Typography>
+        </Link>
+      </Div>
+    </Container>
   );
 };
 
-const FlexCardContainer = styled('div')(({ theme }) => ({
+const Div = styled('div')(({ theme, index }) => ({
+  backgroundColor:
+    (index === '1' && theme.palette.primary.first) ||
+    (index === '2' && theme.palette.primary.second) ||
+    (index === '3' && theme.palette.primary.third) ||
+    (index === '4' && theme.palette.primary.fourth),
   display: 'flex',
-  justifyContent: 'flex-end',
+  justifyContent: 'center',
   alignItems: 'center',
-
-  [theme.breakpoints.up('sm')]: {
-    width: 345,
-  },
-  [theme.breakpoints.up('md')]: {
-    width: 700,
+  ':hover': {
+    cursor: 'pointer',
+    backgroundColor: theme.palette.primary.main,
   },
 }));
+
 const OuterContainer = styled('div')(({ theme }) => ({
   color: 'black',
   display: 'grid',
