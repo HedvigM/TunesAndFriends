@@ -5,15 +5,18 @@ import { LoadingSpinner } from './LoadingSpinner';
 interface TableProps {
   onClickHandle: (id: number) => void;
   know: boolean;
-  tune: {
+  pathname: string;
+  data: {
     name: 'string';
     id: number;
   };
 }
-export const StyledTable = ({ tune, onClickHandle, know }: TableProps) => {
-  if (!tune) {
-    return <LoadingSpinner />;
-  }
+export const StyledTable = ({
+  data,
+  onClickHandle,
+  know,
+  pathname,
+}: TableProps) => {
   return (
     <Table size='small' sx={{ margin: '0', padding: '0px' }}>
       <TableRow
@@ -27,8 +30,8 @@ export const StyledTable = ({ tune, onClickHandle, know }: TableProps) => {
         <TableCell component='th' scope='row'>
           <Link
             href={{
-              pathname: `/detailedtune/[slug]`,
-              query: { slug: `${tune.id}` },
+              pathname: `${pathname}`,
+              query: { slug: `${data.id}` },
             }}
           >
             <Typography
@@ -48,7 +51,7 @@ export const StyledTable = ({ tune, onClickHandle, know }: TableProps) => {
                 },
               }}
             >
-              {tune.name}
+              {data.name}
             </Typography>
           </Link>
         </TableCell>
@@ -61,7 +64,7 @@ export const StyledTable = ({ tune, onClickHandle, know }: TableProps) => {
             alignItems: 'center',
           }}
         >
-          <StyledButton know={know} onClick={() => onClickHandle(tune.id)}>
+          <StyledButton know={know} onClick={() => onClickHandle(data.id)}>
             add
           </StyledButton>
         </TableCell>

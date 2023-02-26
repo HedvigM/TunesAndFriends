@@ -11,8 +11,6 @@ import {
   Typography,
 } from '@mui/material';
 import Link from 'next/link';
-import { Header } from 'components/Header';
-import { Footer } from 'components/Footer';
 import {
   useUser,
   withPageAuthRequired,
@@ -25,12 +23,15 @@ import { getCachedListOfUsers } from 'services/functions';
 import { styled } from '@mui/material';
 import { Menu } from 'components/Menu';
 import { Header2 } from 'components/Header2';
+import { StyledTable } from 'components/Table';
 
 const Friends: NextPage<{}> = () => {
   const [usersList, setUsersList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [mapFriendsId, setMapFriendsId] = useState([]);
   const { user } = useUser();
+
+  /* console.log({ mapFriendsId }); */
 
   useEffect(() => {
     setLoading(true);
@@ -54,6 +55,7 @@ const Friends: NextPage<{}> = () => {
     setMapFriendsId(newMapFriendsId);
     addNewRelation(addingEmail, addedEmail);
   };
+  console.log({ usersList });
 
   if (usersList && !loading) {
     return (
@@ -75,25 +77,23 @@ const Friends: NextPage<{}> = () => {
         >
           <Header2>Friends</Header2>
 
+          {usersList
+            .filter((item) => item.email !== user.email)
+            .map((friend) => (
+              <StyledTable
+                onClickHandle={() => {}}
+                /*     onClick={() => {
+                  onClickHandle(
+                    user.email,
+                    fetchedListOfFriends.email,
+                    fetchedListOfFriends.auth0UserId
+                  ); */
+                know={mapFriendsId.includes(friend.auth0UserId)}
+                data={friend}
+                pathname='/friend/[slug]'
+              />
+            ))}
           <Table size='small' sx={{ margin: '0', padding: '0' }}>
-            <TableHead
-              sx={{
-                padding: '0',
-                margin: '0',
-              }}
-            >
-              <TableRow>
-                <TableCell sx={{ padding: '0 3px', margin: '0' }}>
-                  Name
-                </TableCell>
-                <TableCell sx={{ padding: '0 3px', margin: '0' }}>
-                  town
-                </TableCell>
-                <TableCell sx={{ padding: '0 3px', margin: '0' }}>
-                  friends
-                </TableCell>
-              </TableRow>
-            </TableHead>
             {usersList
               .filter((item) => item.email !== user.email)
               .map((fetchedListOfFriends) => (
@@ -187,7 +187,6 @@ const Friends: NextPage<{}> = () => {
           height: '100vh',
         }}
       >
-        <Header />
         <Container
           maxWidth='sm'
           sx={{
@@ -219,8 +218,6 @@ const Friends: NextPage<{}> = () => {
             sx={{ width: '100%', margin: '5px 0' }}
           />
         </Container>
-
-        <Footer />
       </Box>
     );
   }

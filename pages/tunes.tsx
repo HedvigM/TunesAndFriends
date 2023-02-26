@@ -104,9 +104,10 @@ const Tunes: NextPage<{}> = () => {
             {!popularList && <LoadingSpinner />}
             {popularList.map((tune) => (
               <StyledTable
-                tune={tune}
+                data={tune}
                 onClickHandle={onKnowHandle}
                 know={mapKnow.includes(tune.id)}
+                pathname='/detailedtune/[slug]'
               />
             ))}
           </div>
