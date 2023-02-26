@@ -1,10 +1,19 @@
 import { styled, Table, TableCell, TableRow, Typography } from '@mui/material';
 import Link from 'next/link';
+import { LoadingSpinner } from './LoadingSpinner';
 
 interface TableProps {
-  name: 'string';
+  onClickHandle: (id: number) => void;
+  know: boolean;
+  tune: {
+    name: 'string';
+    id: number;
+  };
 }
-export const StyledTable = (name: TableProps) => {
+export const StyledTable = ({ tune, onClickHandle, know }: TableProps) => {
+  if (!tune) {
+    return <LoadingSpinner />;
+  }
   return (
     <Table size='small' sx={{ margin: '0', padding: '0px' }}>
       <TableRow
@@ -19,6 +28,7 @@ export const StyledTable = (name: TableProps) => {
           <Link
             href={{
               pathname: `/detailedtune/[slug]`,
+              query: { slug: `${tune.id}` },
             }}
           >
             <Typography
@@ -38,7 +48,7 @@ export const StyledTable = (name: TableProps) => {
                 },
               }}
             >
-              {name.name}
+              {tune.name}
             </Typography>
           </Link>
         </TableCell>
@@ -51,7 +61,9 @@ export const StyledTable = (name: TableProps) => {
             alignItems: 'center',
           }}
         >
-          <StyledButton>add</StyledButton>
+          <StyledButton know={know} onClick={() => onClickHandle(tune.id)}>
+            add
+          </StyledButton>
         </TableCell>
       </TableRow>
     </Table>
@@ -59,9 +71,9 @@ export const StyledTable = (name: TableProps) => {
 };
 
 const StyledButton = styled('button')((props) => ({
-  backgroundColor: props.theme.palette.primary.second,
+  backgroundColor: props.know ? 'inherit' : props.theme.palette.primary.second,
   padding: '5px 10px',
-  border: 'none',
+  border: `1px solid ${props.theme.palette.primary.second}`,
   borderRadius: '3px',
 
   '&:hover': {
