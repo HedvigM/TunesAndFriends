@@ -202,10 +202,9 @@ const OuterContainer = styled('div')(({ theme }) => ({
 }));
 
 const LinkContainer = styled('div')(({ theme, href }) => ({
-  backgroundColor:
-    router.asPath === href
-      ? theme.palette.primary.first
-      : theme.palette.primary.second,
+  backgroundColor: router.asPath.includes(href)
+    ? theme.palette.primary.first
+    : theme.palette.primary.second,
   /* padding: theme.spacing(0, 2), */
   height: '100%',
   padding: '5px 10%',
