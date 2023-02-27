@@ -16,7 +16,7 @@ import {
   withPageAuthRequired,
   WithPageAuthRequiredProps,
 } from '@auth0/nextjs-auth0';
-import { addNewRelation } from 'services/local';
+import { addNewRelation, getUser } from 'services/local';
 import { NextPage } from 'next';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { getCachedListOfUsers } from 'services/functions';
@@ -42,18 +42,17 @@ const Friends: NextPage<{}> = () => {
   const [usersList, setUsersList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [mapFriendsId, setMapFriendsId] = useState([]);
+  const [friendsArray, setFiendsArray] = useState<string[]>([]);
   const { user } = useUser();
 
-  console.log({ mapFriendsId });
-  console.log({ usersList });
+  console.log({ friendsArray });
+  /* console.log({ usersList }); */
 
   useEffect(() => {
     setLoading(true);
     const getUsersList = async (user) => {
       const data = await getCachedListOfUsers(user);
       setUsersList(data);
-
-      /* setMapFriendsId(data.map((user) => user.auth0UserId)); */
     };
     getUsersList(user);
     setLoading(false);
@@ -64,11 +63,30 @@ const Friends: NextPage<{}> = () => {
     addedEmail: string,
     addedId: string
   ) => {
+    console.log('click!', addedId, addedEmail);
     let newMapFriendsId = mapFriendsId.slice();
     newMapFriendsId.push(addedId);
     setMapFriendsId(newMapFriendsId);
     addNewRelation(addingEmail, addedEmail);
   };
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchUserWithId = async () => {
+      if (user) {
+        const newUserWithId = await getUser(user?.sub as string);
+        if (newUserWithId.success !== undefined) {
+          let newFrindsArray = await newUserWithId.data?.following.map(
+            (friend: { auth0UserId: string }) => friend.auth0UserId
+          );
+          setFiendsArray(newFrindsArray);
+        }
+        setLoading(false);
+      }
+    };
+
+    fetchUserWithId();
+  }, [user]);
 
   if (usersList && !loading) {
     return (
@@ -93,98 +111,17 @@ const Friends: NextPage<{}> = () => {
           {usersList
             .filter((item) => item.email !== user.email)
             .map((friend) => (
-              <StyledTable
-                onClickHandle={() => {}}
-                /*     onClick={() => {
-                  onClickHandle(
-                    user.email,
-                    fetchedListOfFriends.email,
-                    fetchedListOfFriends.auth0UserId
-                  ); */
-                know={mapFriendsId.includes(friend.auth0UserId)}
-                data={friend}
-                pathname='/friend/[slug]'
-              />
+              <div style={{ marginTop: '20px' }}>
+                <StyledTable
+                  onClickHandle={() =>
+                    onClickHandle(user.email, friend.email, friend.auth0UserId)
+                  }
+                  know={friendsArray.includes(friend.auth0UserId)}
+                  data={friend}
+                  pathname='/friend/[slug]'
+                />
+              </div>
             ))}
-          <Table size='small' sx={{ margin: '0', padding: '0' }}>
-            {usersList
-              .filter((item) => item.email !== user.email)
-              .map((fetchedListOfFriends) => (
-                <TableBody key={fetchedListOfFriends.auth0UserId}>
-                  <TableRow>
-                    <TableCell
-                      component='th'
-                      scope='row'
-                      sx={{
-                        padding: '5px 0',
-                        margin: '0',
-                        maxWidth: '150px',
-                        overflow: 'hidden',
-                      }}
-                    >
-                      <Link
-                        href={{
-                          pathname: `/friend/[slug]`,
-                          query: {
-                            slug: `${fetchedListOfFriends.auth0UserId}`,
-                          },
-                        }}
-                      >
-                        <Typography
-                          variant='body1'
-                          sx={{
-                            fontSize: '1rem',
-                            fontWeight: 300,
-                            color: 'text.primary',
-                            display: 'inline',
-                            textAlign: 'center',
-                            fontFamily: 'Roboto',
-                            margin: '1px',
-                            padding: '0 3px',
-                            ':hover': {
-                              color: 'text.primary',
-                              backgroundColor: 'deeppink',
-                              cursor: 'pointer',
-                              padding: '0 3px',
-                            },
-                          }}
-                        >
-                          {fetchedListOfFriends.name}
-                        </Typography>
-                      </Link>
-                    </TableCell>
-                    <TableCell
-                      component='th'
-                      scope='row'
-                      sx={{ padding: '5px', margin: '0' }}
-                    >
-                      {fetchedListOfFriends.town}
-                    </TableCell>
-                    <TableCell
-                      component='th'
-                      scope='row'
-                      sx={{ padding: '0', margin: '0' }}
-                    >
-                      {' '}
-                      <FriendsButton
-                        included={mapFriendsId.includes(
-                          fetchedListOfFriends.auth0UserId
-                        )}
-                        onClick={() => {
-                          onClickHandle(
-                            user.email,
-                            fetchedListOfFriends.email,
-                            fetchedListOfFriends.auth0UserId
-                          );
-                        }}
-                      >
-                        know
-                      </FriendsButton>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              ))}
-          </Table>
         </Container>
 
         <Menu />

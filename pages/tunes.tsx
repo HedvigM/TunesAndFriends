@@ -48,13 +48,14 @@ const Tunes: NextPage<{}> = () => {
       if (user) {
         const newUserWithId = await getUser(user?.sub as string);
         if (newUserWithId.success !== undefined) {
-          let newStarredTunes = await newUserWithId.data?.starredTunes?.map(
+          /*   let newStarredTunes = await newUserWithId.data?.starredTunes?.map(
             (tunes: { sessionId: number }) => tunes.sessionId
-          );
-          setMapStar(newStarredTunes);
+          ); */
+          /* setMapStar(newStarredTunes); */
           let newKnowTunes = await newUserWithId.data?.knowTunes?.map(
             (tunes: { sessionId: number }) => tunes.sessionId
           );
+          console.log({ newUserWithId });
           setMapKnow(newKnowTunes);
         }
         setLoading(false);
