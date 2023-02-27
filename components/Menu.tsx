@@ -9,6 +9,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import PeopleIcon from '@mui/icons-material/People';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export const Menu = () => {
   const { user, isLoading } = useUser();
@@ -90,6 +91,9 @@ export const Menu = () => {
             >
               <SettingsSuggestIcon />
             </Typography>
+          </Link>
+          <Link href='/api/auth/logout'>
+            <LogoutIcon />
           </Link>
         </LinkContainer>
       </OuterContainer>

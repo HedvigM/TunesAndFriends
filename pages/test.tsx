@@ -12,7 +12,6 @@ const Test: NextPage<{}> = () => {
     <>
       <Header />
       <Header2>Hej</Header2>
-      <StyledTable />
       <Menu />
     </>
   );

@@ -25,13 +25,27 @@ import { Menu } from 'components/Menu';
 import { Header2 } from 'components/Header2';
 import { StyledTable } from 'components/Table';
 
+interface FriendsProps {
+  user: {
+    auth0UserId: string;
+    createdAt: Date;
+    email: string;
+    id: number;
+    name: string;
+    profileText?: string;
+    role: 'BASIC' | 'ADMIN';
+    town: 'string';
+  };
+}
+
 const Friends: NextPage<{}> = () => {
   const [usersList, setUsersList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [mapFriendsId, setMapFriendsId] = useState([]);
   const { user } = useUser();
 
-  /* console.log({ mapFriendsId }); */
+  console.log({ mapFriendsId });
+  console.log({ usersList });
 
   useEffect(() => {
     setLoading(true);
@@ -55,7 +69,6 @@ const Friends: NextPage<{}> = () => {
     setMapFriendsId(newMapFriendsId);
     addNewRelation(addingEmail, addedEmail);
   };
-  console.log({ usersList });
 
   if (usersList && !loading) {
     return (
