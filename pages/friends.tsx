@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
-import {
-  Box,
-  Skeleton,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import Link from 'next/link';
 import {
   useUser,
@@ -45,9 +36,6 @@ const Friends: NextPage<{}> = () => {
   const [friendsArray, setFiendsArray] = useState<string[]>([]);
   const { user } = useUser();
 
-  console.log({ friendsArray });
-  /* console.log({ usersList }); */
-
   useEffect(() => {
     setLoading(true);
     const getUsersList = async (user) => {
@@ -63,7 +51,6 @@ const Friends: NextPage<{}> = () => {
     addedEmail: string,
     addedId: string
   ) => {
-    console.log('click!', addedId, addedEmail);
     let newMapFriendsId = mapFriendsId.slice();
     newMapFriendsId.push(addedId);
     setMapFriendsId(newMapFriendsId);

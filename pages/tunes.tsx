@@ -4,14 +4,7 @@ import {
   Container,
   Pagination,
   PaginationItem,
-  Skeleton,
   Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
 } from '@mui/material';
 import { StyledTable } from '../components/Table';
 import { Footer } from 'components/Footer';
