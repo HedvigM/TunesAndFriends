@@ -49,7 +49,7 @@ const Friend: NextPage<{}> = () => {
         if (fetchedUser.success) {
           setUserById(fetchedUser.data);
           /* Here is to look when solving the tunes id routing */
-          Promise.all(
+          /*    Promise.all(
             fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
               getMyCache(TUNE_URL(tunes.sessionId)).then(
                 (response) => response.name
@@ -57,7 +57,7 @@ const Friend: NextPage<{}> = () => {
             )
           ).then((values) => {
             setKnowTuneNamesById(values);
-          });
+          }); */
         }
       }
     };

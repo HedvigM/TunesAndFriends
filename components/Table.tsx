@@ -31,7 +31,7 @@ export const StyledTable = ({
           <Link
             href={{
               pathname: `${pathname}`,
-              query: { slug: `${data.id}` },
+              query: { slug: `${data.auth0}` },
             }}
           >
             <Typography
