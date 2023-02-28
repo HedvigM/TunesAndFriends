@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import Container from '@mui/material/Container';
-import { Box, Button } from '@mui/material';
-import { Header } from 'components/Header';
-import { Footer } from 'components/Footer';
+import React, { useEffect, useState } from "react";
+import Container from "@mui/material/Container";
+import { Box, Button } from "@mui/material";
+import { Header } from "components/Header";
+import { Footer } from "components/Footer";
 import {
   useUser,
   withPageAuthRequired,
   WithPageAuthRequiredProps,
-} from '@auth0/nextjs-auth0';
-import { useRouter } from 'next/router';
-import { addNewRelation, getUser } from 'services/local';
-import { Prisma } from '@prisma/client';
-import { NextPage } from 'next';
-import { LoadingSpinner } from 'components/LoadingSpinner';
-import { KeyboardArrowDown } from '@mui/icons-material';
-import { TUNE_URL } from 'utils/urls';
-import { Presentation } from 'components/profile/presentation';
-import { MapTunes } from 'components/profile/MapTunes';
-import { getMyCache } from 'services/functions';
+} from "@auth0/nextjs-auth0";
+import { useRouter } from "next/router";
+import { addNewRelation, getUser } from "services/local";
+import { Prisma } from "@prisma/client";
+import { NextPage } from "next";
+import { LoadingSpinner } from "components/LoadingSpinner";
+import { KeyboardArrowDown } from "@mui/icons-material";
+import { TUNE_URL } from "utils/urls";
+import { Presentation } from "components/profile/presentation";
+import { MapTunes } from "components/profile/MapTunes";
+import { getMyCache } from "services/functions";
+import { Header2 } from "components/Header2";
+import { ProfileInfo } from "components/ProfileInfo";
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
@@ -140,24 +142,16 @@ const Friend: NextPage<{}> = () => {
     return (
       <Box
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          height: '100vh',
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          height: "100vh",
         }}
       >
-        <Header />
-        <Container
-          maxWidth='sm'
-          sx={{
-            borderRadius: 2,
-            boxShadow: 20,
-            fontWeight: 'fontWeightLight',
-            paddingY: '10px',
-            marginY: '30px',
-          }}
-        >
-          {databaseUser.auth0UserId.toString() !== slug ? (
+        <Container maxWidth='sm'>
+          <Header2>Name</Header2>
+          <ProfileInfo />
+          {/* {databaseUser.auth0UserId.toString() !== slug ? (
             <Presentation user={userById} tunes={knowTuneNamesById} />
           ) : (
             <Presentation user={databaseUser} tunes={knowTuneNames} />
@@ -165,9 +159,9 @@ const Friend: NextPage<{}> = () => {
 
           <Box
             sx={{
-              padding: '10px 100px',
-              display: 'flex',
-              justifyContent: 'left',
+              padding: "10px 100px",
+              display: "flex",
+              justifyContent: "left",
             }}
           >
             {databaseUser.auth0UserId.toString() === slug ? (
@@ -175,7 +169,7 @@ const Friend: NextPage<{}> = () => {
                 disabled
                 variant='outlined'
                 size='medium'
-                sx={{ display: 'none' }}
+                sx={{ display: "none" }}
               >
                 Unfollow {<KeyboardArrowDown />}
               </Button>
@@ -187,7 +181,7 @@ const Friend: NextPage<{}> = () => {
               <Button
                 variant='contained'
                 size='medium'
-                sx={{ color: 'primary.contrastText' }}
+                sx={{ color: "primary.contrastText" }}
                 onClick={() => onClickHandle(user.email, userById.email)}
               >
                 Follow {<KeyboardArrowDown />}
@@ -199,9 +193,8 @@ const Friend: NextPage<{}> = () => {
           ) : (
             <MapTunes tunes={knowTuneNames} />
           )}
+        */}
         </Container>
-
-        <Footer />
       </Box>
     );
   } else {
