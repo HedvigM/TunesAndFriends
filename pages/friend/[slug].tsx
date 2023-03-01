@@ -20,6 +20,9 @@ import { MapTunes } from "components/profile/MapTunes";
 import { getMyCache } from "services/functions";
 import { Header2 } from "components/Header2";
 import { ProfileInfo } from "components/ProfileInfo";
+import { StyledTable } from "components/Table";
+import { Menu } from "components/Menu";
+import { ProfileImage } from "components/ProfileImage";
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
@@ -132,6 +135,13 @@ const Friend: NextPage<{}> = () => {
     setFollowingButton(false);
   };
 
+  const data = [
+    { name: "Adam", id: 23 },
+    { name: "Adam", id: 23 },
+    { name: "Adam", id: 23 },
+    { name: "Adam", id: 23 },
+  ];
+
   if (
     databaseUser &&
     userById &&
@@ -150,7 +160,24 @@ const Friend: NextPage<{}> = () => {
       >
         <Container maxWidth='sm'>
           <Header2>Name</Header2>
-          <ProfileInfo />
+          <ProfileInfo
+            profileText={"I'm a fiddlePlayer"}
+            tunesCount={0}
+            following={0}
+            followers={0}
+          />
+          {data.map((friend) => (
+            <StyledTable
+              onClickHandle={function (id: number): void {
+                throw new Error("Function not implemented.");
+              }}
+              know={false}
+              pathname={""}
+              data={friend}
+            />
+          ))}
+          <ProfileImage />
+
           {/* {databaseUser.auth0UserId.toString() !== slug ? (
             <Presentation user={userById} tunes={knowTuneNamesById} />
           ) : (
@@ -195,6 +222,7 @@ const Friend: NextPage<{}> = () => {
           )}
         */}
         </Container>
+        <Menu />
       </Box>
     );
   } else {
