@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Container from "@mui/material/Container";
-import { Box, Button } from "@mui/material";
+import { Box, Button, styled } from "@mui/material";
 import { Header } from "components/Header";
 import { Footer } from "components/Footer";
 import {
@@ -135,12 +135,9 @@ const Friend: NextPage<{}> = () => {
     setFollowingButton(false);
   };
 
-  const data = [
-    { name: "Adam", id: 23 },
-    { name: "Adam", id: 23 },
-    { name: "Adam", id: 23 },
-    { name: "Adam", id: 23 },
-  ];
+  const tuneCount = userById?.knowTunes?.length;
+  const followersCount = userById?.followedBy?.length;
+  const followingCount = userById?.following?.length;
 
   if (
     databaseUser &&
@@ -159,31 +156,31 @@ const Friend: NextPage<{}> = () => {
         }}
       >
         <Container maxWidth='sm'>
-          <Header2>Name</Header2>
-          <ProfileInfo
-            profileText={"I'm a fiddlePlayer"}
-            tunesCount={0}
-            following={0}
-            followers={0}
-          />
-          {data.map((friend) => (
-            <StyledTable
-              onClickHandle={function (id: number): void {
-                throw new Error("Function not implemented.");
-              }}
-              know={false}
-              pathname={""}
-              data={friend}
-            />
-          ))}
-          <ProfileImage />
+          {userById && (
+            <>
+              <Header2>{userById.name}</Header2>
+              <ProfileContainer>
+                <ProfileImage />
+                <ProfileInfo
+                  profileText={userById.profileText}
+                  tunesCount={tuneCount}
+                  following={followingCount}
+                  followers={followersCount}
+                />
+              </ProfileContainer>
 
-          {/* {databaseUser.auth0UserId.toString() !== slug ? (
-            <Presentation user={userById} tunes={knowTuneNamesById} />
-          ) : (
-            <Presentation user={databaseUser} tunes={knowTuneNames} />
+              <StyledTable
+                onClickHandle={function (id: number): void {
+                  throw new Error("Function not implemented.");
+                }}
+                know={false}
+                pathname={""}
+                data={() => {}}
+              />
+            </>
           )}
-
+          <Presentation user={userById} tunes={knowTuneNamesById} />
+          {console.log({ userById })}
           <Box
             sx={{
               padding: "10px 100px",
@@ -220,7 +217,6 @@ const Friend: NextPage<{}> = () => {
           ) : (
             <MapTunes tunes={knowTuneNames} />
           )}
-        */}
         </Container>
         <Menu />
       </Box>
@@ -230,3 +226,9 @@ const Friend: NextPage<{}> = () => {
   }
 };
 export default withPageAuthRequired<WithPageAuthRequiredProps>(Friend);
+
+const ProfileContainer = styled("div")`
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+`;

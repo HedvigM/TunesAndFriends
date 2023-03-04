@@ -17,7 +17,9 @@ export const ProfileInfo = ({
     <OuterContainer>
       <StatsContainer>
         <StatsHeading>
-          <Typography variant='body2'>TUNES</Typography>
+          <Typography sx={{ fontSize: "12px" }} variant='body2'>
+            TUNES
+          </Typography>
         </StatsHeading>
         <div>
           <Typography>{tunesCount}</Typography>
@@ -25,7 +27,9 @@ export const ProfileInfo = ({
       </StatsContainer>
       <StatsContainer>
         <StatsHeading>
-          <Typography variant='body2'>FOLLOWING</Typography>
+          <Typography sx={{ fontSize: "12px" }} variant='body2'>
+            FOLLOWING
+          </Typography>
         </StatsHeading>
         <div>
           <Typography>{following}</Typography>
@@ -33,7 +37,9 @@ export const ProfileInfo = ({
       </StatsContainer>
       <StatsContainer>
         <StatsHeading>
-          <Typography variant='body2'>FOLLOWERS</Typography>
+          <Typography sx={{ fontSize: "12px" }} variant='body2'>
+            FOLLOWERS
+          </Typography>
         </StatsHeading>
         <div>
           <Typography>{followers}</Typography>
@@ -48,7 +54,7 @@ const OuterContainer = styled("div")((props) => ({
   display: "grid",
   gridTemplateColumns: "1fr 1fr 1fr",
   gridTemplateRows: "1fr 1fr 1fr",
-  margin: "20px",
+  margin: "10px",
 }));
 const StatsContainer = styled("div")((props) => ({
   height: "35px",
@@ -60,10 +66,11 @@ const StatsContainer = styled("div")((props) => ({
   justifyContent: "center",
 }));
 const StatsHeading = styled("div")((props) => ({
-  margin: "-12px 9px",
+  margin: "-9px 4px",
+  padding: "0 35px",
   backgroundColor: "white",
   height: "fit-content",
-  width: "80px",
+  width: "60px",
   display: "flex",
   justifyContent: "center",
   alignContent: "center",

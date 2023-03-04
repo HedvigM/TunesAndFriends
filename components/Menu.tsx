@@ -1,22 +1,22 @@
-import { Box, Button, Container, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { useUser } from '@auth0/nextjs-auth0';
-import { styled } from '@mui/material/styles';
-import Link from 'next/link';
-import { addUser } from 'services/local';
-import router, { useRouter } from 'next/router';
-import HomeIcon from '@mui/icons-material/Home';
-import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
-import PeopleIcon from '@mui/icons-material/People';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { Box, Button, Container, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useUser } from "@auth0/nextjs-auth0";
+import { styled } from "@mui/material/styles";
+import Link from "next/link";
+import { addUser } from "services/local";
+import router, { useRouter } from "next/router";
+import HomeIcon from "@mui/icons-material/Home";
+import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
+import MusicNoteIcon from "@mui/icons-material/MusicNote";
+import PeopleIcon from "@mui/icons-material/People";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 export const Menu = () => {
   const { user, isLoading } = useUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof user !== 'undefined' && isLoading === false) {
+    if (typeof user !== "undefined" && isLoading === false) {
       addUser(user);
     }
   }, [user, isLoading]);
@@ -30,11 +30,11 @@ export const Menu = () => {
               variant='body1'
               noWrap
               sx={{
-                textDecoration: 'none',
-                color: 'black',
-                display: 'flex',
-                justifyContent: 'center',
-                alignContent: 'center',
+                textDecoration: "none",
+                color: "black",
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
               }}
             >
               <HomeIcon />
@@ -47,11 +47,11 @@ export const Menu = () => {
               variant='body1'
               noWrap
               sx={{
-                textDecoration: 'none',
-                color: 'black',
-                display: 'flex',
-                justifyContent: 'center',
-                alignContent: 'center',
+                textDecoration: "none",
+                color: "black",
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
               }}
             >
               <PeopleIcon />
@@ -64,11 +64,11 @@ export const Menu = () => {
               variant='body1'
               noWrap
               sx={{
-                textDecoration: 'none',
-                color: 'black',
-                display: 'flex',
-                justifyContent: 'center',
-                alignContent: 'center',
+                textDecoration: "none",
+                color: "black",
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
               }}
             >
               <MusicNoteIcon />
@@ -82,11 +82,11 @@ export const Menu = () => {
               variant='body1'
               noWrap
               sx={{
-                textDecoration: 'none',
-                color: 'black',
-                display: 'flex',
-                justifyContent: 'center',
-                alignContent: 'center',
+                textDecoration: "none",
+                color: "black",
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
               }}
             >
               <SettingsSuggestIcon />
@@ -101,10 +101,10 @@ export const Menu = () => {
   ) : (
     <Container
       sx={{
-        height: '100vh',
-        display: 'grid',
-        gridTemplateRows: '1fr 1fr 1fr 1fr',
-        padding: '0',
+        height: "100vh",
+        display: "grid",
+        gridTemplateRows: "1fr 1fr 1fr 1fr",
+        padding: "0",
       }}
     >
       <Link href='/api/auth/login'>
@@ -113,12 +113,12 @@ export const Menu = () => {
             variant='h1'
             noWrap
             sx={{
-              textDecoration: 'none',
-              color: 'black',
-              display: 'flex',
-              justifyContent: 'center',
-              alignContent: 'center',
-              fontWeight: '400',
+              textDecoration: "none",
+              color: "black",
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+              fontWeight: "400",
             }}
           >
             LOG IN
@@ -131,12 +131,12 @@ export const Menu = () => {
             variant='h1'
             noWrap
             sx={{
-              textDecoration: 'none',
-              color: 'black',
-              display: 'flex',
-              justifyContent: 'center',
-              alignContent: 'center',
-              fontWeight: '400',
+              textDecoration: "none",
+              color: "white",
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+              fontWeight: "400",
             }}
           >
             ABOUT
@@ -149,33 +149,15 @@ export const Menu = () => {
             variant='h1'
             noWrap
             sx={{
-              textDecoration: 'none',
-              color: 'white',
-              display: 'flex',
-              justifyContent: 'center',
-              alignContent: 'center',
-              fontWeight: '400',
+              textDecoration: "none",
+              color: "black",
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+              fontWeight: "400",
             }}
           >
             HELLO
-          </Typography>
-        </Link>
-      </Div>
-      <Div index='4'>
-        <Link href='/friends'>
-          <Typography
-            variant='h1'
-            noWrap
-            sx={{
-              textDecoration: 'none',
-              color: 'black',
-              display: 'flex',
-              justifyContent: 'center',
-              alignContent: 'center',
-              fontWeight: '400',
-            }}
-          >
-            PARTY
           </Typography>
         </Link>
       </Div>
@@ -183,36 +165,35 @@ export const Menu = () => {
   );
 };
 
-const Div = styled('div')(({ theme, index }) => ({
+const Div = styled("div")(({ theme, index }) => ({
   backgroundColor:
-    (index === '1' && theme.palette.primary.first) ||
-    (index === '2' && theme.palette.primary.second) ||
-    (index === '3' && theme.palette.primary.third) ||
-    (index === '4' && theme.palette.primary.fourth),
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  ':hover': {
-    cursor: 'pointer',
-    backgroundColor: theme.palette.primary.main,
+    (index === "1" && theme.palette.primary.second) ||
+    (index === "2" && theme.palette.primary.third) ||
+    (index === "3" && theme.palette.primary.fourth),
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  ":hover": {
+    cursor: "pointer",
+    backgroundColor: theme.palette.primary.first,
   },
 }));
 
-const OuterContainer = styled('div')(({ theme }) => ({
-  color: 'black',
-  display: 'grid',
-  gridTemplateColumns: '1fr 1fr 1fr 1fr',
-  padding: '0',
+const OuterContainer = styled("div")(({ theme }) => ({
+  color: "black",
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr 1fr 1fr",
+  padding: "0",
 }));
 
-const LinkContainer = styled('div')(({ theme, href }) => ({
+const LinkContainer = styled("div")(({ theme, href }) => ({
   backgroundColor: router.asPath.includes(href)
     ? theme.palette.primary.first
     : theme.palette.primary.second,
   /* padding: theme.spacing(0, 2), */
-  height: '100%',
-  padding: '5px 10%',
-  display: 'flex',
-  justifyContent: 'center',
-  alignContent: 'center',
+  height: "100%",
+  padding: "5px 10%",
+  display: "flex",
+  justifyContent: "center",
+  alignContent: "center",
 }));

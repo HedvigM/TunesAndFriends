@@ -3,11 +3,16 @@ import AddIcon from "@mui/icons-material/Add";
 
 export const ProfileImage = () => {
   return (
-    <div>
+    <div
+      style={{
+        height: "90px",
+        width: "90px",
+      }}
+    >
       <div
         style={{
-          height: "130px",
-          width: "130px",
+          height: "90px",
+          width: "90px",
           borderRadius: "50%",
           backgroundColor: `${theme.palette.primary.second}`,
           border: "1px solid black",
@@ -20,7 +25,7 @@ export const ProfileImage = () => {
           borderRadius: "50%",
           backgroundColor: `${theme.palette.primary.first}`,
           border: "1px solid black",
-          margin: "-39px 100px",
+          margin: "-35px 67px",
         }}
       >
         <AddIcon />
