@@ -33,3 +33,20 @@ export const ProfileImage = () => {
     </div>
   );
 };
+
+/*     <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: "30px",
+                }}
+              >
+                <Avatar
+                  alt='users avatar'
+                  sx={{
+                    width: { xs: "100px", sm: "200px" },
+                    height: { xs: "100px", sm: "200px" },
+                  }}
+                  src={user.picture}
+                />
+              </Box> */

@@ -24,7 +24,7 @@ export const Menu = () => {
   return user ? (
     <Box>
       <OuterContainer>
-        <LinkContainer href='/test'>
+        <LinkContainer href='/profile'>
           <Link href='/test'>
             <Typography
               variant='body1'
