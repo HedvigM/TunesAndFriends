@@ -20,7 +20,7 @@ import { MapTunes } from "components/profile/MapTunes";
 import { getMyCache } from "services/functions";
 import { Header2 } from "components/Header2";
 import { ProfileInfo } from "components/ProfileInfo";
-import { StyledTable } from "components/Table";
+import { Data, StyledTable } from "components/Table";
 import { Menu } from "components/Menu";
 import { ProfileImage } from "components/ProfileImage";
 
@@ -28,7 +28,7 @@ const Friend: NextPage<{}> = () => {
   const { user } = useUser();
   const [databaseUser, setDatabaseUser] = useState<UserWithRelations>();
   const [loading, setLoading] = useState(false);
-  const [knowTuneNames, setKnowTuneNames] = useState([]);
+  const [knowTunes, setKnowTunes] = useState<Data[]>([]);
   const [userById, setUserById] = useState<UserWithRelations>();
   const [knowTuneNamesById, setKnowTuneNamesById] = useState([]);
   const [mapFollowing, setMapFollowing] = useState([]);
@@ -41,6 +41,8 @@ const Friend: NextPage<{}> = () => {
 
   const router = useRouter();
   const { slug: slug } = router.query;
+
+  console.log({ knowTunes });
   /* 
   userById = slugFriend
   databaseUser = loged in friend
@@ -93,11 +95,15 @@ const Friend: NextPage<{}> = () => {
           Promise.all(
             fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
               getMyCache(TUNE_URL(tunes.sessionId)).then((response) => {
-                return response.name;
+                return response;
               })
             )
           ).then((values) => {
-            setKnowTuneNames(values);
+            console.log("values", values);
+
+            setKnowTunes(
+              values?.map((tune) => ({ name: tune.name, id: tune.id }))
+            );
           });
           setLoading(false);
         }
@@ -139,13 +145,7 @@ const Friend: NextPage<{}> = () => {
   const followersCount = userById?.followedBy?.length;
   const followingCount = userById?.following?.length;
 
-  if (
-    databaseUser &&
-    userById &&
-    knowTuneNames &&
-    knowTuneNamesById &&
-    !loading
-  ) {
+  if (databaseUser && userById && knowTuneNamesById && !loading) {
     return (
       <Box
         sx={{
@@ -168,54 +168,17 @@ const Friend: NextPage<{}> = () => {
                   followers={followersCount}
                 />
               </ProfileContainer>
-
-              <StyledTable
-                onClickHandle={function (id: number): void {
-                  throw new Error("Function not implemented.");
-                }}
-                know={false}
-                pathname={""}
-                data={() => {}}
-              />
+              {knowTunes?.map((tune) => (
+                <StyledTable
+                  onClickHandle={function (id: number): void {
+                    throw new Error("Function not implemented.");
+                  }}
+                  know={false}
+                  pathname={""}
+                  data={tune}
+                />
+              ))}
             </>
-          )}
-          <Presentation user={userById} tunes={knowTuneNamesById} />
-          {console.log({ userById })}
-          <Box
-            sx={{
-              padding: "10px 100px",
-              display: "flex",
-              justifyContent: "left",
-            }}
-          >
-            {databaseUser.auth0UserId.toString() === slug ? (
-              <Button
-                disabled
-                variant='outlined'
-                size='medium'
-                sx={{ display: "none" }}
-              >
-                Unfollow {<KeyboardArrowDown />}
-              </Button>
-            ) : followingButton ? (
-              <Button disabled variant='outlined' size='medium'>
-                Unfollow {<KeyboardArrowDown />}
-              </Button>
-            ) : (
-              <Button
-                variant='contained'
-                size='medium'
-                sx={{ color: "primary.contrastText" }}
-                onClick={() => onClickHandle(user.email, userById.email)}
-              >
-                Follow {<KeyboardArrowDown />}
-              </Button>
-            )}
-          </Box>
-          {databaseUser.auth0UserId.toString() !== slug ? (
-            <MapTunes tunes={knowTuneNamesById} commonTunes={commonTunes} />
-          ) : (
-            <MapTunes tunes={knowTuneNames} />
           )}
         </Container>
         <Menu />
@@ -227,8 +190,9 @@ const Friend: NextPage<{}> = () => {
 };
 export default withPageAuthRequired<WithPageAuthRequiredProps>(Friend);
 
-const ProfileContainer = styled("div")`
+export const ProfileContainer = styled("div")`
   padding: 20px 0;
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
