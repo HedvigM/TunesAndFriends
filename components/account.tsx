@@ -74,7 +74,7 @@ export const Account = () => {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-    border-top: 1px solid black;
+    padding-top: 20px;
   `;
   const GridItem = styled("div")`
     border: 1px solid black;
@@ -85,21 +85,38 @@ export const Account = () => {
     align-items: center;
     padding: 10px;
   `;
+  const TextArea = styled("textarea")`
+    resize: none;
+    height: 100%;
+    width: 100%;
+    border: none;
+  `;
 
   if (user && !loading) {
     return (
-      <>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
         <GridContainer>
-          <GridItem style={{ borderRight: "none" }}>
+          <GridItem
+            style={{ borderRight: "none", borderTop: "1px solid black" }}
+          >
             FIRST NAME {user.given_name}
           </GridItem>
-          <GridItem>LAST NAME {user.family_name}</GridItem>
+          <GridItem style={{ borderTop: "1px solid black" }}>
+            LAST NAME {user.family_name}
+          </GridItem>
           <GridItem
             style={{
               gridColumn: " 1 / 3",
             }}
           >
-            Email
+            EMAIL {user.email}
           </GridItem>
           <GridItem style={{ borderRight: "none" }}>GENDER</GridItem>
           <GridItem>BIRTHDAY</GridItem>
@@ -109,149 +126,84 @@ export const Account = () => {
               gridColumnEnd: "3",
             }}
           >
-            TOWN
+            <TextArea placeholder="TOWN" rows={1}></TextArea>
+            {/*  <TextField
+              margin="normal"
+              id="outlined"
+              size="small"
+              label="TOWN"
+              value={town}
+              onChange={(event) => setTown(event.target.value)}
+            /> */}
           </GridItem>
+
           <GridItem
             style={{
               gridArea: "5 / 1 / 7 / 3",
               textAlign: "left",
+              height: "100%",
             }}
           >
-            PROFILE TEXT
+            <TextArea placeholder="PROFILE TEXT" rows={5}></TextArea>
+            {/*   <TextField
+               margin="normal"
+              id="outlined-multiline-static"
+              variant="filled"
+              rows={2}
+              size="small"
+              label="PROFILE TEXT"
+              value={profileText}
+              onChange={(event) => setProfileText(event.target.value)}
+              multiline
+              style={{ border: "none" }}
+            /> */}
+            {/*  <TextField
+              id="standard-textarea"
+              label="Multiline Placeholder"
+              placeholder="Placeholder"
+              multiline
+              variant="standard"
+            /> */}
           </GridItem>
         </GridContainer>
+
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            height: "100vh",
+            justifyContent: "center",
+            alignContent: "center",
+            marginTop: "20px",
           }}
         >
-          <Container
-            maxWidth='sm'
+          <Button
+            variant="contained"
+            onClick={() => handleChange()}
             sx={{
-              borderRadius: 2,
-              boxShadow: 20,
-              minWidth: "350px",
-              width: "75%",
-              paddingY: "10px",
-              marginY: "30px",
+              color: "text.primary",
+              backgroundColor: "primary.second",
             }}
           >
-            <>
-              <Box
-                sx={{
-                  padding: "30px 10px",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <Table
-                  sx={{
-                    maxWidth: "500px",
-                    borderTop: "2px solid black",
-                  }}
-                >
-                  <TableBody>
-                    <TableRow
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell
-                        component='th'
-                        scope='row'
-                        sx={{ padding: "5px", margin: "0" }}
-                      >
-                        Nickname:
-                      </TableCell>
-                      <TableCell sx={{ padding: "5px", margin: "0" }}>
-                        <Typography textAlign='left' variant='body1'>
-                          {user.nickname}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-
-                    <TableRow
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                      }}
-                    >
-                      <TableCell
-                        component='th'
-                        scope='row'
-                        sx={{ padding: "5px", margin: "0" }}
-                      >
-                        Email:
-                      </TableCell>
-                      <TableCell sx={{ padding: "5px", margin: "0" }}>
-                        <Typography textAlign='left' variant='body1'>
-                          {user.email}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-
-                    <TableRow
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    ></TableRow>
-                  </TableBody>
-                </Table>
-              </Box>
-            </>
-
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-evenly",
-                padding: "10px",
-              }}
-            >
-              <TextField
-                margin='normal'
-                id='outlined'
-                size='small'
-                label='Town'
-                value={town}
-                onChange={(event) => setTown(event.target.value)}
-              />
-
-              <TextField
-                margin='normal'
-                id='outlined'
-                size='small'
-                label='Presentation'
-                value={profileText}
-                onChange={(event) => setProfileText(event.target.value)}
-                multiline
-              />
-              <Button
-                variant='contained'
-                onClick={() => handleChange()}
-                sx={{ color: "text.primary", marginTop: "10px" }}
-              >
-                Save
+            Save
+          </Button>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Your changes is saved!
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} autoFocus>
+                OK!
               </Button>
-              <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby='alert-dialog-title'
-                aria-describedby='alert-dialog-description'
-              >
-                <DialogContent>
-                  <DialogContentText id='alert-dialog-description'>
-                    Your changes is saved!
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleClose} autoFocus>
-                    OK!
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            </Box>
-          </Container>
+            </DialogActions>
+          </Dialog>
         </Box>
-      </>
+      </div>
     );
   } else {
     return <LoadingSpinner />;

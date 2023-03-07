@@ -25,7 +25,7 @@ export const Menu = () => {
     <Box>
       <OuterContainer>
         <LinkContainer href='/profile'>
-          <Link href='/test'>
+          <Link href='/profile'>
             <Typography
               variant='body1'
               noWrap
