@@ -16,20 +16,16 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import { Header } from "components/Header";
-import { Footer } from "components/Footer";
-import {
-  useUser,
-  withPageAuthRequired,
-  WithPageAuthRequiredProps,
-} from "@auth0/nextjs-auth0";
-import { useRouter } from "next/router";
+import { useUser } from "@auth0/nextjs-auth0";
 import { getUser, updateUser } from "services/local";
 import { User } from "@prisma/client";
-import { NextPage } from "next";
 import { LoadingSpinner } from "components/LoadingSpinner";
 
-export const Account = () => {
+type AccountInfoProps = {
+  handleProfileChange: (profileText: string, town: string) => void;
+};
+
+export const AccountInfo = (props: AccountInfoProps) => {
   const { user } = useUser();
   const [town, setTown] = useState("");
   const [profileText, setProfileText] = useState("");
@@ -37,12 +33,13 @@ export const Account = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const handleChange = () => {
+  /*   const handleChange = () => {
     if (databaseUser && databaseUser.id) {
       updateUser(databaseUser, town, profileText);
     }
+    //Dialogrutan påverkas av den här..
     handleClickOpen();
-  };
+  }; */
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -70,29 +67,8 @@ export const Account = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  const GridContainer = styled("div")`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-    padding-top: 20px;
-  `;
-  const GridItem = styled("div")`
-    border: 1px solid black;
-    border-top: none;
-    height: 50px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding: 10px;
-  `;
-  const TextArea = styled("textarea")`
-    resize: none;
-    height: 100%;
-    width: 100%;
-    border: none;
-  `;
 
-  if (user && !loading) {
+  if (user && !loading && databaseUser) {
     return (
       <div
         style={{
@@ -104,37 +80,40 @@ export const Account = () => {
       >
         <GridContainer>
           <GridItem
-            style={{ borderRight: "none", borderTop: "1px solid black" }}
+            style={{
+              borderRight: "none",
+              borderTop: "1px solid black",
+              padding: "10px",
+            }}
           >
             FIRST NAME {user.given_name}
           </GridItem>
-          <GridItem style={{ borderTop: "1px solid black" }}>
+          <GridItem style={{ borderTop: "1px solid black", padding: "10px" }}>
             LAST NAME {user.family_name}
           </GridItem>
           <GridItem
             style={{
               gridColumn: " 1 / 3",
+              padding: "10px",
             }}
           >
             EMAIL {user.email}
           </GridItem>
-          <GridItem style={{ borderRight: "none" }}>GENDER</GridItem>
-          <GridItem>BIRTHDAY</GridItem>
+          <GridItem style={{ borderRight: "none", padding: "10px" }}>
+            GENDER
+          </GridItem>
+          <GridItem style={{ padding: "10px" }}>BIRTHDAY</GridItem>
           <GridItem
             style={{
               gridColumnStart: "1",
               gridColumnEnd: "3",
             }}
           >
-            <TextArea placeholder="TOWN" rows={1}></TextArea>
-            {/*  <TextField
-              margin="normal"
-              id="outlined"
-              size="small"
-              label="TOWN"
-              value={town}
+            <TextArea
+              placeholder={databaseUser.town ? databaseUser.town : "TOWN"}
+              rows={1}
               onChange={(event) => setTown(event.target.value)}
-            /> */}
+            ></TextArea>
           </GridItem>
 
           <GridItem
@@ -144,26 +123,15 @@ export const Account = () => {
               height: "100%",
             }}
           >
-            <TextArea placeholder="PROFILE TEXT" rows={5}></TextArea>
-            {/*   <TextField
-               margin="normal"
-              id="outlined-multiline-static"
-              variant="filled"
-              rows={2}
-              size="small"
-              label="PROFILE TEXT"
-              value={profileText}
+            <TextArea
               onChange={(event) => setProfileText(event.target.value)}
-              multiline
-              style={{ border: "none" }}
-            /> */}
-            {/*  <TextField
-              id="standard-textarea"
-              label="Multiline Placeholder"
-              placeholder="Placeholder"
-              multiline
-              variant="standard"
-            /> */}
+              placeholder={
+                databaseUser.profileText
+                  ? databaseUser.profileText
+                  : "PROFILE TEXT"
+              }
+              rows={5}
+            ></TextArea>
           </GridItem>
         </GridContainer>
 
@@ -177,7 +145,7 @@ export const Account = () => {
         >
           <Button
             variant="contained"
-            onClick={() => handleChange()}
+            onClick={() => props.handleProfileChange(profileText, town)}
             sx={{
               color: "text.primary",
               backgroundColor: "primary.second",
@@ -209,3 +177,31 @@ export const Account = () => {
     return <LoadingSpinner />;
   }
 };
+
+const GridContainer = styled("div")`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+  padding-top: 20px;
+`;
+const GridItem = styled("div")`
+  border: 1px solid black;
+  border-top: none;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+`;
+const TextArea = styled("textarea")`
+  resize: none;
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 10px;
+  border: 2px solid #fff;
+
+  &:focus {
+    border: 2px solid #fc894d;
+  }
+`;
