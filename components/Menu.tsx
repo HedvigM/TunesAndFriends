@@ -10,6 +10,7 @@ import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import PeopleIcon from "@mui/icons-material/People";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { colors } from "styles/theme";
 
 export const Menu = () => {
   const { user, isLoading } = useUser();
@@ -24,10 +25,10 @@ export const Menu = () => {
   return user ? (
     <Box>
       <OuterContainer>
-        <LinkContainer href='/profile'>
-          <Link href='/profile'>
+        <LinkContainer href="/profile">
+          <Link href="/profile">
             <Typography
-              variant='body1'
+              variant="body1"
               noWrap
               sx={{
                 textDecoration: "none",
@@ -41,10 +42,10 @@ export const Menu = () => {
             </Typography>
           </Link>
         </LinkContainer>
-        <LinkContainer href='/friends'>
-          <Link href='/friends'>
+        <LinkContainer href="/friends">
+          <Link href="/friends">
             <Typography
-              variant='body1'
+              variant="body1"
               noWrap
               sx={{
                 textDecoration: "none",
@@ -58,10 +59,10 @@ export const Menu = () => {
             </Typography>
           </Link>
         </LinkContainer>
-        <LinkContainer href='/tunes'>
-          <Link href='/tunes'>
+        <LinkContainer href="/tunes">
+          <Link href="/tunes">
             <Typography
-              variant='body1'
+              variant="body1"
               noWrap
               sx={{
                 textDecoration: "none",
@@ -76,10 +77,10 @@ export const Menu = () => {
           </Link>
         </LinkContainer>
 
-        <LinkContainer href='/inställningar'>
-          <Link href='/inställningar'>
+        <LinkContainer href="/inställningar">
+          <Link href="/inställningar">
             <Typography
-              variant='body1'
+              variant="body1"
               noWrap
               sx={{
                 textDecoration: "none",
@@ -92,7 +93,7 @@ export const Menu = () => {
               <SettingsSuggestIcon />
             </Typography>
           </Link>
-          <Link href='/api/auth/logout'>
+          <Link href="/api/auth/logout">
             <LogoutIcon />
           </Link>
         </LinkContainer>
@@ -107,10 +108,10 @@ export const Menu = () => {
         padding: "0",
       }}
     >
-      <Link href='/api/auth/login'>
-        <Div index='1'>
+      <Link href="/api/auth/login">
+        <Div index="1">
           <Typography
-            variant='h1'
+            variant="h1"
             noWrap
             sx={{
               textDecoration: "none",
@@ -125,10 +126,10 @@ export const Menu = () => {
           </Typography>
         </Div>
       </Link>
-      <Div index='2'>
-        <Link href='/friends'>
+      <Div index="2">
+        <Link href="/friends">
           <Typography
-            variant='h1'
+            variant="h1"
             noWrap
             sx={{
               textDecoration: "none",
@@ -143,10 +144,10 @@ export const Menu = () => {
           </Typography>
         </Link>
       </Div>
-      <Div index='3'>
-        <Link href='/friends'>
+      <Div index="3">
+        <Link href="/friends">
           <Typography
-            variant='h1'
+            variant="h1"
             noWrap
             sx={{
               textDecoration: "none",
@@ -167,15 +168,15 @@ export const Menu = () => {
 
 const Div = styled("div")(({ theme, index }) => ({
   backgroundColor:
-    (index === "1" && theme.palette.primary.second) ||
-    (index === "2" && theme.palette.primary.third) ||
-    (index === "3" && theme.palette.primary.fourth),
+    (index === "1" && colors.second) ||
+    (index === "2" && colors.third) ||
+    (index === "3" && colors.fourth),
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   ":hover": {
     cursor: "pointer",
-    backgroundColor: theme.palette.primary.first,
+    backgroundColor: colors.first,
   },
 }));
 
@@ -187,9 +188,7 @@ const OuterContainer = styled("div")(({ theme }) => ({
 }));
 
 const LinkContainer = styled("div")(({ theme, href }) => ({
-  backgroundColor: router.asPath.includes(href)
-    ? theme.palette.primary.first
-    : theme.palette.primary.second,
+  backgroundColor: router.asPath.includes(href) ? colors.first : colors.second,
   /* padding: theme.spacing(0, 2), */
   height: "100%",
   padding: "5px 10%",

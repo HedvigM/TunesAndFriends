@@ -1,74 +1,21 @@
-import React, { useEffect, useState } from "react";
-import Container from "@mui/material/Container";
-import {
-  Avatar,
-  Box,
-  Button,
-  styled,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-  TextField,
-  Typography,
-} from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
+import React from "react";
+import { Box, styled } from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0";
-import { getUser, updateUser } from "services/local";
 import { User } from "@prisma/client";
 import { LoadingSpinner } from "components/LoadingSpinner";
+import { colors, theme } from "styles/theme";
 
 type AccountInfoProps = {
   handleProfileChange: (profileText: string, town: string) => void;
+  newProfileText: (profileText: string) => void;
+  newTownText: (town: string) => void;
+  databaseUser: User;
 };
 
 export const AccountInfo = (props: AccountInfoProps) => {
   const { user } = useUser();
-  const [town, setTown] = useState("");
-  const [profileText, setProfileText] = useState("");
-  const [databaseUser, setDatabaseUser] = useState<User>();
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
 
-  /*   const handleChange = () => {
-    if (databaseUser && databaseUser.id) {
-      updateUser(databaseUser, town, profileText);
-    }
-    //Dialogrutan påverkas av den här..
-    handleClickOpen();
-  }; */
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (user) {
-        const fetchedUser = await getUser(user.sub as string);
-        if (fetchedUser.success) {
-          setDatabaseUser(fetchedUser.data);
-          if (fetchedUser.data?.town) {
-            setTown(fetchedUser.data.town);
-          }
-          if (fetchedUser.data?.profileText) {
-            setProfileText(fetchedUser.data.profileText);
-          }
-        }
-      }
-    };
-
-    fetchUser();
-  }, [user]);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  if (user && !loading && databaseUser) {
+  if (user && props.databaseUser) {
     return (
       <div
         style={{
@@ -110,9 +57,11 @@ export const AccountInfo = (props: AccountInfoProps) => {
             }}
           >
             <TextArea
-              placeholder={databaseUser.town ? databaseUser.town : "TOWN"}
+              placeholder={
+                props.databaseUser.town ? props.databaseUser.town : "TOWN"
+              }
               rows={1}
-              onChange={(event) => setTown(event.target.value)}
+              onChange={(event) => props.newTownText(event.target.value)}
             ></TextArea>
           </GridItem>
 
@@ -124,10 +73,10 @@ export const AccountInfo = (props: AccountInfoProps) => {
             }}
           >
             <TextArea
-              onChange={(event) => setProfileText(event.target.value)}
+              onChange={(event) => props.newProfileText(event.target.value)}
               placeholder={
-                databaseUser.profileText
-                  ? databaseUser.profileText
+                props.databaseUser.profileText
+                  ? props.databaseUser.profileText
                   : "PROFILE TEXT"
               }
               rows={5}
@@ -142,35 +91,7 @@ export const AccountInfo = (props: AccountInfoProps) => {
             alignContent: "center",
             marginTop: "20px",
           }}
-        >
-          <Button
-            variant="contained"
-            onClick={() => props.handleProfileChange(profileText, town)}
-            sx={{
-              color: "text.primary",
-              backgroundColor: "primary.second",
-            }}
-          >
-            Save
-          </Button>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                Your changes is saved!
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose} autoFocus>
-                OK!
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </Box>
+        ></Box>
       </div>
     );
   } else {
@@ -202,6 +123,7 @@ const TextArea = styled("textarea")`
   border: 2px solid #fff;
 
   &:focus {
-    border: 2px solid #fc894d;
+    border: 2px solid;
+    border-color: ${colors.first};
   }
 `;

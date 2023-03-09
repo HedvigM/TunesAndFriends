@@ -1,4 +1,4 @@
-import { theme } from "styles/theme";
+import { colors, theme } from "styles/theme";
 import AddIcon from "@mui/icons-material/Add";
 
 export const ProfileImage = () => {
@@ -14,7 +14,7 @@ export const ProfileImage = () => {
           height: "90px",
           width: "90px",
           borderRadius: "50%",
-          backgroundColor: `${theme.palette.primary.second}`,
+          backgroundColor: `${colors.second}`,
           border: "1px solid black",
         }}
       ></div>
@@ -23,7 +23,7 @@ export const ProfileImage = () => {
           height: "30px",
           width: "30px",
           borderRadius: "50%",
-          backgroundColor: `${theme.palette.primary.first}`,
+          backgroundColor: `${colors.first}`,
           border: "1px solid black",
           margin: "-35px 67px",
         }}

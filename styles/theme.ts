@@ -1,16 +1,26 @@
 import { createTheme, styled, Typography } from '@mui/material';
 
+type ColorsProps = {
+  first: string;
+  second: string;
+  third: string;
+  fourth: string; 
+}
+
+export const colors: ColorsProps = {
+  first: '#D8F508', // yellow
+  second: '#9BBABB', // blue
+  third: '#111F22', // dark blus
+  fourth: '#D7D2BF', // light
+  
+}
 
 
 export const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#AED67A', //old green
-      first: '#D8F508', // yellow
-      second: '#9BBABB', // blue
-      third: '#111F22', // dark blus
-      fourth: '#D7D2BF', // light
+      main: '#AED67A',
       contrastText: '#F0F3EB'
     },
     secondary: {

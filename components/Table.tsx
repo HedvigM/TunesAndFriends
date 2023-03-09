@@ -1,5 +1,6 @@
 import { styled, Table, TableCell, TableRow, Typography } from "@mui/material";
 import Link from "next/link";
+import { colors } from "styles/theme";
 import { LoadingSpinner } from "./LoadingSpinner";
 
 interface TableProps {
@@ -20,7 +21,7 @@ export const StyledTable = ({
   pathname,
 }: TableProps) => {
   return (
-    <Table size='small' sx={{ margin: "0", padding: "0px" }}>
+    <Table size="small" sx={{ margin: "0", padding: "0px" }}>
       <TableRow
         sx={{
           borderTop: "1px solid grey",
@@ -29,7 +30,7 @@ export const StyledTable = ({
           gridTemplateColumns: "80% 1fr",
         }}
       >
-        <TableCell component='th' scope='row'>
+        <TableCell component="th" scope="row">
           <Link
             href={{
               pathname: `${pathname}`,
@@ -37,7 +38,7 @@ export const StyledTable = ({
             }}
           >
             <Typography
-              variant='body1'
+              variant="body1"
               sx={{
                 fontSize: "1rem",
                 fontWeight: "400",
@@ -58,8 +59,8 @@ export const StyledTable = ({
           </Link>
         </TableCell>
         <TableCell
-          component='th'
-          scope='row'
+          component="th"
+          scope="row"
           sx={{
             display: "flex",
             justifyContent: "center",
@@ -76,9 +77,9 @@ export const StyledTable = ({
 };
 
 const StyledButton = styled("button")((props) => ({
-  backgroundColor: props.know ? "inherit" : props.theme.palette.primary.second,
+  backgroundColor: props.know ? "inherit" : colors.second,
   padding: "5px 10px",
-  border: `1px solid ${props.theme.palette.primary.second}`,
+  border: `1px solid ${colors.second}`,
   borderRadius: "3px",
 
   "&:hover": {

@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
-import { Box, Button, Container, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  styled,
+} from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0";
 import { LoadingSpinner } from "components/LoadingSpinner";
 import { Menu } from "components/Menu";
@@ -9,24 +18,19 @@ import { AccountInfo } from "components/accountInfo";
 import { getUser, updateUser } from "services/local";
 import { User } from "@prisma/client";
 import user from "./api/user/[slug]";
+import { colors } from "styles/theme";
 
 const ProfilePage: NextPage<{}> = ({}) => {
   const [databaseUser, setDatabaseUser] = useState<User>();
   const [town, setTown] = useState("");
   const [profileText, setProfileText] = useState("");
+  const [open, setOpen] = useState(false);
   const { user } = useUser();
 
-  const handleProfileTextChange = (value: string) => {
-    console.log({ value });
-    setProfileText(value);
-    /*  if (databaseUser && databaseUser.id) {
-      updateUser(databaseUser, town, profileText);
-    } */
-  };
   const handleProfileChange = (profileText: string, town: string) => {
-    console.log(profileText, town);
     if (databaseUser && databaseUser.id) {
       updateUser(databaseUser, town, profileText);
+      handleClickOpen();
     }
   };
 
@@ -49,6 +53,20 @@ const ProfilePage: NextPage<{}> = ({}) => {
     fetchUser();
   }, [user]);
 
+  const setNewProfileText = (value: string) => {
+    setProfileText(value);
+  };
+  const setNewTownText = (value: string) => {
+    setTown(value);
+  };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Box
       sx={{
@@ -68,20 +86,43 @@ const ProfilePage: NextPage<{}> = ({}) => {
         }}
       >
         <Header2>Profile</Header2>
-        {/* Jag flyttar ur saker från account komponenten och jobbar just nu med Button. */}
-        <div>
-          <AccountInfo handleProfileChange={handleProfileChange} />
-          <Button
-            variant="contained"
-            onClick={() => handleProfileChange(profileText, town)}
-            sx={{
-              color: "text.primary",
-              backgroundColor: "primary.first",
-            }}
+        <ContentContainer>
+          <AccountInfo
+            handleProfileChange={handleProfileChange}
+            newProfileText={setNewProfileText}
+            newTownText={setNewTownText}
+            databaseUser={databaseUser}
+          />
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              variant="contained"
+              onClick={() => handleProfileChange(profileText, town)}
+              sx={{
+                color: "text.primary",
+                backgroundColor: colors.second,
+              }}
+            >
+              Save
+            </Button>
+          </div>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
           >
-            Save
-          </Button>
-        </div>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Your changes is saved!
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} autoFocus>
+                OK!
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </ContentContainer>
       </Container>
       <Menu />
     </Box>
@@ -95,6 +136,11 @@ export const ProfileContainer = styled("div")`
   align-items: center;
   justify-content: center;
   height: 100%;
+`;
+const ContentContainer = styled("div")`
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
 `;
 
 export default ProfilePage;
