@@ -8,17 +8,20 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
+  Link,
   styled,
 } from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0";
 import { LoadingSpinner } from "components/LoadingSpinner";
 import { Menu } from "components/Menu";
-import { Header2 } from "components/Header2";
+import { Header } from "components/Header";
 import { AccountInfo } from "components/accountInfo";
 import { getUser, updateUser } from "services/local";
 import { User } from "@prisma/client";
 import user from "./api/user/[slug]";
 import { colors } from "styles/theme";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { ProfileImage } from "components/ProfileImage";
 
 const ProfilePage: NextPage<{}> = ({}) => {
   const [databaseUser, setDatabaseUser] = useState<User>();
@@ -85,8 +88,17 @@ const ProfilePage: NextPage<{}> = ({}) => {
           height: "100%",
         }}
       >
-        <Header2>Profile</Header2>
+        <Header>Profile</Header>
         <ContentContainer>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              paddingTop: "20px",
+            }}
+          >
+            <ProfileImage size={"large"} />
+          </div>
           <AccountInfo
             handleProfileChange={handleProfileChange}
             newProfileText={setNewProfileText}
@@ -122,6 +134,9 @@ const ProfilePage: NextPage<{}> = ({}) => {
               </Button>
             </DialogActions>
           </Dialog>
+          <Link href="/api/auth/logout">
+            <LogoutIcon />
+          </Link>
         </ContentContainer>
       </Container>
       <Menu />

@@ -1,49 +1,49 @@
-import { Box, Button, Container, Typography } from '@mui/material';
-import { Footer } from 'components/Footer';
-import { Header } from 'components/Header';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import { TUNE_URL } from 'utils/urls';
+import { Box, Button, Container, Typography } from "@mui/material";
+import { Footer } from "components/Footer";
+
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { TUNE_URL } from "utils/urls";
 import {
   withPageAuthRequired,
   WithPageAuthRequiredProps,
-} from '@auth0/nextjs-auth0';
-import { NextPage } from 'next';
-import { LoadingSpinner } from 'components/LoadingSpinner';
-import { getMyCache } from 'services/functions';
+} from "@auth0/nextjs-auth0";
+import { NextPage } from "next";
+import { LoadingSpinner } from "components/LoadingSpinner";
+import { getMyCache } from "services/functions";
 
 export const Music = (props) => {
   let lineBreak = (string: string) => {
-    return string.replaceAll('!', '\n');
+    return string.replaceAll("!", "\n");
   };
 
   useEffect(() => {
     const abcjsInit = async () => {
-      const abcjs = await import('abcjs');
-      abcjs.renderAbc('paper', lineBreak(props.abcNotes), {
-        responsive: 'resize',
+      const abcjs = await import("abcjs");
+      abcjs.renderAbc("paper", lineBreak(props.abcNotes), {
+        responsive: "resize",
       });
     };
     abcjsInit();
   }, []);
 
-  return <div id='paper'></div>;
+  return <div id="paper"></div>;
 };
 
 const detailedtune: NextPage<{}> = () => {
   const [loading, setLoading] = useState(true);
   const [details, setDetails] = useState({
-    name: 'Loading...',
-    type: 'Loading...',
+    name: "Loading...",
+    type: "Loading...",
   });
   const [abc, setAbc] = useState(
-    '|:E2BE dEBE|E2BE AFDF|E2BE dEBE|BABc dAFD:|!d2fd c2ec|defg afge|d2fd c2ec|BABc dAFA|!d2fd c2ec|defg afge|afge fdec|BABc dAFD|'
+    "|:E2BE dEBE|E2BE AFDF|E2BE dEBE|BABc dAFD:|!d2fd c2ec|defg afge|d2fd c2ec|BABc dAFA|!d2fd c2ec|defg afge|afge fdec|BABc dAFD|"
   );
 
   const router = useRouter();
   const { slug: slug } = router.query;
 
-  const abcjs = process.browser ? require('abcjs') : null;
+  const abcjs = process.browser ? require("abcjs") : null;
 
   useEffect(() => {
     setLoading(true);
@@ -63,32 +63,31 @@ const detailedtune: NextPage<{}> = () => {
     return (
       <Box
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          height: '100vh',
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          height: "100vh",
         }}
       >
-        <Header />
-        <Container maxWidth='lg'>
+        <Container maxWidth="lg">
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'center',
+              display: "flex",
+              justifyContent: "center",
             }}
           >
             <Box
               sx={{
-                width: '80%',
+                width: "80%",
               }}
             >
-              <Typography variant='h1' textAlign='left'>
+              <Typography variant="h1" textAlign="left">
                 {details.name}
               </Typography>
               <Typography
-                variant='h2'
-                textAlign='left'
-                sx={{ padding: '20px 0' }}
+                variant="h2"
+                textAlign="left"
+                sx={{ padding: "20px 0" }}
               >
                 {details.type}
               </Typography>
@@ -97,12 +96,12 @@ const detailedtune: NextPage<{}> = () => {
           <Music abcNotes={abc} />
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'left',
-              padding: '15px 0',
+              display: "flex",
+              justifyContent: "left",
+              padding: "15px 0",
             }}
           >
-            <Button size='small' variant='contained' onClick={onClickHandle}>
+            <Button size="small" variant="contained" onClick={onClickHandle}>
               Back
             </Button>
           </Box>

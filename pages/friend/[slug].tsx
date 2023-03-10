@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import { Box, Button, styled } from "@mui/material";
-import { Header } from "components/Header";
 import { Footer } from "components/Footer";
 import {
   useUser,
@@ -18,7 +17,7 @@ import { TUNE_URL } from "utils/urls";
 import { Presentation } from "components/profile/presentation";
 import { MapTunes } from "components/profile/MapTunes";
 import { getMyCache } from "services/functions";
-import { Header2 } from "components/Header2";
+import { Header } from "components/Header";
 import { ProfileInfo } from "components/ProfileInfo";
 import { Data, StyledTable } from "components/Table";
 import { Menu } from "components/Menu";
@@ -155,12 +154,12 @@ const Friend: NextPage<{}> = () => {
           height: "100vh",
         }}
       >
-        <Container maxWidth='sm'>
+        <Container maxWidth="sm">
           {userById && (
             <>
-              <Header2>{userById.name}</Header2>
+              <Header>{userById.name}</Header>
               <ProfileContainer>
-                <ProfileImage />
+                <ProfileImage size={"small"} />
                 <ProfileInfo
                   profileText={userById.profileText}
                   tunesCount={tuneCount}

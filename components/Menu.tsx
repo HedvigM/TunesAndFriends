@@ -9,7 +9,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import PeopleIcon from "@mui/icons-material/People";
-import LogoutIcon from "@mui/icons-material/Logout";
 import { colors } from "styles/theme";
 
 export const Menu = () => {
@@ -25,8 +24,8 @@ export const Menu = () => {
   return user ? (
     <Box>
       <OuterContainer>
-        <LinkContainer href="/profile">
-          <Link href="/profile">
+        <LinkContainer href="/">
+          <Link href="/">
             <Typography
               variant="body1"
               noWrap
@@ -77,8 +76,8 @@ export const Menu = () => {
           </Link>
         </LinkContainer>
 
-        <LinkContainer href="/inställningar">
-          <Link href="/inställningar">
+        <LinkContainer href="/profile">
+          <Link href="/profile">
             <Typography
               variant="body1"
               noWrap
@@ -92,9 +91,6 @@ export const Menu = () => {
             >
               <SettingsSuggestIcon />
             </Typography>
-          </Link>
-          <Link href="/api/auth/logout">
-            <LogoutIcon />
           </Link>
         </LinkContainer>
       </OuterContainer>
@@ -162,6 +158,24 @@ export const Menu = () => {
           </Typography>
         </Link>
       </Div>
+      <Div index="4">
+        <Link href="/friends">
+          <Typography
+            variant="h1"
+            noWrap
+            sx={{
+              textDecoration: "none",
+              color: "black",
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+              fontWeight: "400",
+            }}
+          >
+            HELLO
+          </Typography>
+        </Link>
+      </Div>
     </Container>
   );
 };
@@ -170,7 +184,8 @@ const Div = styled("div")(({ theme, index }) => ({
   backgroundColor:
     (index === "1" && colors.second) ||
     (index === "2" && colors.third) ||
-    (index === "3" && colors.fourth),
+    (index === "3" && colors.first) ||
+    (index === "4" && colors.fourth),
   display: "flex",
   justifyContent: "center",
   alignItems: "center",

@@ -22,7 +22,7 @@ import { NextPage } from "next";
 import { getMyCache } from "services/functions";
 import { styled } from "@mui/material";
 import { Menu } from "components/Menu";
-import { Header2 } from "components/Header2";
+import { Header } from "components/Header";
 import { LoadingSpinner } from "components/LoadingSpinner";
 
 const Tunes: NextPage<{}> = () => {
@@ -87,14 +87,14 @@ const Tunes: NextPage<{}> = () => {
         }}
       >
         <Container
-          maxWidth='sm'
+          maxWidth="sm"
           sx={{
             width: "95%",
             paddingY: "10px",
             marginY: "30px",
           }}
         >
-          <Header2>popular tunes</Header2>
+          <Header>popular tunes</Header>
           <div style={{ marginTop: "20px" }}>
             {!popularList && <LoadingSpinner />}
             {popularList.map((tune) => (
@@ -102,7 +102,7 @@ const Tunes: NextPage<{}> = () => {
                 data={tune}
                 onClickHandle={onKnowHandle}
                 know={mapKnow.includes(tune.id)}
-                pathname='/detailedtune/[slug]'
+                pathname="/detailedtune/[slug]"
               />
             ))}
           </div>
@@ -118,8 +118,8 @@ const Tunes: NextPage<{}> = () => {
               <Pagination
                 count={10}
                 page={page}
-                color='primary'
-                size='small'
+                color="primary"
+                size="small"
                 renderItem={(item) => (
                   <PaginationItem
                     component={"a"}
