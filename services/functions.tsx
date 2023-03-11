@@ -1,5 +1,7 @@
-import { listUsers } from './local';
+import { User } from "@prisma/client";
+import { listUsers } from "./local";
 
+/* Cached Tunes from the session */
 export const getMyCache = async (url: string) => {
   const cachedResponse = JSON.parse(localStorage.getItem(url));
   const expiryTime = new Date().getTime() - 1000 * 60 * 60 * 6;
@@ -17,7 +19,8 @@ export const getMyCache = async (url: string) => {
   }
 };
 
-export const getCachedListOfUsers = async (user) => {
+/* List of all T&F users */
+export const getCachedListOfUsers = async (user: User) => {
   const cachedResponse = JSON.parse(
     localStorage.getItem(`${user.email}-userList`)
   );
@@ -36,3 +39,12 @@ export const getCachedListOfUsers = async (user) => {
     }
   }
 };
+
+/* Save the loged in persons data */
+/* 
+Används i:
+* Profile /settings
+* tunes
+* friends
+* friend slug
+*/
