@@ -7,7 +7,6 @@ import {
   Stack,
 } from "@mui/material";
 import { StyledTable } from "../components/Table";
-import { Footer } from "components/Footer";
 import { POPULAR_URL } from "utils/urls";
 import Link from "next/link";
 import {

@@ -1,5 +1,4 @@
 import { Box, Button, Container, Typography } from "@mui/material";
-import { Footer } from "components/Footer";
 
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -106,8 +105,6 @@ const detailedtune: NextPage<{}> = () => {
             </Button>
           </Box>
         </Container>
-
-        <Footer />
       </Box>
     );
   } else {

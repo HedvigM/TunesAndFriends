@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import { Box, Button, styled } from "@mui/material";
-import { Footer } from "components/Footer";
 import {
   useUser,
   withPageAuthRequired,
