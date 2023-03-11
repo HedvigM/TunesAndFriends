@@ -156,7 +156,7 @@ const Friend: NextPage<{}> = () => {
         <Container maxWidth="sm">
           {userById && (
             <>
-              <Header>{userById.name}</Header>
+              <Header size="large">{userById.name}</Header>
               <ProfileContainer>
                 <ProfileImage size={"small"} />
                 <ProfileInfo

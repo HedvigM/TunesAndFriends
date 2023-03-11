@@ -1,28 +1,28 @@
 import { styled } from "@mui/material";
+import { ReactNode } from "react";
 import { colors, theme } from "styles/theme";
 
 interface HeaderProps {
-  children: string;
+  children: ReactNode;
   size: "small" | "large";
 }
-export const Header = ({ children, size }: HeaderProps) => {
-  return (
-    <OuterContainer>
-      <HeaderContainer>
-        {size === "large" && <H1>{children.toLocaleUpperCase()}</H1>}
-        {size === "small" && <H3>{children.toLocaleUpperCase()}</H3>}
-      </HeaderContainer>
-    </OuterContainer>
-  );
-};
+export const Header = ({ children, size }: HeaderProps) => (
+  <OuterContainer>
+    <HeaderContainer size={size}>
+      {size === "large" && <H1>{children}</H1>}
+      {size === "small" && <H3>{children}</H3>}
+    </HeaderContainer>
+  </OuterContainer>
+);
 
 const OuterContainer = styled("div")({
   display: "flex",
   justifyContent: "center",
   width: "100%",
 });
-const HeaderContainer = styled("div")({
-  height: "23px", // small     height: 12px;
+
+const HeaderContainer = styled("div")<HeaderProps>((props) => ({
+  height: props.size === "small" ? "12px" : "23px",
   width: "fit-content",
   padding: "0 10px",
   marginTop: "41px",
@@ -30,7 +30,9 @@ const HeaderContainer = styled("div")({
   alignItems: "flex-end",
   justifyContent: "center",
   backgroundColor: colors.first,
-});
+  textTransform: "uppercase",
+}));
+
 const H1 = styled("h1")({
   fontWeight: 400,
   margin: 0,

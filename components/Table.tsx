@@ -76,7 +76,11 @@ export const StyledTable = ({
   );
 };
 
-const StyledButton = styled("button")((props) => ({
+type TableStyledProps = {
+  know: boolean;
+};
+
+const StyledButton = styled("button")<TableStyledProps>((props) => ({
   backgroundColor: props.know ? "inherit" : colors.second,
   padding: "5px 10px",
   border: `1px solid ${colors.second}`,

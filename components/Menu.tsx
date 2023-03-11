@@ -1,4 +1,4 @@
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box, Button, Container, MenuProps, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import { styled } from "@mui/material/styles";
@@ -180,12 +180,15 @@ export const Menu = () => {
   );
 };
 
-const Div = styled("div")(({ theme, index }) => ({
+type MenuIndexProps = {
+  index: string;
+};
+const Div = styled("div")<MenuIndexProps>((props) => ({
   backgroundColor:
-    (index === "1" && colors.second) ||
-    (index === "2" && colors.third) ||
-    (index === "3" && colors.first) ||
-    (index === "4" && colors.fourth),
+    (props.index === "1" && colors.second) ||
+    (props.index === "2" && colors.third) ||
+    (props.index === "3" && colors.first) ||
+    (props.index === "4" && colors.fourth),
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -195,15 +198,21 @@ const Div = styled("div")(({ theme, index }) => ({
   },
 }));
 
-const OuterContainer = styled("div")(({ theme }) => ({
+const OuterContainer = styled("div")(() => ({
   color: "black",
   display: "grid",
   gridTemplateColumns: "1fr 1fr 1fr 1fr",
   padding: "0",
 }));
 
-const LinkContainer = styled("div")(({ theme, href }) => ({
-  backgroundColor: router.asPath.includes(href) ? colors.first : colors.second,
+type MenuhrefProps = {
+  href: string;
+};
+
+const LinkContainer = styled("div")<MenuhrefProps>((props) => ({
+  backgroundColor: router.asPath.includes(props.href)
+    ? colors.first
+    : colors.second,
   /* padding: theme.spacing(0, 2), */
   height: "100%",
   padding: "5px 10%",

@@ -9,7 +9,7 @@ import { NextPage } from "next";
 const Test: NextPage<{}> = () => {
   return (
     <>
-      <Header>Hej</Header>
+      <Header size="large">Hej</Header>
       <Menu />
     </>
   );

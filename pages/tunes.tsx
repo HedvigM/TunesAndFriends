@@ -39,7 +39,7 @@ const Tunes: NextPage<{}> = () => {
     const fetchUserWithId = async () => {
       if (user) {
         const newUserWithId = await getUser(user?.sub as string);
-        if (newUserWithId.success !== undefined) {
+        if (newUserWithId.success) {
           /*   let newStarredTunes = await newUserWithId.data?.starredTunes?.map(
             (tunes: { sessionId: number }) => tunes.sessionId
           ); */
@@ -93,7 +93,7 @@ const Tunes: NextPage<{}> = () => {
             marginY: "30px",
           }}
         >
-          <Header>popular tunes</Header>
+          <Header size="large">popular tunes</Header>
           <div style={{ marginTop: "20px" }}>
             {!popularList && <LoadingSpinner />}
             {popularList.map((tune) => (

@@ -88,7 +88,7 @@ const ProfilePage: NextPage<{}> = ({}) => {
           height: "100%",
         }}
       >
-        <Header>Profile</Header>
+        <Header size="large">Profile</Header>
         <ContentContainer>
           <div
             style={{
@@ -152,6 +152,7 @@ export const ProfileContainer = styled("div")`
   justify-content: center;
   height: 100%;
 `;
+
 const ContentContainer = styled("div")`
   display: flex;
   justify-content: space-around;

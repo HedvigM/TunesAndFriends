@@ -86,7 +86,7 @@ const Friends: NextPage<{}> = () => {
       if (user) {
         const newUserWithId = await getUser(user?.sub as string);
         console.log({ newUserWithId });
-        if (newUserWithId.success !== undefined) {
+        if (newUserWithId.success) {
           let newFrindsArray = await newUserWithId.data?.following.map(
             (friend: { auth0UserId: string }) => friend.auth0UserId
           );
@@ -117,7 +117,7 @@ const Friends: NextPage<{}> = () => {
             marginY: "30px",
           }}
         >
-          <Header>Friends</Header>
+          <Header size="large">Friends</Header>
 
           {usersList
             .filter((item) => item.email !== user.email)
