@@ -11,7 +11,7 @@ interface TableProps {
 }
 
 export type Data = {
-  name: "string";
+  name: string;
   id: number;
 };
 export const StyledTable = ({

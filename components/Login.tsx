@@ -88,7 +88,10 @@ export const Login = () => {
   );
 };
 
-const Div = styled("div")(({ theme, index }) => ({
+type StyledLoginProps = {
+  index: string;
+};
+const Div = styled("div")<StyledLoginProps>(({ index }) => ({
   backgroundColor:
     (index === "1" && colors.second) ||
     (index === "2" && colors.third) ||
