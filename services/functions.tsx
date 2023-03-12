@@ -21,21 +21,27 @@ export const getMyCache = async (url: string) => {
 
 /* List of all T&F users */
 export const getCachedListOfUsers = async (user: User) => {
+  console.log("JAG KÖRS 1");
   const cachedResponse = JSON.parse(
     localStorage.getItem(`${user.email}-userList`)
   );
+  console.log("JAG KÖRS 2");
   const expiryTime = new Date().getTime() - 1000 * 60 * 60 * 6;
 
   if (cachedResponse && cachedResponse.timestamp > expiryTime) {
+    console.log(" JAG KÖRS 3");
     return cachedResponse.data;
   } else {
     const fetchedList = await listUsers();
     if (fetchedList.success) {
+      console.log(" JAG KÖRS 4");
+      console.log({ fetchedList });
       const object = {
         data: fetchedList.data,
         timestamp: new Date().getTime(),
       };
       localStorage.setItem(`${user.email}-userList`, JSON.stringify(object));
+      return fetchedList.data;
     }
   }
 };
