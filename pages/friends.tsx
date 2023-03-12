@@ -38,7 +38,6 @@ const Friends: NextPage<{}> = () => {
 
   const getUsersList = async (user) => {
     const data = await getCachedListOfUsers(user);
-    console.log("KOLLA HÄR", data);
     if (data) {
       setUsersList(data);
     }
@@ -90,7 +89,6 @@ const Friends: NextPage<{}> = () => {
     const fetchUserWithId = async () => {
       if (user) {
         const newUserWithId = await getUser(user?.sub as string);
-        console.log({ newUserWithId });
         if (newUserWithId.success) {
           let newFrindsArray = await newUserWithId.data?.following.map(
             (friend: { auth0UserId: string }) => friend.auth0UserId
@@ -134,6 +132,7 @@ const Friends: NextPage<{}> = () => {
                 know={friendsArray.includes(friend.auth0UserId)}
                 data={friend}
                 pathname="/friend/[slug]"
+                slug={friend.auth0UserId}
               />
             </div>
           ))}

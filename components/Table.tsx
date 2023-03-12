@@ -7,6 +7,7 @@ interface TableProps {
   onClickHandle: (id: number) => void;
   know: boolean;
   pathname: string;
+  slug: string | number;
   data: Data;
 }
 
@@ -19,6 +20,7 @@ export const StyledTable = ({
   onClickHandle,
   know,
   pathname,
+  slug,
 }: TableProps) => {
   return (
     <Table size="small" sx={{ margin: "0", padding: "0px" }}>
@@ -34,7 +36,7 @@ export const StyledTable = ({
           <Link
             href={{
               pathname: `${pathname}`,
-              /*   query: { slug: `${data.auth0}` }, */
+              query: { slug: `${slug}` },
             }}
           >
             <Typography

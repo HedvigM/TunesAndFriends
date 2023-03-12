@@ -47,7 +47,6 @@ const Tunes: NextPage<{}> = () => {
           let newKnowTunes = await newUserWithId.data?.knowTunes?.map(
             (tunes: { sessionId: number }) => tunes.sessionId
           );
-          console.log({ newUserWithId });
           setMapKnow(newKnowTunes);
         }
         setLoading(false);
@@ -101,6 +100,7 @@ const Tunes: NextPage<{}> = () => {
                 onClickHandle={onKnowHandle}
                 know={mapKnow.includes(tune.id)}
                 pathname="/detailedtune/[slug]"
+                slug={tune.id}
               />
             ))}
           </div>

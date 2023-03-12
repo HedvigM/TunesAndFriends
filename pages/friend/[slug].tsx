@@ -7,7 +7,7 @@ import {
   WithPageAuthRequiredProps,
 } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/router";
-import { addNewRelation, getUser } from "services/local";
+import { addNewRelation, addTune, getUser } from "services/local";
 import { Prisma } from "@prisma/client";
 import { NextPage } from "next";
 import { LoadingSpinner } from "components/LoadingSpinner";
@@ -40,11 +40,10 @@ const Friend: NextPage<{}> = () => {
   const router = useRouter();
   const { slug: slug } = router.query;
 
-  console.log({ knowTunes });
   /* 
   userById = slugFriend
   databaseUser = loged in friend
-  */
+ */
 
   /* At the moment this exact function is in two places. fetching users the same way "friend" or loged in user. */
   useEffect(() => {
@@ -54,7 +53,7 @@ const Friend: NextPage<{}> = () => {
         if (fetchedUser.success) {
           setUserById(fetchedUser.data);
           /* Here is to look when solving the tunes id routing */
-          /*    Promise.all(
+          Promise.all(
             fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
               getMyCache(TUNE_URL(tunes.sessionId)).then(
                 (response) => response.name
@@ -62,7 +61,7 @@ const Friend: NextPage<{}> = () => {
             )
           ).then((values) => {
             setKnowTuneNamesById(values);
-          }); */
+          });
         }
       }
     };
@@ -97,8 +96,6 @@ const Friend: NextPage<{}> = () => {
               })
             )
           ).then((values) => {
-            console.log("values", values);
-
             setKnowTunes(
               values?.map((tune) => ({ name: tune.name, id: tune.id }))
             );
@@ -138,6 +135,12 @@ const Friend: NextPage<{}> = () => {
     addNewRelation(addingEmail, addedEmail);
     setFollowingButton(false);
   };
+  const onKnowHandle = (tuneID: number) => {
+    let newMapKnow = knowTunes.slice();
+    newMapKnow.push(tuneID);
+    setKnowTunes(newMapKnow);
+    addTune(tuneID, user.email, "know");
+  };
 
   const tuneCount = userById?.knowTunes?.length;
   const followersCount = userById?.followedBy?.length;
@@ -166,16 +169,20 @@ const Friend: NextPage<{}> = () => {
                   followers={followersCount}
                 />
               </ProfileContainer>
-              {knowTunes?.map((tune) => (
-                <StyledTable
-                  onClickHandle={function (id: number): void {
-                    throw new Error("Function not implemented.");
-                  }}
-                  know={false}
-                  pathname={""}
-                  data={tune}
-                />
-              ))}
+              {knowTunes?.map(
+                (tune) => (
+                  console.log({ tune }),
+                  (
+                    <StyledTable
+                      onClickHandle={onKnowHandle}
+                      know={false}
+                      pathname="/detailedtune/[slug]"
+                      slug={tune.id}
+                      data={tune}
+                    />
+                  )
+                )
+              )}
             </>
           )}
         </Container>
