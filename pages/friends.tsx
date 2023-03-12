@@ -36,12 +36,17 @@ const Friends: NextPage<{}> = () => {
   const [friendsArray, setFiendsArray] = useState<string[]>([]);
   const { user } = useUser();
 
+  const getUsersList = async (user) => {
+    const data = await getCachedListOfUsers(user);
+    console.log("KOLLA HÄR", data);
+    if (data) {
+      setUsersList(data);
+    }
+  };
+
   useEffect(() => {
     setLoading(true);
-    const getUsersList = async (user) => {
-      const data = await getCachedListOfUsers(user);
-      setUsersList(data);
-    };
+
     getUsersList(user);
     setLoading(false);
   }, []);
@@ -99,46 +104,46 @@ const Friends: NextPage<{}> = () => {
     fetchUserWithId();
   }, [user]);
 
-  if (usersList && !loading) {
-    return (
-      <Box
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        height: "100vh",
+      }}
+    >
+      <Container
+        maxWidth="sm"
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          height: "100vh",
+          width: "75%",
+          paddingY: "10px",
+          marginY: "30px",
         }}
       >
-        <Container
-          maxWidth="sm"
-          sx={{
-            width: "75%",
-            paddingY: "10px",
-            marginY: "30px",
-          }}
-        >
-          <Header size="large">Friends</Header>
+        <Header size="large">Friends</Header>
+        {!usersList || (loading && <LoadingSpinner />)}
+        {usersList
+          .filter((item) => item.email !== user.email)
+          .map((friend) => (
+            <div style={{ marginTop: "20px" }}>
+              <StyledTable
+                onClickHandle={() =>
+                  onClickHandle(user.email, friend.email, friend.auth0UserId)
+                }
+                know={friendsArray.includes(friend.auth0UserId)}
+                data={friend}
+                pathname="/friend/[slug]"
+              />
+            </div>
+          ))}
+      </Container>
 
-          {usersList
-            .filter((item) => item.email !== user.email)
-            .map((friend) => (
-              <div style={{ marginTop: "20px" }}>
-                <StyledTable
-                  onClickHandle={() =>
-                    onClickHandle(user.email, friend.email, friend.auth0UserId)
-                  }
-                  know={friendsArray.includes(friend.auth0UserId)}
-                  data={friend}
-                  pathname="/friend/[slug]"
-                />
-              </div>
-            ))}
-        </Container>
-
-        <Menu />
-      </Box>
-    );
-  } else {
+      <Menu />
+    </Box>
+  );
+};
+/* else {
     return (
       <Box
         sx={{
@@ -181,8 +186,7 @@ const Friends: NextPage<{}> = () => {
         </Container>
       </Box>
     );
-  }
-};
+  } */
 
 interface buttonProps {
   readonly included: boolean;

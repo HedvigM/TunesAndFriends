@@ -73,7 +73,6 @@ const Tunes: NextPage<{}> = () => {
     setMapKnow(newMapKnow);
     addTune(tuneID, user.email, "know");
   };
-  console.log({ popularList });
 
   return (
     <>

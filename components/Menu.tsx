@@ -210,9 +210,7 @@ type MenuhrefProps = {
 };
 
 const LinkContainer = styled("div")<MenuhrefProps>((props) => ({
-  backgroundColor: router.asPath.includes(props.href)
-    ? colors.first
-    : colors.second,
+  backgroundColor: router.asPath === props.href ? colors.first : colors.second,
   /* padding: theme.spacing(0, 2), */
   height: "100%",
   padding: "5px 10%",
