@@ -1,16 +1,16 @@
-import { UserProfile } from '@auth0/nextjs-auth0';
-import { User } from '@prisma/client';
-import { ResponseType } from 'types/types';
-import { getMyCache } from './functions';
+import { UserProfile } from "@auth0/nextjs-auth0";
+import { User } from "@prisma/client";
+import { ResponseType } from "types/types";
+import { getMyCache } from "./functions";
 
 export const addUser = (user: UserProfile) => {
   const defaultHeaders = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json;charset=UTF-8',
+    Accept: "application/json",
+    "Content-Type": "application/json;charset=UTF-8",
   };
-  const url = '/api/users';
+  const url = "/api/users";
   const options = {
-    method: 'POST',
+    method: "POST",
     headers: defaultHeaders,
     body: JSON.stringify({
       name: user.name,
@@ -38,12 +38,12 @@ export const addUser = (user: UserProfile) => {
 
 export const getUserById = (slug) => {
   const defaultHeaders = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json;charset=UTF-8',
+    Accept: "application/json",
+    "Content-Type": "application/json;charset=UTF-8",
   };
-  const url = '/api/user/' + slug;
+  const url = "/api/user/" + slug;
   const options = {
-    method: 'GET',
+    method: "GET",
     headers: defaultHeaders,
   };
   return fetch(url, options)
@@ -69,15 +69,15 @@ export const getUserById = (slug) => {
 };
 
 export const getUser = (auth0UserId: string) => {
-  console.log('auth0UserId get user1', auth0UserId);
+  console.log("auth0UserId get user1", auth0UserId);
   const defaultHeaders = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json;charset=UTF-8',
+    Accept: "application/json",
+    "Content-Type": "application/json;charset=UTF-8",
   };
 
   const url = `/api/users/${auth0UserId}`;
   const options = {
-    method: 'GET',
+    method: "GET",
     headers: defaultHeaders,
   };
 
@@ -106,13 +106,13 @@ export const getUser = (auth0UserId: string) => {
 
 export const updateUser = (user: User, town: string, profileText: string) => {
   const defaultFeaders = {
-    Accept: 'application/json',
-    'content-Type': 'application/json;charset=UTF-8',
+    Accept: "application/json",
+    "content-Type": "application/json;charset=UTF-8",
   };
 
-  const url = '/api/users/';
+  const url = "/api/users/";
   const options = {
-    method: 'PATCH',
+    method: "PATCH",
     headers: defaultFeaders,
     body: JSON.stringify({
       email: user.email,
@@ -145,12 +145,12 @@ export const updateUser = (user: User, town: string, profileText: string) => {
 
 export const listUsers = () => {
   const defaultHeaders = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json;charset=UTF-8',
+    Accept: "application/json",
+    "Content-Type": "application/json;charset=UTF-8",
   };
-  const url = '/api/users';
+  const url = "/api/users";
   const options = {
-    method: 'GET',
+    method: "GET",
     headers: defaultHeaders,
   };
   return fetch(url, options)
@@ -177,12 +177,13 @@ export const listUsers = () => {
 
 export const addTune = (tune, email, knowOrLearn) => {
   const defaultHeaders = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json;charset=UTF-8',
+    Accept: "application/json",
+    "Content-Type": "application/json;charset=UTF-8",
   };
-  const url = 'api/tunes/tune';
+
+  const url = "/api/tunes/tune";
   const options = {
-    method: 'POST',
+    method: "POST",
     headers: defaultHeaders,
     body: JSON.stringify({
       tune: tune,
@@ -209,12 +210,12 @@ export const addTune = (tune, email, knowOrLearn) => {
 
 export const getStaredTunes = () => {
   const defaultHeaders = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json;charset=UTF-8',
+    Accept: "application/json",
+    "Content-Type": "application/json;charset=UTF-8",
   };
-  const url = '/api/tunes/tune';
+  const url = "/api/tunes/tune";
   const options = {
-    method: 'GET',
+    method: "GET",
     headers: defaultHeaders,
   };
   return fetch(url, options)
@@ -241,13 +242,13 @@ export const getStaredTunes = () => {
 
 export const addNewRelation = (addingEmail, addedEmail) => {
   const defaultHeaders = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json;charset=UTF-8',
+    Accept: "application/json",
+    "Content-Type": "application/json;charset=UTF-8",
   };
 
-  const url = '/api/relations/relations';
+  const url = "/api/relations/relations";
   const options = {
-    method: 'POST',
+    method: "POST",
     headers: defaultHeaders,
     body: JSON.stringify({
       addingEmail: addingEmail,

@@ -21,15 +21,20 @@ import { ProfileInfo } from "components/ProfileInfo";
 import { Data, StyledTable } from "components/Table";
 import { Menu } from "components/Menu";
 import { ProfileImage } from "components/ProfileImage";
+import { colors } from "styles/theme";
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
-  const [databaseUser, setDatabaseUser] = useState<UserWithRelations>();
+  const [logedinUser, setLogedinUser] = useState<UserWithRelations>();
+  const [viewededUser, setViewedUser] = useState<UserWithRelations>();
+  const [visitedFriendTunes, setVisitedFriendTunes] =
+    useState<UserWithRelations>();
+  const [logedinKnowTuneId, setLogedinKnowTunesId] = useState([]);
+
+  const [mapFollowing, setMapFollowing] = useState([]);
   const [loading, setLoading] = useState(false);
   const [knowTunes, setKnowTunes] = useState<Data[]>([]);
-  const [userById, setUserById] = useState<UserWithRelations>();
   const [knowTuneNamesById, setKnowTuneNamesById] = useState([]);
-  const [mapFollowing, setMapFollowing] = useState([]);
   const [followingButton, setFollowingButton] = useState(true);
   const [commonTunes, setCommonTunes] = useState([]);
 
@@ -40,55 +45,13 @@ const Friend: NextPage<{}> = () => {
   const router = useRouter();
   const { slug: slug } = router.query;
 
-  /* 
-  userById = slugFriend
-  databaseUser = loged in friend
- */
-
-  /* At the moment this exact function is in two places. fetching users the same way "friend" or loged in user. */
+  /* Get Viewed user (profile and tune names )*/
   useEffect(() => {
     const fetchUser = async () => {
       if (slug) {
         const fetchedUser = await getUser(slug as string);
         if (fetchedUser.success) {
-          setUserById(fetchedUser.data);
-          /* Here is to look when solving the tunes id routing */
-          Promise.all(
-            fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
-              getMyCache(TUNE_URL(tunes.sessionId)).then(
-                (response) => response.name
-              )
-            )
-          ).then((values) => {
-            setKnowTuneNamesById(values);
-          });
-        }
-      }
-    };
-
-    fetchUser();
-  }, [slug]);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      setLoading(true);
-      if (user) {
-        const fetchedUser = await getUser(user.sub as string);
-        if (fetchedUser.success) {
-          setDatabaseUser(fetchedUser.data);
-          setMapFollowing(
-            fetchedUser.data.following.map((followedUsers: { id: number }) => {
-              return followedUsers.id;
-            })
-          );
-          if (userById) {
-            if (mapFollowing.includes(userById.id)) {
-              setFollowingButton(true);
-            } else {
-              setFollowingButton(false);
-            }
-          }
-
+          setViewedUser(fetchedUser.data);
           Promise.all(
             fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
               getMyCache(TUNE_URL(tunes.sessionId)).then((response) => {
@@ -100,53 +63,52 @@ const Friend: NextPage<{}> = () => {
               values?.map((tune) => ({ name: tune.name, id: tune.id }))
             );
           });
-          setLoading(false);
         }
       }
     };
+    fetchUser();
+  }, [slug]);
 
+  /* get loged in user*/
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (user.sub !== slug) {
+        const fetchedUser = await getUser(user.sub as string);
+        if (fetchedUser.success) {
+          setLogedinUser(fetchedUser.data);
+          setMapFollowing(
+            fetchedUser.data.following.map((followedUsers: { id: number }) => {
+              return followedUsers.id;
+            })
+          );
+          setLogedinKnowTunesId(
+            fetchedUser.data.knowTunes.map((tune: { sessionId: number }) => {
+              return tune.sessionId;
+            })
+          );
+        }
+      }
+    };
     fetchUser();
   }, [user]);
-
-  useEffect(() => {
-    if (databaseUser && userById) {
-      const commonTunes = [];
-      const mappedUser = userById.knowTunes.map((tunes) => tunes.sessionId);
-      databaseUser.knowTunes.forEach((tuneId) => {
-        if (mappedUser.includes(tuneId.sessionId)) {
-          commonTunes.push(tuneId);
-
-          Promise.all(
-            commonTunes.map((tunes) =>
-              getMyCache(TUNE_URL(tunes.sessionId)).then((response) => {
-                return response.name;
-              })
-            )
-          ).then((values) => {
-            setCommonTunes(values);
-          });
-        }
-      });
-    }
-  }, [userById, databaseUser]);
 
   /* Add new relation vith auth0 instead... */
   const onClickHandle = (addingEmail, addedEmail) => {
     addNewRelation(addingEmail, addedEmail);
     setFollowingButton(false);
   };
-  const onKnowHandle = (tuneID: number) => {
-    let newMapKnow = knowTunes.slice();
-    newMapKnow.push(tuneID);
-    setKnowTunes(newMapKnow);
-    addTune(tuneID, user.email, "know");
+  const onKnowHandle = (tuneId: number) => {
+    let newMapKnow = logedinKnowTuneId.slice();
+    newMapKnow.push(tuneId);
+    setLogedinKnowTunesId(newMapKnow);
+    addTune(tuneId, user.email, "know");
   };
 
-  const tuneCount = userById?.knowTunes?.length;
-  const followersCount = userById?.followedBy?.length;
-  const followingCount = userById?.following?.length;
+  const tuneCount = viewededUser?.knowTunes?.length;
+  const followersCount = viewededUser?.followedBy?.length;
+  const followingCount = viewededUser?.following?.length;
 
-  if (databaseUser && userById && knowTuneNamesById && !loading) {
+  if (logedinUser && viewededUser && knowTuneNamesById && !loading) {
     return (
       <Box
         sx={{
@@ -157,32 +119,39 @@ const Friend: NextPage<{}> = () => {
         }}
       >
         <Container maxWidth="sm">
-          {userById && (
+          {viewededUser && (
             <>
-              <Header size="large">{userById.name}</Header>
+              <Header size="large">{viewededUser.name}</Header>
               <ProfileContainer>
-                <ProfileImage size={"small"} />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "5px",
+                    paddingRight: "10px",
+                  }}
+                >
+                  <ProfileImage size={"small"} />
+                  <StyledButton know={mapFollowing.includes(viewededUser.id)}>
+                    Add
+                  </StyledButton>
+                </div>
                 <ProfileInfo
-                  profileText={userById.profileText}
+                  profileText={viewededUser.profileText}
                   tunesCount={tuneCount}
                   following={followingCount}
                   followers={followersCount}
                 />
               </ProfileContainer>
-              {knowTunes?.map(
-                (tune) => (
-                  console.log({ tune }),
-                  (
-                    <StyledTable
-                      onClickHandle={onKnowHandle}
-                      know={false}
-                      pathname="/detailedtune/[slug]"
-                      slug={tune.id}
-                      data={tune}
-                    />
-                  )
-                )
-              )}
+              {knowTunes?.map((tune) => (
+                <StyledTable
+                  onClickHandle={onKnowHandle}
+                  know={logedinKnowTuneId.includes(tune.id)}
+                  pathname="/detailedtune/[slug]"
+                  slug={tune.id}
+                  data={tune}
+                />
+              ))}
             </>
           )}
         </Container>
@@ -198,6 +167,22 @@ export default withPageAuthRequired<WithPageAuthRequiredProps>(Friend);
 export const ProfileContainer = styled("div")`
   padding: 20px 0;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
+  align-content: center;
   justify-content: center;
 `;
+
+type FriendSlugProps = {
+  know: boolean;
+};
+
+const StyledButton = styled("button")<FriendSlugProps>((props) => ({
+  backgroundColor: props.know ? "inherit" : colors.second,
+  padding: "5px 10px",
+  border: `1px solid ${colors.second}`,
+  borderRadius: "3px",
+
+  "&:hover": {
+    cursor: "pointer",
+  },
+}));

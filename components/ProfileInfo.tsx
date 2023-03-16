@@ -17,7 +17,7 @@ export const ProfileInfo = ({
     <OuterContainer>
       <StatsContainer>
         <StatsHeading>
-          <Typography sx={{ fontSize: "12px" }} variant='body2'>
+          <Typography sx={{ fontSize: "12px" }} variant="body2">
             TUNES
           </Typography>
         </StatsHeading>
@@ -27,7 +27,7 @@ export const ProfileInfo = ({
       </StatsContainer>
       <StatsContainer>
         <StatsHeading>
-          <Typography sx={{ fontSize: "12px" }} variant='body2'>
+          <Typography sx={{ fontSize: "12px" }} variant="body2">
             FOLLOWING
           </Typography>
         </StatsHeading>
@@ -37,7 +37,7 @@ export const ProfileInfo = ({
       </StatsContainer>
       <StatsContainer>
         <StatsHeading>
-          <Typography sx={{ fontSize: "12px" }} variant='body2'>
+          <Typography sx={{ fontSize: "12px" }} variant="body2">
             FOLLOWERS
           </Typography>
         </StatsHeading>
@@ -54,7 +54,7 @@ const OuterContainer = styled("div")((props) => ({
   display: "grid",
   gridTemplateColumns: "1fr 1fr 1fr",
   gridTemplateRows: "1fr 1fr 1fr",
-  margin: "10px",
+  margin: "0px",
 }));
 const StatsContainer = styled("div")((props) => ({
   height: "35px",

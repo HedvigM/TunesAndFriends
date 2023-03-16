@@ -66,11 +66,11 @@ const Tunes: NextPage<{}> = () => {
     getPopularTunes();
   }, [page]);
 
-  const onKnowHandle = (tuneID: number) => {
+  const onKnowHandle = (tuneId: number) => {
     let newMapKnow = mapKnow.slice();
-    newMapKnow.push(tuneID);
+    newMapKnow.push(tuneId);
     setMapKnow(newMapKnow);
-    addTune(tuneID, user.email, "know");
+    addTune(tuneId, user.email, "know");
   };
 
   return (
