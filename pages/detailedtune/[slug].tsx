@@ -10,6 +10,8 @@ import {
 import { NextPage } from "next";
 import { LoadingSpinner } from "components/LoadingSpinner";
 import { getMyCache } from "services/functions";
+import { Menu } from "components/Menu";
+import { Header } from "components/Header";
 
 export const Music = (props) => {
   let lineBreak = (string: string) => {
@@ -80,9 +82,8 @@ const detailedtune: NextPage<{}> = () => {
                 width: "80%",
               }}
             >
-              <Typography variant="h1" textAlign="left">
-                {details.name}
-              </Typography>
+              <Header size="large">{details.name}</Header>
+
               <Typography
                 variant="h2"
                 textAlign="left"
@@ -105,6 +106,7 @@ const detailedtune: NextPage<{}> = () => {
             </Button>
           </Box>
         </Container>
+        <Menu />
       </Box>
     );
   } else {
