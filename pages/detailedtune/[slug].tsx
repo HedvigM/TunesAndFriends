@@ -1,4 +1,4 @@
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box, Button, Container, styled, Typography } from "@mui/material";
 
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -12,6 +12,8 @@ import { LoadingSpinner } from "components/LoadingSpinner";
 import { getMyCache } from "services/functions";
 import { Menu } from "components/Menu";
 import { Header } from "components/Header";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { colors } from "styles/theme";
 
 export const Music = (props) => {
   let lineBreak = (string: string) => {
@@ -71,6 +73,18 @@ const detailedtune: NextPage<{}> = () => {
         }}
       >
         <Container maxWidth="lg">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+              flexDirection: "row-reverse",
+            }}
+          >
+            <Header size="large">{details.name}</Header>
+            <StyledButton size="small" variant="text" onClick={onClickHandle}>
+              <ArrowBackIosNewIcon />
+            </StyledButton>
+          </div>
           <Box
             sx={{
               display: "flex",
@@ -82,8 +96,6 @@ const detailedtune: NextPage<{}> = () => {
                 width: "80%",
               }}
             >
-              <Header size="large">{details.name}</Header>
-
               <Typography
                 variant="h2"
                 textAlign="left"
@@ -100,11 +112,7 @@ const detailedtune: NextPage<{}> = () => {
               justifyContent: "left",
               padding: "15px 0",
             }}
-          >
-            <Button size="small" variant="contained" onClick={onClickHandle}>
-              Back
-            </Button>
-          </Box>
+          ></Box>
         </Container>
         <Menu />
       </Box>
@@ -113,4 +121,14 @@ const detailedtune: NextPage<{}> = () => {
     return <LoadingSpinner />;
   }
 };
+
+const StyledButton = styled(Button)`
+  color: ${colors.third};
+  padding: 0;
+  min-width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+`;
+
 export default withPageAuthRequired<WithPageAuthRequiredProps>(detailedtune);
