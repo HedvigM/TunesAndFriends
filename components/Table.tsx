@@ -12,6 +12,7 @@ interface TableProps {
 }
 
 export type Data = {
+  [x: string]: any;
   name: string;
   id: number;
 };

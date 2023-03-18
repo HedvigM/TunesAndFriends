@@ -16,7 +16,6 @@ import {
 } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/router";
 import { addTune, getUser } from "services/local";
-import StarIcon from "@mui/icons-material/Star";
 import { NextPage } from "next";
 import { getMyCache } from "services/functions";
 import { styled } from "@mui/material";
@@ -27,7 +26,6 @@ import { LoadingSpinner } from "components/LoadingSpinner";
 const Tunes: NextPage<{}> = () => {
   const [popularList, setPopularList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [mapStar, setMapStar] = useState([]);
   const [mapKnow, setMapKnow] = useState([]);
   const { user } = useUser();
   const router = useRouter();
@@ -40,10 +38,6 @@ const Tunes: NextPage<{}> = () => {
       if (user) {
         const newUserWithId = await getUser(user?.sub as string);
         if (newUserWithId.success) {
-          /*   let newStarredTunes = await newUserWithId.data?.starredTunes?.map(
-            (tunes: { sessionId: number }) => tunes.sessionId
-          ); */
-          /* setMapStar(newStarredTunes); */
           let newKnowTunes = await newUserWithId.data?.knowTunes?.map(
             (tunes: { sessionId: number }) => tunes.sessionId
           );
@@ -99,7 +93,7 @@ const Tunes: NextPage<{}> = () => {
                 data={tune}
                 onClickHandle={onKnowHandle}
                 know={mapKnow.includes(tune.id)}
-                pathname="/detailedtune/[slug]"
+                pathname="/tune/[slug]"
                 slug={tune.id}
               />
             ))}

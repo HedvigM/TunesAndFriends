@@ -41,7 +41,7 @@ export const Menu = () => {
             </Typography>
           </Link>
         </LinkContainer>
-        <LinkContainer href="/friends">
+        <LinkContainer href={`/friends`}>
           <Link href="/friends">
             <Typography
               variant="body1"
@@ -58,7 +58,7 @@ export const Menu = () => {
             </Typography>
           </Link>
         </LinkContainer>
-        <LinkContainer href="/tunes">
+        <LinkContainer href={`/tunes`}>
           <Link href="/tunes">
             <Typography
               variant="body1"
@@ -76,7 +76,7 @@ export const Menu = () => {
           </Link>
         </LinkContainer>
 
-        <LinkContainer href="/profile">
+        <LinkContainer href="/profiles">
           <Link href="/profile">
             <Typography
               variant="body1"
@@ -211,7 +211,6 @@ type MenuhrefProps = {
 
 const LinkContainer = styled("div")<MenuhrefProps>((props) => ({
   backgroundColor: router.asPath === props.href ? colors.first : colors.second,
-  /* padding: theme.spacing(0, 2), */
   height: "100%",
   padding: "5px 10%",
   display: "flex",

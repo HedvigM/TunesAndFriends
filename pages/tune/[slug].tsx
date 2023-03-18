@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { TUNE_URL } from "utils/urls";
 import {
+  useUser,
   withPageAuthRequired,
   WithPageAuthRequiredProps,
 } from "@auth0/nextjs-auth0";
@@ -14,6 +15,8 @@ import { Menu } from "components/Menu";
 import { Header } from "components/Header";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { colors } from "styles/theme";
+import { TuneInfo } from "components/TuneInfo";
+import { addTune, getUser } from "services/local";
 
 export const Music = (props) => {
   let lineBreak = (string: string) => {
@@ -34,10 +37,13 @@ export const Music = (props) => {
 };
 
 const detailedtune: NextPage<{}> = () => {
+  const { user } = useUser();
   const [loading, setLoading] = useState(true);
+  const [mapKnow, setMapKnow] = useState([]);
   const [details, setDetails] = useState({
     name: "Loading...",
     type: "Loading...",
+    id: "Loading",
   });
   const [abc, setAbc] = useState(
     "|:E2BE dEBE|E2BE AFDF|E2BE dEBE|BABc dAFD:|!d2fd c2ec|defg afge|d2fd c2ec|BABc dAFA|!d2fd c2ec|defg afge|afge fdec|BABc dAFD|"
@@ -47,6 +53,22 @@ const detailedtune: NextPage<{}> = () => {
   const { slug: slug } = router.query;
 
   const abcjs = process.browser ? require("abcjs") : null;
+
+  useEffect(() => {
+    const fetchUserWithId = async () => {
+      if (user) {
+        const newUserWithId = await getUser(user?.sub as string);
+        if (newUserWithId.success) {
+          let newKnowTunes = await newUserWithId.data?.knowTunes?.map(
+            (tunes: { sessionId: number }) => tunes.sessionId
+          );
+          setMapKnow(newKnowTunes);
+        }
+      }
+    };
+
+    fetchUserWithId();
+  }, [user]);
 
   useEffect(() => {
     setLoading(true);
@@ -60,6 +82,12 @@ const detailedtune: NextPage<{}> = () => {
 
   const onClickHandle = () => {
     router.back();
+  };
+  const onKnowHandle = () => {
+    let newMapKnow = mapKnow.slice();
+    newMapKnow.push(details.id);
+    setMapKnow(newMapKnow);
+    addTune(details.id, user.email, "know");
   };
 
   if (details && !loading) {
@@ -106,13 +134,13 @@ const detailedtune: NextPage<{}> = () => {
             </Box>
           </Box>
           <Music abcNotes={abc} />
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "left",
-              padding: "15px 0",
-            }}
-          ></Box>
+          <StyledAddButton
+            know={mapKnow.includes(details.id)}
+            onClick={onKnowHandle}
+          >
+            Add
+          </StyledAddButton>
+          <TuneInfo type={details.type} knownBy={undefined} />
         </Container>
         <Menu />
       </Box>
@@ -130,5 +158,21 @@ const StyledButton = styled(Button)`
   justify-content: center;
   align-items: flex-end;
 `;
+
+type TuneStyledProps = {
+  know: boolean;
+};
+
+const StyledAddButton = styled("button")<TuneStyledProps>((props) => ({
+  backgroundColor: props.know ? "inherit" : colors.second,
+  padding: "5px 10px",
+  margin: "10px 0",
+  border: `1px solid ${colors.second}`,
+  borderRadius: "3px",
+
+  "&:hover": {
+    cursor: "pointer",
+  },
+}));
 
 export default withPageAuthRequired<WithPageAuthRequiredProps>(detailedtune);
