@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
-import { Box } from "@mui/material";
+import { Box, styled } from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0";
 import { Menu } from "components/Menu";
 import { Header } from "components/Header";
@@ -10,24 +10,23 @@ import { getUser } from "services/local";
 import { getMyCache } from "services/functions";
 import { TUNE_URL } from "utils/urls";
 
+type NewTunes = {
+  name: string;
+  id: number;
+};
+
 const IndexPage: NextPage<{}> = ({}) => {
   const { user } = useUser();
-  const [tunes, setTunes] = useState({
-    name: "Loading...",
-    id: "Loading",
-  });
-  const [tuneNames, setTuneNames] = useState();
+  const [tuneIds, setTuneIds] = useState<number[]>();
+  const [tuneNames, setTuneNames] = useState<NewTunes[]>();
   const [friends, setFriends] = useState<Data>();
 
-  console.log({ friends });
-  console.log({ tunes });
-  console.log({ tuneNames });
   useEffect(() => {
     const fetchUserWithId = async () => {
       if (user) {
         const newUserWithId = await getUser(user?.sub as string);
         if (newUserWithId.success) {
-          let newTunes = await newUserWithId.data?.knowTunes?.map(
+          let newTunes: Data = await newUserWithId.data?.knowTunes?.map(
             (tunes: Data) => tunes.sessionId
           );
 
@@ -36,7 +35,7 @@ const IndexPage: NextPage<{}> = ({}) => {
               return { name: friends.name, id: friends.id };
             })
           );
-          setTunes(newTunes.slice(0, 3));
+          setTuneIds(newTunes.slice(0, 3));
         }
       }
     };
@@ -44,18 +43,19 @@ const IndexPage: NextPage<{}> = ({}) => {
     fetchUserWithId();
   }, [user]);
 
-  // Hämta låtnamnen
-  /*   useEffect(() => {
-    const getDetailedTune = async () => {
-      if (tunes) {
-        const tuneMap = tunes.map((tune) => tune.id);
-          const data = await getMyCache(TUNE_URL(tuneMap)); 
-        setTuneNames(await getMyCache(TUNE_URL(tuneMap)));
-      }
-    };
-
-    getDetailedTune();
-  }, [tunes]);  */
+  useEffect(() => {
+    if (tuneIds) {
+      Promise.all(
+        tuneIds.map((tunes) =>
+          getMyCache(TUNE_URL(tunes)).then((response) => {
+            return response;
+          })
+        )
+      ).then((values) => {
+        setTuneNames(values?.map((tune) => ({ name: tune.name, id: tune.id })));
+      });
+    }
+  }, [tuneIds]);
 
   if (!user) {
     return (
@@ -85,21 +85,22 @@ const IndexPage: NextPage<{}> = ({}) => {
     },
   ];
 
-  if (user && tunes) {
+  if (user) {
     return (
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
           justifyContent: "space-between",
+          alignContent: "center",
           height: "100vh",
+          flexDirection: "column",
         }}
       >
         <Header size={"large"}>Tunes & Friends</Header>
-        <div style={{ padding: "50px 0" }}>
-          <Header size={"small"}>Newest Friends</Header>
-          {friends &&
-            friends.map((data: Data) => (
+        <Header size={"small"}>Newest Friends</Header>
+        {friends &&
+          friends.map((data: Data) => (
+            <ContentContainer>
               <StyledTable
                 onClickHandle={() => {}}
                 know={true}
@@ -107,9 +108,24 @@ const IndexPage: NextPage<{}> = ({}) => {
                 data={data}
                 slug={""}
               />
-            ))}
-          <Header size={"small"}>Newest Tunes</Header>
-          {Data.map((data) => (
+            </ContentContainer>
+          ))}
+        <Header size={"small"}>Newest Tunes</Header>
+        {tuneNames &&
+          tuneNames.map((tune) => (
+            <ContentContainer>
+              <StyledTable
+                onClickHandle={() => {}}
+                know={true}
+                pathname={"/tune/[slug]"}
+                data={tune}
+                slug={tune.id}
+              />
+            </ContentContainer>
+          ))}
+        <Header size={"small"}>Friends newest tunes</Header>
+        {Data.map((data) => (
+          <ContentContainer>
             <StyledTable
               onClickHandle={() => {}}
               know={false}
@@ -117,22 +133,30 @@ const IndexPage: NextPage<{}> = ({}) => {
               data={data}
               slug={""}
             />
-          ))}
-          <Header size={"small"}>Friends newest tunes</Header>
-          {Data.map((data) => (
-            <StyledTable
-              onClickHandle={() => {}}
-              know={false}
-              pathname={""}
-              data={data}
-              slug={""}
-            />
-          ))}
-        </div>
-        <Menu />
+          </ContentContainer>
+        ))}
+        <StickyMenuContainer>
+          <Menu />
+        </StickyMenuContainer>
       </Box>
     );
   }
 };
+
+const StickyMenuContainer = styled("div")`
+  position: sticky;
+  bottom: 0px;
+  width: 100%;
+`;
+const ContentContainer = styled("div")`
+  max-width: 450px;
+`;
+const CenterDiv = styled("div")`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-content: center;
+  width: 100%;
+`;
 
 export default IndexPage;
