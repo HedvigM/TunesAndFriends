@@ -112,9 +112,7 @@ const Friends: NextPage<{}> = () => {
       }}
     >
       <Container
-        maxWidth="sm"
         sx={{
-          width: "75%",
           paddingY: "10px",
           marginY: "30px",
         }}

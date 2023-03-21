@@ -31,7 +31,7 @@ export const StyledTable = ({
   slug,
 }: TableProps) => {
   return (
-    <Container maxWidth="sm" sx={{ margin: "0", padding: "0px" }}>
+    <Container maxWidth="sm" sx={{ margin: "0" }}>
       <Box
         sx={{
           borderTop: "1px solid grey",
@@ -54,7 +54,7 @@ export const StyledTable = ({
               fontWeight: "400",
               color: "text.primary",
               display: "inline",
-              textAlign: "center",
+              textAlign: "left",
               margin: "1px",
 
               "&:hover": {

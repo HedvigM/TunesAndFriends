@@ -77,14 +77,7 @@ const Tunes: NextPage<{}> = () => {
           height: "100vh",
         }}
       >
-        <Container
-          maxWidth="sm"
-          sx={{
-            width: "95%",
-            paddingY: "10px",
-            marginY: "30px",
-          }}
-        >
+        <Container sx={{}}>
           <Header size="large">popular tunes</Header>
           <div style={{ marginTop: "20px" }}>
             {!popularList && <LoadingSpinner />}
