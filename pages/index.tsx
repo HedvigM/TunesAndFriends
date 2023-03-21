@@ -90,51 +90,57 @@ const IndexPage: NextPage<{}> = ({}) => {
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-between",
           alignContent: "center",
           height: "100vh",
           flexDirection: "column",
+          justifyContent: "space-between",
         }}
       >
         <Header size={"large"}>Tunes & Friends</Header>
         <Header size={"small"}>Newest Friends</Header>
-        {friends &&
-          friends.map((data: Data) => (
+        <div>
+          {friends &&
+            friends.map((data: Data) => (
+              <ContentContainer>
+                <StyledTable
+                  onClickHandle={() => {}}
+                  know={true}
+                  pathname={""}
+                  data={data}
+                  slug={""}
+                />
+              </ContentContainer>
+            ))}
+        </div>
+        <Header size={"small"}>Newest Tunes</Header>
+        <div>
+          {tuneNames &&
+            tuneNames.map((tune) => (
+              <ContentContainer>
+                <StyledTable
+                  onClickHandle={() => {}}
+                  know={true}
+                  pathname={"/tune/[slug]"}
+                  data={tune}
+                  slug={tune.id}
+                />
+              </ContentContainer>
+            ))}
+        </div>
+        <Header size={"small"}>Friends newest tunes</Header>
+        <div>
+          {Data.map((data) => (
             <ContentContainer>
               <StyledTable
                 onClickHandle={() => {}}
-                know={true}
+                know={false}
                 pathname={""}
                 data={data}
                 slug={""}
               />
             </ContentContainer>
           ))}
-        <Header size={"small"}>Newest Tunes</Header>
-        {tuneNames &&
-          tuneNames.map((tune) => (
-            <ContentContainer>
-              <StyledTable
-                onClickHandle={() => {}}
-                know={true}
-                pathname={"/tune/[slug]"}
-                data={tune}
-                slug={tune.id}
-              />
-            </ContentContainer>
-          ))}
-        <Header size={"small"}>Friends newest tunes</Header>
-        {Data.map((data) => (
-          <ContentContainer>
-            <StyledTable
-              onClickHandle={() => {}}
-              know={false}
-              pathname={""}
-              data={data}
-              slug={""}
-            />
-          </ContentContainer>
-        ))}
+        </div>
         <StickyMenuContainer>
           <Menu />
         </StickyMenuContainer>
@@ -149,7 +155,10 @@ const StickyMenuContainer = styled("div")`
   width: 100%;
 `;
 const ContentContainer = styled("div")`
-  max-width: 450px;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 const CenterDiv = styled("div")`
   display: flex;

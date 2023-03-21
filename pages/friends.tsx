@@ -120,11 +120,11 @@ const Friends: NextPage<{}> = () => {
         }}
       >
         <Header size="large">Friends</Header>
-        {!usersList || (loading && <LoadingSpinner />)}
-        {usersList
-          .filter((item) => item.email !== user.email)
-          .map((friend) => (
-            <div style={{ marginTop: "20px" }}>
+        <div style={{ padding: "20px 0" }}>
+          {!usersList || (loading && <LoadingSpinner />)}
+          {usersList
+            .filter((item) => item.email !== user.email)
+            .map((friend) => (
               <StyledTable
                 onClickHandle={() =>
                   onClickHandle(user.email, friend.email, friend.auth0UserId)
@@ -134,8 +134,8 @@ const Friends: NextPage<{}> = () => {
                 pathname="/friend/[slug]"
                 slug={friend.auth0UserId}
               />
-            </div>
-          ))}
+            ))}
+        </div>
       </Container>
 
       <Menu />

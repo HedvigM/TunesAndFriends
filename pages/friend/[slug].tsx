@@ -147,7 +147,7 @@ const Friend: NextPage<{}> = () => {
                 <StyledTable
                   onClickHandle={onKnowHandle}
                   know={logedinKnowTuneId.includes(tune.id)}
-                  pathname="/detailedtune/[slug]"
+                  pathname="/tune/[slug]"
                   slug={tune.id}
                   data={tune}
                 />

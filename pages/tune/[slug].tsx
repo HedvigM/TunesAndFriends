@@ -118,21 +118,7 @@ const detailedtune: NextPage<{}> = () => {
               display: "flex",
               justifyContent: "center",
             }}
-          >
-            <Box
-              sx={{
-                width: "80%",
-              }}
-            >
-              <Typography
-                variant="h2"
-                textAlign="left"
-                sx={{ padding: "20px 0" }}
-              >
-                {details.type}
-              </Typography>
-            </Box>
-          </Box>
+          ></Box>
           <Music abcNotes={abc} />
           <StyledAddButton
             know={mapKnow.includes(details.id)}

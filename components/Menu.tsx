@@ -76,7 +76,7 @@ export const Menu = () => {
           </Link>
         </LinkContainer>
 
-        <LinkContainer href="/profiles">
+        <LinkContainer href="/profile">
           <Link href="/profile">
             <Typography
               variant="body1"

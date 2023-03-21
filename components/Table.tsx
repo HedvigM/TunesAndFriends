@@ -1,7 +1,14 @@
-import { styled, Table, TableCell, TableRow, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  styled,
+  Table,
+  TableCell,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import Link from "next/link";
 import { colors } from "styles/theme";
-import { LoadingSpinner } from "./LoadingSpinner";
 
 interface TableProps {
   onClickHandle: (id: number) => void;
@@ -24,58 +31,57 @@ export const StyledTable = ({
   slug,
 }: TableProps) => {
   return (
-    <Table size="small" sx={{ margin: "0", padding: "0px" }}>
-      <TableRow
+    <Container maxWidth="sm" sx={{ margin: "0", padding: "0px" }}>
+      <Box
         sx={{
           borderTop: "1px solid grey",
           "&:last-child td, &:last-child th": { border: 0 },
           display: "grid",
+          alignItems: "center",
           gridTemplateColumns: "80% 1fr",
         }}
       >
-        <TableCell component="th" scope="row">
-          <Link
-            href={{
-              pathname: `${pathname}`,
-              query: { slug: `${slug}` },
+        <Link
+          href={{
+            pathname: `${pathname}`,
+            query: { slug: `${slug}` },
+          }}
+        >
+          <Typography
+            variant="body1"
+            sx={{
+              fontSize: "1rem",
+              fontWeight: "400",
+              color: "text.primary",
+              display: "inline",
+              textAlign: "center",
+              margin: "1px",
+
+              "&:hover": {
+                color: "text.primary",
+                backgroundColor: "deeppink",
+                cursor: "pointer",
+              },
             }}
           >
-            <Typography
-              variant="body1"
-              sx={{
-                fontSize: "1rem",
-                fontWeight: "400",
-                color: "text.primary",
-                display: "inline",
-                textAlign: "center",
-                margin: "1px",
+            {data.name}
+          </Typography>
+        </Link>
 
-                "&:hover": {
-                  color: "text.primary",
-                  backgroundColor: "deeppink",
-                  cursor: "pointer",
-                },
-              }}
-            >
-              {data.name}
-            </Typography>
-          </Link>
-        </TableCell>
-        <TableCell
-          component="th"
-          scope="row"
+        <Box
           sx={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            padding: "5px 0",
           }}
         >
           <StyledButton know={know} onClick={() => onClickHandle(data.id)}>
             add
           </StyledButton>
-        </TableCell>
-      </TableRow>
-    </Table>
+        </Box>
+      </Box>
+    </Container>
   );
 };
 
