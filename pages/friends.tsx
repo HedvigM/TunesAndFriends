@@ -15,6 +15,7 @@ import { styled } from "@mui/material";
 import { Menu } from "components/Menu";
 import { Header } from "components/Header";
 import { StyledTable } from "components/Table";
+import { StickyMenuContainer } from "pages";
 
 interface FriendsProps {
   user: {
@@ -135,8 +136,9 @@ const Friends: NextPage<{}> = () => {
             ))}
         </div>
       </Container>
-
-      <Menu />
+      <StickyMenuContainer>
+        <Menu />
+      </StickyMenuContainer>
     </Box>
   );
 };

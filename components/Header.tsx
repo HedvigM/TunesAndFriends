@@ -4,12 +4,13 @@ import { colors, theme } from "styles/theme";
 
 interface HeaderProps {
   children: ReactNode;
-  size: "small" | "large";
+  size: "small" | "medium" | "large";
 }
 export const Header = ({ children, size }: HeaderProps) => (
   <OuterContainer>
     <HeaderContainer size={size}>
       {size === "large" && <H1>{children}</H1>}
+      {size === "medium" && <H2>{children}</H2>}
       {size === "small" && <H3>{children}</H3>}
     </HeaderContainer>
   </OuterContainer>
@@ -22,14 +23,6 @@ const OuterContainer = styled("div")({
 });
 
 const HeaderContainer = styled("div")<HeaderProps>((props) => ({
-  height: props.size === "small" ? "12px" : "23px",
-  width: "fit-content",
-  padding: "0 10px",
-  marginTop: "41px",
-  display: "flex",
-  alignItems: "flex-end",
-  justifyContent: "center",
-  backgroundColor: colors.first,
   textTransform: "uppercase",
 }));
 
@@ -37,9 +30,52 @@ const H1 = styled("h1")({
   fontWeight: 400,
   margin: 0,
   padding: 0,
+  position: "relative",
+
+  "&::before": {
+    content: '""',
+    backgroundColor: colors.first,
+    height: "20px",
+    bottom: "0",
+    position: "absolute",
+    zIndex: "-1",
+    margin: "0 -10px",
+    width: "-webkit-fill-available",
+  },
 });
+
+const H2 = styled("h2")({
+  fontWeight: 400,
+  margin: 0,
+  padding: 0,
+  position: "relative",
+
+  "&::before": {
+    content: '""',
+    backgroundColor: colors.first,
+    height: "14px",
+    bottom: "0",
+    position: "absolute",
+    zIndex: "-1",
+    margin: "0 -10px",
+    width: "-webkit-fill-available",
+  },
+});
+
 const H3 = styled("h3")({
   fontWeight: 400,
   margin: 0,
   padding: 0,
+  position: "relative",
+
+  "&::before": {
+    content: '""',
+    backgroundColor: colors.first,
+    height: "14px",
+    bottom: "0",
+    position: "absolute",
+    zIndex: "-1",
+    margin: "0 -10px",
+    width: "-webkit-fill-available",
+  },
 });

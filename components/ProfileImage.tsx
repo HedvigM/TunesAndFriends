@@ -1,6 +1,8 @@
 import { colors, theme } from "styles/theme";
 import AddIcon from "@mui/icons-material/Add";
-import { styled } from "@mui/material";
+import MailIcon from "@mui/icons-material/Mail";
+import { Avatar, Badge, styled } from "@mui/material";
+import { deepOrange } from "@mui/material/colors";
 
 type ProfileImageProps = {
   size: "small" | "large";
@@ -9,12 +11,22 @@ type ProfileImageProps = {
 export const ProfileImage = (props: ProfileImageProps) => {
   return (
     <OuterContainer size={props.size}>
-      <Circle size={props.size}></Circle>
+      <Badge
+        badgeContent={<AddIcon />}
+        color="primary"
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+      >
+        <Avatar sx={{ bgcolor: deepOrange[500] }}>N</Avatar>
+      </Badge>
+      {/*  <Circle size={props.size}></Circle>
       {props.size === "large" && (
         <PlusContainer>
           <AddIcon />
         </PlusContainer>
-      )}
+      )} */}
     </OuterContainer>
   );
 };

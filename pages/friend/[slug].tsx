@@ -24,6 +24,7 @@ import { ProfileImage } from "components/ProfileImage";
 import { colors } from "styles/theme";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { StyleBackdButton } from "pages/tune/[slug]";
+import { StickyMenuContainer } from "pages";
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
@@ -176,7 +177,9 @@ const Friend: NextPage<{}> = () => {
             </>
           )}
         </Container>
-        <Menu />
+        <StickyMenuContainer>
+          <Menu />
+        </StickyMenuContainer>
       </Box>
     );
   } else {
