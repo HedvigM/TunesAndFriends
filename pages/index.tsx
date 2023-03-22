@@ -149,7 +149,7 @@ const IndexPage: NextPage<{}> = ({}) => {
   }
 };
 
-const StickyMenuContainer = styled("div")`
+export const StickyMenuContainer = styled("div")`
   position: sticky;
   bottom: 0px;
   width: 100%;

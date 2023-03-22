@@ -80,7 +80,7 @@ const detailedtune: NextPage<{}> = () => {
     getDetailedTune();
   }, [slug]);
 
-  const onClickHandle = () => {
+  const onBackClickHandle = () => {
     router.back();
   };
   const onKnowHandle = () => {
@@ -109,9 +109,13 @@ const detailedtune: NextPage<{}> = () => {
             }}
           >
             <Header size="large">{details.name}</Header>
-            <StyledButton size="small" variant="text" onClick={onClickHandle}>
+            <StyleBackdButton
+              size="small"
+              variant="text"
+              onClick={onBackClickHandle}
+            >
               <ArrowBackIosNewIcon />
-            </StyledButton>
+            </StyleBackdButton>
           </div>
           <Box
             sx={{
@@ -136,7 +140,7 @@ const detailedtune: NextPage<{}> = () => {
   }
 };
 
-const StyledButton = styled(Button)`
+export const StyleBackdButton = styled(Button)`
   color: ${colors.third};
   padding: 0;
   min-width: fit-content;

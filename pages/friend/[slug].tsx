@@ -22,6 +22,8 @@ import { Data, StyledTable } from "components/Table";
 import { Menu } from "components/Menu";
 import { ProfileImage } from "components/ProfileImage";
 import { colors } from "styles/theme";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { StyleBackdButton } from "pages/tune/[slug]";
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
@@ -103,6 +105,9 @@ const Friend: NextPage<{}> = () => {
     setLogedinKnowTunesId(newMapKnow);
     addTune(tuneId, user.email, "know");
   };
+  const onBackClickHandle = () => {
+    router.back();
+  };
 
   const tuneCount = viewededUser?.knowTunes?.length;
   const followersCount = viewededUser?.followedBy?.length;
@@ -121,7 +126,23 @@ const Friend: NextPage<{}> = () => {
         <Container maxWidth="sm">
           {viewededUser && (
             <>
-              <Header size="large">{viewededUser.name}</Header>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  flexDirection: "row-reverse",
+                }}
+              >
+                <Header size="large">{viewededUser.name}</Header>
+                <StyleBackdButton
+                  size="small"
+                  variant="text"
+                  onClick={onBackClickHandle}
+                >
+                  <ArrowBackIosNewIcon />
+                </StyleBackdButton>
+              </div>
+
               <ProfileContainer>
                 <div
                   style={{

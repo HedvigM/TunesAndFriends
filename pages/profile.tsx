@@ -22,6 +22,7 @@ import user from "./api/user/[slug]";
 import { colors } from "styles/theme";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ProfileImage } from "components/ProfileImage";
+import { StickyMenuContainer } from "pages";
 
 const ProfilePage: NextPage<{}> = ({}) => {
   const [databaseUser, setDatabaseUser] = useState<User>();
@@ -139,7 +140,9 @@ const ProfilePage: NextPage<{}> = ({}) => {
           </Link>
         </ContentContainer>
       </Container>
-      <Menu />
+      <StickyMenuContainer>
+        <Menu />
+      </StickyMenuContainer>
     </Box>
   );
 };
