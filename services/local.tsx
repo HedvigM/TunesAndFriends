@@ -179,7 +179,7 @@ export const listUsersWithTune = (tuneId: number) => {
     Accept: "application/json",
     "Content-Type": "application/json;charset=UTF-8",
   };
-  const url = `/api/users/${tuneId}`;
+  const url = `/api/users/?tuneId=${tuneId}`;
   const options = {
     method: "GET",
     headers: defaultHeaders,

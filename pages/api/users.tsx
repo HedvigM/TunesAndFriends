@@ -48,6 +48,7 @@ const listUsers = async () => {
 };
 
 const listUsersWithTune = async (tuneId: number) => {
+  console.log("list users körs");
   try {
     const listUsersPrisma = await prisma.user.findMany({
       where: {
@@ -92,12 +93,15 @@ const updateUser = async (email: string, town: string, profileText: string) => {
   }
 };
 
+interface ListUsersWithTuneQuery {
+  tuneId: string;
+}
+
 const users = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log("JAG KÖRS!");
   if (req.method === "POST") {
     return new Promise((resolve) => {
       const { name, email, auth0UserId } = req.body;
-      console.log("api users", auth0UserId);
       addUser({
         name,
         email,
@@ -117,13 +121,16 @@ const users = async (req: NextApiRequest, res: NextApiResponse) => {
         });
     });
   } else if (req.method === "GET") {
-    const { tuneId } = req.params;
-    console.log("HEj hej!!", tuneId);
-    if (tuneId) {
-      console.log("JAG MED!", tuneId); // forsätt här!!
-      return new Promise((resolve) => {
-        listUsersWithTune(tuneId)
+    return new Promise((resolve) => {
+      console.log("Inuti GET");
+      const { tuneId } = req.query as unknown as ListUsersWithTuneQuery;
+      const parsedTuneId = parseInt(tuneId, 10);
+      console.log("parse", parsedTuneId);
+      console.log("tuneId", tuneId);
+      if (tuneId !== undefined) {
+        listUsersWithTune(parsedTuneId)
           .then((result) => {
+            console.log("result2", result);
             res.status(200).json(result);
             resolve("");
           })
@@ -134,9 +141,7 @@ const users = async (req: NextApiRequest, res: NextApiResponse) => {
           .finally(async () => {
             await prisma.$disconnect();
           });
-      });
-    } else {
-      return new Promise((resolve) => {
+      } else {
         listUsers()
           .then((result) => {
             res.status(200).json(result);
@@ -149,8 +154,8 @@ const users = async (req: NextApiRequest, res: NextApiResponse) => {
           .finally(async () => {
             await prisma.$disconnect();
           });
-      });
-    }
+      }
+    });
   }
   if (req.method === "PATCH") {
     return new Promise((resolve) => {

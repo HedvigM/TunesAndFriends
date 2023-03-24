@@ -46,10 +46,8 @@ const Friends: NextPage<{}> = () => {
   };
   const getListOfTuneUsers = async (tuneId: number) => {
     const fetchedList = await listUsersWithTune(tuneId);
+    console.log({ fetchedList });
     if (fetchedList.success) {
-      const object = {
-        data: fetchedList.data,
-      };
       setUsersTuneList(fetchedList.data);
     }
   };
