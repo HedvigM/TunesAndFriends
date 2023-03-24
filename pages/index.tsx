@@ -59,13 +59,8 @@ const IndexPage: NextPage<{}> = ({}) => {
 
   if (!user) {
     return (
-      <Box
-        sx={{
-          height: "100vh",
-        }}
-      >
+      <Box>
         <Login />
-        <Menu />
       </Box>
     );
   }

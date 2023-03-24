@@ -40,12 +40,3 @@ export const getCachedListOfUsers = async (user: User) => {
     }
   }
 };
-
-/* Save the loged in persons data */
-/* 
-Används i:
-* Profile /settings
-* tunes
-* friends
-* friend slug
-*/

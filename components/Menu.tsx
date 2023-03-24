@@ -21,7 +21,7 @@ export const Menu = () => {
     }
   }, [user, isLoading]);
 
-  return user ? (
+  return (
     <Box>
       <OuterContainer>
         <LinkContainer href="/">
@@ -95,88 +95,6 @@ export const Menu = () => {
         </LinkContainer>
       </OuterContainer>
     </Box>
-  ) : (
-    <Container
-      sx={{
-        height: "100vh",
-        display: "grid",
-        gridTemplateRows: "1fr 1fr 1fr 1fr",
-        padding: "0",
-      }}
-    >
-      <Link href="/api/auth/login">
-        <Div index="1">
-          <Typography
-            variant="h1"
-            noWrap
-            sx={{
-              textDecoration: "none",
-              color: "black",
-              display: "flex",
-              justifyContent: "center",
-              alignContent: "center",
-              fontWeight: "400",
-            }}
-          >
-            LOG IN
-          </Typography>
-        </Div>
-      </Link>
-      <Div index="2">
-        <Link href="/friends">
-          <Typography
-            variant="h1"
-            noWrap
-            sx={{
-              textDecoration: "none",
-              color: "white",
-              display: "flex",
-              justifyContent: "center",
-              alignContent: "center",
-              fontWeight: "400",
-            }}
-          >
-            ABOUT
-          </Typography>
-        </Link>
-      </Div>
-      <Div index="3">
-        <Link href="/friends">
-          <Typography
-            variant="h1"
-            noWrap
-            sx={{
-              textDecoration: "none",
-              color: "black",
-              display: "flex",
-              justifyContent: "center",
-              alignContent: "center",
-              fontWeight: "400",
-            }}
-          >
-            HELLO
-          </Typography>
-        </Link>
-      </Div>
-      <Div index="4">
-        <Link href="/friends">
-          <Typography
-            variant="h1"
-            noWrap
-            sx={{
-              textDecoration: "none",
-              color: "black",
-              display: "flex",
-              justifyContent: "center",
-              alignContent: "center",
-              fontWeight: "400",
-            }}
-          >
-            HELLO
-          </Typography>
-        </Link>
-      </Div>
-    </Container>
   );
 };
 

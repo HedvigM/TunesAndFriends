@@ -7,7 +7,7 @@ import {
   withPageAuthRequired,
   WithPageAuthRequiredProps,
 } from "@auth0/nextjs-auth0";
-import { addNewRelation, getUser } from "services/local";
+import { addNewRelation, getUser, listUsersWithTune } from "services/local";
 import { NextPage } from "next";
 import { LoadingSpinner } from "components/LoadingSpinner";
 import { getCachedListOfUsers } from "services/functions";
@@ -32,6 +32,7 @@ interface FriendsProps {
 
 const Friends: NextPage<{}> = () => {
   const [usersList, setUsersList] = useState([]);
+  const [usersTuneList, setUsersTuneList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [mapFriendsId, setMapFriendsId] = useState([]);
   const [friendsArray, setFiendsArray] = useState<string[]>([]);
@@ -43,10 +44,21 @@ const Friends: NextPage<{}> = () => {
       setUsersList(data);
     }
   };
+  const getListOfTuneUsers = async (tuneId: number) => {
+    const fetchedList = await listUsersWithTune(tuneId);
+    if (fetchedList.success) {
+      const object = {
+        data: fetchedList.data,
+      };
+      setUsersTuneList(fetchedList.data);
+    }
+  };
+
+  console.log({ usersTuneList });
 
   useEffect(() => {
     setLoading(true);
-
+    getListOfTuneUsers(27);
     getUsersList(user);
     setLoading(false);
   }, []);

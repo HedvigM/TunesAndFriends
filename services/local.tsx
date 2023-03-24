@@ -69,7 +69,6 @@ export const getUserById = (slug) => {
 };
 
 export const getUser = (auth0UserId: string) => {
-  console.log("auth0UserId get user1", auth0UserId);
   const defaultHeaders = {
     Accept: "application/json",
     "Content-Type": "application/json;charset=UTF-8",
@@ -149,6 +148,38 @@ export const listUsers = () => {
     "Content-Type": "application/json;charset=UTF-8",
   };
   const url = "/api/users";
+  const options = {
+    method: "GET",
+    headers: defaultHeaders,
+  };
+  return fetch(url, options)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        throw new Error(response.statusText);
+      }
+    })
+    .then((response) => {
+      return {
+        success: true as const,
+        data: response.data,
+      };
+    })
+    .catch((error) => {
+      return {
+        success: false as const,
+        error: error,
+      };
+    });
+};
+export const listUsersWithTune = (tuneId: number) => {
+  console.log("LOCAL", tuneId);
+  const defaultHeaders = {
+    Accept: "application/json",
+    "Content-Type": "application/json;charset=UTF-8",
+  };
+  const url = `/api/users/${tuneId}`;
   const options = {
     method: "GET",
     headers: defaultHeaders,

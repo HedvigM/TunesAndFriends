@@ -134,7 +134,7 @@ const Friend: NextPage<{}> = () => {
                   flexDirection: "row-reverse",
                 }}
               >
-                <Header size="large">{viewededUser.name}</Header>
+                <Header size="small">{viewededUser.name}</Header>
                 <StyleBackdButton
                   size="small"
                   variant="text"

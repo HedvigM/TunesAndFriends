@@ -108,7 +108,7 @@ const detailedtune: NextPage<{}> = () => {
               flexDirection: "row-reverse",
             }}
           >
-            <Header size="large">{details.name}</Header>
+            <Header size="small">{details.name}</Header>
             <StyleBackdButton
               size="small"
               variant="text"
