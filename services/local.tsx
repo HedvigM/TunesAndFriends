@@ -174,7 +174,6 @@ export const listUsers = () => {
     });
 };
 export const listUsersWithTune = (tuneId: number) => {
-  console.log("LOCAL", tuneId);
   const defaultHeaders = {
     Accept: "application/json",
     "Content-Type": "application/json;charset=UTF-8",

@@ -48,7 +48,6 @@ const listUsers = async () => {
 };
 
 const listUsersWithTune = async (tuneId: number) => {
-  console.log("list users körs");
   try {
     const listUsersPrisma = await prisma.user.findMany({
       where: {
@@ -98,7 +97,6 @@ interface ListUsersWithTuneQuery {
 }
 
 const users = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log("JAG KÖRS!");
   if (req.method === "POST") {
     return new Promise((resolve) => {
       const { name, email, auth0UserId } = req.body;
@@ -122,15 +120,12 @@ const users = async (req: NextApiRequest, res: NextApiResponse) => {
     });
   } else if (req.method === "GET") {
     return new Promise((resolve) => {
-      console.log("Inuti GET");
       const { tuneId } = req.query as unknown as ListUsersWithTuneQuery;
       const parsedTuneId = parseInt(tuneId, 10);
-      console.log("parse", parsedTuneId);
-      console.log("tuneId", tuneId);
+
       if (tuneId !== undefined) {
         listUsersWithTune(parsedTuneId)
           .then((result) => {
-            console.log("result2", result);
             res.status(200).json(result);
             resolve("");
           })

@@ -2,14 +2,24 @@ import { styled } from "@mui/material";
 
 type TuneInfo = {
   type: string;
-  knownBy: string;
+  knownBy?: KnownByProp[];
+};
+type KnownByProp = {
+  name: string;
+  auth0UserId: string;
 };
 
 export const TuneInfo = ({ type, knownBy }) => {
+  console.log({ knownBy });
   return (
     <OuterContainer>
       <TuneType>type: {type}</TuneType>
-      <FriendsList>known by: {knownBy}</FriendsList>
+      {knownBy &&
+        knownBy.map((knownBy: KnownByProp) => (
+          <FriendsList key={knownBy.auth0UserId}>
+            known by: {knownBy.name}
+          </FriendsList>
+        ))}
     </OuterContainer>
   );
 };

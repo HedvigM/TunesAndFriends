@@ -16,7 +16,7 @@ import { Header } from "components/Header";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { colors } from "styles/theme";
 import { TuneInfo } from "components/TuneInfo";
-import { addTune, getUser } from "services/local";
+import { addTune, getUser, listUsersWithTune } from "services/local";
 
 export const Music = (props) => {
   let lineBreak = (string: string) => {
@@ -38,6 +38,7 @@ export const Music = (props) => {
 
 const detailedtune: NextPage<{}> = () => {
   const { user } = useUser();
+  const [usersTuneList, setUsersTuneList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [mapKnow, setMapKnow] = useState([]);
   const [details, setDetails] = useState({
@@ -49,12 +50,23 @@ const detailedtune: NextPage<{}> = () => {
     "|:E2BE dEBE|E2BE AFDF|E2BE dEBE|BABc dAFD:|!d2fd c2ec|defg afge|d2fd c2ec|BABc dAFA|!d2fd c2ec|defg afge|afge fdec|BABc dAFD|"
   );
 
+  const getListOfTuneUsers = async (tuneId: number) => {
+    const fetchedList = await listUsersWithTune(tuneId);
+    if (fetchedList.success) {
+      setUsersTuneList(fetchedList.data);
+    }
+  };
+
   const router = useRouter();
-  const { slug: slug } = router.query;
+  const { slug } = router.query;
+  const parsedSlug = parseInt(slug, 10);
 
   const abcjs = process.browser ? require("abcjs") : null;
 
   useEffect(() => {
+    if (parsedSlug) {
+      getListOfTuneUsers(parsedSlug);
+    }
     const fetchUserWithId = async () => {
       if (user) {
         const newUserWithId = await getUser(user?.sub as string);
@@ -130,7 +142,7 @@ const detailedtune: NextPage<{}> = () => {
           >
             Add
           </StyledAddButton>
-          <TuneInfo type={details.type} knownBy={undefined} />
+          <TuneInfo type={details.type} knownBy={usersTuneList} />
         </Container>
         <Menu />
       </Box>

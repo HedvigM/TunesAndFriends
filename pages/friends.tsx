@@ -16,6 +16,11 @@ import { Menu } from "components/Menu";
 import { Header } from "components/Header";
 import { StyledTable } from "components/Table";
 import { StickyMenuContainer } from "pages";
+import {
+  ContentContainer,
+  LogoContainer,
+  OuterAppContainer,
+} from "styles/layout";
 
 interface FriendsProps {
   user: {
@@ -32,7 +37,6 @@ interface FriendsProps {
 
 const Friends: NextPage<{}> = () => {
   const [usersList, setUsersList] = useState([]);
-  const [usersTuneList, setUsersTuneList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [mapFriendsId, setMapFriendsId] = useState([]);
   const [friendsArray, setFiendsArray] = useState<string[]>([]);
@@ -44,19 +48,9 @@ const Friends: NextPage<{}> = () => {
       setUsersList(data);
     }
   };
-  const getListOfTuneUsers = async (tuneId: number) => {
-    const fetchedList = await listUsersWithTune(tuneId);
-    console.log({ fetchedList });
-    if (fetchedList.success) {
-      setUsersTuneList(fetchedList.data);
-    }
-  };
-
-  console.log({ usersTuneList });
 
   useEffect(() => {
     setLoading(true);
-    getListOfTuneUsers(27);
     getUsersList(user);
     setLoading(false);
   }, []);
@@ -114,21 +108,16 @@ const Friends: NextPage<{}> = () => {
   }, [user]);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        height: "100vh",
-      }}
-    >
-      <Container
-        sx={{
-          paddingY: "10px",
-          marginY: "30px",
-        }}
-      >
-        <Header size="large">Friends</Header>
+    <OuterAppContainer>
+      <LogoContainer>
+        <Header textAlign="left" size="small">
+          T&F
+        </Header>
+      </LogoContainer>
+      <ContentContainer>
+        <Header textAlign="center" size="large">
+          Friends
+        </Header>
         <div style={{ padding: "20px 0" }}>
           {!usersList || (loading && <LoadingSpinner />)}
           {usersList
@@ -145,57 +134,13 @@ const Friends: NextPage<{}> = () => {
               />
             ))}
         </div>
-      </Container>
+      </ContentContainer>
       <StickyMenuContainer>
         <Menu />
       </StickyMenuContainer>
-    </Box>
+    </OuterAppContainer>
   );
 };
-/* else {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          height: "100vh",
-        }}
-      >
-        <Container
-          maxWidth="sm"
-          sx={{
-            width: "75%",
-            paddingY: "10px",
-            marginY: "30px",
-          }}
-        >
-          <Typography textAlign="center" variant="h1">
-            The Friends page
-          </Typography>
-
-          <Skeleton
-            variant="rectangular"
-            animation="wave"
-            height={30}
-            sx={{ width: "100%", margin: " 5px 0" }}
-          />
-          <Skeleton
-            variant="rectangular"
-            animation="wave"
-            height={30}
-            sx={{ width: "100%", margin: "5px 0" }}
-          />
-          <Skeleton
-            variant="rectangular"
-            animation="wave"
-            height={30}
-            sx={{ width: "100%", margin: "5px 0" }}
-          />
-        </Container>
-      </Box>
-    );
-  } */
 
 interface buttonProps {
   readonly included: boolean;

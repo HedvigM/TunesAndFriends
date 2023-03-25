@@ -5,9 +5,10 @@ import { colors, theme } from "styles/theme";
 interface HeaderProps {
   children: ReactNode;
   size: "small" | "medium" | "large";
+  textAlign: "left" | "center";
 }
-export const Header = ({ children, size }: HeaderProps) => (
-  <OuterContainer>
+export const Header = ({ children, size, textAlign }: HeaderProps) => (
+  <OuterContainer textAlign={textAlign}>
     <HeaderContainer size={size}>
       {size === "large" && <H1>{children}</H1>}
       {size === "medium" && <H2>{children}</H2>}
@@ -16,13 +17,22 @@ export const Header = ({ children, size }: HeaderProps) => (
   </OuterContainer>
 );
 
-const OuterContainer = styled("div")({
-  display: "flex",
-  justifyContent: "center",
-  width: "100%",
-});
+type OuterContainerStyles = {
+  textAlign: string;
+};
+type HeaderContainerStyles = {
+  size: string;
+};
 
-const HeaderContainer = styled("div")<HeaderProps>((props) => ({
+const OuterContainer = styled("div")<OuterContainerStyles>((props) => ({
+  display: "flex",
+  justifyContent:
+    (props.textAlign === "left" && "left") ||
+    (props.textAlign === "center" && "center"),
+  width: "100%",
+}));
+
+const HeaderContainer = styled("div")<HeaderContainerStyles>((props) => ({
   textTransform: "uppercase",
 }));
 

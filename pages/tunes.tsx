@@ -22,6 +22,11 @@ import { styled } from "@mui/material";
 import { Menu } from "components/Menu";
 import { Header } from "components/Header";
 import { LoadingSpinner } from "components/LoadingSpinner";
+import {
+  ContentContainer,
+  LogoContainer,
+  OuterAppContainer,
+} from "styles/layout";
 
 const Tunes: NextPage<{}> = () => {
   const [popularList, setPopularList] = useState([]);
@@ -69,16 +74,16 @@ const Tunes: NextPage<{}> = () => {
 
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          height: "100vh",
-        }}
-      >
-        <Container sx={{}}>
-          <Header size="large">popular tunes</Header>
+      <OuterAppContainer>
+        <LogoContainer>
+          <Header textAlign="left" size="small">
+            T&F
+          </Header>
+        </LogoContainer>
+        <ContentContainer>
+          <Header textAlign="center" size="large">
+            popular tunes
+          </Header>
           <div style={{ marginTop: "20px" }}>
             {!popularList && <LoadingSpinner />}
             {popularList.map((tune) => (
@@ -117,9 +122,9 @@ const Tunes: NextPage<{}> = () => {
               />
             </Stack>
           </Box>
-        </Container>
+        </ContentContainer>
         <Menu />
-      </Box>
+      </OuterAppContainer>
     </>
   );
 };
