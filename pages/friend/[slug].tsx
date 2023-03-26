@@ -25,6 +25,11 @@ import { colors } from "styles/theme";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { StyleBackdButton } from "pages/tune/[slug]";
 import { StickyMenuContainer } from "pages";
+import {
+  ContentContainer,
+  LogoContainer,
+  OuterAppContainer,
+} from "styles/layout";
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
@@ -116,15 +121,13 @@ const Friend: NextPage<{}> = () => {
 
   if (logedinUser && viewededUser && knowTuneNamesById && !loading) {
     return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          height: "100vh",
-        }}
-      >
-        <Container maxWidth="sm">
+      <OuterAppContainer>
+        <LogoContainer>
+          <Header textAlign="left" size="small">
+            T&F
+          </Header>
+        </LogoContainer>
+        <ContentContainer>
           {viewededUser && (
             <>
               <div
@@ -132,9 +135,13 @@ const Friend: NextPage<{}> = () => {
                   display: "flex",
                   justifyContent: "space-around",
                   flexDirection: "row-reverse",
+                  paddingTop: "20px",
                 }}
               >
-                <Header size="small">{viewededUser.name}</Header>
+                <Header size="small" textAlign={"center"}>
+                  {viewededUser.name}
+                </Header>
+
                 <StyleBackdButton
                   size="small"
                   variant="text"
@@ -143,7 +150,6 @@ const Friend: NextPage<{}> = () => {
                   <ArrowBackIosNewIcon />
                 </StyleBackdButton>
               </div>
-
               <ProfileContainer>
                 <div
                   style={{
@@ -176,11 +182,11 @@ const Friend: NextPage<{}> = () => {
               ))}
             </>
           )}
-        </Container>
+        </ContentContainer>
         <StickyMenuContainer>
           <Menu />
         </StickyMenuContainer>
-      </Box>
+      </OuterAppContainer>
     );
   } else {
     return <LoadingSpinner />;

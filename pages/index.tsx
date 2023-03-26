@@ -9,6 +9,11 @@ import { Data, StyledTable } from "components/Table";
 import { getUser } from "services/local";
 import { getMyCache } from "services/functions";
 import { TUNE_URL } from "utils/urls";
+import {
+  ContentContainer,
+  LogoContainer,
+  OuterAppContainer,
+} from "styles/layout";
 
 type NewTunes = {
   name: string;
@@ -82,64 +87,73 @@ const IndexPage: NextPage<{}> = ({}) => {
 
   if (user) {
     return (
-      <Box
-        sx={{
-          display: "flex",
-          alignContent: "center",
-          height: "100vh",
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-      >
-        <Header size={"large"}>Tunes & Friends</Header>
-        <Header size={"small"}>Newest Friends</Header>
-        <div>
-          {friends &&
-            friends.map((data: Data) => (
-              <ContentContainer>
-                <StyledTable
-                  onClickHandle={() => {}}
-                  know={true}
-                  pathname={""}
-                  data={data}
-                  slug={""}
-                />
-              </ContentContainer>
-            ))}
-        </div>
-        <Header size={"small"}>Newest Tunes</Header>
-        <div>
-          {tuneNames &&
-            tuneNames.map((tune) => (
-              <ContentContainer>
-                <StyledTable
-                  onClickHandle={() => {}}
-                  know={true}
-                  pathname={"/tune/[slug]"}
-                  data={tune}
-                  slug={tune.id}
-                />
-              </ContentContainer>
-            ))}
-        </div>
-        <Header size={"small"}>Friends newest tunes</Header>
-        <div>
-          {Data.map((data) => (
-            <ContentContainer>
-              <StyledTable
-                onClickHandle={() => {}}
-                know={false}
-                pathname={""}
-                data={data}
-                slug={""}
-              />
-            </ContentContainer>
-          ))}
-        </div>
+      <OuterAppContainer>
+        <LogoContainer>
+          <Header textAlign="left" size="small">
+            T&F
+          </Header>
+        </LogoContainer>
+        <ContentContainer>
+          <Header size={"large"} textAlign="center">
+            Tunes & Friends
+          </Header>
+          <div style={{ padding: "20px 0" }}>
+            <Header size={"small"} textAlign={"center"}>
+              Newest Friends
+            </Header>
+            <div>
+              {friends &&
+                friends.map((data: Data) => (
+                  <DataContainer>
+                    <StyledTable
+                      onClickHandle={() => {}}
+                      know={true}
+                      pathname={""}
+                      data={data}
+                      slug={""}
+                    />
+                  </DataContainer>
+                ))}
+            </div>
+            <Header size={"small"} textAlign="center">
+              Newest Tunes
+            </Header>
+            <div>
+              {tuneNames &&
+                tuneNames.map((tune) => (
+                  <DataContainer>
+                    <StyledTable
+                      onClickHandle={() => {}}
+                      know={true}
+                      pathname={"/tune/[slug]"}
+                      data={tune}
+                      slug={tune.id}
+                    />
+                  </DataContainer>
+                ))}
+            </div>
+            <Header size={"small"} textAlign="center">
+              Friends newest tunes
+            </Header>
+            <div>
+              {Data.map((data) => (
+                <DataContainer>
+                  <StyledTable
+                    onClickHandle={() => {}}
+                    know={false}
+                    pathname={""}
+                    data={data}
+                    slug={""}
+                  />
+                </DataContainer>
+              ))}
+            </div>
+          </div>
+        </ContentContainer>
         <StickyMenuContainer>
           <Menu />
         </StickyMenuContainer>
-      </Box>
+      </OuterAppContainer>
     );
   }
 };
@@ -149,7 +163,7 @@ export const StickyMenuContainer = styled("div")`
   bottom: 0px;
   width: 100%;
 `;
-const ContentContainer = styled("div")`
+const DataContainer = styled("div")`
   padding-top: 10px;
   display: flex;
   flex-direction: column;
