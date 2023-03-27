@@ -17,6 +17,12 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { colors } from "styles/theme";
 import { TuneInfo } from "components/TuneInfo";
 import { addTune, getUser, listUsersWithTune } from "services/local";
+import {
+  ContentContainer,
+  LogoContainer,
+  OuterAppContainer,
+} from "styles/layout";
+import { StickyMenuContainer } from "pages";
 
 export const Music = (props) => {
   let lineBreak = (string: string) => {
@@ -102,54 +108,58 @@ const detailedtune: NextPage<{}> = () => {
     addTune(details.id, user.email, "know");
   };
 
-  if (details && !loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          height: "100vh",
-        }}
-      >
-        <Container maxWidth="lg">
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-              flexDirection: "row-reverse",
-            }}
+  return (
+    <OuterAppContainer>
+      <LogoContainer>
+        <Header textAlign="left" size="small">
+          T&F
+        </Header>
+      </LogoContainer>
+      <ContentContainer>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            flexDirection: "row-reverse",
+          }}
+        >
+          <Header size="small" textAlign={"center"}>
+            {details.name}
+          </Header>
+          <StyleBackdButton
+            size="small"
+            variant="text"
+            onClick={onBackClickHandle}
           >
-            <Header size="small">{details.name}</Header>
-            <StyleBackdButton
-              size="small"
-              variant="text"
-              onClick={onBackClickHandle}
+            <ArrowBackIosNewIcon />
+          </StyleBackdButton>
+        </div>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "20px 0",
+          }}
+        >
+          <div style={{ width: "85%" }}>
+            <Music abcNotes={abc} />
+            <StyledAddButton
+              know={mapKnow.includes(details.id)}
+              onClick={onKnowHandle}
             >
-              <ArrowBackIosNewIcon />
-            </StyleBackdButton>
+              Add
+            </StyledAddButton>
+            <TuneInfo type={details.type} knownBy={usersTuneList} />
           </div>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          ></Box>
-          <Music abcNotes={abc} />
-          <StyledAddButton
-            know={mapKnow.includes(details.id)}
-            onClick={onKnowHandle}
-          >
-            Add
-          </StyledAddButton>
-          <TuneInfo type={details.type} knownBy={usersTuneList} />
-        </Container>
+        </Box>
+      </ContentContainer>
+      <StickyMenuContainer>
         <Menu />
-      </Box>
-    );
-  } else {
-    return <LoadingSpinner />;
-  }
+      </StickyMenuContainer>
+    </OuterAppContainer>
+  );
 };
 
 export const StyleBackdButton = styled(Button)`
