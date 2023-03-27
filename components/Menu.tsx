@@ -14,7 +14,7 @@ import { colors } from "styles/theme";
 export const Menu = () => {
   const { user, isLoading } = useUser();
   const router = useRouter();
-
+  console.log({ user });
   useEffect(() => {
     if (typeof user !== "undefined" && isLoading === false) {
       addUser(user);
@@ -76,8 +76,14 @@ export const Menu = () => {
           </Link>
         </LinkContainer>
 
-        <LinkContainer href="/profile">
-          <Link href="/profile">
+        <LinkContainer href="/friend/[slug]">
+          {/* Här är jag, ändra till ens egna profilsida på menyn... */}
+          <Link
+            href={{
+              pathname: "/friend/[slug]",
+              query: { slug: `${user.sub}` },
+            }}
+          >
             <Typography
               variant="body1"
               noWrap
