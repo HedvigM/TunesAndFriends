@@ -24,12 +24,13 @@ import { ProfileImage } from "components/ProfileImage";
 import { colors } from "styles/theme";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { StyleBackdButton } from "pages/tune/[slug]";
-import { StickyMenuContainer } from "pages";
 import {
   ContentContainer,
   LogoContainer,
   OuterAppContainer,
+  StickyMenuContainer,
 } from "styles/layout";
+import { TunesIncommon } from "components/TunesIncommon";
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
@@ -38,13 +39,13 @@ const Friend: NextPage<{}> = () => {
   const [visitedFriendTunes, setVisitedFriendTunes] =
     useState<UserWithRelations>();
   const [logedinKnowTuneId, setLogedinKnowTunesId] = useState([]);
+  const [showCommonTunes, setShowCommonTunes] = useState(true);
 
   const [mapFollowing, setMapFollowing] = useState([]);
   const [loading, setLoading] = useState(false);
   const [knowTunes, setKnowTunes] = useState<Data[]>([]);
   const [knowTuneNamesById, setKnowTuneNamesById] = useState([]);
   const [followingButton, setFollowingButton] = useState(true);
-  const [commonTunes, setCommonTunes] = useState([]);
 
   type UserWithRelations = Prisma.UserGetPayload<{
     include: { following: true; followedBy: true; knowTunes: true };
@@ -115,6 +116,13 @@ const Friend: NextPage<{}> = () => {
     router.back();
   };
 
+  const onShowCommonTunes = () => {
+    setShowCommonTunes(true);
+  };
+  const onShowFriendsTunes = () => {
+    setShowCommonTunes(false);
+  };
+
   const tuneCount = viewededUser?.knowTunes?.length;
   const followersCount = viewededUser?.followedBy?.length;
   const followingCount = viewededUser?.following?.length;
@@ -171,15 +179,38 @@ const Friend: NextPage<{}> = () => {
                   followers={followersCount}
                 />
               </ProfileContainer>
-              {knowTunes?.map((tune) => (
-                <StyledTable
-                  onClickHandle={onKnowHandle}
-                  know={logedinKnowTuneId.includes(tune.id)}
-                  pathname="/tune/[slug]"
-                  slug={tune.id}
-                  data={tune}
-                />
-              ))}
+              <div style={{ padding: "0 20px" }}>
+                <Button
+                  variant={showCommonTunes ? "contained" : "outlined"}
+                  size="small"
+                  onClick={onShowCommonTunes}
+                >
+                  Common tunes
+                </Button>
+                <Button
+                  variant={!showCommonTunes ? "contained" : "outlined"}
+                  size="small"
+                  onClick={onShowFriendsTunes}
+                >
+                  Friends tunes
+                </Button>
+                {showCommonTunes === true ? (
+                  <TunesIncommon
+                    logedinKnowTuneId={logedinKnowTuneId}
+                    knowTunes={knowTunes}
+                  />
+                ) : (
+                  knowTunes?.map((tune) => (
+                    <StyledTable
+                      onClickHandle={onKnowHandle}
+                      know={logedinKnowTuneId.includes(tune.id)}
+                      pathname="/tune/[slug]"
+                      slug={tune.id}
+                      data={tune}
+                    />
+                  ))
+                )}
+              </div>
             </>
           )}
         </ContentContainer>

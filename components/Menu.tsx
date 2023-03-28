@@ -14,7 +14,7 @@ import { colors } from "styles/theme";
 export const Menu = () => {
   const { user, isLoading } = useUser();
   const router = useRouter();
-  console.log({ user });
+  /*  console.log({ user }); */
   useEffect(() => {
     if (typeof user !== "undefined" && isLoading === false) {
       addUser(user);
