@@ -15,11 +15,11 @@ import { styled } from "@mui/material";
 import { Menu } from "components/Menu";
 import { Header } from "components/Header";
 import { StyledTable } from "components/Table";
-import { StickyMenuContainer } from "pages";
 import {
   ContentContainer,
   LogoContainer,
   OuterAppContainer,
+  StickyMenuContainer,
 } from "styles/layout";
 
 interface FriendsProps {

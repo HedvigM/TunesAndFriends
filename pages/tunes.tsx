@@ -26,6 +26,7 @@ import {
   ContentContainer,
   LogoContainer,
   OuterAppContainer,
+  StickyMenuContainer,
 } from "styles/layout";
 
 const Tunes: NextPage<{}> = () => {
@@ -123,7 +124,9 @@ const Tunes: NextPage<{}> = () => {
             </Stack>
           </Box>
         </ContentContainer>
-        <Menu />
+        <StickyMenuContainer>
+          <Menu />
+        </StickyMenuContainer>
       </OuterAppContainer>
     </>
   );

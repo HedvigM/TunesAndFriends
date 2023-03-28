@@ -21,8 +21,8 @@ import {
   ContentContainer,
   LogoContainer,
   OuterAppContainer,
+  StickyMenuContainer,
 } from "styles/layout";
-import { StickyMenuContainer } from "pages";
 
 export const Music = (props) => {
   let lineBreak = (string: string) => {

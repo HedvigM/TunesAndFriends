@@ -13,6 +13,7 @@ import {
   ContentContainer,
   LogoContainer,
   OuterAppContainer,
+  StickyMenuContainer,
 } from "styles/layout";
 
 type NewTunes = {
@@ -158,11 +159,6 @@ const IndexPage: NextPage<{}> = ({}) => {
   }
 };
 
-export const StickyMenuContainer = styled("div")`
-  position: sticky;
-  bottom: 0px;
-  width: 100%;
-`;
 const DataContainer = styled("div")`
   padding-top: 10px;
   display: flex;

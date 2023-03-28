@@ -22,11 +22,11 @@ import user from "./api/user/[slug]";
 import { colors } from "styles/theme";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ProfileImage } from "components/ProfileImage";
-import { StickyMenuContainer } from "pages";
 import {
   LogoContainer,
   OuterAppContainer,
   ContentContainer,
+  StickyMenuContainer,
 } from "styles/layout";
 
 const ProfilePage: NextPage<{}> = ({}) => {
