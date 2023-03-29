@@ -37,7 +37,7 @@ const Friend: NextPage<{}> = () => {
   const [visitedFriendTunes, setVisitedFriendTunes] =
     useState<UserWithRelations>();
   const [logedinKnowTuneId, setLogedinKnowTunesId] = useState([]);
-  const [showCommonTunes, setShowCommonTunes] = useState(true);
+  const [showCommonTunes, setShowCommonTunes] = useState(false);
 
   const [mapFollowing, setMapFollowing] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -52,7 +52,6 @@ const Friend: NextPage<{}> = () => {
   const router = useRouter();
   const { slug: slug } = router.query;
 
-  /* Get Viewed user (profile and tune names )*/
   useEffect(() => {
     const fetchUser = async () => {
       if (slug) {
@@ -74,15 +73,13 @@ const Friend: NextPage<{}> = () => {
       }
     };
     fetchUser();
-    if (user.sub === slug) {
-      setShowCommonTunes(false);
-    }
   }, [slug]);
 
   /* get loged in user*/
   useEffect(() => {
     const fetchUser = async () => {
       if (user.sub !== slug) {
+        setShowCommonTunes(true);
         const fetchedUser = await getUser(user.sub as string);
         if (fetchedUser.success) {
           setLogedinUser(fetchedUser.data);
@@ -99,6 +96,7 @@ const Friend: NextPage<{}> = () => {
         }
       }
     };
+
     fetchUser();
   }, [user]);
 
