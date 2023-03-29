@@ -23,6 +23,8 @@ import {
   OuterAppContainer,
   StickyMenuContainer,
 } from "styles/layout";
+import { parsePath } from "react-router-dom";
+import { parseUrl } from "next/dist/shared/lib/router/utils/parse-url";
 
 export const Music = (props) => {
   let lineBreak = (string: string) => {
@@ -63,8 +65,12 @@ const detailedtune: NextPage<{}> = () => {
     }
   };
 
+  type Slug = {
+    slug: string;
+  };
+
   const router = useRouter();
-  const { slug } = router.query;
+  const { slug } = router.query as unknown as Slug;
   const parsedSlug = parseInt(slug, 10);
 
   const abcjs = process.browser ? require("abcjs") : null;
