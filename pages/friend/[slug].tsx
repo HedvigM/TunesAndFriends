@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Container from "@mui/material/Container";
-import { Box, Button, styled } from "@mui/material";
+import { Button, styled } from "@mui/material";
 import {
   useUser,
   withPageAuthRequired,
@@ -11,10 +10,7 @@ import { addNewRelation, addTune, getUser } from "services/local";
 import { Prisma } from "@prisma/client";
 import { NextPage } from "next";
 import { LoadingSpinner } from "components/LoadingSpinner";
-import { KeyboardArrowDown } from "@mui/icons-material";
 import { TUNE_URL } from "utils/urls";
-import { Presentation } from "components/profile/presentation";
-import { MapTunes } from "components/profile/MapTunes";
 import { getMyCache } from "services/functions";
 import { Header } from "components/Header";
 import { ProfileInfo } from "components/ProfileInfo";
@@ -31,6 +27,8 @@ import {
   StickyMenuContainer,
 } from "styles/layout";
 import { TunesIncommon } from "components/TunesIncommon";
+import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
+import Link from "next/link";
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
@@ -76,6 +74,9 @@ const Friend: NextPage<{}> = () => {
       }
     };
     fetchUser();
+    if (user.sub === slug) {
+      setShowCommonTunes(false);
+    }
   }, [slug]);
 
   /* get loged in user*/
@@ -127,7 +128,7 @@ const Friend: NextPage<{}> = () => {
   const followersCount = viewededUser?.followedBy?.length;
   const followingCount = viewededUser?.following?.length;
 
-  if (logedinUser && viewededUser && knowTuneNamesById && !loading) {
+  if (viewededUser && knowTuneNamesById && !loading) {
     return (
       <OuterAppContainer>
         <LogoContainer>
@@ -168,9 +169,11 @@ const Friend: NextPage<{}> = () => {
                   }}
                 >
                   <ProfileImage size={"small"} />
-                  <StyledButton know={mapFollowing.includes(viewededUser.id)}>
-                    Add
-                  </StyledButton>
+                  {user.sub !== slug && (
+                    <StyledButton know={mapFollowing.includes(viewededUser.id)}>
+                      Add
+                    </StyledButton>
+                  )}
                 </div>
                 <ProfileInfo
                   profileText={viewededUser.profileText}
@@ -180,21 +183,27 @@ const Friend: NextPage<{}> = () => {
                 />
               </ProfileContainer>
               <div style={{ padding: "0 20px" }}>
+                <Link href="/profile">
+                  <SettingsSuggestIcon />
+                </Link>
+                {user.sub !== slug && (
+                  <Button
+                    variant={showCommonTunes ? "outlined" : "contained"}
+                    size="small"
+                    onClick={onShowCommonTunes}
+                  >
+                    Common tunes
+                  </Button>
+                )}
                 <Button
-                  variant={showCommonTunes ? "contained" : "outlined"}
-                  size="small"
-                  onClick={onShowCommonTunes}
-                >
-                  Common tunes
-                </Button>
-                <Button
-                  variant={!showCommonTunes ? "contained" : "outlined"}
+                  variant={!showCommonTunes ? "outlined" : "contained"}
                   size="small"
                   onClick={onShowFriendsTunes}
                 >
-                  Friends tunes
+                  {user.sub === slug ? "My Tunes" : "FriendsTunes"}
                 </Button>
-                {showCommonTunes === true ? (
+
+                {showCommonTunes ? (
                   <TunesIncommon
                     logedinKnowTuneId={logedinKnowTuneId}
                     knowTunes={knowTunes}
@@ -202,6 +211,7 @@ const Friend: NextPage<{}> = () => {
                 ) : (
                   knowTunes?.map((tune) => (
                     <StyledTable
+                      key={tune.id}
                       onClickHandle={onKnowHandle}
                       know={logedinKnowTuneId.includes(tune.id)}
                       pathname="/tune/[slug]"
@@ -228,7 +238,6 @@ export default withPageAuthRequired<WithPageAuthRequiredProps>(Friend);
 export const ProfileContainer = styled("div")`
   padding: 20px 0;
   display: flex;
-  /* align-items: center; */
   align-content: center;
   justify-content: center;
 `;
