@@ -6,10 +6,10 @@ import Link from "next/link";
 import { addUser } from "services/local";
 import router, { useRouter } from "next/router";
 import HomeIcon from "@mui/icons-material/Home";
-import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import PeopleIcon from "@mui/icons-material/People";
 import { colors } from "styles/theme";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 export const Menu = () => {
   const { user, isLoading } = useUser();
@@ -77,7 +77,6 @@ export const Menu = () => {
         </LinkContainer>
 
         <LinkContainer href="/friend/[slug]">
-          {/* Här är jag, ändra till ens egna profilsida på menyn... */}
           <Link
             href={{
               pathname: "/friend/[slug]",
@@ -95,7 +94,7 @@ export const Menu = () => {
                 alignContent: "center",
               }}
             >
-              <SettingsSuggestIcon />
+              <AccountCircleIcon />
             </Typography>
           </Link>
         </LinkContainer>
