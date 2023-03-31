@@ -1,8 +1,6 @@
-import { colors, theme } from "styles/theme";
+import { colors } from "styles/theme";
 import AddIcon from "@mui/icons-material/Add";
-import MailIcon from "@mui/icons-material/Mail";
-import { Avatar, Badge, styled } from "@mui/material";
-import { deepOrange } from "@mui/material/colors";
+import { Avatar, styled } from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0";
 
 type ProfileImageProps = {
@@ -55,13 +53,3 @@ const PlusContainer = styled("div", {
   margin: "-31px 79px",
   zIndex: "2",
 }));
-
-/* const PlusContainer = styled("div")`
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  background-color: ${colors.first};
-  border: 1px solid black;
-  margin: -31px 79px;
-  z-index: 2;
-`; */

@@ -1,5 +1,5 @@
-import { Box, Button, Container, MenuProps, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Box, Typography } from "@mui/material";
+import React, { useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import { styled } from "@mui/material/styles";
 import Link from "next/link";

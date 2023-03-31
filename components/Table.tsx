@@ -1,12 +1,4 @@
-import {
-  Box,
-  Container,
-  styled,
-  Table,
-  TableCell,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Box, Container, styled, Typography } from "@mui/material";
 import Link from "next/link";
 import { colors } from "styles/theme";
 
@@ -15,11 +7,10 @@ interface TableProps {
   know: boolean;
   pathname: string;
   slug: string | number;
-  data: Data;
+  data: TableData;
 }
 
-export type Data = {
-  [x: string]: any;
+export type TableData = {
   name: string;
   id: number;
 };

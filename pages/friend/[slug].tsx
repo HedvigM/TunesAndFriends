@@ -14,7 +14,7 @@ import { TUNE_URL } from "utils/urls";
 import { getMyCache } from "services/functions";
 import { Header } from "components/Header";
 import { ProfileInfo } from "components/ProfileInfo";
-import { Data, StyledTable } from "components/Table";
+import { TableData, StyledTable } from "components/Table";
 import { Menu } from "components/Menu";
 import { ProfileImage } from "components/ProfileImage";
 import { colors } from "styles/theme";
@@ -40,8 +40,7 @@ const Friend: NextPage<{}> = () => {
   const [showCommonTunes, setShowCommonTunes] = useState(false);
 
   const [mapFollowing, setMapFollowing] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [knowTunes, setKnowTunes] = useState<Data[]>([]);
+  const [knowTunes, setKnowTunes] = useState<TableData[]>([]);
   const [knowTuneNamesById, setKnowTuneNamesById] = useState([]);
   const [followingButton, setFollowingButton] = useState(true);
 
@@ -126,7 +125,7 @@ const Friend: NextPage<{}> = () => {
   const followersCount = viewededUser?.followedBy?.length;
   const followingCount = viewededUser?.following?.length;
 
-  if (viewededUser && knowTuneNamesById && !loading) {
+  if (viewededUser && knowTuneNamesById) {
     return (
       <OuterAppContainer>
         <LogoContainer>

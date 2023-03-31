@@ -3,7 +3,7 @@ import { Box, styled } from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0";
 import { User } from "@prisma/client";
 import { LoadingSpinner } from "components/LoadingSpinner";
-import { colors, theme } from "styles/theme";
+import { colors } from "styles/theme";
 
 type AccountInfoProps = {
   handleProfileChange: (profileText: string, town: string) => void;

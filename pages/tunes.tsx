@@ -31,7 +31,6 @@ import {
 
 const Tunes: NextPage<{}> = () => {
   const [popularList, setPopularList] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [mapKnow, setMapKnow] = useState([]);
   const { user } = useUser();
   const router = useRouter();
@@ -39,7 +38,6 @@ const Tunes: NextPage<{}> = () => {
   const page = parseInt((router.query.page as string) || "1", 10);
 
   useEffect(() => {
-    setLoading(true);
     const fetchUserWithId = async () => {
       if (user) {
         const newUserWithId = await getUser(user?.sub as string);
@@ -49,7 +47,6 @@ const Tunes: NextPage<{}> = () => {
           );
           setMapKnow(newKnowTunes);
         }
-        setLoading(false);
       }
     };
 
@@ -60,7 +57,6 @@ const Tunes: NextPage<{}> = () => {
     const getPopularTunes = async () => {
       const data = await getMyCache(POPULAR_URL(page));
       setPopularList(data.tunes);
-      setLoading(false);
     };
 
     getPopularTunes();

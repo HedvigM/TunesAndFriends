@@ -5,7 +5,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { Menu } from "components/Menu";
 import { Header } from "components/Header";
 import { Login } from "components/Login";
-import { Data, StyledTable } from "components/Table";
+import { TableData, StyledTable } from "components/Table";
 import { getUser } from "services/local";
 import { getMyCache } from "services/functions";
 import { TUNE_URL } from "utils/urls";
@@ -16,28 +16,23 @@ import {
   StickyMenuContainer,
 } from "styles/layout";
 
-type NewTunes = {
-  name: string;
-  id: number;
-};
-
 const IndexPage: NextPage<{}> = ({}) => {
   const { user } = useUser();
   const [tuneIds, setTuneIds] = useState<number[]>();
-  const [tuneNames, setTuneNames] = useState<NewTunes[]>();
-  const [friends, setFriends] = useState<Data>();
+  const [tuneNames, setTuneNames] = useState<TableData[]>();
+  const [friends, setFriends] = useState<TableData[]>();
 
   useEffect(() => {
     const fetchUserWithId = async () => {
       if (user) {
         const newUserWithId = await getUser(user?.sub as string);
         if (newUserWithId.success) {
-          let newTunes: Data = await newUserWithId.data?.knowTunes?.map(
-            (tunes: Data) => tunes.sessionId
+          let newTunes = await newUserWithId.data?.knowTunes?.map(
+            (tunes) => tunes.sessionId
           );
 
           setFriends(
-            await newUserWithId.data?.following?.flatMap((friends: Data) => {
+            await newUserWithId.data?.following?.flatMap((friends) => {
               return { name: friends.name, id: friends.id };
             })
           );
@@ -104,7 +99,7 @@ const IndexPage: NextPage<{}> = ({}) => {
             </Header>
             <div>
               {friends &&
-                friends.map((data: Data) => (
+                friends.map((data) => (
                   <DataContainer>
                     <StyledTable
                       onClickHandle={() => {}}

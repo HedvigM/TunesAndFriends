@@ -1,12 +1,12 @@
 import { styled } from "@mui/material";
 import { ReactNode } from "react";
-import { colors, theme } from "styles/theme";
+import { colors } from "styles/theme";
 
-interface HeaderProps {
+type HeaderProps = {
   children: ReactNode;
   size: "small" | "medium" | "large";
   textAlign: "left" | "center";
-}
+};
 export const Header = ({ children, size, textAlign }: HeaderProps) => (
   <OuterContainer textAlign={textAlign}>
     <HeaderContainer size={size}>

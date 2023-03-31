@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
 import {
-  Box,
   Button,
-  Container,
   Dialog,
   DialogActions,
   DialogContent,
@@ -12,13 +10,11 @@ import {
   styled,
 } from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0";
-import { LoadingSpinner } from "components/LoadingSpinner";
 import { Menu } from "components/Menu";
 import { Header } from "components/Header";
 import { AccountInfo } from "components/accountInfo";
 import { getUser, updateUser } from "services/local";
 import { User } from "@prisma/client";
-import user from "./api/user/[slug]";
 import { colors } from "styles/theme";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ProfileImage } from "components/ProfileImage";
@@ -42,6 +38,7 @@ const ProfilePage: NextPage<{}> = ({}) => {
       handleClickOpen();
     }
   };
+  /* Make the sum obligatorisk i typen */
 
   useEffect(() => {
     const fetchUser = async () => {

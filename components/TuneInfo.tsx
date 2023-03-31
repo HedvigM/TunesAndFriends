@@ -10,7 +10,6 @@ type KnownByProp = {
 };
 
 export const TuneInfo = ({ type, knownBy }) => {
-  console.log({ knownBy });
   return (
     <OuterContainer>
       <TuneType>type: {type}</TuneType>

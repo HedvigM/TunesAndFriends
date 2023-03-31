@@ -1,4 +1,4 @@
-import { Box, Button, Container, styled, Typography } from "@mui/material";
+import { Box, Button, styled } from "@mui/material";
 
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -9,7 +9,6 @@ import {
   WithPageAuthRequiredProps,
 } from "@auth0/nextjs-auth0";
 import { NextPage } from "next";
-import { LoadingSpinner } from "components/LoadingSpinner";
 import { getMyCache } from "services/functions";
 import { Menu } from "components/Menu";
 import { Header } from "components/Header";
@@ -23,8 +22,6 @@ import {
   OuterAppContainer,
   StickyMenuContainer,
 } from "styles/layout";
-import { parsePath } from "react-router-dom";
-import { parseUrl } from "next/dist/shared/lib/router/utils/parse-url";
 
 export const Music = (props) => {
   let lineBreak = (string: string) => {

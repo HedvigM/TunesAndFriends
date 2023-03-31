@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Container from "@mui/material/Container";
-import { Box, Skeleton, Typography } from "@mui/material";
-import Link from "next/link";
 import {
   useUser,
   withPageAuthRequired,
   WithPageAuthRequiredProps,
 } from "@auth0/nextjs-auth0";
-import { addNewRelation, getUser, listUsersWithTune } from "services/local";
+import { addNewRelation, getUser } from "services/local";
 import { NextPage } from "next";
 import { LoadingSpinner } from "components/LoadingSpinner";
 import { getCachedListOfUsers } from "services/functions";
@@ -34,6 +31,30 @@ interface FriendsProps {
     town: "string";
   };
 }
+type NewUserWithIdType = {
+  success: Boolean;
+  data: {
+    auth0UserId: string;
+    createdAt: string;
+    email: string;
+    followedBy: string[];
+    following: object[];
+    id: number;
+    knowTunes: {
+      id: number;
+      sessionId: number;
+    };
+    name: string;
+    profileText: string;
+    role: string;
+    starredTunes: {
+      id: number;
+      sessionId: number;
+    };
+    town: string;
+  };
+};
+/* Inga typer används här... */
 
 const Friends: NextPage<{}> = () => {
   const [usersList, setUsersList] = useState([]);
@@ -64,29 +85,6 @@ const Friends: NextPage<{}> = () => {
     newMapFriendsId.push(addedId);
     setMapFriendsId(newMapFriendsId);
     addNewRelation(addingEmail, addedEmail);
-  };
-  type NewUserWithIdType = {
-    success: Boolean;
-    data: {
-      auth0UserId: string;
-      createdAt: string;
-      email: string;
-      followedBy: string[];
-      following: object[];
-      id: number;
-      knowTunes: {
-        id: number;
-        sessionId: number;
-      };
-      name: string;
-      profileText: string;
-      role: string;
-      starredTunes: {
-        id: number;
-        sessionId: number;
-      };
-      town: string;
-    };
   };
 
   useEffect(() => {
