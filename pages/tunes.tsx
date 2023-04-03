@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Container,
-  Pagination,
-  PaginationItem,
-  Stack,
-} from "@mui/material";
+import { Box, Pagination, PaginationItem, Stack } from "@mui/material";
 import { StyledTable } from "../components/Table";
 import { POPULAR_URL } from "utils/urls";
-import Link from "next/link";
 import {
   useUser,
   withPageAuthRequired,
@@ -18,7 +11,6 @@ import { useRouter } from "next/router";
 import { addTune, getUser } from "services/local";
 import { NextPage } from "next";
 import { getMyCache } from "services/functions";
-import { styled } from "@mui/material";
 import { Menu } from "components/Menu";
 import { Header } from "components/Header";
 import { LoadingSpinner } from "components/LoadingSpinner";
@@ -29,9 +21,23 @@ import {
   StickyMenuContainer,
 } from "styles/layout";
 
+type PopularTunesTypes = {
+  id: number;
+  name: string;
+  url: string;
+  member: {
+    id: number;
+    name: string;
+    url: string;
+  };
+  date: string;
+  type: string;
+  tunebooks: number;
+};
+
 const Tunes: NextPage<{}> = () => {
-  const [popularList, setPopularList] = useState([]);
-  const [mapKnow, setMapKnow] = useState([]);
+  const [popularList, setPopularList] = useState<PopularTunesTypes[]>([]);
+  const [mapKnow, setMapKnow] = useState<number[]>([]);
   const { user } = useUser();
   const router = useRouter();
 

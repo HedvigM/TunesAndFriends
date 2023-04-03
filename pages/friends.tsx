@@ -18,52 +18,17 @@ import {
   OuterAppContainer,
   StickyMenuContainer,
 } from "styles/layout";
-
-interface FriendsProps {
-  user: {
-    auth0UserId: string;
-    createdAt: Date;
-    email: string;
-    id: number;
-    name: string;
-    profileText?: string;
-    role: "BASIC" | "ADMIN";
-    town: "string";
-  };
-}
-type NewUserWithIdType = {
-  success: Boolean;
-  data: {
-    auth0UserId: string;
-    createdAt: string;
-    email: string;
-    followedBy: string[];
-    following: object[];
-    id: number;
-    knowTunes: {
-      id: number;
-      sessionId: number;
-    };
-    name: string;
-    profileText: string;
-    role: string;
-    starredTunes: {
-      id: number;
-      sessionId: number;
-    };
-    town: string;
-  };
-};
-/* Inga typer används här... */
+import { User as PrismaUser } from "@prisma/client";
+import { User } from "@auth0/auth0-spa-js/dist/typings/global";
 
 const Friends: NextPage<{}> = () => {
-  const [usersList, setUsersList] = useState([]);
+  const [usersList, setUsersList] = useState<PrismaUser[]>([]);
   const [loading, setLoading] = useState(true);
-  const [mapFriendsId, setMapFriendsId] = useState([]);
+  const [mapFriendsId, setMapFriendsId] = useState<string[]>([]);
   const [friendsArray, setFiendsArray] = useState<string[]>([]);
   const { user } = useUser();
 
-  const getUsersList = async (user) => {
+  const getUsersList = async (user: User) => {
     const data = await getCachedListOfUsers(user);
     if (data) {
       setUsersList(data);
@@ -117,20 +82,20 @@ const Friends: NextPage<{}> = () => {
           Friends
         </Header>
         <div style={{ padding: "20px 0" }}>
-          {!usersList || (loading && <LoadingSpinner />)}
-          {usersList
-            .filter((item) => item.email !== user.email)
-            .map((friend) => (
-              <StyledTable
-                onClickHandle={() =>
-                  onClickHandle(user.email, friend.email, friend.auth0UserId)
-                }
-                know={friendsArray.includes(friend.auth0UserId)}
-                data={friend}
-                pathname="/friend/[slug]"
-                slug={friend.auth0UserId}
-              />
-            ))}
+          {usersList &&
+            usersList
+              .filter((item) => item.email !== user.email)
+              .map((friend) => (
+                <StyledTable
+                  onClickHandle={() =>
+                    onClickHandle(user.email, friend.email, friend.auth0UserId)
+                  }
+                  know={friendsArray.includes(friend.auth0UserId)}
+                  data={friend}
+                  pathname="/friend/[slug]"
+                  slug={friend.auth0UserId}
+                />
+              ))}
         </div>
       </ContentContainer>
       <StickyMenuContainer>
@@ -140,26 +105,4 @@ const Friends: NextPage<{}> = () => {
   );
 };
 
-interface buttonProps {
-  readonly included: boolean;
-}
-
-const FriendsButton = styled("button", {
-  shouldForwardProp: (prop) => prop !== "included",
-})<buttonProps>((props) => ({
-  backgroundColor: props.included
-    ? "inherit"
-    : props.theme.palette.primary.main,
-  padding: "5px 10px",
-  border: "none",
-  borderRadius: "3px",
-  boxShadow: "1px 1px 0px deeppink",
-
-  "&:hover": {
-    backgroundColor: props.included
-      ? props.theme.palette.primary.light
-      : props.theme.palette.primary.dark,
-    cursor: "pointer",
-  },
-}));
 export default withPageAuthRequired<WithPageAuthRequiredProps>(Friends);

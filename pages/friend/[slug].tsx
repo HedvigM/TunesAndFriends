@@ -99,8 +99,8 @@ const Friend: NextPage<{}> = () => {
     fetchUser();
   }, [user]);
 
-  /* Add new relation vith auth0 instead... */
-  const onClickHandle = (addingEmail, addedEmail) => {
+  /* Add new relation vith auth0 instead... Få igång den här funktionen */
+  const onClickHandle = (addingEmail: string, addedEmail: string) => {
     addNewRelation(addingEmail, addedEmail);
     setFollowingButton(false);
   };
@@ -167,7 +167,10 @@ const Friend: NextPage<{}> = () => {
                 >
                   <ProfileImage size={"small"} />
                   {user.sub !== slug && (
-                    <StyledButton know={mapFollowing.includes(viewededUser.id)}>
+                    <StyledButton
+                      onClick={() => onClickHandle}
+                      know={mapFollowing.includes(viewededUser.id)}
+                    >
                       Add
                     </StyledButton>
                   )}

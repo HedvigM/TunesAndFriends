@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { User } from "@auth0/auth0-react";
 import { listUsers } from "./local";
 
 /* Cached Tunes from the session */
