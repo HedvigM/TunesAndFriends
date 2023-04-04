@@ -13,9 +13,13 @@ datasource db {
 model User {
   id             Int             @id @default(autoincrement())
   createdAt      DateTime        @default(now())
-  name           String
-  auth0UserId    String          @unique
+  firstName      String
+  lastName       String
   email          String          @unique
+  auth0UserId    String          @unique
+  gender         String
+  birthday       DateTime
+  image          String
   town           String?
   profileText    String?
   knowTunes      Tune[]          @relation("knowTunes")
