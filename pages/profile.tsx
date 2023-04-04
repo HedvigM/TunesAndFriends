@@ -6,15 +6,18 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  Link,
   styled,
 } from "@mui/material";
-import { useUser } from "@auth0/nextjs-auth0";
+import {
+  useUser,
+  withPageAuthRequired,
+  WithPageAuthRequiredProps,
+} from "@auth0/nextjs-auth0";
 import { Menu } from "components/Menu";
 import { Header } from "components/Header";
 import { AccountInfo } from "components/accountInfo";
 import { getUser, updateUser } from "services/local";
-import { User } from "@prisma/client";
+import { User as PrismaUser } from "@prisma/client";
 import { colors } from "styles/theme";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ProfileImage } from "components/ProfileImage";
@@ -24,12 +27,13 @@ import {
   ContentContainer,
   StickyMenuContainer,
 } from "styles/layout";
+import Link from "next/link";
 
 const ProfilePage: NextPage<{}> = ({}) => {
-  const [databaseUser, setDatabaseUser] = useState<User>();
+  const [databaseUser, setDatabaseUser] = useState<PrismaUser>();
   const [town, setTown] = useState("");
-  const [profileText, setProfileText] = useState("");
-  const [open, setOpen] = useState(false);
+  const [profileText, setProfileText] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
   const { user } = useUser();
 
   const handleProfileChange = (profileText: string, town: string) => {
@@ -42,8 +46,8 @@ const ProfilePage: NextPage<{}> = ({}) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      if (user) {
-        const fetchedUser = await getUser(user.sub as string);
+      if (user.sub) {
+        const fetchedUser = await getUser(user.sub);
         if (fetchedUser.success) {
           setDatabaseUser(fetchedUser.data);
           if (fetchedUser.data?.town) {
@@ -139,7 +143,7 @@ const ProfilePage: NextPage<{}> = ({}) => {
   );
 };
 
-export const ProfileContainer = styled("div")`
+const ProfileContainer = styled("div")`
   /*  padding: 20px 0; */
   display: flex;
   flex-direction: column;
@@ -148,4 +152,4 @@ export const ProfileContainer = styled("div")`
   height: 100%;
 `;
 
-export default ProfilePage;
+export default withPageAuthRequired<WithPageAuthRequiredProps>(ProfilePage);

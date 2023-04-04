@@ -38,25 +38,7 @@ export const StyledTable = ({
             query: { slug: `${slug}` },
           }}
         >
-          <Typography
-            variant="body1"
-            sx={{
-              fontSize: "1rem",
-              fontWeight: "400",
-              color: "text.primary",
-              display: "inline",
-              textAlign: "left",
-              margin: "1px",
-
-              "&:hover": {
-                color: "text.primary",
-                backgroundColor: "deeppink",
-                cursor: "pointer",
-              },
-            }}
-          >
-            {data.name}
-          </Typography>
+          <StyledTypography variant="body1">{data.name}</StyledTypography>
         </Link>
 
         <Box
@@ -90,3 +72,20 @@ const StyledButton = styled("button")<TableStyledProps>((props) => ({
     cursor: "pointer",
   },
 }));
+const StyledTypography = styled(Typography)`
+  font-size: 1rem;
+  font-weight: 400;
+  color: black;
+  display: inline;
+  width: fit-content;
+  padding-right: 10px;
+  padding-left: 2px;
+  text-align: left;
+  margin: 1px;
+
+  :hover {
+    color: line-clamp;
+    background-color: ${colors.first};
+    cursor: pointer;
+  }
+`;

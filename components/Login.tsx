@@ -73,7 +73,7 @@ export const Login = () => {
             noWrap
             sx={{
               textDecoration: "none",
-              color: "black",
+              color: "white",
               display: "flex",
               justifyContent: "center",
               alignContent: "center",
@@ -95,8 +95,8 @@ const Div = styled("div")<StyledLoginProps>(({ index }) => ({
   backgroundColor:
     (index === "1" && colors.second) ||
     (index === "2" && colors.third) ||
-    (index === "3" && colors.first) ||
-    (index === "4" && colors.fourth),
+    (index === "3" && colors.second) ||
+    (index === "4" && colors.third),
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
