@@ -3,6 +3,7 @@ import { User } from "@prisma/client";
 import { ResponseType } from "types/types";
 import { getMyCache } from "./functions";
 
+/* add al items from profile page in the db */
 export const addUser = (user: UserProfile) => {
   const defaultHeaders = {
     Accept: "application/json",

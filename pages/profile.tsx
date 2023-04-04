@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogContentText,
   styled,
+  Typography,
 } from "@mui/material";
 import {
   useUser,
@@ -115,6 +116,20 @@ const ProfilePage: NextPage<{}> = ({}) => {
             Save
           </Button>
         </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            padding: "30px 0",
+          }}
+        >
+          <LogoutContainer>
+            <Typography>Log out</Typography>
+            <Link href="/api/auth/logout">
+              <LogoutIcon />
+            </Link>
+          </LogoutContainer>
+        </div>
         <Dialog
           open={open}
           onClose={handleClose}
@@ -132,9 +147,6 @@ const ProfilePage: NextPage<{}> = ({}) => {
             </Button>
           </DialogActions>
         </Dialog>
-        <Link href="/api/auth/logout">
-          <LogoutIcon />
-        </Link>
       </ContentContainer>
       <StickyMenuContainer>
         <Menu />
@@ -143,6 +155,12 @@ const ProfilePage: NextPage<{}> = ({}) => {
   );
 };
 
+const LogoutContainer = styled("div")`
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid red;
+  width: 100px;
+`;
 const ProfileContainer = styled("div")`
   /*  padding: 20px 0; */
   display: flex;
