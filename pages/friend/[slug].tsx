@@ -169,7 +169,10 @@ const Friend: NextPage<{}> = () => {
                   {user.sub !== slug && (
                     <StyledButton
                       onClick={() => onClickHandle}
-                      know={mapFollowing.includes(viewededUser.id)}
+                      know={
+                        mapFollowing !== undefined &&
+                        mapFollowing.includes(viewededUser.id)
+                      }
                     >
                       Add
                     </StyledButton>
@@ -213,7 +216,10 @@ const Friend: NextPage<{}> = () => {
                     <StyledTable
                       key={tune.id}
                       onClickHandle={onKnowHandle}
-                      know={logedinKnowTuneId.includes(tune.id)}
+                      know={
+                        logedinKnowTuneId !== undefined &&
+                        logedinKnowTuneId.includes(tune.id)
+                      }
                       pathname="/tune/[slug]"
                       slug={tune.id}
                       data={tune}
