@@ -93,7 +93,7 @@ const Tunes: NextPage<{}> = () => {
               <StyledTable
                 data={tune}
                 onClickHandle={onKnowHandle}
-                know={mapKnow.includes(tune.id)}
+                know={mapKnow.length < 1 ? false : mapKnow.includes(tune.id)}
                 pathname="/tune/[slug]"
                 slug={tune.id}
               />
