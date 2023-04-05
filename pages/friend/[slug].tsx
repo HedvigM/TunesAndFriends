@@ -56,6 +56,7 @@ const Friend: NextPage<{}> = () => {
       if (slug) {
         const fetchedUser = await getUser(slug as string);
         if (fetchedUser.success) {
+          console.log("fetch: ", fetchedUser.data);
           setViewedUser(fetchedUser.data);
           Promise.all(
             fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
