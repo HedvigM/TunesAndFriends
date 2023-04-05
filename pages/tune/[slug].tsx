@@ -149,7 +149,7 @@ const detailedtune: NextPage<{}> = () => {
           <div style={{ width: "85%" }}>
             <Music abcNotes={abc} />
             <StyledAddButton
-              know={mapKnow.includes(details.id)}
+              know={mapKnow !== undefined && mapKnow.includes(details.id)}
               onClick={onKnowHandle}
             >
               Add
