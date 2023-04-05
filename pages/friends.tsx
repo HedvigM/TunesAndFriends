@@ -87,6 +87,7 @@ const Friends: NextPage<{}> = () => {
               .filter((item) => item.email !== user.email)
               .map((friend) => (
                 <StyledTable
+                  key={friend.id}
                   onClickHandle={() =>
                     onClickHandle(user.email, friend.email, friend.auth0UserId)
                   }

@@ -41,6 +41,7 @@ const Tunes: NextPage<{}> = () => {
   const { user } = useUser();
   const router = useRouter();
 
+  console.log({ mapKnow });
   const page = parseInt((router.query.page as string) || "1", 10);
 
   useEffect(() => {
@@ -91,9 +92,10 @@ const Tunes: NextPage<{}> = () => {
             {!popularList && <LoadingSpinner />}
             {popularList.map((tune) => (
               <StyledTable
+                key={tune.id}
                 data={tune}
                 onClickHandle={onKnowHandle}
-                know={mapKnow.length < 1 ? false : mapKnow.includes(tune.id)}
+                know={mapKnow.includes(tune.id)}
                 pathname="/tune/[slug]"
                 slug={tune.id}
               />

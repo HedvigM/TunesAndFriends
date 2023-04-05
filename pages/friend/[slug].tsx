@@ -144,7 +144,7 @@ const Friend: NextPage<{}> = () => {
                   paddingTop: "20px",
                 }}
               >
-                <Header size="small" textAlign={"center"}>
+                <Header size="small" textAlign="center">
                   {viewededUser.name}
                 </Header>
 

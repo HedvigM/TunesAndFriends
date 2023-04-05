@@ -94,13 +94,13 @@ const IndexPage: NextPage<{}> = ({}) => {
             Tunes & Friends
           </Header>
           <div style={{ padding: "20px 0" }}>
-            <Header size={"small"} textAlign={"center"}>
+            <Header size={"small"} textAlign="center">
               Newest Friends
             </Header>
             <div>
               {friends &&
                 friends.map((data) => (
-                  <DataContainer>
+                  <DataContainer key={data.id}>
                     <StyledTable
                       onClickHandle={() => {}}
                       know={true}

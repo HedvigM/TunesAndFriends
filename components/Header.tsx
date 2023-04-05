@@ -24,7 +24,9 @@ type HeaderContainerStyles = {
   size: string;
 };
 
-const OuterContainer = styled("div")<OuterContainerStyles>((props) => ({
+const OuterContainer = styled("div", {
+  shouldForwardProp: (prop) => prop !== "textAlign",
+})<OuterContainerStyles>((props) => ({
   display: "flex",
   justifyContent:
     (props.textAlign === "left" && "left") ||
