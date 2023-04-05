@@ -98,12 +98,14 @@ const ProfilePage: NextPage<{}> = ({}) => {
         >
           <ProfileImage size={"large"} />
         </div>
-        <AccountInfo
-          handleProfileChange={handleProfileChange}
-          newProfileText={setNewProfileText}
-          newTownText={setNewTownText}
-          databaseUser={databaseUser}
-        />
+        {databaseUser && (
+          <AccountInfo
+            handleProfileChange={handleProfileChange}
+            newProfileText={setNewProfileText}
+            newTownText={setNewTownText}
+            databaseUser={databaseUser}
+          />
+        )}
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Button
             variant="contained"
