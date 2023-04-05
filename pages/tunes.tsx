@@ -95,7 +95,7 @@ const Tunes: NextPage<{}> = () => {
                 key={tune.id}
                 data={tune}
                 onClickHandle={onKnowHandle}
-                know={mapKnow.includes(tune.id)}
+                know={mapKnow !== undefined && mapKnow.includes(tune.id)}
                 pathname="/tune/[slug]"
                 slug={tune.id}
               />
