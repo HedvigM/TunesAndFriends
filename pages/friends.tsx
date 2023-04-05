@@ -92,9 +92,8 @@ const Friends: NextPage<{}> = () => {
                     onClickHandle(user.email, friend.email, friend.auth0UserId)
                   }
                   know={
-                    friendsArray.length < 1
-                      ? false
-                      : friendsArray.includes(friend.auth0UserId)
+                    friendsArray !== undefined &&
+                    friendsArray.includes(friend.auth0UserId)
                   }
                   data={friend}
                   pathname="/friend/[slug]"

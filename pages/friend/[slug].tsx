@@ -206,7 +206,7 @@ const Friend: NextPage<{}> = () => {
                 {showCommonTunes ? (
                   <TunesIncommon
                     logedinKnowTuneId={logedinKnowTuneId}
-                    knowTunes={knowTunes}
+                    knowTunes={knowTunes !== undefined && knowTunes}
                   />
                 ) : (
                   knowTunes?.map((tune) => (
