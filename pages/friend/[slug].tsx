@@ -44,6 +44,7 @@ const Friend: NextPage<{}> = () => {
   const [knowTuneNamesById, setKnowTuneNamesById] = useState([]);
   const [followingButton, setFollowingButton] = useState(true);
 
+  console.log({ user });
   type UserWithRelations = Prisma.UserGetPayload<{
     include: { following: true; followedBy: true; knowTunes: true };
   }>;
