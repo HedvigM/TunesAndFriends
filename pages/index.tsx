@@ -15,37 +15,30 @@ import {
   OuterAppContainer,
   StickyMenuContainer,
 } from "styles/layout";
+import { useQuery } from "react-query";
 
 const IndexPage: NextPage<{}> = ({}) => {
   const { user } = useUser();
-  const [tuneIds, setTuneIds] = useState<number[]>();
-  const [tuneNames, setTuneNames] = useState<TableData[]>();
-  const [friends, setFriends] = useState<TableData[]>();
+  const [tuneIds, setTuneIds] = useState<number[]>([]);
+  const [tuneNames, setTuneNames] = useState<TableData[]>([]);
+  const [friends, setFriends] = useState<TableData[]>([]);
 
-  useEffect(() => {
-    const fetchUserWithId = async () => {
-      if (user) {
-        const newUserWithId = await getUser(user?.sub as string);
-        if (newUserWithId.success) {
-          let newTunes = await newUserWithId.data?.knowTunes?.map(
-            (tunes) => tunes.sessionId
-          );
+  const prismaUser = useQuery(["prismaUser", user?.sub], async () => {
+    const data = await getUser(user.sub);
+    setTuneIds(
+      data?.data?.knowTunes?.map((tunes) => tunes.sessionId).slice(0, 3)
+    );
+    setFriends(
+      data?.data?.following?.flatMap((friends) => {
+        return { name: friends.name, id: friends.id };
+      })
+    );
+    return data;
+  });
 
-          setFriends(
-            await newUserWithId.data?.following?.flatMap((friends) => {
-              return { name: friends.name, id: friends.id };
-            })
-          );
-          setTuneIds(newTunes.slice(0, 3));
-        }
-      }
-    };
-
-    fetchUserWithId();
-  }, [user]);
-
-  useEffect(() => {
-    if (tuneIds) {
+  const { isIdle } = useQuery(
+    ["tuneNames", tuneIds],
+    () =>
       Promise.all(
         tuneIds.map((tunes) =>
           getMyCache(TUNE_URL(tunes)).then((response) => {
@@ -54,9 +47,12 @@ const IndexPage: NextPage<{}> = ({}) => {
         )
       ).then((values) => {
         setTuneNames(values?.map((tune) => ({ name: tune.name, id: tune.id })));
-      });
+      }),
+
+    {
+      enabled: !!tuneIds,
     }
-  }, [tuneIds]);
+  );
 
   if (!user) {
     return (
@@ -105,8 +101,8 @@ const IndexPage: NextPage<{}> = ({}) => {
                       onClickHandle={() => {}}
                       know={true}
                       pathname={""}
-                      data={data}
                       slug={""}
+                      data={data}
                     />
                   </DataContainer>
                 ))}

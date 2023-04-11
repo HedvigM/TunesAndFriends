@@ -20,26 +20,20 @@ import {
 } from "styles/layout";
 import { User as PrismaUser } from "@prisma/client";
 import { User } from "@auth0/auth0-spa-js/dist/typings/global";
+import { useQuery } from "react-query";
 
 const Friends: NextPage<{}> = () => {
-  const [usersList, setUsersList] = useState<PrismaUser[]>([]);
-  const [loading, setLoading] = useState(true);
   const [mapFriendsId, setMapFriendsId] = useState<string[]>([]);
   const [friendsArray, setFiendsArray] = useState<string[]>([]);
   const { user } = useUser();
 
-  const getUsersList = async (user: User) => {
-    const data = await getCachedListOfUsers(user);
-    if (data) {
-      setUsersList(data);
+  const { data, isLoading, isError, error } = useQuery(
+    ["usersList"],
+    async () => {
+      const data = await getCachedListOfUsers(user);
+      return data;
     }
-  };
-
-  useEffect(() => {
-    setLoading(true);
-    getUsersList(user);
-    setLoading(false);
-  }, []);
+  );
 
   const onClickHandle = (
     addingEmail: string,
@@ -53,7 +47,6 @@ const Friends: NextPage<{}> = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
     const fetchUserWithId = async () => {
       if (user) {
         const newUserWithId = await getUser(user?.sub as string);
@@ -63,12 +56,19 @@ const Friends: NextPage<{}> = () => {
           );
           setFiendsArray(newFrindsArray);
         }
-        setLoading(false);
       }
     };
 
     fetchUserWithId();
   }, [user]);
+
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+
+  if (isError) {
+    return <span>Error: {error}</span>;
+  }
 
   return (
     <OuterAppContainer>
@@ -82,20 +82,19 @@ const Friends: NextPage<{}> = () => {
           Friends
         </Header>
         <div style={{ padding: "20px 0" }}>
-          {usersList &&
-            usersList
-              .filter((item) => item.email !== user.email)
-              .map((friend) => (
-                <StyledTable
-                  onClickHandle={() =>
-                    onClickHandle(user.email, friend.email, friend.auth0UserId)
-                  }
-                  know={friendsArray.includes(friend.auth0UserId)}
-                  data={friend}
-                  pathname="/friend/[slug]"
-                  slug={friend.auth0UserId}
-                />
-              ))}
+          {data
+            .filter((item) => item.auth0UserId !== user.sub)
+            .map((friend) => (
+              <StyledTable
+                onClickHandle={() =>
+                  onClickHandle(user.email, friend.email, friend.auth0UserId)
+                }
+                know={friendsArray.includes(friend.auth0UserId)}
+                data={friend}
+                pathname="/friend/[slug]"
+                slug={friend.auth0UserId}
+              />
+            ))}
         </div>
       </ContentContainer>
       <StickyMenuContainer>

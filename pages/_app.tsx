@@ -5,10 +5,18 @@ import { ThemeProvider, CssBaseline } from "@mui/material";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import { theme } from "styles/theme";
-
 import { UserProvider } from "@auth0/nextjs-auth0";
+import { ReactQueryDevtools } from "react-query/devtools";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from "react-query";
 
 const clientSideEmotionCache = createCache({ key: "css", prepend: true });
+const queryClient = new QueryClient();
 
 function MyApp({
   Component,
@@ -18,20 +26,23 @@ function MyApp({
   const router = useRouter();
 
   return (
-    <UserProvider>
-      <CacheProvider value={emotionCache}>
-        <Head>
-          <meta
-            name="viewport"
-            content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
-          />
-        </Head>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Component {...pageProps} key={router.asPath} />
-        </ThemeProvider>
-      </CacheProvider>
-    </UserProvider>
+    <QueryClientProvider client={queryClient}>
+      <UserProvider>
+        <CacheProvider value={emotionCache}>
+          <Head>
+            <meta
+              name="viewport"
+              content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
+            />
+          </Head>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Component {...pageProps} key={router.asPath} />
+            <ReactQueryDevtools initialIsOpen={true} />
+          </ThemeProvider>
+        </CacheProvider>
+      </UserProvider>
+    </QueryClientProvider>
   );
 }
 

@@ -29,18 +29,19 @@ import {
 import { TunesIncommon } from "components/TunesIncommon";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import Link from "next/link";
+import { useQuery } from "react-query";
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
   const [logedinUser, setLogedinUser] = useState<UserWithRelations>();
-  const [viewededUser, setViewedUser] = useState<UserWithRelations>();
+  /* const [viewededUser, setViewedUser] = useState<UserWithRelations>(); */
   const [visitedFriendTunes, setVisitedFriendTunes] =
     useState<UserWithRelations>();
   const [logedinKnowTuneId, setLogedinKnowTunesId] = useState([]);
   const [showCommonTunes, setShowCommonTunes] = useState(false);
 
   const [mapFollowing, setMapFollowing] = useState([]);
-  const [knowTunes, setKnowTunes] = useState<TableData[]>([]);
+  const [tuneNames, setTuneNames] = useState<TableData[]>([]);
   const [knowTuneNamesById, setKnowTuneNamesById] = useState([]);
   const [followingButton, setFollowingButton] = useState(true);
 
@@ -48,31 +49,32 @@ const Friend: NextPage<{}> = () => {
     include: { following: true; followedBy: true; knowTunes: true };
   }>;
 
+  /* Viewed user */
+  const { data } = useQuery(["prismaUser", user?.sub], async () => {
+    const data = await getUser(user.sub);
+    return data;
+  });
+
   const router = useRouter();
   const { slug: slug } = router.query;
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (slug) {
-        const fetchedUser = await getUser(slug as string);
-        if (fetchedUser.success) {
-          setViewedUser(fetchedUser.data);
-          Promise.all(
-            fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
-              getMyCache(TUNE_URL(tunes.sessionId)).then((response) => {
-                return response;
-              })
-            )
-          ).then((values) => {
-            setKnowTunes(
-              values?.map((tune) => ({ name: tune.name, id: tune.id }))
-            );
-          });
-        }
-      }
-    };
-    fetchUser();
-  }, [slug]);
+  const { isIdle } = useQuery(
+    ["tuneNames"],
+    () =>
+      Promise.all(
+        data?.data?.knowTunes?.map((tunes) =>
+          getMyCache(TUNE_URL(tunes.sessionId)).then((response) => {
+            return response;
+          })
+        )
+      ).then((values) => {
+        setTuneNames(values?.map((tune) => ({ name: tune.name, id: tune.id })));
+      }),
+
+    {
+      enabled: !!data,
+    }
+  );
 
   /* get loged in user*/
   useEffect(() => {
@@ -121,11 +123,11 @@ const Friend: NextPage<{}> = () => {
     setShowCommonTunes(false);
   };
 
-  const tuneCount = viewededUser?.knowTunes?.length;
-  const followersCount = viewededUser?.followedBy?.length;
-  const followingCount = viewededUser?.following?.length;
+  const tuneCount = data?.knowTunes?.length;
+  const followersCount = data?.followedBy?.length;
+  const followingCount = data?.following?.length;
 
-  if (viewededUser && knowTuneNamesById) {
+  if (data && knowTuneNamesById) {
     return (
       <OuterAppContainer>
         <LogoContainer>
@@ -134,7 +136,7 @@ const Friend: NextPage<{}> = () => {
           </Header>
         </LogoContainer>
         <ContentContainer>
-          {viewededUser && (
+          {data && (
             <>
               <div
                 style={{
@@ -145,7 +147,7 @@ const Friend: NextPage<{}> = () => {
                 }}
               >
                 <Header size="small" textAlign={"center"}>
-                  {viewededUser.name}
+                  {data.name}
                 </Header>
 
                 <StyleBackdButton
@@ -169,14 +171,14 @@ const Friend: NextPage<{}> = () => {
                   {user.sub !== slug && (
                     <StyledButton
                       onClick={() => onClickHandle}
-                      know={mapFollowing.includes(viewededUser.id)}
+                      know={mapFollowing.includes(data.id)}
                     >
                       Add
                     </StyledButton>
                   )}
                 </div>
                 <ProfileInfo
-                  profileText={viewededUser.profileText}
+                  profileText={data.profileText}
                   tunesCount={tuneCount}
                   following={followingCount}
                   followers={followersCount}
@@ -206,10 +208,10 @@ const Friend: NextPage<{}> = () => {
                 {showCommonTunes ? (
                   <TunesIncommon
                     logedinKnowTuneId={logedinKnowTuneId}
-                    knowTunes={knowTunes}
+                    knowTunes={tuneNames}
                   />
                 ) : (
-                  knowTunes?.map((tune) => (
+                  tuneNames?.map((tune) => (
                     <StyledTable
                       key={tune.id}
                       onClickHandle={onKnowHandle}
