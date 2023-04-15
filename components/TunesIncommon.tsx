@@ -16,6 +16,7 @@ export const TunesIncommon = ({
 }: TunesIncommonProps) => {
   const [commonTunes, setCommonTunes] =
     useState<TunesIncommonProps["knowTunes"]>();
+  console.log({ knowTunes });
 
   useEffect(() => {
     if (logedinKnowTuneId && knowTunes) {

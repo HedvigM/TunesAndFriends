@@ -29,7 +29,7 @@ import {
 import { TunesIncommon } from "components/TunesIncommon";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import Link from "next/link";
-import { useQuery } from "react-query";
+import { useQueries, useQuery } from "react-query";
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
@@ -41,7 +41,7 @@ const Friend: NextPage<{}> = () => {
   const [showCommonTunes, setShowCommonTunes] = useState(false);
 
   const [mapFollowing, setMapFollowing] = useState([]);
-  const [tuneNames, setTuneNames] = useState<TableData[]>([]);
+  /*  const [tuneNames, setTuneNames] = useState<TableData[]>([]); */
   const [knowTuneNamesById, setKnowTuneNamesById] = useState([]);
   const [followingButton, setFollowingButton] = useState(true);
 
@@ -58,25 +58,38 @@ const Friend: NextPage<{}> = () => {
   const router = useRouter();
   const { slug: slug } = router.query;
 
-  const { isIdle } = useQuery(
-    ["tuneNames"],
-    () =>
-      Promise.all(
-        data?.data?.knowTunes?.map((tunes) =>
-          getMyCache(TUNE_URL(tunes.sessionId)).then((response) => {
-            return response;
-          })
-        )
-      ).then((values) => {
-        setTuneNames(values?.map((tune) => ({ name: tune.name, id: tune.id })));
-      }),
+  type SessionTuneType = {
+    data: {
+      name: string;
+      id: number;
+    }[];
+  };
 
-    {
-      enabled: !!data,
+  const trimTunesData = async (tune) => {
+    let newTune = await tune;
+    if (newTune.name && newTune.id) {
+      return { name: newTune.name, id: newTune.id };
     }
+  };
+
+  const tunes = useQueries(
+    data?.data?.knowTunes?.map(
+      (tunes) => {
+        return {
+          queryKey: ["tunes", tunes.sessionId],
+          queryFn: () => trimTunesData(getMyCache(TUNE_URL(tunes.sessionId))),
+          /* staleTime: Infinity, */
+        };
+      },
+      {
+        enabled: !!data.success,
+      }
+    )
   );
 
-  /* get loged in user*/
+  console.log("tunes: ", tunes);
+
+  /* get logged in user*/
   useEffect(() => {
     const fetchUser = async () => {
       if (user.sub !== slug) {
@@ -123,11 +136,11 @@ const Friend: NextPage<{}> = () => {
     setShowCommonTunes(false);
   };
 
-  const tuneCount = data?.knowTunes?.length;
-  const followersCount = data?.followedBy?.length;
-  const followingCount = data?.following?.length;
+  const tuneCount = data?.data.knowTunes?.length;
+  const followersCount = data?.data.followedBy?.length;
+  const followingCount = data?.data.following?.length;
 
-  if (data && knowTuneNamesById) {
+  if (data && knowTuneNamesById && data.success && tunes.length > 0) {
     return (
       <OuterAppContainer>
         <LogoContainer>
@@ -147,7 +160,7 @@ const Friend: NextPage<{}> = () => {
                 }}
               >
                 <Header size="small" textAlign={"center"}>
-                  {data.name}
+                  {data.data.name}
                 </Header>
 
                 <StyleBackdButton
@@ -171,14 +184,14 @@ const Friend: NextPage<{}> = () => {
                   {user.sub !== slug && (
                     <StyledButton
                       onClick={() => onClickHandle}
-                      know={mapFollowing.includes(data.id)}
+                      know={mapFollowing.includes(data.data.id)}
                     >
                       Add
                     </StyledButton>
                   )}
                 </div>
                 <ProfileInfo
-                  profileText={data.profileText}
+                  profileText={data.data.profileText}
                   tunesCount={tuneCount}
                   following={followingCount}
                   followers={followersCount}
@@ -204,23 +217,30 @@ const Friend: NextPage<{}> = () => {
                 >
                   {user.sub === slug ? "My Tunes" : "FriendsTunes"}
                 </Button>
-
                 {showCommonTunes ? (
                   <TunesIncommon
                     logedinKnowTuneId={logedinKnowTuneId}
-                    knowTunes={tuneNames}
+                    knowTunes={tunes.map((tune) => tune.data)}
                   />
                 ) : (
-                  tuneNames?.map((tune) => (
-                    <StyledTable
-                      key={tune.id}
-                      onClickHandle={onKnowHandle}
-                      know={logedinKnowTuneId.includes(tune.id)}
-                      pathname="/tune/[slug]"
-                      slug={tune.id}
-                      data={tune}
-                    />
-                  ))
+                  tunes.length > 0 &&
+                  tunes.map((tune, index) =>
+                    tune.status === "success" ? (
+                      <StyledTable
+                        key={tune.data.id}
+                        onClickHandle={onKnowHandle}
+                        know={logedinKnowTuneId.includes(tune.data.id)}
+                        pathname="/tune/[slug]"
+                        slug={tune.data.id}
+                        data={tune.data}
+                      />
+                    ) : (
+                      <StyledTable
+                        key={index}
+                        data={{ id: 0, name: "Loading..." }}
+                      />
+                    )
+                  )
                 )}
               </div>
             </>
