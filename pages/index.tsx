@@ -93,7 +93,8 @@ const IndexPage: NextPage<{}> = ({}) => {
           <Header size={"large"} textAlign="center">
             Tunes & Friends
           </Header>
-          <div style={{ padding: "20px 0" }}>
+
+          <TableContent>
             <Header size={"small"} textAlign="center">
               Newest Friends
             </Header>
@@ -111,6 +112,9 @@ const IndexPage: NextPage<{}> = ({}) => {
                   </DataContainer>
                 ))}
             </div>
+          </TableContent>
+
+          <TableContent>
             <Header size={"small"} textAlign="center">
               Newest Tunes
             </Header>
@@ -128,6 +132,8 @@ const IndexPage: NextPage<{}> = ({}) => {
                   </DataContainer>
                 ))}
             </div>
+          </TableContent>
+          <TableContent>
             <Header size={"small"} textAlign="center">
               Friends newest tunes
             </Header>
@@ -144,7 +150,7 @@ const IndexPage: NextPage<{}> = ({}) => {
                 </DataContainer>
               ))}
             </div>
-          </div>
+          </TableContent>
         </ContentContainer>
         <StickyMenuContainer>
           <Menu />
@@ -154,6 +160,9 @@ const IndexPage: NextPage<{}> = ({}) => {
   }
 };
 
+const TableContent = styled("div")`
+  padding-top: 30px;
+`;
 const DataContainer = styled("div")`
   padding-top: 10px;
   display: flex;

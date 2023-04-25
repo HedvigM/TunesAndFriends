@@ -34,6 +34,7 @@ const OuterContainer = styled("div", {
   width: "100%",
 }));
 
+/* props för att välja färg - headern skall vara gul. */
 const HeaderContainer = styled("div")<HeaderContainerStyles>((props) => ({
   textTransform: "uppercase",
 }));
@@ -46,7 +47,7 @@ const H1 = styled("h1")({
 
   "&::before": {
     content: '""',
-    backgroundColor: colors.first,
+    backgroundColor: colors.second,
     height: "20px",
     bottom: "0",
     position: "absolute",
@@ -64,7 +65,7 @@ const H2 = styled("h2")({
 
   "&::before": {
     content: '""',
-    backgroundColor: colors.first,
+    backgroundColor: colors.second,
     height: "14px",
     bottom: "0",
     position: "absolute",
@@ -82,7 +83,7 @@ const H3 = styled("h3")({
 
   "&::before": {
     content: '""',
-    backgroundColor: colors.first,
+    backgroundColor: colors.second,
     height: "14px",
     bottom: "0",
     position: "absolute",
