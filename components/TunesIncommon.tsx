@@ -31,7 +31,7 @@ export const TunesIncommon = ({
   }, [logedinKnowTuneId, knowTunes]);
 
   return (
-    <Container>
+    <>
       {commonTunes &&
         commonTunes.map((tune) => (
           <StyledTable
@@ -42,6 +42,6 @@ export const TunesIncommon = ({
             data={tune}
           />
         ))}
-    </Container>
+    </>
   );
 };

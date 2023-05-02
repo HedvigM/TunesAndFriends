@@ -29,6 +29,7 @@ import {
 import { TunesIncommon } from "components/TunesIncommon";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import Link from "next/link";
+import { DataContainer } from "pages/friends";
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
@@ -163,12 +164,13 @@ const Friend: NextPage<{}> = () => {
                   style={{
                     display: "flex",
                     flexDirection: "column",
+                    alignItems: "center",
                     gap: "5px",
                     paddingRight: "10px",
                   }}
                 >
                   <ProfileImage size={"small"} />
-                  {user.sub !== slug && (
+                  {user.sub !== slug ? (
                     <StyledButton
                       onClick={() => onClickHandle}
                       know={
@@ -178,6 +180,10 @@ const Friend: NextPage<{}> = () => {
                     >
                       Add
                     </StyledButton>
+                  ) : (
+                    <Link href="/profile">
+                      <SettingsSuggestIcon />
+                    </Link>
                   )}
                 </div>
                 <ProfileInfo
@@ -187,27 +193,24 @@ const Friend: NextPage<{}> = () => {
                   followers={followersCount}
                 />
               </ProfileContainer>
-              <div style={{ padding: "0 20px" }}>
-                <Link href="/profile">
-                  <SettingsSuggestIcon />
-                </Link>
-                {user.sub !== slug && (
-                  <Button
-                    variant={showCommonTunes ? "outlined" : "contained"}
-                    size="small"
-                    onClick={onShowCommonTunes}
-                  >
-                    Common tunes
-                  </Button>
-                )}
-                <Button
-                  variant={!showCommonTunes ? "outlined" : "contained"}
-                  size="small"
-                  onClick={onShowFriendsTunes}
-                >
-                  {user.sub === slug ? "My Tunes" : "FriendsTunes"}
-                </Button>
 
+              <DataContainer>
+                <div style={{ display: "flex" }}>
+                  {user.sub !== slug && (
+                    <StyledButton
+                      onClick={onShowCommonTunes}
+                      know={showCommonTunes ? false : true}
+                    >
+                      Common tunes
+                    </StyledButton>
+                  )}
+                  <StyledButton
+                    onClick={onShowFriendsTunes}
+                    know={showCommonTunes ? true : false}
+                  >
+                    {user.sub === slug ? "My Tunes" : "FriendsTunes"}
+                  </StyledButton>
+                </div>
                 {showCommonTunes ? (
                   <TunesIncommon
                     logedinKnowTuneId={logedinKnowTuneId}
@@ -228,7 +231,7 @@ const Friend: NextPage<{}> = () => {
                     />
                   ))
                 )}
-              </div>
+              </DataContainer>
             </>
           )}
         </ContentContainer>
@@ -255,9 +258,9 @@ type FriendSlugProps = {
 };
 
 const StyledButton = styled("button")<FriendSlugProps>((props) => ({
-  backgroundColor: props.know ? "inherit" : colors.second,
+  backgroundColor: props.know ? "inherit" : colors.first,
   padding: "5px 10px",
-  border: `1px solid ${colors.second}`,
+  border: `1px solid ${colors.first}`,
   borderRadius: "3px",
 
   "&:hover": {
