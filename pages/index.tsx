@@ -23,17 +23,19 @@ const IndexPage: NextPage<{}> = ({}) => {
   const [tuneNames, setTuneNames] = useState<TableData[]>([]);
   const [friends, setFriends] = useState<TableData[]>([]);
 
-  const prismaUser = useQuery(["prismaUser", user?.sub], async () => {
+  useQuery(["prismaUser", user?.sub], async () => {
     const data = await getUser(user.sub);
-    setTuneIds(
-      data?.data?.knowTunes?.map((tunes) => tunes.sessionId).slice(0, 3)
-    );
-    setFriends(
-      data?.data?.following?.flatMap((friends) => {
-        return { name: friends.name, id: friends.id };
-      })
-    );
-    return data;
+    if (data && data.success) {
+      setTuneIds(
+        data.data.knowTunes.map((tunes) => tunes.sessionId).slice(0, 3)
+      );
+      setFriends(
+        data.data.following.flatMap((friends) => {
+          return { name: friends.name, id: friends.id };
+        })
+      );
+      return data;
+    }
   });
 
   const { isIdle } = useQuery(

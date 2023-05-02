@@ -1,6 +1,6 @@
+import { Prisma } from "@prisma/client";
+
   export interface SuccessResponse<T> {
-    learnTunes: any;
-    knowTunes: any;
     success: true;
     data: T;
   }
@@ -11,3 +11,12 @@
   }
   
   export type ResponseType<T> = SuccessResponse<T> | ErrorResponse;
+
+  export type UserWithEverything = Prisma.UserGetPayload<{
+    include: {
+        knowTunes: true,
+        starredTunes: true,
+        following: true,
+        followedBy: true,
+      };
+  }>;

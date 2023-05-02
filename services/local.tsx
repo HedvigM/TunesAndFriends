@@ -1,6 +1,6 @@
 import { UserProfile } from "@auth0/nextjs-auth0";
 import { User } from "@prisma/client";
-import { ResponseType } from "types/types";
+import { ResponseType, UserWithEverything } from "types/types";
 import { getMyCache } from "./functions";
 
 /* add al items from profile page in the db */
@@ -69,7 +69,9 @@ export const getUserById = (slug) => {
     });
 };
 
-export const getUser = (auth0UserId: string) => {
+export const getUser = (
+  auth0UserId: string
+): Promise<ResponseType<UserWithEverything>> => {
   const defaultHeaders = {
     Accept: "application/json",
     "Content-Type": "application/json;charset=UTF-8",
