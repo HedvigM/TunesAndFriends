@@ -81,7 +81,7 @@ const Friends: NextPage<{}> = () => {
         <Header textAlign="center" size="large">
           Friends
         </Header>
-        <div style={{ padding: "20px 0" }}>
+        <DataContainer>
           {usersList &&
             usersList
               .filter((item) => item.email !== user.email)
@@ -100,7 +100,7 @@ const Friends: NextPage<{}> = () => {
                   slug={friend.auth0UserId}
                 />
               ))}
-        </div>
+        </DataContainer>
       </ContentContainer>
       <StickyMenuContainer>
         <Menu />
@@ -108,5 +108,11 @@ const Friends: NextPage<{}> = () => {
     </OuterAppContainer>
   );
 };
+export const DataContainer = styled("div")`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+`;
 
 export default withPageAuthRequired<WithPageAuthRequiredProps>(Friends);

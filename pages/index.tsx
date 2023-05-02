@@ -85,17 +85,17 @@ const IndexPage: NextPage<{}> = ({}) => {
     return (
       <OuterAppContainer>
         <LogoContainer>
-          <Header textAlign="left" size="small">
+          <Header color="yellow" textAlign="left" size="small">
             T&F
           </Header>
         </LogoContainer>
         <ContentContainer>
-          <Header size={"large"} textAlign="center">
+          <Header color="yellow" size={"large"} textAlign="center">
             Tunes & Friends
           </Header>
 
           <TableContent>
-            <Header size={"small"} textAlign="center">
+            <Header color="blue" size={"small"} textAlign="center">
               Newest Friends
             </Header>
             <div>
@@ -115,7 +115,7 @@ const IndexPage: NextPage<{}> = ({}) => {
           </TableContent>
 
           <TableContent>
-            <Header size={"small"} textAlign="center">
+            <Header color="blue" size={"small"} textAlign="center">
               Newest Tunes
             </Header>
             <div>
@@ -134,7 +134,7 @@ const IndexPage: NextPage<{}> = ({}) => {
             </div>
           </TableContent>
           <TableContent>
-            <Header size={"small"} textAlign="center">
+            <Header color="blue" size={"small"} textAlign="center">
               Friends newest tunes
             </Header>
             <div>
