@@ -31,7 +31,7 @@ const IndexPage: NextPage<{}> = ({}) => {
       );
       setFriends(
         data.data.following.flatMap((friends) => {
-          return { name: friends.name, id: parseInt(friends.auth0UserId) };
+          return { name: friends.name, id: friends.auth0UserId };
         })
       );
       return data;

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { colors } from "styles/theme";
 
 interface TableProps {
-  onClickHandle: (id: number) => void;
+  onClickHandle: (id: number | string) => void;
   know: boolean;
   pathname: string;
   slug: string | number;
@@ -12,7 +12,7 @@ interface TableProps {
 
 export type TableData = {
   name: string;
-  id: number;
+  id: number | string;
 };
 export const StyledTable = ({
   data,
