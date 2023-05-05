@@ -126,7 +126,7 @@ const detailedtune: NextPage<{}> = () => {
             flexDirection: "row-reverse",
           }}
         >
-          <Header size="small" textAlign={"center"}>
+          <Header size="small" textAlign="center">
             {details.name}
           </Header>
           <StyleBackdButton
@@ -149,7 +149,7 @@ const detailedtune: NextPage<{}> = () => {
           <div style={{ width: "85%" }}>
             <Music abcNotes={abc} />
             <StyledAddButton
-              know={mapKnow.includes(details.id)}
+              know={mapKnow !== undefined && mapKnow.includes(details.id)}
               onClick={onKnowHandle}
             >
               Add

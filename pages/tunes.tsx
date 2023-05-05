@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Pagination, PaginationItem, Stack } from "@mui/material";
+import { Box, Pagination, PaginationItem, Stack, styled } from "@mui/material";
 import { StyledTable } from "../components/Table";
 import { POPULAR_URL } from "utils/urls";
 import {
@@ -41,6 +41,7 @@ const Tunes: NextPage<{}> = () => {
   const { user } = useUser();
   const router = useRouter();
 
+  console.log({ mapKnow });
   const page = parseInt((router.query.page as string) || "1", 10);
 
   useEffect(() => {
@@ -83,26 +84,26 @@ const Tunes: NextPage<{}> = () => {
             T&F
           </Header>
         </LogoContainer>
-        <ContentContainer>
+        <StyledContentContainer>
           <Header textAlign="center" size="large">
             popular tunes
           </Header>
-          <div style={{ marginTop: "20px" }}>
-            {!popularList && <LoadingSpinner />}
+          {!popularList && <LoadingSpinner />}
+          <TableContainer>
             {popularList.map((tune) => (
               <StyledTable
+                key={tune.id}
                 data={tune}
                 onClickHandle={onKnowHandle}
-                know={mapKnow.includes(tune.id)}
+                know={mapKnow !== undefined && mapKnow.includes(tune.id)}
                 pathname="/tune/[slug]"
                 slug={tune.id}
               />
             ))}
-          </div>
-
+          </TableContainer>
           <Box
             sx={{
-              paddingTop: "50px",
+              padding: "25px 0",
               display: "flex",
               justifyContent: "center",
             }}
@@ -111,7 +112,7 @@ const Tunes: NextPage<{}> = () => {
               <Pagination
                 count={10}
                 page={page}
-                color="primary"
+                color="secondary"
                 size="small"
                 renderItem={(item) => (
                   <PaginationItem
@@ -125,7 +126,7 @@ const Tunes: NextPage<{}> = () => {
               />
             </Stack>
           </Box>
-        </ContentContainer>
+        </StyledContentContainer>
         <StickyMenuContainer>
           <Menu />
         </StickyMenuContainer>
@@ -133,5 +134,18 @@ const Tunes: NextPage<{}> = () => {
     </>
   );
 };
+
+const StyledContentContainer = styled(ContentContainer)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+const TableContainer = styled("div")`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+`;
 
 export default withPageAuthRequired<WithPageAuthRequiredProps>(Tunes);

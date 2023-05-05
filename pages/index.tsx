@@ -83,22 +83,23 @@ const IndexPage: NextPage<{}> = ({}) => {
     return (
       <OuterAppContainer>
         <LogoContainer>
-          <Header textAlign="left" size="small">
+          <Header color="yellow" textAlign="left" size="small">
             T&F
           </Header>
         </LogoContainer>
         <ContentContainer>
-          <Header size={"large"} textAlign="center">
+          <Header color="yellow" size={"large"} textAlign="center">
             Tunes & Friends
           </Header>
-          <div style={{ padding: "20px 0" }}>
-            <Header size={"small"} textAlign={"center"}>
+
+          <TableContent>
+            <Header color="blue" size={"small"} textAlign="center">
               Newest Friends
             </Header>
             <div>
               {friends &&
                 friends.map((data) => (
-                  <DataContainer>
+                  <DataContainer key={data.id}>
                     <StyledTable
                       onClickHandle={() => {}}
                       know={true}
@@ -109,7 +110,10 @@ const IndexPage: NextPage<{}> = ({}) => {
                   </DataContainer>
                 ))}
             </div>
-            <Header size={"small"} textAlign="center">
+          </TableContent>
+
+          <TableContent>
+            <Header color="blue" size={"small"} textAlign="center">
               Newest Tunes
             </Header>
             <div>
@@ -126,7 +130,9 @@ const IndexPage: NextPage<{}> = ({}) => {
                   </DataContainer>
                 ))}
             </div>
-            <Header size={"small"} textAlign="center">
+          </TableContent>
+          <TableContent>
+            <Header color="blue" size={"small"} textAlign="center">
               Friends newest tunes
             </Header>
             <div>
@@ -142,7 +148,7 @@ const IndexPage: NextPage<{}> = ({}) => {
                 </DataContainer>
               ))}
             </div>
-          </div>
+          </TableContent>
         </ContentContainer>
         <StickyMenuContainer>
           <Menu />
@@ -152,6 +158,9 @@ const IndexPage: NextPage<{}> = ({}) => {
   }
 };
 
+const TableContent = styled("div")`
+  padding-top: 30px;
+`;
 const DataContainer = styled("div")`
   padding-top: 10px;
   display: flex;

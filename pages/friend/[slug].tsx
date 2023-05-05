@@ -30,6 +30,7 @@ import { TunesIncommon } from "components/TunesIncommon";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import Link from "next/link";
 import { useQuery } from "react-query";
+import { DataContainer } from "pages/friends";
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
@@ -45,6 +46,7 @@ const Friend: NextPage<{}> = () => {
   const [knowTuneNamesById, setKnowTuneNamesById] = useState([]);
   const [followingButton, setFollowingButton] = useState(true);
 
+  console.log({ user });
   type UserWithRelations = Prisma.UserGetPayload<{
     include: { following: true; followedBy: true; knowTunes: true };
   }>;
@@ -57,6 +59,7 @@ const Friend: NextPage<{}> = () => {
       if (slug) {
         const fetchedUser = await getUser(slug as string);
         if (fetchedUser.success) {
+          console.log("fetch: ", fetchedUser.data);
           setViewedUser(fetchedUser.data);
           Promise.all(
             fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
@@ -146,7 +149,7 @@ const Friend: NextPage<{}> = () => {
                   paddingTop: "20px",
                 }}
               >
-                <Header size="small" textAlign={"center"}>
+                <Header size="small" textAlign="center">
                   {viewededUser.name}
                 </Header>
 
@@ -163,18 +166,26 @@ const Friend: NextPage<{}> = () => {
                   style={{
                     display: "flex",
                     flexDirection: "column",
+                    alignItems: "center",
                     gap: "5px",
                     paddingRight: "10px",
                   }}
                 >
                   <ProfileImage size={"small"} />
-                  {user.sub !== slug && (
+                  {user.sub !== slug ? (
                     <StyledButton
                       onClick={() => onClickHandle}
-                      know={mapFollowing.includes(viewededUser.id)}
+                      know={
+                        mapFollowing !== undefined &&
+                        mapFollowing.includes(viewededUser.id)
+                      }
                     >
                       Add
                     </StyledButton>
+                  ) : (
+                    <Link href="/profile">
+                      <SettingsSuggestIcon />
+                    </Link>
                   )}
                 </div>
                 <ProfileInfo
@@ -184,45 +195,45 @@ const Friend: NextPage<{}> = () => {
                   followers={followersCount}
                 />
               </ProfileContainer>
-              <div style={{ padding: "0 20px" }}>
-                <Link href="/profile">
-                  <SettingsSuggestIcon />
-                </Link>
-                {user.sub !== slug && (
-                  <Button
-                    variant={showCommonTunes ? "outlined" : "contained"}
-                    size="small"
-                    onClick={onShowCommonTunes}
-                  >
-                    Common tunes
-                  </Button>
-                )}
-                <Button
-                  variant={!showCommonTunes ? "outlined" : "contained"}
-                  size="small"
-                  onClick={onShowFriendsTunes}
-                >
-                  {user.sub === slug ? "My Tunes" : "FriendsTunes"}
-                </Button>
 
+              <DataContainer>
+                <div style={{ display: "flex" }}>
+                  {user.sub !== slug && (
+                    <StyledButton
+                      onClick={onShowCommonTunes}
+                      know={showCommonTunes ? false : true}
+                    >
+                      Common tunes
+                    </StyledButton>
+                  )}
+                  <StyledButton
+                    onClick={onShowFriendsTunes}
+                    know={showCommonTunes ? true : false}
+                  >
+                    {user.sub === slug ? "My Tunes" : "FriendsTunes"}
+                  </StyledButton>
+                </div>
                 {showCommonTunes ? (
                   <TunesIncommon
                     logedinKnowTuneId={logedinKnowTuneId}
-                    knowTunes={knowTunes}
+                    knowTunes={knowTunes !== undefined && knowTunes}
                   />
                 ) : (
                   knowTunes?.map((tune) => (
                     <StyledTable
                       key={tune.id}
                       onClickHandle={onKnowHandle}
-                      know={logedinKnowTuneId.includes(tune.id)}
+                      know={
+                        logedinKnowTuneId !== undefined &&
+                        logedinKnowTuneId.includes(tune.id)
+                      }
                       pathname="/tune/[slug]"
                       slug={tune.id}
                       data={tune}
                     />
                   ))
                 )}
-              </div>
+              </DataContainer>
             </>
           )}
         </ContentContainer>
@@ -249,9 +260,9 @@ type FriendSlugProps = {
 };
 
 const StyledButton = styled("button")<FriendSlugProps>((props) => ({
-  backgroundColor: props.know ? "inherit" : colors.second,
+  backgroundColor: props.know ? "inherit" : colors.first,
   padding: "5px 10px",
-  border: `1px solid ${colors.second}`,
+  border: `1px solid ${colors.first}`,
   borderRadius: "3px",
 
   "&:hover": {

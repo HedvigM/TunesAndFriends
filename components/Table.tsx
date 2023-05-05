@@ -62,16 +62,19 @@ type TableStyledProps = {
   know: boolean;
 };
 
-const StyledButton = styled("button")<TableStyledProps>((props) => ({
-  backgroundColor: props.know ? "inherit" : colors.second,
+const StyledButton = styled("button", {
+  shouldForwardProp: (prop) => prop !== "know",
+})<TableStyledProps>((props) => ({
+  backgroundColor: props.know ? "inherit" : colors.first,
   padding: "5px 10px",
-  border: `1px solid ${colors.second}`,
+  border: `1px solid ${colors.first}`,
   borderRadius: "3px",
 
   "&:hover": {
     cursor: "pointer",
   },
 }));
+
 const StyledTypography = styled(Typography)`
   font-size: 1rem;
   font-weight: 400;

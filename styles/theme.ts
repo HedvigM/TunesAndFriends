@@ -20,11 +20,11 @@ export const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#AED67A',
+      main: '#D8F508', // yellow
       contrastText: '#F0F3EB'
     },
     secondary: {
-      main: '#673929',
+      main: '#9BBABB', // blue
       contrastText: '#fff',
     },
    text: {

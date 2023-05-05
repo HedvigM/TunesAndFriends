@@ -103,5 +103,11 @@ const Friends: NextPage<{}> = () => {
     </OuterAppContainer>
   );
 };
+export const DataContainer = styled("div")`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+`;
 
 export default withPageAuthRequired<WithPageAuthRequiredProps>(Friends);
