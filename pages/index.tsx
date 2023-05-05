@@ -21,9 +21,9 @@ const IndexPage: NextPage<{}> = ({}) => {
   const { user } = useUser();
   const [tuneIds, setTuneIds] = useState<number[]>([]);
   const [tuneNames, setTuneNames] = useState<TableData[]>([]);
-  const [friends, setFriends] = useState([]);
+  const [friends, setFriends] = useState<TableData[]>([]);
 
-  const logedinUser = useQuery(["User", user?.sub], async () => {
+  useQuery(["User", user?.sub], async () => {
     const data = await getUser(user.sub);
     if (data && data.success) {
       setTuneIds(
@@ -31,7 +31,7 @@ const IndexPage: NextPage<{}> = ({}) => {
       );
       setFriends(
         data.data.following.flatMap((friends) => {
-          return { name: friends.name, id: friends.auth0UserId };
+          return { name: friends.name, id: parseInt(friends.auth0UserId) };
         })
       );
       return data;
