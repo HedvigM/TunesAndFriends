@@ -14,17 +14,17 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 export const Menu = () => {
   const { user, isLoading } = useUser();
   const router = useRouter();
-  /*  console.log({ user }); */
   useEffect(() => {
     if (typeof user !== "undefined" && isLoading === false) {
       addUser(user);
     }
   }, [user, isLoading]);
 
+  console.log({ router });
   return (
     <Box>
       <OuterContainer>
-        <LinkContainer href="/">
+        <LinkContainer active={router.route === "/"}>
           <Link href="/">
             <Typography
               variant="body1"
@@ -41,7 +41,11 @@ export const Menu = () => {
             </Typography>
           </Link>
         </LinkContainer>
-        <LinkContainer href={`/friends`}>
+        <LinkContainer
+          active={
+            router.route.includes("friend") && router.query.slug !== user.sub
+          }
+        >
           <Link href="/friends">
             <Typography
               variant="body1"
@@ -58,7 +62,7 @@ export const Menu = () => {
             </Typography>
           </Link>
         </LinkContainer>
-        <LinkContainer href={`/tunes`}>
+        <LinkContainer active={router.route.includes("tune")}>
           <Link href="/tunes">
             <Typography
               variant="body1"
@@ -76,10 +80,10 @@ export const Menu = () => {
           </Link>
         </LinkContainer>
 
-        <LinkContainer href="/friend/[slug]">
+        <LinkContainer active={router.query.slug === user.sub}>
           <Link
             href={{
-              pathname: "/friend/[slug]",
+              pathname: `/friend/[slug]`,
               query: { slug: `${user.sub}` },
             }}
           >
@@ -129,11 +133,14 @@ const OuterContainer = styled("div")(() => ({
 }));
 
 type MenuhrefProps = {
-  href: string;
+  active: boolean;
 };
 
 const LinkContainer = styled("div")<MenuhrefProps>((props) => ({
-  backgroundColor: router.asPath === props.href ? colors.first : colors.second,
+  backgroundColor: props.active ? colors.first : colors.second,
+  /* router.asPath.includes(props.href)
+    ? colors.first
+    : colors.second, */
   height: "100%",
   padding: "5px 10%",
   display: "flex",
