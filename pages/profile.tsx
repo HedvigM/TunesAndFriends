@@ -86,7 +86,7 @@ const ProfilePage: NextPage<{}> = ({}) => {
         </Header>
       </LogoContainer>
       <ContentContainer>
-        <Header size="large" textAlign="center">
+        <Header color="blue" size="large" textAlign="center">
           Profile
         </Header>
         <div
@@ -112,7 +112,7 @@ const ProfilePage: NextPage<{}> = ({}) => {
             onClick={() => handleProfileChange(profileText, town)}
             sx={{
               color: "text.primary",
-              backgroundColor: colors.second,
+              backgroundColor: colors.first,
             }}
           >
             Save

@@ -26,30 +26,35 @@ export const AccountInfo = (props: AccountInfoProps) => {
         }}
       >
         <GridContainer>
-          <GridItem
+          <FlexGridItem
             style={{
               borderRight: "none",
               borderTop: "1px solid black",
-              padding: "10px",
             }}
           >
-            FIRST NAME {user.given_name}
-          </GridItem>
-          <GridItem style={{ borderTop: "1px solid black", padding: "10px" }}>
-            LAST NAME {user.family_name}
-          </GridItem>
-          <GridItem
+            <FormText>FIRST NAME</FormText>
+            <div>{user.given_name}</div>
+          </FlexGridItem>
+          <FlexGridItem style={{ borderTop: "1px solid black" }}>
+            <FormText>LAST NAME</FormText>
+            <div>{user.family_name}</div>
+          </FlexGridItem>
+          <FlexGridItem
             style={{
               gridColumn: " 1 / 3",
-              padding: "10px",
             }}
           >
-            EMAIL {user.email}
-          </GridItem>
-          <GridItem style={{ borderRight: "none", padding: "10px" }}>
-            GENDER
-          </GridItem>
-          <GridItem style={{ padding: "10px" }}>BIRTHDAY</GridItem>
+            <FormText>EMAIL</FormText>
+            <div>{user.email}</div>
+          </FlexGridItem>
+          <FlexGridItem style={{ borderRight: "none" }}>
+            <FormText>GENDER</FormText>
+            <div>a gender choise</div>
+          </FlexGridItem>
+          <FlexGridItem>
+            <FormText>BIRTHDAY</FormText>
+            <div>10 januari</div>
+          </FlexGridItem>
           <GridItem
             style={{
               gridColumnStart: "1",
@@ -104,14 +109,25 @@ const GridContainer = styled("div")`
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
   padding-top: 20px;
+  width: 80%;
+  max-width: 600px;
+  min-width: 280px;
 `;
+
 const GridItem = styled("div")`
   border: 1px solid black;
   border-top: none;
   height: 50px;
   width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
+`;
+const FlexGridItem = styled(GridItem)`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 0 0 10px;
 `;
 const TextArea = styled("textarea")`
   resize: none;
@@ -126,4 +142,10 @@ const TextArea = styled("textarea")`
     border: 2px solid;
     border-color: ${colors.first};
   }
+`;
+
+const FormText = styled("div")`
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: #717171;
 `;
