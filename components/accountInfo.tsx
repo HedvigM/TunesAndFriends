@@ -32,71 +32,78 @@ export const AccountInfo = (props: AccountInfoProps) => {
               borderTop: "1px solid black",
             }}
           >
-            <FormText>FIRST NAME</FormText>
-            <div>{user.given_name}</div>
+            <FocusStyle>
+              <FormText>FIRST NAME</FormText>
+              <div>{user.given_name}</div>
+            </FocusStyle>
           </FlexGridItem>
           <FlexGridItem style={{ borderTop: "1px solid black" }}>
-            <FormText>LAST NAME</FormText>
-            <div>{user.family_name}</div>
+            <FocusStyle>
+              <FormText>LAST NAME</FormText>
+              <div>{user.family_name}</div>
+            </FocusStyle>
           </FlexGridItem>
           <FlexGridItem
             style={{
               gridColumn: " 1 / 3",
             }}
           >
-            <FormText>EMAIL</FormText>
-            <div>{user.email}</div>
+            <FocusStyle>
+              <FormText>EMAIL</FormText>
+              <div>{user.email}</div>
+            </FocusStyle>
           </FlexGridItem>
           <FlexGridItem style={{ borderRight: "none" }}>
-            <FormText>GENDER</FormText>
-            <div>a gender choise</div>
+            <FocusStyle>
+              <FormText>GENDER</FormText>
+              <div>a gender choise</div>
+            </FocusStyle>
           </FlexGridItem>
           <FlexGridItem>
-            <FormText>BIRTHDAY</FormText>
-            <div>10 januari</div>
+            <FocusStyle>
+              <FormText>BIRTHDAY</FormText>
+              <div>10 januari</div>
+            </FocusStyle>
           </FlexGridItem>
-          <GridItem
+          <FlexGridItem
             style={{
               gridColumnStart: "1",
               gridColumnEnd: "3",
             }}
           >
-            <TextArea
-              placeholder={
-                props.databaseUser.town ? props.databaseUser.town : "TOWN"
-              }
-              rows={1}
-              onChange={(event) => props.newTownText(event.target.value)}
-            ></TextArea>
-          </GridItem>
+            <FocusStyle>
+              <FormText>TOWN</FormText>
+              <TextArea
+                placeholder={
+                  props.databaseUser.town ? props.databaseUser.town : ""
+                }
+                rows={1}
+                onChange={(event) => props.newTownText(event.target.value)}
+              ></TextArea>
+            </FocusStyle>
+          </FlexGridItem>
 
-          <GridItem
+          <FlexGridItem
             style={{
               gridArea: "5 / 1 / 7 / 3",
               textAlign: "left",
               height: "100%",
             }}
           >
-            <TextArea
-              onChange={(event) => props.newProfileText(event.target.value)}
-              placeholder={
-                props.databaseUser.profileText
-                  ? props.databaseUser.profileText
-                  : "PROFILE TEXT"
-              }
-              rows={5}
-            ></TextArea>
-          </GridItem>
+            <FocusStyle>
+              <FormText>PROFILE TEXT</FormText>
+              <TextArea
+                rows={4}
+                onChange={(event) => props.newProfileText(event.target.value)}
+                placeholder={
+                  props.databaseUser.profileText
+                    ? props.databaseUser.profileText
+                    : ""
+                }
+              ></TextArea>
+            </FocusStyle>
+          </FlexGridItem>
         </GridContainer>
-
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignContent: "center",
-            marginTop: "20px",
-          }}
-        ></Box>
       </div>
     );
   } else {
@@ -108,7 +115,7 @@ const GridContainer = styled("div")`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-  padding-top: 20px;
+  padding: 20px 0;
   width: 80%;
   max-width: 600px;
   min-width: 280px;
@@ -127,20 +134,25 @@ const FlexGridItem = styled(GridItem)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0 0 0 10px;
+`;
+const FocusStyle = styled("div")`
+  width: 100%;
+  padding: 0 10px;
+
+  &:focus-within {
+    border: 2px solid;
+    border-color: ${colors.first};
+  }
 `;
 const TextArea = styled("textarea")`
   resize: none;
-  height: 100%;
   width: 100%;
   border: none;
   outline: none;
-  padding: 10px;
-  border: 2px solid #fff;
-
-  &:focus {
-    border: 2px solid;
-    border-color: ${colors.first};
+  padding: 0;
+  font-family: Oxygen;
+  ::placeholder {
+    color: black;
   }
 `;
 

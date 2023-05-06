@@ -122,7 +122,7 @@ const ProfilePage: NextPage<{}> = ({}) => {
           style={{
             display: "flex",
             justifyContent: "center",
-            padding: "30px 0",
+            padding: "20px 0",
           }}
         >
           <LogoutContainer>
