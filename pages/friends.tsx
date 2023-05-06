@@ -81,21 +81,25 @@ const Friends: NextPage<{}> = () => {
         <Header textAlign="center" size="large">
           Friends
         </Header>
-        <div style={{ padding: "20px 0" }}>
-          {data
-            .filter((item) => item.auth0UserId !== user.sub)
-            .map((friend) => (
-              <StyledTable
-                onClickHandle={() =>
-                  onClickHandle(user.email, friend.email, friend.auth0UserId)
-                }
-                know={friendsArray.includes(friend.auth0UserId)}
-                data={friend}
-                pathname="/friend/[slug]"
-                slug={friend.auth0UserId}
-              />
-            ))}
-        </div>
+        <DataContainer>
+          {data &&
+            data
+              .filter((item) => item.auth0UserId !== user.sub)
+              .map((friend) => (
+                <StyledTable
+                  onClickHandle={() =>
+                    onClickHandle(user.email, friend.email, friend.auth0UserId)
+                  }
+                  know={
+                    friendsArray !== undefined &&
+                    friendsArray.includes(friend.auth0UserId)
+                  }
+                  data={friend}
+                  pathname="/friend/[slug]"
+                  slug={friend.auth0UserId}
+                />
+              ))}
+        </DataContainer>
       </ContentContainer>
       <StickyMenuContainer>
         <Menu />
