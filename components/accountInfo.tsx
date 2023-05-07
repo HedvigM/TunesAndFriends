@@ -62,7 +62,7 @@ export const AccountInfo = (props: AccountInfoProps) => {
           <FlexGridItem>
             <FocusStyle>
               <FormText>BIRTHDAY</FormText>
-              <div>10 januari</div>
+              <div>date</div>
             </FocusStyle>
           </FlexGridItem>
           <FlexGridItem
