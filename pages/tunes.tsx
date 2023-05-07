@@ -88,7 +88,7 @@ const Tunes: NextPage<{}> = () => {
           <Header textAlign="center" size="large">
             popular tunes
           </Header>
-          {!popularList && <LoadingSpinner />}
+          {popularList.length < 1 && <LoadingSpinner />}
           <TableContainer>
             {popularList.map((tune) => (
               <StyledTable
