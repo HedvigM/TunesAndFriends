@@ -126,7 +126,7 @@ const GridItem = styled("div")`
   border-top: none;
   height: 50px;
   width: 100%;
-  height: 100%;
+  height: fit-content;
   display: flex;
   align-items: center;
 `;
@@ -138,6 +138,7 @@ const FlexGridItem = styled(GridItem)`
 const FocusStyle = styled("div")`
   width: 100%;
   padding: 0 10px;
+  border: 2px solid transparent;
 
   &:focus-within {
     border: 2px solid;
@@ -151,6 +152,7 @@ const TextArea = styled("textarea")`
   outline: none;
   padding: 0;
   font-family: Oxygen;
+
   ::placeholder {
     color: black;
   }
