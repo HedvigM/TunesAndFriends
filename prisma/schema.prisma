@@ -14,10 +14,14 @@ model User {
   id             Int             @id @default(autoincrement())
   createdAt      DateTime        @default(now())
   name           String
+  lastName       String?
   auth0UserId    String          @unique
   email          String          @unique
   town           String?
   profileText    String?
+  gender         String?
+  profilePicture String?
+  birthday       DateTime?
   knowTunes      Tune[]          @relation("knowTunes")
   starredTunes   Tune[]          @relation("starredTunes")
   following      User[]          @relation("follows")

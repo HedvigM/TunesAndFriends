@@ -22,6 +22,7 @@ const IndexPage: NextPage<{}> = ({}) => {
   const [tuneIds, setTuneIds] = useState<number[]>([]);
   const [tuneNames, setTuneNames] = useState<TableData[]>([]);
   const [friends, setFriends] = useState<TableData[]>([]);
+  console.log({ user });
 
   useQuery(["User", user?.sub], async () => {
     const data = await getUser(user.sub);

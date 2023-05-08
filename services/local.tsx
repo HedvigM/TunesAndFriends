@@ -15,8 +15,10 @@ export const addUser = (user: UserProfile) => {
     headers: defaultHeaders,
     body: JSON.stringify({
       name: user.name,
+      lastName: user.family_name,
       email: user.email,
       auth0UserId: user.sub,
+      profilePicture: user.picture,
     }),
   };
   fetch(url, options)

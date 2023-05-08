@@ -14,8 +14,10 @@ const addUser = async (user: UserProfile) => {
       const createResult = await prisma.user.create({
         data: {
           name: user.name,
+          lastName: user.family_name as string,
           email: user.email,
           auth0UserId: user.auth0UserId as string,
+          profilePicture: user.picture,
         },
       });
       if (createResult !== null) {
