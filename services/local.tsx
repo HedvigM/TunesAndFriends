@@ -14,7 +14,7 @@ export const addUser = (user: UserProfile) => {
     method: "POST",
     headers: defaultHeaders,
     body: JSON.stringify({
-      name: user.name,
+      name: user.given_name,
       lastName: user.family_name,
       email: user.email,
       auth0UserId: user.sub,

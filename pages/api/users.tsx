@@ -14,10 +14,10 @@ const addUser = async (user: UserProfile) => {
       const createResult = await prisma.user.create({
         data: {
           name: user.name,
-          lastName: user.family_name as string,
+          lastName: user.lastName as string,
           email: user.email,
           auth0UserId: user.auth0UserId as string,
-          profilePicture: user.picture,
+          profilePicture: user.profilePicture as string,
         },
       });
       if (createResult !== null) {
@@ -101,11 +101,13 @@ interface ListUsersWithTuneQuery {
 const users = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     return new Promise((resolve) => {
-      const { name, email, auth0UserId } = req.body;
+      const { name, email, auth0UserId, lastName, profilePicture } = req.body;
       addUser({
         name,
         email,
         auth0UserId,
+        lastName,
+        profilePicture,
       })
         .then((result) => {
           console.log("result", result);

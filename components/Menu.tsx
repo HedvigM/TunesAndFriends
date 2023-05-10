@@ -20,7 +20,6 @@ export const Menu = () => {
     }
   }, [user, isLoading]);
 
-  console.log({ router });
   return (
     <Box>
       <OuterContainer>

@@ -11,7 +11,7 @@ type AccountInfoProps = {
   newTownText: (town: string) => void;
   databaseUser: User;
 };
-
+/* TODO : update updateUser with all the new fields. */
 export const AccountInfo = (props: AccountInfoProps) => {
   const { user } = useUser();
 
@@ -34,13 +34,25 @@ export const AccountInfo = (props: AccountInfoProps) => {
           >
             <FocusStyle>
               <FormText>FIRST NAME</FormText>
-              <div>{user.given_name}</div>
+              <TextArea
+                placeholder={
+                  props.databaseUser.name ? props.databaseUser.name : ""
+                }
+                rows={1}
+                onChange={(event) => props.newTownText(event.target.value)}
+              ></TextArea>
             </FocusStyle>
           </FlexGridItem>
           <FlexGridItem style={{ borderTop: "1px solid black" }}>
             <FocusStyle>
               <FormText>LAST NAME</FormText>
-              <div>{user.family_name}</div>
+              <TextArea
+                placeholder={
+                  props.databaseUser.lastName ? props.databaseUser.lastName : ""
+                }
+                rows={1}
+                onChange={(event) => props.newTownText(event.target.value)}
+              ></TextArea>
             </FocusStyle>
           </FlexGridItem>
           <FlexGridItem
@@ -50,13 +62,25 @@ export const AccountInfo = (props: AccountInfoProps) => {
           >
             <FocusStyle>
               <FormText>EMAIL</FormText>
-              <div>{user.email}</div>
+              <TextArea
+                placeholder={
+                  props.databaseUser.email ? props.databaseUser.email : ""
+                }
+                rows={1}
+                onChange={(event) => props.newTownText(event.target.value)}
+              ></TextArea>
             </FocusStyle>
           </FlexGridItem>
           <FlexGridItem style={{ borderRight: "none" }}>
             <FocusStyle>
               <FormText>GENDER</FormText>
-              <div>a gender choise</div>
+              <TextArea
+                placeholder={
+                  props.databaseUser.gender ? props.databaseUser.gender : ""
+                }
+                rows={1}
+                onChange={(event) => props.newTownText(event.target.value)}
+              ></TextArea>
             </FocusStyle>
           </FlexGridItem>
           <FlexGridItem>
