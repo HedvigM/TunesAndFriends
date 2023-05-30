@@ -32,14 +32,37 @@ import Link from "next/link";
 
 const ProfilePage: NextPage<{}> = ({}) => {
   const [databaseUser, setDatabaseUser] = useState<PrismaUser>();
-  const [town, setTown] = useState("");
+  const [name, setName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [gender, setGender] = useState<string>("");
+  const [birthday, setBirthday] = useState<Date>();
+  const [town, setTown] = useState<string>("");
   const [profileText, setProfileText] = useState<string>("");
+
   const [open, setOpen] = useState<boolean>(false);
   const { user } = useUser();
 
-  const handleProfileChange = (profileText: string, town: string) => {
+  const handleProfileChange = (
+    name: string,
+    lastName: string,
+    email: string,
+    gender: string,
+    birthday: Date,
+    town: string,
+    profileText: string
+  ) => {
     if (databaseUser && databaseUser.id) {
-      updateUser(databaseUser, town, profileText);
+      updateUser(
+        databaseUser,
+        name,
+        lastName,
+        email,
+        gender,
+        birthday,
+        town,
+        profileText
+      );
       handleClickOpen();
     }
   };
@@ -51,6 +74,21 @@ const ProfilePage: NextPage<{}> = ({}) => {
         const fetchedUser = await getUser(user.sub);
         if (fetchedUser.success) {
           setDatabaseUser(fetchedUser.data);
+          if (fetchedUser.data?.name) {
+            setName(fetchedUser.data.name);
+          }
+          if (fetchedUser.data?.lastName) {
+            setLastName(fetchedUser.data.lastName);
+          }
+          if (fetchedUser.data?.email) {
+            setEmail(fetchedUser.data.email);
+          }
+          if (fetchedUser.data?.gender) {
+            setGender(fetchedUser.data.gender);
+          }
+          if (fetchedUser.data?.birthday) {
+            setBirthday(fetchedUser.data.birthday);
+          }
           if (fetchedUser.data?.town) {
             setTown(fetchedUser.data.town);
           }
@@ -64,11 +102,26 @@ const ProfilePage: NextPage<{}> = ({}) => {
     fetchUser();
   }, [user]);
 
-  const setNewProfileText = (value: string) => {
-    setProfileText(value);
+  const setNewName = (value: string) => {
+    setName(value);
+  };
+  const setNewLastName = (value: string) => {
+    setLastName(value);
+  };
+  const setNewEmail = (value: string) => {
+    setEmail(value);
+  };
+  const setNewGender = (value: string) => {
+    setGender(value);
+  };
+  const setNewBirthday = (value: Date) => {
+    setBirthday(value);
   };
   const setNewTownText = (value: string) => {
     setTown(value);
+  };
+  const setNewProfileText = (value: string) => {
+    setProfileText(value);
   };
   const handleClickOpen = () => {
     setOpen(true);
@@ -101,15 +154,30 @@ const ProfilePage: NextPage<{}> = ({}) => {
         {databaseUser && (
           <AccountInfo
             handleProfileChange={handleProfileChange}
-            newProfileText={setNewProfileText}
+            newName={setNewName}
+            newLastName={setNewLastName}
+            newEmail={setNewEmail}
+            newGender={setNewGender}
+            newBirthday={setNewBirthday}
             newTownText={setNewTownText}
+            newProfileText={setNewProfileText}
             databaseUser={databaseUser}
           />
         )}
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Button
             variant="contained"
-            onClick={() => handleProfileChange(profileText, town)}
+            onClick={() =>
+              handleProfileChange(
+                name,
+                lastName,
+                email,
+                gender,
+                birthday,
+                town,
+                profileText
+              )
+            }
             sx={{
               color: "text.primary",
               backgroundColor: colors.first,

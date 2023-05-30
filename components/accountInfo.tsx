@@ -6,12 +6,25 @@ import { LoadingSpinner } from "components/LoadingSpinner";
 import { colors } from "styles/theme";
 
 type AccountInfoProps = {
-  handleProfileChange: (profileText: string, town: string) => void;
-  newProfileText: (profileText: string) => void;
+  handleProfileChange: (
+    name: string,
+    lastName: string,
+    email: string,
+    gender: string,
+    birthday: Date,
+    town: string,
+    profileText: string
+  ) => void;
+  newName: (name: string) => void;
+  newLastName: (lastName: string) => void;
+  newEmail: (email: string) => void;
+  newGender: (gender: string) => void;
+  newBirthday: (birthday: Date) => void;
   newTownText: (town: string) => void;
+  newProfileText: (profileText: string) => void;
   databaseUser: User;
 };
-/* TODO : update updateUser with all the new fields. */
+
 export const AccountInfo = (props: AccountInfoProps) => {
   const { user } = useUser();
 
@@ -39,7 +52,7 @@ export const AccountInfo = (props: AccountInfoProps) => {
                   props.databaseUser.name ? props.databaseUser.name : ""
                 }
                 rows={1}
-                onChange={(event) => props.newTownText(event.target.value)}
+                onChange={(event) => props.newName(event.target.value)}
               ></TextArea>
             </FocusStyle>
           </FlexGridItem>
@@ -51,7 +64,7 @@ export const AccountInfo = (props: AccountInfoProps) => {
                   props.databaseUser.lastName ? props.databaseUser.lastName : ""
                 }
                 rows={1}
-                onChange={(event) => props.newTownText(event.target.value)}
+                onChange={(event) => props.newLastName(event.target.value)}
               ></TextArea>
             </FocusStyle>
           </FlexGridItem>
@@ -67,7 +80,7 @@ export const AccountInfo = (props: AccountInfoProps) => {
                   props.databaseUser.email ? props.databaseUser.email : ""
                 }
                 rows={1}
-                onChange={(event) => props.newTownText(event.target.value)}
+                onChange={(event) => props.newEmail(event.target.value)}
               ></TextArea>
             </FocusStyle>
           </FlexGridItem>
@@ -79,7 +92,7 @@ export const AccountInfo = (props: AccountInfoProps) => {
                   props.databaseUser.gender ? props.databaseUser.gender : ""
                 }
                 rows={1}
-                onChange={(event) => props.newTownText(event.target.value)}
+                onChange={(event) => props.newGender(event.target.value)}
               ></TextArea>
             </FocusStyle>
           </FlexGridItem>

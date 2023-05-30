@@ -76,11 +76,39 @@ const listUsersWithTune = async (tuneId: number) => {
   }
 };
 
-const updateUser = async (email: string, town: string, profileText: string) => {
+const updateUser = async (
+  id: string,
+  name: string,
+  lastName: string,
+  email: string,
+  gender: string,
+  birthday: Date,
+  town: string,
+  profileText: string
+) => {
+  console.log(
+    "API:",
+    id,
+    name,
+    lastName,
+    email,
+    gender,
+    birthday,
+    town,
+    profileText
+  );
   try {
     const updateUser = await prisma.user.update({
-      where: { email: email },
-      data: { town: town, profileText: profileText },
+      where: { auth0UserId: id },
+      data: {
+        name: name,
+        lastName: lastName,
+        email: email,
+        gender: gender,
+        birthday: "2007-03-01T13:00:00Z",
+        town: town,
+        profileText: profileText,
+      },
     });
 
     if (updateUser !== null) {
@@ -158,9 +186,10 @@ const users = async (req: NextApiRequest, res: NextApiResponse) => {
   }
   if (req.method === "PATCH") {
     return new Promise((resolve) => {
-      const { email, town, profileText } = req.body;
+      const { id, name, lastName, email, gender, birthday, town, profileText } =
+        req.body;
 
-      updateUser(email, town, profileText)
+      updateUser(id, name, lastName, email, gender, birthday, town, profileText)
         .then((result) => {
           console.log("result", result);
           res.status(200).json(result);
