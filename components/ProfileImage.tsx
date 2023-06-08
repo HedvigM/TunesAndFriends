@@ -5,18 +5,24 @@ import { useUser } from "@auth0/nextjs-auth0";
 
 type ProfileImageProps = {
   size: "small" | "large";
+  profilePicture?: string;
 };
 
 export const ProfileImage = (props: ProfileImageProps) => {
-  const { user } = useUser();
+  const onImageClick = (value: string) => {
+    console.log(value);
+  };
   return (
     <OuterContainer size={props.size}>
-      {user?.picture ? (
-        <StyledAvatar size={props.size} src={user.picture}></StyledAvatar>
+      {props.profilePicture || props.profilePicture !== undefined ? (
+        <StyledAvatar
+          size={props.size}
+          src={props.profilePicture}
+        ></StyledAvatar>
       ) : (
         <StyledAvatar size={props.size} color="primary"></StyledAvatar>
       )}
-      <PlusContainer size={props.size}>
+      <PlusContainer onClick={() => onImageClick("HEJ")} size={props.size}>
         <AddIcon />
       </PlusContainer>
     </OuterContainer>
@@ -41,7 +47,7 @@ const StyledAvatar = styled(Avatar, {
   zIndex: -1,
 }));
 
-const PlusContainer = styled("div", {
+const PlusContainer = styled("button", {
   shouldForwardProp: (prop) => prop !== "size",
 })<ProfileImageProps>((props) => ({
   display: props.size === "small" && "none",

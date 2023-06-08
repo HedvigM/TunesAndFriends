@@ -46,7 +46,6 @@ const ProfilePage: NextPage<{}> = ({}) => {
   const handleProfileChange = (
     name: string,
     lastName: string,
-    email: string,
     gender: string,
     birthday: Date,
     town: string,
@@ -57,7 +56,6 @@ const ProfilePage: NextPage<{}> = ({}) => {
         databaseUser,
         name,
         lastName,
-        email,
         gender,
         birthday,
         town,
@@ -149,14 +147,18 @@ const ProfilePage: NextPage<{}> = ({}) => {
             justifyContent: "center",
           }}
         >
-          <ProfileImage size={"large"} />
+          {databaseUser && (
+            <ProfileImage
+              profilePicture={databaseUser.profilePicture}
+              size={"large"}
+            />
+          )}
         </div>
         {databaseUser && (
           <AccountInfo
             handleProfileChange={handleProfileChange}
             newName={setNewName}
             newLastName={setNewLastName}
-            newEmail={setNewEmail}
             newGender={setNewGender}
             newBirthday={setNewBirthday}
             newTownText={setNewTownText}
@@ -171,7 +173,6 @@ const ProfilePage: NextPage<{}> = ({}) => {
               handleProfileChange(
                 name,
                 lastName,
-                email,
                 gender,
                 birthday,
                 town,

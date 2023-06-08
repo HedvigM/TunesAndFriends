@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, styled } from "@mui/material";
+import { Box, Typography, styled } from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0";
 import { User } from "@prisma/client";
 import { LoadingSpinner } from "components/LoadingSpinner";
@@ -9,7 +9,6 @@ type AccountInfoProps = {
   handleProfileChange: (
     name: string,
     lastName: string,
-    email: string,
     gender: string,
     birthday: Date,
     town: string,
@@ -17,7 +16,6 @@ type AccountInfoProps = {
   ) => void;
   newName: (name: string) => void;
   newLastName: (lastName: string) => void;
-  newEmail: (email: string) => void;
   newGender: (gender: string) => void;
   newBirthday: (birthday: Date) => void;
   newTownText: (town: string) => void;
@@ -75,13 +73,10 @@ export const AccountInfo = (props: AccountInfoProps) => {
           >
             <FocusStyle>
               <FormText>EMAIL</FormText>
-              <TextArea
-                placeholder={
-                  props.databaseUser.email ? props.databaseUser.email : ""
-                }
-                rows={1}
-                onChange={(event) => props.newEmail(event.target.value)}
-              ></TextArea>
+              <FormText style={{ padding: "0", margin: "0" }}>
+                {console.log("props.databaseUser.email:", props.databaseUser)}
+                {props.databaseUser.email ? props.databaseUser.email : ""}
+              </FormText>
             </FocusStyle>
           </FlexGridItem>
           <FlexGridItem style={{ borderRight: "none" }}>

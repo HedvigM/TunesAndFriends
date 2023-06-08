@@ -112,23 +112,11 @@ export const updateUser = (
   user: User,
   name: string,
   lastName: string,
-  email: string,
   gender: string,
   birthday: Date,
   town: string,
   profileText: string
 ) => {
-  console.log(
-    "LOCAL:",
-    name,
-    lastName,
-    email,
-    gender,
-    birthday,
-    town,
-    profileText
-  );
-
   const defaultFeaders = {
     Accept: "application/json",
     "content-Type": "application/json;charset=UTF-8",
@@ -142,7 +130,6 @@ export const updateUser = (
       id: user.auth0UserId,
       name: name,
       lastName: lastName,
-      email: email,
       gender: gender,
       birthday: birthday,
       town: town,
