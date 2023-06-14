@@ -12,7 +12,8 @@ type AccountInfoProps = {
     gender: string,
     birthday: Date,
     town: string,
-    profileText: string
+    profileText: string,
+    profilePicture: string
   ) => void;
   newName: (name: string) => void;
   newLastName: (lastName: string) => void;

@@ -75,6 +75,12 @@ const Tunes: NextPage<{}> = () => {
     setMapKnow(newMapKnow);
     addTune(tuneId, user.email, "know");
   };
+  const onRemoveHandle = (tuneId: number) => {
+    /* let newMapKnow = mapKnow.slice();
+    newMapKnow.push(tuneId);
+    setMapKnow(newMapKnow); */
+    addTune(tuneId, user.email, "know");
+  };
 
   return (
     <>
@@ -95,6 +101,7 @@ const Tunes: NextPage<{}> = () => {
                 key={tune.id}
                 data={tune}
                 onClickHandle={onKnowHandle}
+                onRemoveHandle={onRemoveHandle}
                 know={mapKnow !== undefined && mapKnow.includes(tune.id)}
                 pathname="/tune/[slug]"
                 slug={tune.id}

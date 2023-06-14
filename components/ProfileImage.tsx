@@ -1,30 +1,60 @@
 import { colors } from "styles/theme";
 import AddIcon from "@mui/icons-material/Add";
 import { Avatar, styled } from "@mui/material";
-import { useUser } from "@auth0/nextjs-auth0";
+import { useEffect, useState } from "react";
+
+function toBase64(file: File) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+}
 
 type ProfileImageProps = {
   size: "small" | "large";
   profilePicture?: string;
+  newPicture?: (picture: string) => void;
 };
 
 export const ProfileImage = (props: ProfileImageProps) => {
-  const onImageClick = (value: string) => {
-    console.log(value);
-  };
+  const [image, setImage] = useState<string>("");
+
+  useEffect(() => {
+    if (image) {
+      props.newPicture(image);
+    }
+  }, [image]);
+
   return (
     <OuterContainer size={props.size}>
       {props.profilePicture || props.profilePicture !== undefined ? (
         <StyledAvatar
           size={props.size}
-          src={props.profilePicture}
+          src={image ? image : props.profilePicture}
         ></StyledAvatar>
       ) : (
         <StyledAvatar size={props.size} color="primary"></StyledAvatar>
       )}
-      <PlusContainer onClick={() => onImageClick("HEJ")} size={props.size}>
+      <PlusContainer
+        onClick={() => {
+          document.getElementById("getFile")?.click();
+        }}
+        size={props.size}
+      >
         <AddIcon />
       </PlusContainer>
+      <input
+        type="file"
+        id="getFile"
+        style={{ display: "none" }}
+        onChange={async (e: any) => {
+          const file = e.target.files[0];
+          const base64 = (await toBase64(file)) as string;
+          setImage(base64);
+        }}
+      />
     </OuterContainer>
   );
 };
@@ -47,7 +77,7 @@ const StyledAvatar = styled(Avatar, {
   zIndex: -1,
 }));
 
-const PlusContainer = styled("button", {
+const PlusContainer = styled("div", {
   shouldForwardProp: (prop) => prop !== "size",
 })<ProfileImageProps>((props) => ({
   display: props.size === "small" && "none",
@@ -58,4 +88,9 @@ const PlusContainer = styled("button", {
   border: "1px solid black",
   margin: "-31px 79px",
   zIndex: "2",
+  ":hover": {
+    cursor: "pointer",
+    backgroundColor: `${colors.firstLight}`,
+    /* color: "#f2ff8f" */
+  },
 }));

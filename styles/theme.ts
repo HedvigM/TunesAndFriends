@@ -2,6 +2,7 @@ import { createTheme, styled, Typography } from '@mui/material';
 
 type ColorsProps = {
   first: string;
+  firstLight: string;
   second: string;
   third: string;
   fourth: string; 
@@ -9,10 +10,10 @@ type ColorsProps = {
 
 export const colors: ColorsProps = {
   first: '#D8F508', // yellow
+  firstLight: '#f2ff8f', // light yellow
   second: '#9BBABB', // blue
   third: '#111F22', // dark blus
-  fourth: '#D7D2BF', // light
-  
+  fourth: '#D7D2BF', // light (remove??)
 }
 
 

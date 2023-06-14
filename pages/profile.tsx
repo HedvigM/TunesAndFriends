@@ -39,6 +39,7 @@ const ProfilePage: NextPage<{}> = ({}) => {
   const [birthday, setBirthday] = useState<Date>();
   const [town, setTown] = useState<string>("");
   const [profileText, setProfileText] = useState<string>("");
+  const [profilePicture, setProfilePicture] = useState<string>("");
 
   const [open, setOpen] = useState<boolean>(false);
   const { user } = useUser();
@@ -49,7 +50,8 @@ const ProfilePage: NextPage<{}> = ({}) => {
     gender: string,
     birthday: Date,
     town: string,
-    profileText: string
+    profileText: string,
+    profilePicture: string
   ) => {
     if (databaseUser && databaseUser.id) {
       updateUser(
@@ -59,12 +61,12 @@ const ProfilePage: NextPage<{}> = ({}) => {
         gender,
         birthday,
         town,
-        profileText
+        profileText,
+        profilePicture
       );
       handleClickOpen();
     }
   };
-  /* Make the sum obligatorisk i typen */
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -93,6 +95,9 @@ const ProfilePage: NextPage<{}> = ({}) => {
           if (fetchedUser.data?.profileText) {
             setProfileText(fetchedUser.data.profileText);
           }
+          if (fetchedUser.data?.profilePicture) {
+            setProfilePicture(fetchedUser.data.profilePicture);
+          }
         }
       }
     };
@@ -106,9 +111,6 @@ const ProfilePage: NextPage<{}> = ({}) => {
   const setNewLastName = (value: string) => {
     setLastName(value);
   };
-  const setNewEmail = (value: string) => {
-    setEmail(value);
-  };
   const setNewGender = (value: string) => {
     setGender(value);
   };
@@ -121,10 +123,12 @@ const ProfilePage: NextPage<{}> = ({}) => {
   const setNewProfileText = (value: string) => {
     setProfileText(value);
   };
+  const setNewProfilePicture = (value: string) => {
+    setProfilePicture(value);
+  };
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -150,6 +154,7 @@ const ProfilePage: NextPage<{}> = ({}) => {
           {databaseUser && (
             <ProfileImage
               profilePicture={databaseUser.profilePicture}
+              newPicture={setNewProfilePicture}
               size={"large"}
             />
           )}
@@ -176,7 +181,8 @@ const ProfilePage: NextPage<{}> = ({}) => {
                 gender,
                 birthday,
                 town,
-                profileText
+                profileText,
+                profilePicture
               )
             }
             sx={{

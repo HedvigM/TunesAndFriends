@@ -4,6 +4,7 @@ import { colors } from "styles/theme";
 
 interface TableProps {
   onClickHandle: (id: number | string) => void;
+  onRemoveHandle: (id: number | string) => void;
   know: boolean;
   pathname: string;
   slug: string | number;
@@ -17,6 +18,7 @@ export type TableData = {
 export const StyledTable = ({
   data,
   onClickHandle,
+  onRemoveHandle,
   know,
   pathname,
   slug,
@@ -51,6 +53,9 @@ export const StyledTable = ({
         >
           <StyledButton know={know} onClick={() => onClickHandle(data.id)}>
             add
+          </StyledButton>
+          <StyledButton know={know} onClick={() => onRemoveHandle(data.id)}>
+            Remove
           </StyledButton>
         </Box>
       </Box>

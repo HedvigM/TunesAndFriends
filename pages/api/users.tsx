@@ -83,9 +83,9 @@ const updateUser = async (
   gender: string,
   birthday: Date,
   town: string,
-  profileText: string
+  profileText: string,
+  profilePicture: string
 ) => {
-  console.log("API:", id, name, lastName, gender, birthday, town, profileText);
   try {
     const updateUser = await prisma.user.update({
       where: { auth0UserId: id },
@@ -96,6 +96,7 @@ const updateUser = async (
         birthday: "2007-03-01T13:00:00Z",
         town: town,
         profileText: profileText,
+        profilePicture: profilePicture,
       },
     });
 
@@ -174,10 +175,27 @@ const users = async (req: NextApiRequest, res: NextApiResponse) => {
   }
   if (req.method === "PATCH") {
     return new Promise((resolve) => {
-      const { id, name, lastName, gender, birthday, town, profileText } =
-        req.body;
+      const {
+        id,
+        name,
+        lastName,
+        gender,
+        birthday,
+        town,
+        profileText,
+        profilePicture,
+      } = req.body;
 
-      updateUser(id, name, lastName, gender, birthday, town, profileText)
+      updateUser(
+        id,
+        name,
+        lastName,
+        gender,
+        birthday,
+        town,
+        profileText,
+        profilePicture
+      )
         .then((result) => {
           console.log("result", result);
           res.status(200).json(result);
