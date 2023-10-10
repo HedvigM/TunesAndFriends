@@ -319,3 +319,39 @@ export const addNewRelation = (addingEmail, addedEmail) => {
       console.error(error);
     });
 };
+export const deleteRelation = (
+  user: string,
+  unFriendedUser: string,
+  relation: string
+) => {
+  const defaultHeaders = {
+    Accept: "application/json",
+    "Content-Type": "application/json;charset=UTF-8",
+  };
+
+  const url = "/api/relations/relations";
+  const options = {
+    method: "POST",
+    headers: defaultHeaders,
+    body: JSON.stringify({
+      user: user,
+      unFriendedUser: unFriendedUser,
+      relation: relation,
+    }),
+  };
+
+  fetch(url, options)
+    .then((response) => {
+      if (response.status === 200) {
+        response
+          .json()
+          .then((data) => console.log(data))
+          .catch((error) => console.log(error));
+      } else {
+        console.log(response.status);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};

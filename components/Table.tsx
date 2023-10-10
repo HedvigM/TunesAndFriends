@@ -3,12 +3,13 @@ import Link from "next/link";
 import { colors } from "styles/theme";
 
 interface TableProps {
-  onClickHandle: (id: number | string) => void;
-  onRemoveHandle: (id: number | string) => void;
+  onAddHandle?: (id: number | string) => void;
+  onRemoveHandle?: (id: number | string) => void;
   know: boolean;
   pathname: string;
   slug: string | number;
   data: TableData;
+  includeAddButton?: boolean;
 }
 
 export type TableData = {
@@ -17,11 +18,12 @@ export type TableData = {
 };
 export const StyledTable = ({
   data,
-  onClickHandle,
+  onAddHandle,
   onRemoveHandle,
   know,
   pathname,
   slug,
+  includeAddButton = true,
 }: TableProps) => {
   return (
     <Container maxWidth="sm" sx={{ margin: "0" }}>
@@ -49,12 +51,15 @@ export const StyledTable = ({
             justifyContent: "center",
             alignItems: "center",
             padding: "5px 0",
+            gap: "5px",
           }}
         >
-          <StyledButton know={know} onClick={() => onClickHandle(data.id)}>
-            add
-          </StyledButton>
-          <StyledButton know={know} onClick={() => onRemoveHandle(data.id)}>
+          {includeAddButton && (
+            <StyledButton know={know} onClick={() => onAddHandle(data.id)}>
+              add
+            </StyledButton>
+          )}
+          <StyledButton know={!know} onClick={() => onRemoveHandle(data.id)}>
             Remove
           </StyledButton>
         </Box>

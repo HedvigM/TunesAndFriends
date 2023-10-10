@@ -6,7 +6,7 @@ import { Menu } from "components/Menu";
 import { Header } from "components/Header";
 import { Login } from "components/Login";
 import { TableData, StyledTable } from "components/Table";
-import { getUser } from "services/local";
+import { deleteRelation, getUser } from "services/local";
 import { getMyCache } from "services/functions";
 import { TUNE_URL } from "utils/urls";
 import {
@@ -78,6 +78,9 @@ const IndexPage: NextPage<{}> = ({}) => {
       id: 2,
     },
   ];
+  const handleDeleteFriend = (id: string) => {
+    deleteRelation(user.sub, id, "delete");
+  };
 
   if (user) {
     return (
@@ -98,14 +101,15 @@ const IndexPage: NextPage<{}> = ({}) => {
             </Header>
             <div>
               {friends &&
-                friends.map((data) => (
-                  <DataContainer key={data.id}>
+                friends.map((friend) => (
+                  <DataContainer key={friend.id}>
                     <StyledTable
-                      onClickHandle={() => {}}
+                      includeAddButton={false}
+                      onRemoveHandle={handleDeleteFriend}
                       know={true}
                       pathname={"/friend/[slug]"}
-                      slug={data.id}
-                      data={data}
+                      slug={friend.id}
+                      data={friend}
                     />
                   </DataContainer>
                 ))}
@@ -121,7 +125,8 @@ const IndexPage: NextPage<{}> = ({}) => {
                 tuneNames.map((tune) => (
                   <DataContainer>
                     <StyledTable
-                      onClickHandle={() => {}}
+                      onRemoveHandle={() => {}}
+                      includeAddButton={false}
                       know={true}
                       pathname={"/tune/[slug]"}
                       data={tune}
@@ -139,7 +144,8 @@ const IndexPage: NextPage<{}> = ({}) => {
               {Data.map((data) => (
                 <DataContainer>
                   <StyledTable
-                    onClickHandle={() => {}}
+                    includeAddButton={false}
+                    onRemoveHandle={() => {}}
                     know={false}
                     pathname={""}
                     data={data}

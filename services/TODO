@@ -1,2 +1,8 @@
+* Uppdatera statet när man raderar en vän i index. 
+* Uppdatera statet när man lägger till en vän in index och friend.tsx
+
+
 1. Göra en ny endpoint för att kunna radera tunes. 
 2. uppdatera och använd den nya endpointen där låtar exponeras.
+
+

@@ -4,7 +4,7 @@ import {
   withPageAuthRequired,
   WithPageAuthRequiredProps,
 } from "@auth0/nextjs-auth0";
-import { addNewRelation, getUser } from "services/local";
+import { addNewRelation, deleteRelation, getUser } from "services/local";
 import { NextPage } from "next";
 import { LoadingSpinner } from "components/LoadingSpinner";
 import { getCachedListOfUsers } from "services/functions";
@@ -35,7 +35,7 @@ const Friends: NextPage<{}> = () => {
     }
   );
 
-  const onClickHandle = (
+  const handleAddFriend = (
     addingEmail: string,
     addedEmail: string,
     addedId: string
@@ -44,6 +44,14 @@ const Friends: NextPage<{}> = () => {
     newMapFriendsId.push(addedId);
     setMapFriendsId(newMapFriendsId);
     addNewRelation(addingEmail, addedEmail);
+  };
+
+  const handleDeleteFriend = (id: string) => {
+    deleteRelation(user.sub, id, "delete");
+
+    setFiendsArray((oldFriendsArray) => {
+      return oldFriendsArray.filter((friend) => friend !== id);
+    });
   };
 
   useEffect(() => {
@@ -87,9 +95,14 @@ const Friends: NextPage<{}> = () => {
               .filter((item) => item.auth0UserId !== user.sub)
               .map((friend) => (
                 <StyledTable
-                  onClickHandle={() =>
-                    onClickHandle(user.email, friend.email, friend.auth0UserId)
+                  onAddHandle={() =>
+                    handleAddFriend(
+                      user.email,
+                      friend.email,
+                      friend.auth0UserId
+                    )
                   }
+                  onRemoveHandle={() => handleDeleteFriend(friend.auth0UserId)}
                   know={
                     friendsArray !== undefined &&
                     friendsArray.includes(friend.auth0UserId)
