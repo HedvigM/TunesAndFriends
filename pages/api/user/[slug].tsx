@@ -14,15 +14,15 @@ const getUserById = async (id: number) => {
     });
     if (findSingleUser) {
       return {
-        message: 'Det gick bra, här är användaren',
+        message: 'User retrieved successfully',
         data: findSingleUser,
       };
     } else {
-      return { message: 'Något gick fel i hämtandet av användare' };
+      return { message: 'User not found' };
     }
   } catch (error) {
     console.log(error);
-    return { message: 'Det blev ett error som fångades i terminalen' };
+    return { message: 'An error occurred while fetching the user' };
   }
 };
 
@@ -50,8 +50,8 @@ const user = async (req: NextApiRequest, res: NextApiResponse) => {
         });
     });
   } else {
-    console.log('fel i [slug.tsx]');
-    res.status(404).end();
+    console.log('Method not allowed in [slug].tsx');
+    res.status(405).json({ message: 'Method not allowed' });
   }
 };
 

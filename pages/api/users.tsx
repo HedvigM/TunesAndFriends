@@ -36,7 +36,7 @@ const listUsers = async () => {
       return { message: "No users were returned" };
     } else {
       return {
-        message: "Det gick bra, här är användarna",
+        message: "Users retrieved successfully",
         data: listUsersPrisma,
       };
     }
@@ -57,13 +57,13 @@ const listUsersWithTune = async (tuneId: number) => {
       },
     });
 
-    console.log("här är listUserPrisma:", { listUsersPrisma });
+    console.log("Users with tune:", { listUsersPrisma });
 
     if (listUsersPrisma === null) {
       return { message: "No users were returned" };
     } else {
       return {
-        message: "Det gick bra, här är användarna",
+        message: "Users retrieved successfully",
         data: listUsersPrisma,
       };
     }
