@@ -77,7 +77,7 @@ npm uninstall @auth0/auth0-react
 
 **Time Estimate:** 15 minutes  
 **Impact:** High - Developer Experience  
-**Status:** ⬜ Not Started
+**Status:** ✅ Completed
 
 **Problem:**
 
