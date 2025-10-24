@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
-
-const prisma = new PrismaClient();
+import { prisma } from 'lib/prisma';
 
 const addTune = async (tune: number, email: string, knowOrLearn: string) => {
   try {

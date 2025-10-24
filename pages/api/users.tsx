@@ -1,8 +1,6 @@
 import { UserProfile } from "@auth0/nextjs-auth0";
-import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-
-const prisma = new PrismaClient();
+import { prisma } from "lib/prisma";
 
 const addUser = async (user: UserProfile) => {
   try {
