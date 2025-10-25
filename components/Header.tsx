@@ -6,7 +6,7 @@ type HeaderProps = {
   children: ReactNode;
   size: "small" | "medium" | "large";
   textAlign: "left" | "center";
-  color?: "yellow" | "blue";
+  color: "yellow" | "blue";
 };
 export const Header = ({ children, size, textAlign, color }: HeaderProps) => (
   <OuterContainer textAlign={textAlign}>
@@ -18,9 +18,6 @@ export const Header = ({ children, size, textAlign, color }: HeaderProps) => (
   </OuterContainer>
 );
 
-type OuterContainerStyleProps = {
-  textAlign: string;
-};
 type HeaderContainerStyleProps = {
   size: string;
 };
@@ -30,15 +27,13 @@ type TextProps = {
 
 const OuterContainer = styled("div", {
   shouldForwardProp: (prop) => prop !== "textAlign",
-})<OuterContainerStyleProps>((props) => ({
+})<{ textAlign: "left" | "center" }>(({ textAlign }) => ({
   display: "flex",
-  justifyContent:
-    (props.textAlign === "left" && "left") ||
-    (props.textAlign === "center" && "center"),
+  justifyContent: textAlign,
   width: "100%",
 }));
 
-const HeaderContainer = styled("div")<HeaderContainerStyleProps>((props) => ({
+const HeaderContainer = styled("div")<HeaderContainerStyleProps>(() => ({
   textTransform: "uppercase",
 }));
 
@@ -60,7 +55,7 @@ const H1 = styled("h1")<TextProps>((props) => ({
   },
 }));
 
-const H2 = styled("h2")<TextProps>((props) => ({
+const H2 = styled("h2")<TextProps>(() => ({
   fontWeight: 400,
   margin: 0,
   padding: 0,
