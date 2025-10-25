@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Container } from '@mui/material';
+import { CircularProgress, Container } from '@mui/material';
 import React from 'react';
 
 export const LoadingSpinner = () => {

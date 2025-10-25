@@ -96,7 +96,8 @@ const Div = styled("div")<StyledLoginProps>(({ index }) => ({
     (index === "1" && colors.second) ||
     (index === "2" && colors.third) ||
     (index === "3" && colors.second) ||
-    (index === "4" && colors.third),
+    (index === "4" && colors.third) ||
+    "transparent",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
