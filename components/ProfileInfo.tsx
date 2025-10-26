@@ -50,13 +50,13 @@ export const ProfileInfo = ({
   );
 };
 
-const OuterContainer = styled("div")((props) => ({
+const OuterContainer = styled("div")(() => ({
   display: "grid",
   gridTemplateColumns: "1fr 1fr 1fr",
   gridTemplateRows: "1fr 1fr 1fr",
   margin: "0px",
 }));
-const StatsContainer = styled("div")((props) => ({
+const StatsContainer = styled("div")(() => ({
   height: "35px",
   width: "100%",
   display: "grid",
@@ -65,7 +65,7 @@ const StatsContainer = styled("div")((props) => ({
   textAlign: "center",
   justifyContent: "center",
 }));
-const StatsHeading = styled("div")((props) => ({
+const StatsHeading = styled("div")(() => ({
   margin: "-9px 4px",
   padding: "0 35px",
   backgroundColor: "white",
@@ -75,7 +75,7 @@ const StatsHeading = styled("div")((props) => ({
   justifyContent: "center",
   alignContent: "center",
 }));
-const ProfileText = styled("div")((props) => ({
+const ProfileText = styled("div")(() => ({
   width: "100%",
   border: "1px solid black",
   borderTop: "none",

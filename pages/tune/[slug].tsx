@@ -22,6 +22,7 @@ import {
   OuterAppContainer,
   StickyMenuContainer,
 } from "styles/layout";
+import { User } from "lib/api";
 
 type MusicProps = {
   abcNotes: string;
@@ -47,7 +48,7 @@ export const Music = (props: MusicProps) => {
 
 const detailedtune: NextPage<{}> = () => {
   const { user } = useUser();
-  const [usersTuneList, setUsersTuneList] = useState([]);
+  const [usersTuneList, setUsersTuneList] = useState<User[]>([]);
   const [_loading, setLoading] = useState(true);
   const [mapKnow, setMapKnow] = useState<number[]>([]);
   const [details, setDetails] = useState({
@@ -74,7 +75,7 @@ const detailedtune: NextPage<{}> = () => {
   const { slug } = router.query as unknown as Slug;
   const parsedSlug = parseInt(slug, 10);
 
-  const abcjs = process.browser ? require("abcjs") : null;
+  /* const abcjs = process.browser ? require("abcjs") : null; */
 
   useEffect(() => {
     if (parsedSlug) {
@@ -87,7 +88,7 @@ const detailedtune: NextPage<{}> = () => {
           let newKnowTunes = await newUserWithId.data?.knowTunes?.map(
             (tunes: { sessionId: number }) => tunes.sessionId
           );
-          setMapKnow(newKnowTunes);
+          setMapKnow(newKnowTunes || [] as number[]);
         }
       }
     };
@@ -112,7 +113,7 @@ const detailedtune: NextPage<{}> = () => {
     if (!user || !user.email) return;
     let newMapKnow = mapKnow.slice();
     newMapKnow.push(parseInt(details.id as string, 10));
-    setMapKnow(newMapKnow);
+    setMapKnow(newMapKnow || [] as number[]);
     addTune(details.id, user.email, "know");
   };
 

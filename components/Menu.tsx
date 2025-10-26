@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import { styled } from "@mui/material/styles";
 import Link from "next/link";
-import { addUser } from "services/local";
+import { getOrCreateUser } from "lib/api";
 import router from "next/router";
 import HomeIcon from "@mui/icons-material/Home";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
@@ -15,8 +15,12 @@ export const Menu = () => {
   const { user, isLoading } = useUser();
 
   useEffect(() => {
-    if (typeof user !== "undefined" && isLoading === false) {
-      addUser(user);
+    if (typeof user !== "undefined" && isLoading === false && user) {
+      getOrCreateUser(user).then((result) => {
+        if (!result.success) {
+          console.error("Failed to get/create user in Menu:", result.error);
+        }
+      });
     }
   }, [user, isLoading]);
 

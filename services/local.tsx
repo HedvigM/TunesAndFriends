@@ -1,208 +1,34 @@
-import { UserProfile } from "@auth0/nextjs-auth0";
-import { User } from "@prisma/client";
+/**
+ * @deprecated This file is deprecated. Use `lib/api` instead.
+ * 
+ * This file is kept for backwards compatibility but will be removed in the future.
+ * Please migrate to the new API service layer: `import { ... } from 'lib/api'`
+ * 
+ * Example migration:
+ * ```typescript
+ * // Old:
+ * import { getUser, addUser } from 'services/local';
+ * 
+ * // New:
+ * import { getUserByAuth0Id, createUser, getOrCreateUser } from 'lib/api';
+ * ```
+ */
 
-/* add al items from profile page in the db */
-export const addUser = (user: UserProfile) => {
-  const defaultHeaders = {
-    Accept: "application/json",
-    "Content-Type": "application/json;charset=UTF-8",
-  };
-  const url = "/api/users";
-  const options = {
-    method: "POST",
-    headers: defaultHeaders,
-    body: JSON.stringify({
-      name: user.name,
-      email: user.email,
-      auth0UserId: user.sub,
-    }),
-  };
-  fetch(url, options)
-    .then((response) => {
-      if (response.status === 200) {
-        response
-          .json()
-          .then((data) => console.log(data))
-          .catch((error) => {
-            console.error(error);
-          });
-      } else {
-        console.error(response.status);
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
+// Type imports are re-exported from lib/api
 
-export const getUserById = (slug: string) => {
-  const defaultHeaders = {
-    Accept: "application/json",
-    "Content-Type": "application/json;charset=UTF-8",
-  };
-  const url = "/api/user/" + slug;
-  const options = {
-    method: "GET",
-    headers: defaultHeaders,
-  };
-  return fetch(url, options)
-    .then((response) => {
-      if (response.status === 200) {
-        return response.json();
-      } else {
-        throw new Error(response.statusText);
-      }
-    })
-    .then((response) => {
-      return {
-        success: true as const,
-        data: response.data,
-      };
-    })
-    .catch((error) => {
-      return {
-        success: false as const,
-        error: error,
-      };
-    });
-};
+// Re-export from new API layer for backwards compatibility
+export {
+  listUsers,
+  listUsersWithTune,
+  getUserById,
+  createUser as addUser,
+  getUserByAuth0Id as getUser,
+  updateUser,
+  getOrCreateUser,
+} from "lib/api";
 
-export const getUser = (auth0UserId: string) => {
-  const defaultHeaders = {
-    Accept: "application/json",
-    "Content-Type": "application/json;charset=UTF-8",
-  };
-
-  const url = `/api/users/${auth0UserId}`;
-  const options = {
-    method: "GET",
-    headers: defaultHeaders,
-  };
-
-  /* getMyCache...*/
-  return fetch(url, options)
-    .then((response) => {
-      if (response.status === 200) {
-        return response.json();
-      } else {
-        throw new Error(response.statusText);
-      }
-    })
-    .then((response) => {
-      return {
-        success: true as const,
-        data: response.data,
-      };
-    })
-    .catch((error) => {
-      return {
-        success: false as const,
-        error: error,
-      };
-    });
-};
-
-export const updateUser = (user: User, town: string, profileText: string) => {
-  const defaultFeaders = {
-    Accept: "application/json",
-    "content-Type": "application/json;charset=UTF-8",
-  };
-
-  const url = "/api/users/";
-  const options = {
-    method: "PATCH",
-    headers: defaultFeaders,
-    body: JSON.stringify({
-      email: user.email,
-      town: town,
-      profileText: profileText,
-    }),
-  };
-
-  return fetch(url, options)
-    .then((response) => {
-      if (response.status === 200) {
-        return response.json();
-      } else {
-        throw new Error(response.statusText);
-      }
-    })
-    .then((response) => {
-      return {
-        success: true as const,
-        data: response.data,
-      };
-    })
-    .catch((error) => {
-      return {
-        success: false as const,
-        error: error,
-      };
-    });
-};
-
-export const listUsers = () => {
-  const defaultHeaders = {
-    Accept: "application/json",
-    "Content-Type": "application/json;charset=UTF-8",
-  };
-  const url = "/api/users";
-  const options = {
-    method: "GET",
-    headers: defaultHeaders,
-  };
-  return fetch(url, options)
-    .then((response) => {
-      if (response.status === 200) {
-        return response.json();
-      } else {
-        throw new Error(response.statusText);
-      }
-    })
-    .then((response) => {
-      return {
-        success: true as const,
-        data: response.data,
-      };
-    })
-    .catch((error) => {
-      return {
-        success: false as const,
-        error: error,
-      };
-    });
-};
-export const listUsersWithTune = (tuneId: number) => {
-  const defaultHeaders = {
-    Accept: "application/json",
-    "Content-Type": "application/json;charset=UTF-8",
-  };
-  const url = `/api/users/?tuneId=${tuneId}`;
-  const options = {
-    method: "GET",
-    headers: defaultHeaders,
-  };
-  return fetch(url, options)
-    .then((response) => {
-      if (response.status === 200) {
-        return response.json();
-      } else {
-        throw new Error(response.statusText);
-      }
-    })
-    .then((response) => {
-      return {
-        success: true as const,
-        data: response.data,
-      };
-    })
-    .catch((error) => {
-      return {
-        success: false as const,
-        error: error,
-      };
-    });
-};
+// Legacy functions that don't have direct equivalents yet
+// These are kept as-is for now
 
 export const addTune = (tune: any, email: string, knowOrLearn: string) => {
   const defaultHeaders = {

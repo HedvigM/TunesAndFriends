@@ -6,7 +6,7 @@ import {
 } from "@auth0/nextjs-auth0";
 import { addNewRelation, getUser } from "services/local";
 import { NextPage } from "next";
-import { getCachedListOfUsers } from "services/functions";
+/* import { getCachedListOfUsers } from "services/functions"; */
 import { styled } from "@mui/material";
 import { Menu } from "components/Menu";
 import { Header } from "components/Header";
@@ -18,26 +18,26 @@ import {
   StickyMenuContainer,
 } from "styles/layout";
 import { User as PrismaUser } from "@prisma/client";
-import { UserProfile as User } from "@auth0/nextjs-auth0";
+/* import { UserProfile as User } from "@auth0/nextjs-auth0"; */
 
 const Friends: NextPage<{}> = () => {
-  const [usersList, setUsersList] = useState<PrismaUser[]>([]);
+  const [usersList, _setUsersList] = useState<PrismaUser[]>([]);
   const [_loading, setLoading] = useState(true);
   const [mapFriendsId, setMapFriendsId] = useState<string[]>([]);
   const [friendsArray, setFiendsArray] = useState<string[]>([]);
   const { user } = useUser();
 
-  const getUsersList = async (user: User) => {
+ /*  const getUsersList = async (user: User) => {
     const data = await getCachedListOfUsers(user);
-    if (data) {
-      setUsersList(data);
-    }
-  };
+      if (data) {
+        setUsersList(data);
+      }
+  }; */
 
   useEffect(() => {
     setLoading(true);
     if (user) {
-      getUsersList(user);
+     /*  getUsersList(user); */
     }
     setLoading(false);
   }, [user]);
@@ -59,10 +59,10 @@ const Friends: NextPage<{}> = () => {
       if (user) {
         const newUserWithId = await getUser(user?.sub as string);
         if (newUserWithId.success) {
-          let newFrindsArray = await newUserWithId.data?.following.map(
+          let newFrindsArray = await newUserWithId.data?.following?.map(
             (friend: { auth0UserId: string }) => friend.auth0UserId
           );
-          setFiendsArray(newFrindsArray);
+          setFiendsArray(newFrindsArray || [] as string[]);
         }
         setLoading(false);
       }

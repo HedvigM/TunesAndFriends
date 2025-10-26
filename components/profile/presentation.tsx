@@ -1,6 +1,22 @@
-import { Avatar, Box, Button, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 
-export const Presentation = (props) => {
+interface User {
+  name: string;
+  email: string;
+  auth0UserId: string;
+  town?: string | null;
+  profileText?: string | null;
+  picture?: string;
+  following?: any[];
+  followedBy?: any[];
+}
+
+interface PresentationProps {
+  user: User;
+  tunes: any[];
+}
+
+export const Presentation = (props: PresentationProps) => {
   return (
     <Box
       sx={{

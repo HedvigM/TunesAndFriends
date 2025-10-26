@@ -1,7 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import Link from "next/link";
 
-export const MapTunes = (props) => {
+interface MapTunesProps {
+  tunes: Array<{ id: number; name: string; type: string }>;
+  commonTunes?: Array<{ id: number; name: string; type: string }>;
+}
+
+export const MapTunes = (props: MapTunesProps) => {
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
       <Box

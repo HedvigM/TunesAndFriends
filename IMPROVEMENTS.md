@@ -182,7 +182,7 @@ return res.status(400).json(error("User not found", "USER_NOT_FOUND"));
 
 **Time Estimate:** 1-2 hours
 **Impact:** High - Type Safety
-**Status:** ⬜ Not Started
+**Status:** ✅ Completed
 
 **Problem:**
 
@@ -220,7 +220,7 @@ return res.status(400).json(error("User not found", "USER_NOT_FOUND"));
 
 **Time Estimate:** 2 hours
 **Impact:** High - Maintainability
-**Status:** ⬜ Not Started
+**Status:** ✅ Completed
 
 **Problem:**
 
@@ -1019,8 +1019,8 @@ components/
 | 2. Remove @auth0/react  | 🔴 High   | 1 min   | Medium | ✅     |
 | 3. Env Validation       | 🔴 High   | 15 min  | High   | ✅     |
 | 4. API English          | 🔴 High   | 30 min  | High   | ✅     |
-| 5. TypeScript Strict    | 🟡 Medium | 1-2 hrs | High   | ⬜     |
-| 6. API Service Layer    | 🟡 Medium | 2 hrs   | High   | ⬜     |
+| 5. TypeScript Strict    | 🟡 Medium | 1-2 hrs | High   | ✅     |
+| 6. API Service Layer    | 🟡 Medium | 2 hrs   | High   | ✅     |
 | 7. Error Boundaries     | 🟡 Medium | 1 hr    | Medium | ⬜     |
 | 8. Optimize Queries     | 🟡 Medium | 30 min  | Medium | ⬜     |
 | 9. Business Logic       | 🟡 Medium | 3 hrs   | High   | ⬜     |

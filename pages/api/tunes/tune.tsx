@@ -3,9 +3,6 @@ import { prisma } from 'lib/prisma';
 
 const addTune = async (tune: number, email: string, knowOrLearn: string) => {
   try {
-    const findSingleTune = await prisma.tune.findUnique({
-      where: { sessionId: tune },
-    });
 
     if (knowOrLearn === 'know') {
       const createResult = await prisma.tune.upsert({

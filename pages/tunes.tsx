@@ -52,7 +52,7 @@ const Tunes: NextPage<{}> = () => {
           let newKnowTunes = await newUserWithId.data?.knowTunes?.map(
             (tunes: { sessionId: number }) => tunes.sessionId
           );
-          setMapKnow(newKnowTunes);
+          setMapKnow(newKnowTunes || [] as number[]);
         }
       }
     };

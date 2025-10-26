@@ -29,6 +29,7 @@ import {
   StickyMenuContainer,
 } from "styles/layout";
 import Link from "next/link";
+import { UpdateUserRequest } from "lib/api/types";
 
 const ProfilePage: NextPage<{}> = ({}) => {
   const [databaseUser, setDatabaseUser] = useState<PrismaUser>();
@@ -39,7 +40,12 @@ const ProfilePage: NextPage<{}> = ({}) => {
 
   const handleProfileChange = (profileText: string, town: string) => {
     if (databaseUser && databaseUser.id) {
-      updateUser(databaseUser, town, profileText);
+      const updateData: UpdateUserRequest = {
+        email: databaseUser.email,
+        town: town,
+        profileText: profileText,
+      };
+      updateUser(updateData);
       handleClickOpen();
     }
   };
@@ -50,7 +56,7 @@ const ProfilePage: NextPage<{}> = ({}) => {
       if (user && user.sub) {
         const fetchedUser = await getUser(user.sub);
         if (fetchedUser.success) {
-          setDatabaseUser(fetchedUser.data);
+          setDatabaseUser(fetchedUser.data as PrismaUser);
           if (fetchedUser.data?.town) {
             setTown(fetchedUser.data.town);
           }
@@ -162,14 +168,6 @@ const LogoutContainer = styled("div")`
   justify-content: space-around;
   border: 1px solid red;
   width: 100px;
-`;
-const ProfileContainer = styled("div")`
-  /*  padding: 20px 0; */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
 `;
 
 export default withPageAuthRequired<WithPageAuthRequiredProps>(ProfilePage);

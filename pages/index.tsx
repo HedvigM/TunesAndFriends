@@ -6,7 +6,7 @@ import { Menu } from "components/Menu";
 import { Header } from "components/Header";
 import { Login } from "components/Login";
 import { TableData, StyledTable } from "components/Table";
-import { getUser } from "services/local";
+import { getUserByAuth0Id } from "lib/api";
 import { getMyCache } from "services/functions";
 import { TUNE_URL } from "utils/urls";
 import {
@@ -25,18 +25,24 @@ const IndexPage: NextPage<{}> = ({}) => {
   useEffect(() => {
     const fetchUserWithId = async () => {
       if (user) {
-        const newUserWithId = await getUser(user?.sub as string);
-        if (newUserWithId.success) {
-          let newTunes = await newUserWithId.data?.knowTunes?.map(
+        const result = await getUserByAuth0Id(user?.sub as string);
+        if (result.success) {
+          const userData = result.data;
+          
+          // Safely extract tune IDs
+          const newTunes = userData?.knowTunes?.map(
             (tunes: { sessionId: number }) => tunes.sessionId
-          );
+          ) || [];
 
-          setFriends(
-            await newUserWithId.data?.following?.flatMap((friends: { name: string; id: number }) => {
-              return { name: friends.name, id: friends.id };
-            })
-          );
+          // Safely extract friends
+          const friendsList = userData?.following?.flatMap((friend: { name: string; id: number }) => {
+            return { name: friend.name, id: friend.id };
+          }) || [];
+
+          setFriends(friendsList);
           setTuneIds(newTunes.slice(0, 3));
+        } else {
+          console.error("Failed to fetch user:", result.error);
         }
       }
     };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, styled } from "@mui/material";
+import { styled } from "@mui/material";
 import {
   useUser,
   withPageAuthRequired,
@@ -33,13 +33,13 @@ import { DataContainer } from "pages/friends";
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
-  const [_logedinUser, setLogedinUser] = useState<UserWithRelations>();
+  const [_loggedinUser, setLoggedinUser] = useState<UserWithRelations>();
   const [viewededUser, setViewedUser] = useState<UserWithRelations>();
-  const [logedinKnowTuneId, setLogedinKnowTunesId] = useState<number[]>([]);
+  const [loggedinKnowTuneId, setLoggedinKnowTunesId] = useState<number[]>([]);
   const [showCommonTunes, setShowCommonTunes] = useState(false);
 
   const [mapFollowing, setMapFollowing] = useState<number[]>([]);
-  const [knowTunes, setKnowTunes] = useState<TableData[]>([]);
+  const [knowTunes, _setKnowTunes] = useState<TableData[]>([]);
   const [knowTuneNamesById] = useState([]);
   const [_followingButton, setFollowingButton] = useState(true);
 
@@ -57,18 +57,16 @@ const Friend: NextPage<{}> = () => {
         const fetchedUser = await getUser(slug as string);
         if (fetchedUser.success) {
           console.log("fetch: ", fetchedUser.data);
-          setViewedUser(fetchedUser.data);
-          Promise.all(
-            fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
-              getMyCache(TUNE_URL(tunes.sessionId)).then((response) => {
-                return response;
-              })
+          setViewedUser(fetchedUser.data as UserWithRelations);
+          if (Array.isArray(fetchedUser.data?.knowTunes)) {
+            Promise.all(
+              fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
+                getMyCache(TUNE_URL(tunes.sessionId)).then((response) => {
+                  return response;
+                })
+              )
             )
-          ).then((values) => {
-            setKnowTunes(
-              values?.map((tune) => ({ name: tune.name, id: tune.id }))
-            );
-          });
+          }
         }
       }
     };
@@ -82,16 +80,16 @@ const Friend: NextPage<{}> = () => {
         setShowCommonTunes(true);
         const fetchedUser = await getUser(user.sub as string);
         if (fetchedUser.success) {
-          setLogedinUser(fetchedUser.data);
+          setLoggedinUser(fetchedUser.data as UserWithRelations);
+          if (Array.isArray(fetchedUser.data?.following)) {
           setMapFollowing(
-            fetchedUser.data.following.map((followedUsers: { id: number }) => {
-              return followedUsers.id;
-            })
-          );
-          setLogedinKnowTunesId(
-            fetchedUser.data.knowTunes.map((tune: { sessionId: number }) => {
-              return tune.sessionId;
-            })
+              fetchedUser.data.following.map((followedUsers: { id: number }) => {
+                return followedUsers.id;
+              })
+            );
+          }
+          setLoggedinKnowTunesId(
+            fetchedUser.data?.knowTunes?.map((tune: { sessionId: number }) => tune.sessionId) || []
           );
         }
       }
@@ -100,15 +98,14 @@ const Friend: NextPage<{}> = () => {
     fetchUser();
   }, [user]);
 
-  /* Add new relation vith auth0 instead... Få igång den här funktionen */
   const onClickHandle = (addingEmail: string, addedEmail: string) => {
     addNewRelation(addingEmail, addedEmail);
     setFollowingButton(false);
   };
   const onKnowHandle = (tuneId: number) => {
-    let newMapKnow = logedinKnowTuneId.slice();
+    let newMapKnow = loggedinKnowTuneId.slice();
     newMapKnow.push(tuneId);
-    setLogedinKnowTunesId(newMapKnow);
+    setLoggedinKnowTunesId(newMapKnow);
     if (user !== undefined && user.email) {
       addTune(tuneId, user.email, "know");
     }
@@ -213,7 +210,7 @@ const Friend: NextPage<{}> = () => {
                 </div>
                 {showCommonTunes ? (
                   <TunesIncommon
-                    logedinKnowTuneId={logedinKnowTuneId}
+                    logedinKnowTuneId={loggedinKnowTuneId}
                     knowTunes={knowTunes}
                   />
                 ) : (
@@ -222,8 +219,8 @@ const Friend: NextPage<{}> = () => {
                       key={tune.id}
                       onClickHandle={onKnowHandle}
                       know={
-                        logedinKnowTuneId !== undefined &&
-                        logedinKnowTuneId.includes(tune.id)
+                        loggedinKnowTuneId !== undefined &&
+                        loggedinKnowTuneId.includes(tune.id)
                       }
                       pathname="/tune/[slug]"
                       slug={tune.id}
