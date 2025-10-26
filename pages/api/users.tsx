@@ -5,14 +5,14 @@ import { prisma } from "lib/prisma";
 const addUser = async (user: UserProfile) => {
   try {
     const findSingleUser = await prisma.user.findUnique({
-      where: { email: user.email },
+      where: { email: user.email ?? undefined },
     });
 
     if (findSingleUser === null) {
       const createResult = await prisma.user.create({
         data: {
-          name: user.name,
-          email: user.email,
+          name: user.name ?? "",
+          email: user.email ?? "",
           auth0UserId: user.auth0UserId as string,
         },
       });

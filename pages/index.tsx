@@ -28,11 +28,11 @@ const IndexPage: NextPage<{}> = ({}) => {
         const newUserWithId = await getUser(user?.sub as string);
         if (newUserWithId.success) {
           let newTunes = await newUserWithId.data?.knowTunes?.map(
-            (tunes) => tunes.sessionId
+            (tunes: { sessionId: number }) => tunes.sessionId
           );
 
           setFriends(
-            await newUserWithId.data?.following?.flatMap((friends) => {
+            await newUserWithId.data?.following?.flatMap((friends: { name: string; id: number }) => {
               return { name: friends.name, id: friends.id };
             })
           );
@@ -158,6 +158,7 @@ const IndexPage: NextPage<{}> = ({}) => {
       </OuterAppContainer>
     );
   }
+  return null;
 };
 
 const TableContent = styled("div")`
@@ -168,13 +169,6 @@ const DataContainer = styled("div")`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-const CenterDiv = styled("div")`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-content: center;
-  width: 100%;
 `;
 
 export default IndexPage;

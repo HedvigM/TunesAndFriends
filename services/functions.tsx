@@ -3,7 +3,8 @@ import { listUsers } from "./local";
 
 /* Cached Tunes from the session */
 export const getMyCache = async (url: string) => {
-  const cachedResponse = JSON.parse(localStorage.getItem(url));
+  const cachedString = localStorage.getItem(url);
+  const cachedResponse = cachedString ? JSON.parse(cachedString) : null;
   const expiryTime = new Date().getTime() - 1000 * 60 * 60 * 6;
 
   if (cachedResponse && cachedResponse.timestamp > expiryTime) {
@@ -19,11 +20,9 @@ export const getMyCache = async (url: string) => {
   }
 };
 
-/* List of all T&F users */
 export const getCachedListOfUsers = async (user: User) => {
-  const cachedResponse = JSON.parse(
-    localStorage.getItem(`${user.email}-userList`)
-  );
+  const cachedString = localStorage.getItem(`${user.email}-userList`);
+  const cachedResponse = cachedString ? JSON.parse(cachedString) : null;
   const expiryTime = new Date().getTime() - 1000 * 60 * 60 * 6;
 
   if (cachedResponse && cachedResponse.timestamp > expiryTime) {

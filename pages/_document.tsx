@@ -2,9 +2,10 @@ import React from 'react';
 import createCache from '@emotion/cache';
 import createEmotionServer from '@emotion/server/create-instance';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { MyAppProps } from 'types/types';
 
 export default class MyDocument extends Document {
-  static async getInitialProps(ctx) {
+  static async getInitialProps(ctx: import('next/document').DocumentContext) {
     const originalRenderPage = ctx.renderPage;
     const cache = createCache({ key: 'css', prepend: true });
     const { extractCriticalToChunks } = createEmotionServer(cache);
@@ -12,7 +13,7 @@ export default class MyDocument extends Document {
     ctx.renderPage = () =>
       originalRenderPage({
         // eslint-disable-next-line react/display-name
-        enhanceApp: (App) => (props) => <App emotionCache={cache} {...props} />,
+        enhanceApp: (App: React.ComponentType<MyAppProps>) => (props) => <App emotionCache={cache} {...props} />,
       });
 
     const initialProps = await Document.getInitialProps(ctx);

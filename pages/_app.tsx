@@ -7,14 +7,14 @@ import createCache from "@emotion/cache";
 import { theme } from "styles/theme";
 
 import { UserProvider } from "@auth0/nextjs-auth0";
+import { MyAppProps } from "types/types";
 
 const clientSideEmotionCache = createCache({ key: "css", prepend: true });
-
 function MyApp({
   Component,
   emotionCache = clientSideEmotionCache,
   pageProps,
-}) {
+}: MyAppProps) {
   const router = useRouter();
 
   return (

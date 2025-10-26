@@ -1,6 +1,5 @@
 /**
  * Environment Variable Validation
- * 
  * This module validates all required environment variables at startup
  * and provides type-safe access to environment configuration.
  */
@@ -8,14 +7,14 @@
 interface EnvConfig {
   // Database
   DATABASE_URL: string;
-  
+
   // Auth0
   AUTH0_SECRET: string;
   AUTH0_BASE_URL: string;
   AUTH0_ISSUER_BASE_URL: string;
   AUTH0_CLIENT_ID: string;
   AUTH0_CLIENT_SECRET: string;
-  
+
   // App
   NODE_ENV: 'development' | 'production' | 'test';
 }

@@ -23,7 +23,11 @@ import {
   StickyMenuContainer,
 } from "styles/layout";
 
-export const Music = (props) => {
+type MusicProps = {
+  abcNotes: string;
+};
+
+export const Music = (props: MusicProps) => {
   let lineBreak = (string: string) => {
     return string.replaceAll("!", "\n");
   };
@@ -44,14 +48,14 @@ export const Music = (props) => {
 const detailedtune: NextPage<{}> = () => {
   const { user } = useUser();
   const [usersTuneList, setUsersTuneList] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [mapKnow, setMapKnow] = useState([]);
+  const [_loading, setLoading] = useState(true);
+  const [mapKnow, setMapKnow] = useState<number[]>([]);
   const [details, setDetails] = useState({
     name: "Loading...",
     type: "Loading...",
     id: "Loading",
   });
-  const [abc, setAbc] = useState(
+  const [abc, _setAbc] = useState(
     "|:E2BE dEBE|E2BE AFDF|E2BE dEBE|BABc dAFD:|!d2fd c2ec|defg afge|d2fd c2ec|BABc dAFA|!d2fd c2ec|defg afge|afge fdec|BABc dAFD|"
   );
 
@@ -105,8 +109,9 @@ const detailedtune: NextPage<{}> = () => {
     router.back();
   };
   const onKnowHandle = () => {
+    if (!user || !user.email) return;
     let newMapKnow = mapKnow.slice();
-    newMapKnow.push(details.id);
+    newMapKnow.push(parseInt(details.id as string, 10));
     setMapKnow(newMapKnow);
     addTune(details.id, user.email, "know");
   };
@@ -114,7 +119,7 @@ const detailedtune: NextPage<{}> = () => {
   return (
     <OuterAppContainer>
       <LogoContainer>
-        <Header textAlign="left" size="small">
+        <Header textAlign="left" size="small" color="blue">
           T&F
         </Header>
       </LogoContainer>
@@ -126,7 +131,7 @@ const detailedtune: NextPage<{}> = () => {
             flexDirection: "row-reverse",
           }}
         >
-          <Header size="small" textAlign="center">
+          <Header size="small" textAlign="center" color="blue">
             {details.name}
           </Header>
           <StyleBackdButton
@@ -149,7 +154,7 @@ const detailedtune: NextPage<{}> = () => {
           <div style={{ width: "85%" }}>
             <Music abcNotes={abc} />
             <StyledAddButton
-              know={mapKnow !== undefined && mapKnow.includes(details.id)}
+              know={mapKnow !== undefined && mapKnow.includes(parseInt(details.id as string, 10))}
               onClick={onKnowHandle}
             >
               Add

@@ -33,17 +33,15 @@ import { DataContainer } from "pages/friends";
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
-  const [logedinUser, setLogedinUser] = useState<UserWithRelations>();
+  const [_logedinUser, setLogedinUser] = useState<UserWithRelations>();
   const [viewededUser, setViewedUser] = useState<UserWithRelations>();
-  const [visitedFriendTunes, setVisitedFriendTunes] =
-    useState<UserWithRelations>();
-  const [logedinKnowTuneId, setLogedinKnowTunesId] = useState([]);
+  const [logedinKnowTuneId, setLogedinKnowTunesId] = useState<number[]>([]);
   const [showCommonTunes, setShowCommonTunes] = useState(false);
 
-  const [mapFollowing, setMapFollowing] = useState([]);
+  const [mapFollowing, setMapFollowing] = useState<number[]>([]);
   const [knowTunes, setKnowTunes] = useState<TableData[]>([]);
-  const [knowTuneNamesById, setKnowTuneNamesById] = useState([]);
-  const [followingButton, setFollowingButton] = useState(true);
+  const [knowTuneNamesById] = useState([]);
+  const [_followingButton, setFollowingButton] = useState(true);
 
   console.log({ user });
   type UserWithRelations = Prisma.UserGetPayload<{
@@ -77,10 +75,10 @@ const Friend: NextPage<{}> = () => {
     fetchUser();
   }, [slug]);
 
-  /* get loged in user*/
+  /* get logged in user*/
   useEffect(() => {
     const fetchUser = async () => {
-      if (user.sub !== slug) {
+      if (user !== undefined && user.sub !== slug) {
         setShowCommonTunes(true);
         const fetchedUser = await getUser(user.sub as string);
         if (fetchedUser.success) {
@@ -111,7 +109,9 @@ const Friend: NextPage<{}> = () => {
     let newMapKnow = logedinKnowTuneId.slice();
     newMapKnow.push(tuneId);
     setLogedinKnowTunesId(newMapKnow);
-    addTune(tuneId, user.email, "know");
+    if (user !== undefined && user.email) {
+      addTune(tuneId, user.email, "know");
+    }
   };
   const onBackClickHandle = () => {
     router.back();
@@ -132,7 +132,7 @@ const Friend: NextPage<{}> = () => {
     return (
       <OuterAppContainer>
         <LogoContainer>
-          <Header textAlign="left" size="small">
+          <Header textAlign="left" size="small" color="blue">
             T&F
           </Header>
         </LogoContainer>
@@ -147,7 +147,7 @@ const Friend: NextPage<{}> = () => {
                   paddingTop: "20px",
                 }}
               >
-                <Header size="small" textAlign="center">
+                <Header size="small" textAlign="center" color="blue">
                   {viewededUser.name}
                 </Header>
 
@@ -170,7 +170,7 @@ const Friend: NextPage<{}> = () => {
                   }}
                 >
                   <ProfileImage size={"small"} />
-                  {user.sub !== slug ? (
+                  {user && user.sub !== slug ? (
                     <StyledButton
                       onClick={() => onClickHandle}
                       know={
@@ -187,16 +187,16 @@ const Friend: NextPage<{}> = () => {
                   )}
                 </div>
                 <ProfileInfo
-                  profileText={viewededUser.profileText}
-                  tunesCount={tuneCount}
-                  following={followingCount}
-                  followers={followersCount}
+                  profileText={viewededUser.profileText ?? ""}
+                  tunesCount={tuneCount ?? 0}
+                  following={followingCount ?? 0}
+                  followers={followersCount ?? 0}
                 />
               </ProfileContainer>
 
               <DataContainer>
                 <div style={{ display: "flex" }}>
-                  {user.sub !== slug && (
+                  {user && user.sub !== slug && (
                     <StyledButton
                       onClick={onShowCommonTunes}
                       know={showCommonTunes ? false : true}
@@ -208,13 +208,13 @@ const Friend: NextPage<{}> = () => {
                     onClick={onShowFriendsTunes}
                     know={showCommonTunes ? true : false}
                   >
-                    {user.sub === slug ? "My Tunes" : "FriendsTunes"}
+                    {user && user.sub === slug ? "My Tunes" : "FriendsTunes"}
                   </StyledButton>
                 </div>
                 {showCommonTunes ? (
                   <TunesIncommon
                     logedinKnowTuneId={logedinKnowTuneId}
-                    knowTunes={knowTunes !== undefined && knowTunes}
+                    knowTunes={knowTunes}
                   />
                 ) : (
                   knowTunes?.map((tune) => (

@@ -6,7 +6,6 @@ import {
 } from "@auth0/nextjs-auth0";
 import { addNewRelation, getUser } from "services/local";
 import { NextPage } from "next";
-import { LoadingSpinner } from "components/LoadingSpinner";
 import { getCachedListOfUsers } from "services/functions";
 import { styled } from "@mui/material";
 import { Menu } from "components/Menu";
@@ -19,11 +18,11 @@ import {
   StickyMenuContainer,
 } from "styles/layout";
 import { User as PrismaUser } from "@prisma/client";
-import { User } from "@auth0/auth0-spa-js/dist/typings/global";
+import { UserProfile as User } from "@auth0/nextjs-auth0";
 
 const Friends: NextPage<{}> = () => {
   const [usersList, setUsersList] = useState<PrismaUser[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [_loading, setLoading] = useState(true);
   const [mapFriendsId, setMapFriendsId] = useState<string[]>([]);
   const [friendsArray, setFiendsArray] = useState<string[]>([]);
   const { user } = useUser();
@@ -37,9 +36,11 @@ const Friends: NextPage<{}> = () => {
 
   useEffect(() => {
     setLoading(true);
-    getUsersList(user);
+    if (user) {
+      getUsersList(user);
+    }
     setLoading(false);
-  }, []);
+  }, [user]);
 
   const onClickHandle = (
     addingEmail: string,
@@ -73,24 +74,26 @@ const Friends: NextPage<{}> = () => {
   return (
     <OuterAppContainer>
       <LogoContainer>
-        <Header textAlign="left" size="small">
+        <Header textAlign="left" size="small" color="blue">
           T&F
         </Header>
       </LogoContainer>
       <ContentContainer>
-        <Header textAlign="center" size="large">
+        <Header textAlign="center" size="large" color="blue">
           Friends
         </Header>
         <DataContainer>
           {usersList &&
             usersList
-              .filter((item) => item.email !== user.email)
+              .filter((item) => user && item.email !== user.email)
               .map((friend) => (
                 <StyledTable
                   key={friend.id}
-                  onClickHandle={() =>
-                    onClickHandle(user.email, friend.email, friend.auth0UserId)
-                  }
+                  onClickHandle={() => {
+                    if (user && typeof user.email === "string") {
+                      onClickHandle(user.email, friend.email, friend.auth0UserId);
+                    }
+                  }}
                   know={
                     friendsArray !== undefined &&
                     friendsArray.includes(friend.auth0UserId)

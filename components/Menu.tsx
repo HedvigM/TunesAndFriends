@@ -4,7 +4,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { styled } from "@mui/material/styles";
 import Link from "next/link";
 import { addUser } from "services/local";
-import router, { useRouter } from "next/router";
+import router from "next/router";
 import HomeIcon from "@mui/icons-material/Home";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import PeopleIcon from "@mui/icons-material/People";
@@ -13,8 +13,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 export const Menu = () => {
   const { user, isLoading } = useUser();
-  const router = useRouter();
-  /*  console.log({ user }); */
+
   useEffect(() => {
     if (typeof user !== "undefined" && isLoading === false) {
       addUser(user);
@@ -75,14 +74,14 @@ export const Menu = () => {
             </Typography>
           </Link>
         </LinkContainer>
-
-        <LinkContainer href="/friend/[slug]">
-          <Link
-            href={{
-              pathname: "/friend/[slug]",
-              query: { slug: `${user.sub}` },
-            }}
-          >
+        {user && user.sub !== undefined && (
+          <LinkContainer href="/friend/[slug]">
+            <Link
+              href={{
+                pathname: "/friend/[slug]",
+                query: { slug: `${user.sub}` },
+              }}
+              >
             <Typography
               variant="body1"
               noWrap
@@ -93,33 +92,16 @@ export const Menu = () => {
                 justifyContent: "center",
                 alignContent: "center",
               }}
-            >
+              >
               <AccountCircleIcon />
             </Typography>
           </Link>
         </LinkContainer>
+            )}
       </OuterContainer>
     </Box>
   );
 };
-
-type MenuIndexProps = {
-  index: string;
-};
-const Div = styled("div")<MenuIndexProps>((props) => ({
-  backgroundColor:
-    (props.index === "1" && colors.second) ||
-    (props.index === "2" && colors.third) ||
-    (props.index === "3" && colors.first) ||
-    (props.index === "4" && colors.fourth),
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  ":hover": {
-    cursor: "pointer",
-    backgroundColor: colors.first,
-  },
-}));
 
 const OuterContainer = styled("div")(() => ({
   color: "black",

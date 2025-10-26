@@ -19,6 +19,7 @@
     "prisma:migrate:dev": "dotenv -e .env.local -- prisma migrate dev"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.8.0",
     "@auth0/nextjs-auth0": "^1.9.0",
     "@emotion/react": "^11.5.0",
     "@emotion/server": "^11.4.0",

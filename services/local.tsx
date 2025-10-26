@@ -1,7 +1,5 @@
 import { UserProfile } from "@auth0/nextjs-auth0";
 import { User } from "@prisma/client";
-import { ResponseType } from "types/types";
-import { getMyCache } from "./functions";
 
 /* add al items from profile page in the db */
 export const addUser = (user: UserProfile) => {
@@ -37,7 +35,7 @@ export const addUser = (user: UserProfile) => {
     });
 };
 
-export const getUserById = (slug) => {
+export const getUserById = (slug: string) => {
   const defaultHeaders = {
     Accept: "application/json",
     "Content-Type": "application/json;charset=UTF-8",
@@ -206,7 +204,7 @@ export const listUsersWithTune = (tuneId: number) => {
     });
 };
 
-export const addTune = (tune, email, knowOrLearn) => {
+export const addTune = (tune: any, email: string, knowOrLearn: string) => {
   const defaultHeaders = {
     Accept: "application/json",
     "Content-Type": "application/json;charset=UTF-8",
@@ -271,7 +269,7 @@ export const getStaredTunes = () => {
     });
 };
 
-export const addNewRelation = (addingEmail, addedEmail) => {
+export const addNewRelation = (addingEmail: string, addedEmail: string) => {
   const defaultHeaders = {
     Accept: "application/json",
     "Content-Type": "application/json;charset=UTF-8",

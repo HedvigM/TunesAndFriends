@@ -70,6 +70,7 @@ const Tunes: NextPage<{}> = () => {
   }, [page]);
 
   const onKnowHandle = (tuneId: number) => {
+    if (!user || !user.email) return;
     let newMapKnow = mapKnow.slice();
     newMapKnow.push(tuneId);
     setMapKnow(newMapKnow);
@@ -80,12 +81,12 @@ const Tunes: NextPage<{}> = () => {
     <>
       <OuterAppContainer>
         <LogoContainer>
-          <Header textAlign="left" size="small">
+          <Header textAlign="left" size="small" color="blue">
             T&F
           </Header>
         </LogoContainer>
         <StyledContentContainer>
-          <Header textAlign="center" size="large">
+          <Header textAlign="center" size="large" color="blue">
             popular tunes
           </Header>
           {!popularList && <LoadingSpinner />}

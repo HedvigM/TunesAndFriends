@@ -44,7 +44,7 @@ const StyledAvatar = styled(Avatar, {
 const PlusContainer = styled("div", {
   shouldForwardProp: (prop) => prop !== "size",
 })<ProfileImageProps>((props) => ({
-  display: props.size === "small" && "none",
+  display: props.size === "small" ? "none" : "block",
   height: "30px",
   width: "30px",
   borderRadius: "50%",

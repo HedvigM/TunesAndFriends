@@ -1,15 +1,16 @@
 import { styled, Typography } from "@mui/material";
 
-type TuneInfo = {
+type TuneInfoProps = {
   type: string;
-  knownBy?: KnownByProp[];
+  knownBy: KnownByProp[];
 };
+
 type KnownByProp = {
   name: string;
   auth0UserId: string;
 };
 
-export const TuneInfo = ({ type, knownBy }) => {
+export const TuneInfo = ({ type, knownBy }: TuneInfoProps) => {
   return (
     <OuterContainer>
       <TuneType>type: {type}</TuneType>

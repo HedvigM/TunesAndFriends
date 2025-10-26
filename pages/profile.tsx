@@ -47,7 +47,7 @@ const ProfilePage: NextPage<{}> = ({}) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      if (user.sub) {
+      if (user && user.sub) {
         const fetchedUser = await getUser(user.sub);
         if (fetchedUser.success) {
           setDatabaseUser(fetchedUser.data);
@@ -81,12 +81,12 @@ const ProfilePage: NextPage<{}> = ({}) => {
   return (
     <OuterAppContainer>
       <LogoContainer>
-        <Header textAlign="left" size="small">
+        <Header textAlign="left" size="small" color="blue">
           T&F
         </Header>
       </LogoContainer>
       <ContentContainer>
-        <Header size="large" textAlign="center">
+        <Header size="large" textAlign="center" color="blue">
           Profile
         </Header>
         <div
