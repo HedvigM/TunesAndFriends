@@ -13,13 +13,15 @@ import { NextPage } from "next";
 import { getMyCache } from "services/functions";
 import { Menu } from "components/Menu";
 import { Header } from "components/Header";
-import { LoadingSpinner } from "components/LoadingSpinner";
 import {
   ContentContainer,
   LogoContainer,
   OuterAppContainer,
   StickyMenuContainer,
 } from "styles/layout";
+import { LoadingSkeleton } from "components/loading";
+import { PageErrorBoundary } from "components/errors/PageErrorBoundary";
+import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
 
 type PopularTunesTypes = {
   id: number;
@@ -38,6 +40,7 @@ type PopularTunesTypes = {
 const Tunes: NextPage<{}> = () => {
   const [popularList, setPopularList] = useState<PopularTunesTypes[]>([]);
   const [mapKnow, setMapKnow] = useState<number[]>([]);
+  const [loading, setLoading] = useState(false);
   const { user } = useUser();
   const router = useRouter();
 
@@ -61,9 +64,11 @@ const Tunes: NextPage<{}> = () => {
   }, [user]);
 
   useEffect(() => {
+    setLoading(true);
     const getPopularTunes = async () => {
       const data = await getMyCache(POPULAR_URL(page));
       setPopularList(data.tunes);
+      setLoading(false);
     };
 
     getPopularTunes();
@@ -78,7 +83,7 @@ const Tunes: NextPage<{}> = () => {
   };
 
   return (
-    <>
+    <PageErrorBoundary>
       <OuterAppContainer>
         <LogoContainer>
           <Header textAlign="left" size="small" color="blue">
@@ -89,19 +94,26 @@ const Tunes: NextPage<{}> = () => {
           <Header textAlign="center" size="large" color="blue">
             popular tunes
           </Header>
-          {!popularList && <LoadingSpinner />}
-          <TableContainer>
-            {popularList.map((tune) => (
-              <StyledTable
-                key={tune.id}
-                data={tune}
-                onClickHandle={onKnowHandle}
-                know={mapKnow !== undefined && mapKnow.includes(tune.id)}
-                pathname="/tune/[slug]"
-                slug={tune.id}
-              />
-            ))}
-          </TableContainer>
+
+          <ComponentErrorBoundary componentName="Popular Tunes List">
+            {loading ? (
+              <LoadingSkeleton variant="list" />
+            ) : (
+              <TableContainer>
+                {popularList.map((tune) => (
+                  <StyledTable
+                    key={tune.id}
+                    data={tune}
+                    onClickHandle={onKnowHandle}
+                    know={mapKnow !== undefined && mapKnow.includes(tune.id)}
+                    pathname="/tune/[slug]"
+                    slug={tune.id}
+                  />
+                ))}
+              </TableContainer>
+            )}
+          </ComponentErrorBoundary>
+
           <Box
             sx={{
               padding: "25px 0",
@@ -132,7 +144,7 @@ const Tunes: NextPage<{}> = () => {
           <Menu />
         </StickyMenuContainer>
       </OuterAppContainer>
-    </>
+    </PageErrorBoundary>
   );
 };
 

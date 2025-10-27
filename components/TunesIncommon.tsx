@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyledTable } from "./Table";
+import { ComponentErrorBoundary } from "./errors/ComponentErrorBoundary";
 
 type TunesIncommonProps = {
   logedinKnowTuneId: number[];
@@ -30,10 +31,11 @@ export const TunesIncommon = ({
   }, [logedinKnowTuneId, knowTunes]);
 
   return (
-    <>
+    <ComponentErrorBoundary componentName="Tunes in Common">
       {commonTunes &&
         commonTunes.map((tune) => (
           <StyledTable
+            key={tune.id}
             onClickHandle={() => {}}
             know={true}
             pathname="/tune/[slug]"
@@ -41,6 +43,6 @@ export const TunesIncommon = ({
             data={tune}
           />
         ))}
-    </>
+    </ComponentErrorBoundary>
   );
 };

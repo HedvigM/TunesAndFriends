@@ -15,6 +15,8 @@ import {
   OuterAppContainer,
   StickyMenuContainer,
 } from "styles/layout";
+import { PageErrorBoundary } from "components/errors/PageErrorBoundary";
+import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
 
 const IndexPage: NextPage<{}> = ({}) => {
   const { user } = useUser();
@@ -89,79 +91,88 @@ const IndexPage: NextPage<{}> = ({}) => {
 
   if (user) {
     return (
-      <OuterAppContainer>
-        <LogoContainer>
-          <Header color="yellow" textAlign="left" size="small">
-            T&F
-          </Header>
-        </LogoContainer>
-        <ContentContainer>
-          <Header color="yellow" size={"large"} textAlign="center">
-            Tunes & Friends
-          </Header>
+      <PageErrorBoundary>
+        <OuterAppContainer>
+          <LogoContainer>
+            <Header color="yellow" textAlign="left" size="small">
+              T&F
+            </Header>
+          </LogoContainer>
+          <ContentContainer>
+            <Header color="yellow" size={"large"} textAlign="center">
+              Tunes & Friends
+            </Header>
 
-          <TableContent>
-            <Header color="blue" size={"small"} textAlign="center">
-              Newest Friends
-            </Header>
-            <div>
-              {friends &&
-                friends.map((data) => (
-                  <DataContainer key={data.id}>
-                    <StyledTable
-                      onClickHandle={() => {}}
-                      know={true}
-                      pathname={""}
-                      data={data}
-                      slug={""}
-                    />
-                  </DataContainer>
-                ))}
-            </div>
-          </TableContent>
+            <ComponentErrorBoundary componentName="Newest Friends">
+              <TableContent>
+                <Header color="blue" size={"small"} textAlign="center">
+                  Newest Friends
+                </Header>
+                <div>
+                  {friends &&
+                    friends.map((data) => (
+                      <DataContainer key={data.id}>
+                        <StyledTable
+                          onClickHandle={() => {}}
+                          know={true}
+                          pathname={""}
+                          data={data}
+                          slug={""}
+                        />
+                      </DataContainer>
+                    ))}
+                </div>
+              </TableContent>
+            </ComponentErrorBoundary>
 
-          <TableContent>
-            <Header color="blue" size={"small"} textAlign="center">
-              Newest Tunes
-            </Header>
-            <div>
-              {tuneNames &&
-                tuneNames.map((tune) => (
-                  <DataContainer>
-                    <StyledTable
-                      onClickHandle={() => {}}
-                      know={true}
-                      pathname={"/tune/[slug]"}
-                      data={tune}
-                      slug={tune.id}
-                    />
-                  </DataContainer>
-                ))}
-            </div>
-          </TableContent>
-          <TableContent>
-            <Header color="blue" size={"small"} textAlign="center">
-              Friends newest tunes
-            </Header>
-            <div>
-              {Data.map((data) => (
-                <DataContainer>
-                  <StyledTable
-                    onClickHandle={() => {}}
-                    know={false}
-                    pathname={""}
-                    data={data}
-                    slug={""}
-                  />
-                </DataContainer>
-              ))}
-            </div>
-          </TableContent>
-        </ContentContainer>
-        <StickyMenuContainer>
-          <Menu />
-        </StickyMenuContainer>
-      </OuterAppContainer>
+            <ComponentErrorBoundary componentName="Newest Tunes">
+              <TableContent>
+                <Header color="blue" size={"small"} textAlign="center">
+                  Newest Tunes
+                </Header>
+                <div>
+                  {tuneNames &&
+                    tuneNames.map((tune) => (
+                      <DataContainer key={tune.id}>
+                        <StyledTable
+                          onClickHandle={() => {}}
+                          know={true}
+                          pathname={"/tune/[slug]"}
+                          data={tune}
+                          slug={tune.id}
+                        />
+                      </DataContainer>
+                    ))}
+                </div>
+              </TableContent>
+            </ComponentErrorBoundary>
+
+            <ComponentErrorBoundary componentName="Friends Newest Tunes">
+              <TableContent>
+                <Header color="blue" size={"small"} textAlign="center">
+                  Friends newest tunes
+                </Header>
+                <div>
+                  {Data.map((data) => (
+                    <DataContainer key={data.id}>
+                      <StyledTable
+                        onClickHandle={() => {}}
+                        know={false}
+                        pathname={""}
+                        data={data}
+                        slug={""}
+                      />
+                    </DataContainer>
+                  ))}
+                </div>
+              </TableContent>
+            </ComponentErrorBoundary>
+          </ContentContainer>
+          <StickyMenuContainer>
+            <Menu />
+          </StickyMenuContainer>
+        </OuterAppContainer>
+      </PageErrorBoundary>
     );
   }
   return null;

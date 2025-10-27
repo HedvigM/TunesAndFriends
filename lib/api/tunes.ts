@@ -23,12 +23,6 @@ export async function saveTune(
   return apiClient.post<Tune>("/api/tunes/tune", data);
 }
 
-/**
- * Get multiple tunes by session IDs
- * 
- * Fetches all tunes in parallel and returns successful results.
- * Returns an error only if ALL requests fail.
- */
 export async function getTunes(
   sessionIds: number[]
 ): Promise<ApiResult<Tune[]>> {

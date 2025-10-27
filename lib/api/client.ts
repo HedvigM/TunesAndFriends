@@ -1,12 +1,3 @@
-/**
- * Base API Client
- * 
- * Provides a centralized, type-safe API client with:
- * - Automatic retry logic with exponential backoff
- * - Consistent error handling
- * - Type-safe responses
- */
-
 export interface ApiResponse<T> {
   success: true;
   data: T;

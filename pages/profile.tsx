@@ -30,6 +30,8 @@ import {
 } from "styles/layout";
 import Link from "next/link";
 import { UpdateUserRequest } from "lib/api/types";
+import { PageErrorBoundary } from "components/errors/PageErrorBoundary";
+import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
 
 const ProfilePage: NextPage<{}> = ({}) => {
   const [databaseUser, setDatabaseUser] = useState<PrismaUser>();
@@ -85,81 +87,87 @@ const ProfilePage: NextPage<{}> = ({}) => {
   };
 
   return (
-    <OuterAppContainer>
-      <LogoContainer>
-        <Header textAlign="left" size="small" color="blue">
-          T&F
-        </Header>
-      </LogoContainer>
-      <ContentContainer>
-        <Header size="large" textAlign="center" color="blue">
-          Profile
-        </Header>
-        <div
-          style={{
-            paddingTop: "20px",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <ProfileImage size={"large"} />
-        </div>
-        {databaseUser && (
-          <AccountInfo
-            handleProfileChange={handleProfileChange}
-            newProfileText={setNewProfileText}
-            newTownText={setNewTownText}
-            databaseUser={databaseUser}
-          />
-        )}
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button
-            variant="contained"
-            onClick={() => handleProfileChange(profileText, town)}
-            sx={{
-              color: "text.primary",
-              backgroundColor: colors.second,
+    <PageErrorBoundary>
+      <OuterAppContainer>
+        <LogoContainer>
+          <Header textAlign="left" size="small" color="blue">
+            T&F
+          </Header>
+        </LogoContainer>
+        <ContentContainer>
+          <Header size="large" textAlign="center" color="blue">
+            Profile
+          </Header>
+          <ComponentErrorBoundary componentName="Profile Image">
+            <div
+              style={{
+                paddingTop: "20px",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <ProfileImage size={"large"} />
+            </div>
+          </ComponentErrorBoundary>
+          <ComponentErrorBoundary componentName="Account Information">
+            {databaseUser && (
+              <AccountInfo
+                handleProfileChange={handleProfileChange}
+                newProfileText={setNewProfileText}
+                newTownText={setNewTownText}
+                databaseUser={databaseUser}
+              />
+            )}
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Button
+                variant="contained"
+                onClick={() => handleProfileChange(profileText, town)}
+                sx={{
+                  color: "text.primary",
+                  backgroundColor: colors.second,
+                }}
+              >
+                Save
+              </Button>
+            </div>
+          </ComponentErrorBoundary>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              padding: "30px 0",
             }}
           >
-            Save
-          </Button>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            padding: "30px 0",
-          }}
-        >
-          <LogoutContainer>
-            <Typography>Log out</Typography>
-            <Link href="/api/auth/logout">
-              <LogoutIcon />
-            </Link>
-          </LogoutContainer>
-        </div>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Your changes is saved!
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} autoFocus>
-              OK!
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </ContentContainer>
-      <StickyMenuContainer>
-        <Menu />
-      </StickyMenuContainer>
-    </OuterAppContainer>
+            <LogoutContainer>
+              <Typography>Log out</Typography>
+              <Link href="/api/auth/logout">
+                <LogoutIcon />
+              </Link>
+            </LogoutContainer>
+          </div>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Your changes is saved!
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} autoFocus>
+                OK!
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </ContentContainer>
+        <StickyMenuContainer>
+          <Menu />
+        </StickyMenuContainer>
+      </OuterAppContainer>
+    </PageErrorBoundary>
   );
 };
 
