@@ -1,6 +1,7 @@
 import { UserProfile } from "@auth0/nextjs-auth0";
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "lib/prisma";
+import { userListSelect, userWithTuneSelect } from "lib/prisma/selects";
 
 const addUser = async (user: UserProfile) => {
   try {
@@ -31,7 +32,13 @@ const addUser = async (user: UserProfile) => {
 
 const listUsers = async () => {
   try {
-    const listUsersPrisma = await prisma.user.findMany();
+    const listUsersPrisma = await prisma.user.findMany({
+      select: userListSelect,
+      take: 100, // Limit to 100 users
+      orderBy: {
+        createdAt: "desc", // Newest first
+      },
+    });
     if (listUsersPrisma === null) {
       return { message: "No users were returned" };
     } else {
@@ -54,6 +61,11 @@ const listUsersWithTune = async (tuneId: number) => {
             sessionId: tuneId,
           },
         },
+      },
+      select: userWithTuneSelect(tuneId),
+      take: 50, // Limit to 50 users
+      orderBy: {
+        createdAt: "desc",
       },
     });
 

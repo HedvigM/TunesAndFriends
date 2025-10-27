@@ -1,16 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from 'lib/prisma';
+import { userWithRelationsSelect } from 'lib/prisma/selects';
 
 const getUserById = async (id: number) => {
   try {
     const findSingleUser = await prisma.user.findUnique({
       where: { id: id },
-      include: {
-        knowTunes: true,
-        starredTunes: true,
-        following: true,
-        followedBy: true,
-      },
+      select: userWithRelationsSelect,
     });
     if (findSingleUser) {
       return {
