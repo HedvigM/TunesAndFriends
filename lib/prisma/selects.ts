@@ -24,6 +24,7 @@ export const userWithProfileSelect = {
 export const tuneBasicSelect = {
   id: true,
   sessionId: true,
+  tags: true,
 } as const;
 
 /**

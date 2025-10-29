@@ -45,6 +45,13 @@ model Tune {
   sessionId Int    @unique
   knowedBy  User[] @relation("knowTunes")
   starredBy User[] @relation("starredTunes")
+  tags      Tag[]  @relation("tags")
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  tunes Tune[] @relation("tags")
 }
 
 // uuid är en funktion som tillhandahåller randomiserade id:n - anses vara mkt säkrare än ett id system som bygger på increment.

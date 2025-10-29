@@ -78,6 +78,23 @@ export const Menu = () => {
             </Typography>
           </Link>
         </LinkContainer>
+        <LinkContainer href={`/myTunes`}>
+          <Link href="/myTunes">
+            <Typography
+              variant="body1"
+              noWrap
+              sx={{
+                textDecoration: "none",
+                color: "black",
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
+              }}
+            >
+              My tunes
+            </Typography>
+          </Link>
+        </LinkContainer>
         {user && user.sub !== undefined && (
           <LinkContainer href="/friend/[slug]">
             <Link

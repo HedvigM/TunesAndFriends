@@ -133,7 +133,6 @@ const detailedtune: NextPage<{}> = () => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            padding: "20px 0",
           }}
         >
           <div style={{ width: "85%", display: "flex", flexDirection: "column", alignItems: "center" }}>

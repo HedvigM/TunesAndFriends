@@ -21,7 +21,15 @@ export const TunePlayer = (props: TunePlayerProps) => {
       const abcjsInit = async () => {
         const myContext = new AudioContext();
         audioContextRef.current = myContext;
-        const visualObj = abcjs.renderAbc("paper", props.abcNotes, { responsive: "resize" });
+        const visualObj = abcjs.renderAbc("paper", props.abcNotes, {
+          responsive: "resize",
+          /* staffwidth: 500, */
+      /*     wrap: {
+            minSpacing: 1.8,
+            maxSpacing: 2.7,
+            preferredMeasuresPerLine: 6
+          } */
+        });
         const synth = new abcjs.synth.CreateSynth();
         synthRef.current = synth;
 
@@ -66,7 +74,7 @@ export const TunePlayer = (props: TunePlayerProps) => {
 
     return (
       <div style={{maxWidth: "900px", width: "100%"}}>
-        <div id="paper"></div>
+        <div id="paper" /* style={{width: "100%", overflow: "hidden"}} */></div>
         <div style={{ display: "flex", gap: "10px", justifyContent: "end"}}>
         <StyledButton active={isPlaying} onClick={handlePlay} disabled={isPlaying}>
           {isPlaying ? "Playing..." : "Play Music"}

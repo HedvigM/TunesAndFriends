@@ -44,7 +44,7 @@ const Tunes: NextPage<{}> = () => {
   const { user } = useUser();
   const router = useRouter();
 
-  console.log({ mapKnow });
+  /* console.log({ mapKnow }); */
   const page = parseInt((router.query.page as string) || "1", 10);
 
   useEffect(() => {

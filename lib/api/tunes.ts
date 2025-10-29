@@ -15,6 +15,14 @@ export async function getTune(sessionId: number): Promise<ApiResult<Tune>> {
 }
 
 /**
+ * Get tunes by user Auth0 ID
+ */
+export async function getTunesByUserId(auth0UserId: string): Promise<ApiResult<Tune[]>> {
+  console.log("jag körs 2")
+  return apiClient.get<Tune[]>(`/api/tunes/tune?auth0UserId=${auth0UserId}`);
+}
+
+/**
  * Create or update a tune
  */
 export async function saveTune(
