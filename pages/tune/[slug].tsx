@@ -1,5 +1,4 @@
 import { Box, Button, styled } from "@mui/material";
-
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { TUNE_URL } from "utils/urls";
@@ -23,28 +22,10 @@ import {
   StickyMenuContainer,
 } from "styles/layout";
 import { User } from "lib/api";
+import { TunePlayer } from "components/TunePlayer";
 
-type MusicProps = {
-  abcNotes: string;
-};
 
-export const Music = (props: MusicProps) => {
-  let lineBreak = (string: string) => {
-    return string.replaceAll("!", "\n");
-  };
 
-  useEffect(() => {
-    const abcjsInit = async () => {
-      const abcjs = await import("abcjs");
-      abcjs.renderAbc("paper", lineBreak(props.abcNotes), {
-        responsive: "resize",
-      });
-    };
-    abcjsInit();
-  }, []);
-
-  return <div id="paper"></div>;
-};
 
 const detailedtune: NextPage<{}> = () => {
   const { user } = useUser();
@@ -56,9 +37,10 @@ const detailedtune: NextPage<{}> = () => {
     type: "Loading...",
     id: "Loading",
   });
-  const [abc, _setAbc] = useState(
+  const [abc, setAbc] = useState(
     "|:E2BE dEBE|E2BE AFDF|E2BE dEBE|BABc dAFD:|!d2fd c2ec|defg afge|d2fd c2ec|BABc dAFA|!d2fd c2ec|defg afge|afge fdec|BABc dAFD|"
   );
+  /* console.log("abc: ", abc); */
 
   const getListOfTuneUsers = async (tuneId: number) => {
     const fetchedList = await listUsersWithTune(tuneId);
@@ -101,6 +83,8 @@ const detailedtune: NextPage<{}> = () => {
     const getDetailedTune = async () => {
       const data = await getMyCache(TUNE_URL(slug));
       setDetails(data);
+/* console.log("data: ", data.settings[0].abc); */
+      setAbc(data.settings[0].abc);
       setLoading(false);
     };
     getDetailedTune();
@@ -152,12 +136,14 @@ const detailedtune: NextPage<{}> = () => {
             padding: "20px 0",
           }}
         >
-          <div style={{ width: "85%" }}>
-            <Music abcNotes={abc} />
+          <div style={{ width: "85%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <TunePlayer abcNotes={abc} />
+          </div>
+          <div style={{ width: "85%", display: "flex", flexDirection: "column", gap: "5px", alignItems: "start" }}>
             <StyledAddButton
               know={mapKnow !== undefined && mapKnow.includes(parseInt(details.id as string, 10))}
               onClick={onKnowHandle}
-            >
+              >
               Add
             </StyledAddButton>
             <TuneInfo type={details.type} knownBy={usersTuneList} />
