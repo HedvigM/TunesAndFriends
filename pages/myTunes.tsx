@@ -83,7 +83,7 @@ const myTunes: NextPage<{}> = () => {
     return (
         <OuterAppContainer>
         <LogoContainer>
-          <Header textAlign="left" size="small" color="blue">
+          <Header textAlign="left" size="small">
             T&F
           </Header>
         </LogoContainer>
@@ -95,7 +95,7 @@ const myTunes: NextPage<{}> = () => {
             }}
          >
         <div style={{paddingBottom: "20px"}}>
-            <Header size="small" textAlign="center" color="blue">
+            <Header size="small" textAlign="center">
              My tunes
             </Header>
         </div>

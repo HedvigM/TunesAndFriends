@@ -74,12 +74,12 @@ const Friends: NextPage<{}> = () => {
   return (
     <OuterAppContainer>
       <LogoContainer>
-        <Header textAlign="left" size="small" color="blue">
+        <Header textAlign="left" size="small">
           T&F
         </Header>
       </LogoContainer>
       <ContentContainer>
-        <Header textAlign="center" size="large" color="blue">
+        <Header textAlign="center" size="large">
           Friends
         </Header>
         <DataContainer>

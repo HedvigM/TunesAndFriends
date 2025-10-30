@@ -1,0 +1,15 @@
+@mixin outer-container($textAlign: left) {
+    display: flex;
+    justify-content: $textAlign;
+    width: 100%;
+}
+.outerContainerLeft {
+    @include outer-container(left);
+}
+.outerContainerCenter {
+    @include outer-container(center);
+}
+
+.headerContainer {
+    text-transform: uppercase;
+}

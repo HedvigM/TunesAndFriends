@@ -1,10 +1,3 @@
-/**
- * Page Error Boundary Component
- *
- * Wraps entire pages to catch page-level errors while maintaining
- * the app's header and navigation
- */
-
 import React from "react";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { Box, Container, Typography } from "@mui/material";
@@ -22,7 +15,7 @@ const PageErrorFallback: React.FC = () => {
 
   return (
     <Container>
-      <Header color="yellow" size="large" textAlign="center">
+      <Header size="large" textAlign="center">
         Tunes & Friends
       </Header>
 

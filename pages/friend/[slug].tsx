@@ -129,7 +129,7 @@ const Friend: NextPage<{}> = () => {
     return (
       <OuterAppContainer>
         <LogoContainer>
-          <Header textAlign="left" size="small" color="blue">
+          <Header textAlign="left" size="small">
             T&F
           </Header>
         </LogoContainer>
@@ -144,7 +144,7 @@ const Friend: NextPage<{}> = () => {
                   paddingTop: "20px",
                 }}
               >
-                <Header size="small" textAlign="center" color="blue">
+                <Header size="small" textAlign="center">
                   {viewededUser.name}
                 </Header>
 

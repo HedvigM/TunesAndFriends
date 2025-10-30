@@ -94,19 +94,19 @@ const IndexPage: NextPage<{}> = ({}) => {
       <PageErrorBoundary>
         <OuterAppContainer>
           <LogoContainer>
-            <Header color="yellow" textAlign="left" size="small">
+            <Header  textAlign="left" size="small">
               T&F
             </Header>
           </LogoContainer>
           <ContentContainer>
-            <Header color="yellow" size={"large"} textAlign="center">
+            <Header size={"large"} textAlign="center">
               Tunes & Friends
             </Header>
 
 {/* Kolla in knapparna i den här tabellen. */}
             <ComponentErrorBoundary componentName="Newest Friends">
               <TableContent>
-                <Header color="blue" size={"small"} textAlign="center">
+                <Header size={"small"} textAlign="center">
                   Newest Friends
                 </Header>
                 <div>
@@ -128,7 +128,7 @@ const IndexPage: NextPage<{}> = ({}) => {
 
             <ComponentErrorBoundary componentName="Newest Tunes">
               <TableContent>
-                <Header color="blue" size={"small"} textAlign="center">
+                <Header size={"small"} textAlign="center">
                   Newest Tunes
                 </Header>
                 <div>
@@ -150,7 +150,7 @@ const IndexPage: NextPage<{}> = ({}) => {
 
             <ComponentErrorBoundary componentName="Friends Newest Tunes">
               <TableContent>
-                <Header color="blue" size={"small"} textAlign="center">
+                <Header size={"small"} textAlign="center">
                   Friends newest tunes
                 </Header>
                 <div>

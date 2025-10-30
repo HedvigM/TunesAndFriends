@@ -105,7 +105,7 @@ const detailedtune: NextPage<{}> = () => {
   return (
     <OuterAppContainer>
       <LogoContainer>
-        <Header textAlign="left" size="small" color="blue">
+        <Header textAlign="left" size="small">
           T&F
         </Header>
       </LogoContainer>
@@ -117,7 +117,7 @@ const detailedtune: NextPage<{}> = () => {
             flexDirection: "row-reverse",
           }}
         >
-          <Header size="small" textAlign="center" color="blue">
+          <Header size="small" textAlign="center">
             {details.name}
           </Header>
           <Button

@@ -90,12 +90,12 @@ const ProfilePage: NextPage<{}> = ({}) => {
     <PageErrorBoundary>
       <OuterAppContainer>
         <LogoContainer>
-          <Header textAlign="left" size="small" color="blue">
+          <Header textAlign="left" size="small">
             T&F
           </Header>
         </LogoContainer>
         <ContentContainer>
-          <Header size="large" textAlign="center" color="blue">
+          <Header size="large" textAlign="center">
             Profile
           </Header>
           <ComponentErrorBoundary componentName="Profile Image">

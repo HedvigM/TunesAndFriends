@@ -9,28 +9,37 @@
     margin-bottom: 20px;
   }
 
-  .h1 {
-    font-size: 2.986rem;
+  @mixin header($color: var(--color-primary), $height: 20px) {
+    font-family: 'Oxygen', sans-serif;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    font-weight: bold;
 
-    @media (max-width: 767px) {
-      font-size: 1.476rem;
+    &::before {
+      content: "";
+      background-color: $color;
+      /* backgroundColor: props.color === "blue" ? colors.second : colors.first, */
+      height: $height;
+      bottom: 0;
+      position: absolute;
+      z-index: -1;
+      margin: 0 -10px;
+      width: -webkit-fill-available;
     }
+  }
+
+  .h1 {
+    @include header($color: var(--color-primary), $height: 20px);
   }
 
   .h2 {
-    font-size: 2.488rem;
-
-    @media (max-width: 767px) {
-      font-size: 1.383rem;
-    }
+    @include header($color: var(--color-secondary), $height: 14px);
   }
 
   .h3 {
-    font-size: 2.074rem;
-
-    @media (max-width: 767px) {
-      font-size: 1.296rem;
-    }
+    @include header($color: var(--color-secondary), $height: 14px);
   }
 
   .h4 {

@@ -85,12 +85,12 @@ const Tunes: NextPage<{}> = () => {
     <PageErrorBoundary>
       <OuterAppContainer>
         <LogoContainer>
-          <Header textAlign="left" size="small" color="blue">
+          <Header textAlign="left" size="small">
             T&F
           </Header>
         </LogoContainer>
         <StyledContentContainer>
-          <Header textAlign="center" size="large" color="blue">
+          <Header textAlign="center" size="large">
             popular tunes
           </Header>
 

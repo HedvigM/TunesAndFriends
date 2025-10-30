@@ -1,14 +1,19 @@
 @mixin button($color: var(--color-primary)) {
-        /* backgroundColor: props.active ? "inherit" : colors.first, */
-         background-color: $color;
-         font-family: 'Oxygen', sans-serif;
-        padding: 5px 10px;
-        border: 1px solid $color;
-        border-radius: 3px;
+  /* backgroundColor: props.active ? "inherit" : colors.first, */
+  background-color: $color;
+  font-family: 'Oxygen', sans-serif;
+  padding: 5px 10px;
+  border: 1px solid $color;
+  border-radius: 3px;
 
-        &:hover {
-          cursor: pointer;
-        }
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 }
 
 .button {
