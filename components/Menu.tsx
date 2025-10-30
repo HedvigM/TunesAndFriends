@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { getOrCreateUser } from "lib/api";
-import { Typography } from "styles/Typography";
 import { Header } from "./Header";
+import styles from "styles/Typography.module.scss";
 
 export const Menu = (props: { title: string }) => {
   const { user, isLoading } = useUser();
@@ -18,48 +18,39 @@ export const Menu = (props: { title: string }) => {
     }
   }, [user, isLoading]);
 
-  return (
+/* TODO: ändra till små bokstäver */
 
+  return (
       <div style={{ display: "flex", gap: "20px", alignItems: "center", margin: "10px" }}>
           {props.title !== "T&F" && (
             <div style={{width: "50px"}}>
-
                     <Header textAlign="left" size="small">
                         T&F
                     </Header>
             </div>
-                    )}
+          )}
           <Link href="/">
-            <Typography
-              variant="body"
-            >
+            <p className={styles.bodyLink}>
               Home
-            </Typography>
+            </p>
           </Link>
 
-          <Link href="/friends">
-            <Typography
-              variant="body"
-            >
+          <Link href="/friends" style={{ textDecoration: "none" }}>
+            <p className={styles.bodyLink}>
               Friends
-            </Typography>
+            </p>
           </Link>
 
-
-          <Link href="/tunes">
-            <Typography
-              variant="body"
-            >
+          <Link href="/tunes" style={{ textDecoration: "none" }}>
+            <p className={styles.bodyLink}>
               Tunes
-            </Typography>
+            </p>
           </Link>
 
-          <Link href="/myTunes">
-            <Typography
-              variant="body"
-            >
+          <Link href="/myTunes" style={{ textDecoration: "none" }}>
+            <p className={styles.bodyLink}>
               My tunes
-            </Typography>
+            </p>
           </Link>
 
         {user && user.sub !== undefined && (
@@ -68,14 +59,13 @@ export const Menu = (props: { title: string }) => {
                 pathname: "/friend/[slug]",
                 query: { slug: `${user.sub}` },
               }}
-              >
-            <Typography
-              variant="body"
-              >
-              My profile
-            </Typography>
-          </Link>
-            )}
+              style={{ textDecoration: "none" }}
+            >
+              <p className={styles.bodyLink}>
+                My profile
+              </p>
+            </Link>
+        )}
       </div>
   );
 };
