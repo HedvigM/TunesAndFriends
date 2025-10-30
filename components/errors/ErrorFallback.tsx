@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Box, Button, Typography, Paper, Collapse, Alert } from "@mui/material";
+import { Box, Typography, Paper, Collapse, Alert } from "@mui/material";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import HomeIcon from "@mui/icons-material/Home";
 import { useRouter } from "next/router";
+import { Button } from "styles/Button";
 
 interface ErrorFallbackProps {
   error: Error | null;
@@ -72,16 +73,18 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
 
         <Box sx={{ display: "flex", gap: 2, justifyContent: "center", mb: 3 }}>
           <Button
-            variant="contained"
-            startIcon={<RefreshIcon />}
+            element="button"
+            active={true}
+            icon={<RefreshIcon />}
             onClick={handleReload}
           >
             Reload Page
           </Button>
 
           <Button
-            variant="outlined"
-            startIcon={<HomeIcon />}
+            element="button"
+            active={true}
+            icon={<HomeIcon />}
             onClick={handleGoHome}
           >
             Go Home
@@ -91,10 +94,10 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
         {process.env.NODE_ENV === "development" && error && (
           <>
             <Button
-              variant="text"
-              size="small"
+              element="button"
+              active={true}
+              icon={<ErrorOutlineIcon />}
               onClick={() => setShowDetails(!showDetails)}
-              sx={{ mb: 2 }}
             >
               {showDetails ? "Hide" : "Show"} Error Details
             </Button>

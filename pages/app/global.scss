@@ -12,8 +12,9 @@
 
   body {
     min-height: 100vh;
-    background: linear-gradient(180deg, #24242e 0, #111115 12rem) no-repeat,
-      #111115;
+    background: white;
+  /*   background: linear-gradient(180deg, #24242e 0, #111115 12rem) no-repeat,
+      #111115;  for dark mode??*/
 
     --shadow-color: 240deg 19% 6%;
     --shadow-elevation-medium: 0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.36),

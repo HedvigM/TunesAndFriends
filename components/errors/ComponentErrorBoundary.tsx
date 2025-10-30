@@ -1,7 +1,8 @@
 import React from "react";
 import { ErrorBoundary } from "./ErrorBoundary";
-import { Box, Typography, Alert, Button } from "@mui/material";
+import { Box, Typography, Alert } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import { Button } from "styles/Button";
 
 interface ComponentErrorBoundaryProps {
   children: React.ReactNode;
@@ -42,11 +43,10 @@ const ComponentErrorFallback: React.FC<{
 
         {resetError && (
           <Button
-            variant="outlined"
-            size="small"
-            startIcon={<RefreshIcon />}
+            element="button"
+            active={true}
+            icon={<RefreshIcon />}
             onClick={resetError}
-            sx={{ mt: 1, alignSelf: "flex-start" }}
           >
             Retry
           </Button>

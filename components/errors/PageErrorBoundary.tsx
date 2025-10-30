@@ -7,12 +7,12 @@
 
 import React from "react";
 import { ErrorBoundary } from "./ErrorBoundary";
-import { Box, Container, Typography, Button } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import { Header } from "components/Header";
 import { Menu } from "components/Menu";
 import HomeIcon from "@mui/icons-material/Home";
 import { useRouter } from "next/router";
-
+import { Button } from "styles/Button";
 interface PageErrorBoundaryProps {
   children: React.ReactNode;
 }
@@ -47,9 +47,9 @@ const PageErrorFallback: React.FC = () => {
         </Typography>
 
         <Button
-          variant="contained"
-          size="large"
-          startIcon={<HomeIcon />}
+          element="button"
+          active={true}
+          icon={<HomeIcon />}
           onClick={() => router.push("/")}
         >
           Go to Home

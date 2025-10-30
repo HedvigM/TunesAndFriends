@@ -1,7 +1,6 @@
 import abcjs from "abcjs";
 import React, { useEffect, useState, useRef } from "react";
-import { styled } from "@mui/material";
-import { colors } from "styles/theme";
+import { Button } from "styles/Button";
 
 
 type TunePlayerProps = {
@@ -76,27 +75,11 @@ export const TunePlayer = (props: TunePlayerProps) => {
       <div style={{maxWidth: "900px", width: "100%"}}>
         <div id="paper" /* style={{width: "100%", overflow: "hidden"}} */></div>
         <div style={{ display: "flex", gap: "10px", justifyContent: "end"}}>
-        <StyledButton active={isPlaying} onClick={handlePlay} disabled={isPlaying}>
+        <Button active={isPlaying} onClick={handlePlay} disabled={isPlaying}>
           {isPlaying ? "Playing..." : "Play Music"}
-        </StyledButton>
-        <StyledButton active={!isPlaying} onClick={handlePlay} disabled={!isPlaying}>Stop</StyledButton>
+        </Button>
+        <Button active={!isPlaying} onClick={handlePlay} disabled={!isPlaying}>Stop</Button>
         </div>
       </div>
     );
   };
-
-  type TuneStyledProps = {
-    active: boolean;
-  };
-
-  const StyledButton = styled("button")<TuneStyledProps>((props) => ({
-    backgroundColor: props.active ? "inherit" : colors.second,
-    padding: "5px 10px",
-    margin: "10px 0",
-    border: `1px solid ${colors.second}`,
-    borderRadius: "3px",
-
-    "&:hover": {
-      cursor: "pointer",
-    },
-  }));

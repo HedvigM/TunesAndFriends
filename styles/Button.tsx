@@ -5,10 +5,14 @@ type Props =
   | (React.ButtonHTMLAttributes<HTMLButtonElement> & {
       element?: 'button';
       active?: boolean;
+      color?: string;
+      icon?: React.ReactNode;
     })
   | (LinkProps & {
       children: React.ReactNode;
       element: 'a';
+      color?: string;
+      icon?: React.ReactNode;
     });
 
 export const Button = (props: Props) => {
@@ -21,7 +25,15 @@ export const Button = (props: Props) => {
   } else {
     return (
       <div /* className={styles.wrapper} */>
-        <button className={styles.button} active={props.active} {...props} />
+        <button
+        style={{ color: props.color }}
+        className={`${props.active ? styles.buttonActive : styles.button} ${props.icon && styles.buttonIcon}`}
+        active={props.active}
+        {...props}
+        >
+          {props.icon}
+          {props.children}
+        </button>
       </div>
     );
   }

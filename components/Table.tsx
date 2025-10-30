@@ -1,5 +1,6 @@
 import { Box, Container, styled, Typography } from "@mui/material";
 import Link from "next/link";
+import { Button } from "styles/Button";
 import { colors } from "styles/theme";
 
 interface TableProps {
@@ -49,9 +50,9 @@ export const StyledTable = ({
             padding: "5px 0",
           }}
         >
-          <StyledButton know={know} onClick={() => onClickHandle(data.id)}>
+          <Button element="button" active={know} onClick={() => onClickHandle(data.id)}>
             add
-          </StyledButton>
+          </Button>
         </Box>
       </Box>
     </Container>

@@ -1,4 +1,4 @@
-import { Box, Button, styled } from "@mui/material";
+import { Box, styled } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { TUNE_URL } from "utils/urls";
@@ -23,6 +23,7 @@ import {
 } from "styles/layout";
 import { User } from "lib/api";
 import { TunePlayer } from "components/TunePlayer";
+import { Button } from "styles/Button";
 
 
 
@@ -119,13 +120,13 @@ const detailedtune: NextPage<{}> = () => {
           <Header size="small" textAlign="center" color="blue">
             {details.name}
           </Header>
-          <StyleBackdButton
-            size="small"
-            variant="text"
+          <Button
+            color={colors.third as string}
+            active={true}
+            element="button"
             onClick={onBackClickHandle}
-          >
-            <ArrowBackIosNewIcon />
-          </StyleBackdButton>
+            icon={<ArrowBackIosNewIcon />}
+          ></Button>
         </div>
         <Box
           sx={{
@@ -139,12 +140,12 @@ const detailedtune: NextPage<{}> = () => {
             <TunePlayer abcNotes={abc} />
           </div>
           <div style={{ width: "85%", display: "flex", flexDirection: "column", gap: "5px", alignItems: "start" }}>
-            <StyledAddButton
-              know={mapKnow !== undefined && mapKnow.includes(parseInt(details.id as string, 10))}
+            <Button
+              active={mapKnow !== undefined && mapKnow.includes(parseInt(details.id as string, 10))}
               onClick={onKnowHandle}
               >
               Add
-            </StyledAddButton>
+            </Button>
             <TuneInfo type={details.type} knownBy={usersTuneList} />
           </div>
         </Box>

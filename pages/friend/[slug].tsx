@@ -19,7 +19,7 @@ import { Menu } from "components/Menu";
 import { ProfileImage } from "components/ProfileImage";
 import { colors } from "styles/theme";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { StyleBackdButton } from "pages/tune/[slug]";
+import { Button } from "styles/Button";
 import {
   ContentContainer,
   LogoContainer,
@@ -148,13 +148,13 @@ const Friend: NextPage<{}> = () => {
                   {viewededUser.name}
                 </Header>
 
-                <StyleBackdButton
-                  size="small"
-                  variant="text"
+                <Button
+                  element="button"
+                  active={true}
                   onClick={onBackClickHandle}
                 >
                   <ArrowBackIosNewIcon />
-                </StyleBackdButton>
+                </Button>
               </div>
               <ProfileContainer>
                 <div
@@ -168,15 +168,16 @@ const Friend: NextPage<{}> = () => {
                 >
                   <ProfileImage size={"small"} />
                   {user && user.sub !== slug ? (
-                    <StyledButton
+                    <Button
+                      element="button"
                       onClick={() => onClickHandle}
-                      know={
+                      active={
                         mapFollowing !== undefined &&
                         mapFollowing.includes(viewededUser.id)
                       }
                     >
                       Add
-                    </StyledButton>
+                    </Button>
                   ) : (
                     <Link href="/profile">
                       <SettingsSuggestIcon />
@@ -194,19 +195,21 @@ const Friend: NextPage<{}> = () => {
               <DataContainer>
                 <div style={{ display: "flex" }}>
                   {user && user.sub !== slug && (
-                    <StyledButton
+                    <Button
+                      element="button"
                       onClick={onShowCommonTunes}
-                      know={showCommonTunes ? false : true}
+                      active={showCommonTunes ? false : true}
                     >
                       Common tunes
-                    </StyledButton>
+                    </Button>
                   )}
-                  <StyledButton
+                  <Button
+                    element="button"
                     onClick={onShowFriendsTunes}
-                    know={showCommonTunes ? true : false}
+                    active={showCommonTunes ? true : false}
                   >
                     {user && user.sub === slug ? "My Tunes" : "FriendsTunes"}
-                  </StyledButton>
+                  </Button>
                 </div>
                 {showCommonTunes ? (
                   <TunesIncommon
@@ -249,18 +252,3 @@ export const ProfileContainer = styled("div")`
   align-content: center;
   justify-content: center;
 `;
-
-type FriendSlugProps = {
-  know: boolean;
-};
-
-const StyledButton = styled("button")<FriendSlugProps>((props) => ({
-  backgroundColor: props.know ? "inherit" : colors.first,
-  padding: "5px 10px",
-  border: `1px solid ${colors.first}`,
-  borderRadius: "3px",
-
-  "&:hover": {
-    cursor: "pointer",
-  },
-}));

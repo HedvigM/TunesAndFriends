@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -32,6 +31,7 @@ import Link from "next/link";
 import { UpdateUserRequest } from "lib/api/types";
 import { PageErrorBoundary } from "components/errors/PageErrorBoundary";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
+import { Button } from "styles/Button";
 
 const ProfilePage: NextPage<{}> = ({}) => {
   const [databaseUser, setDatabaseUser] = useState<PrismaUser>();
@@ -120,12 +120,9 @@ const ProfilePage: NextPage<{}> = ({}) => {
             )}
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Button
-                variant="contained"
+                element="button"
+                active={true}
                 onClick={() => handleProfileChange(profileText, town)}
-                sx={{
-                  color: "text.primary",
-                  backgroundColor: colors.second,
-                }}
               >
                 Save
               </Button>

@@ -1,6 +1,7 @@
 import * as React from "react";
 import usePagination from "@mui/material/usePagination";
 import { styled } from "@mui/material/styles";
+import { Button } from "styles/Button";
 
 const List = styled("ul")({
   listStyle: "none",
@@ -14,6 +15,7 @@ export default function UsePagination() {
     count: 10,
   });
 
+  /* TODO: kolla så denna verkligen funkar.  */
   return (
     <nav>
       <List>
@@ -26,7 +28,7 @@ export default function UsePagination() {
             children = (
               <>
                 {/* <Link href={'/tunes/3'}>{page}</Link> */}
-                <button
+                <Button
                   type="button"
                   style={{
                     fontWeight: selected ? "bold" : undefined,
@@ -34,14 +36,14 @@ export default function UsePagination() {
                   {...item}
                 >
                   {page}
-                </button>
+                </Button>
               </>
             );
           } else {
             children = (
-              <button type="button" {...item}>
+              <Button type="button" {...item}>
                 {type}
-              </button>
+              </Button>
             );
           }
 

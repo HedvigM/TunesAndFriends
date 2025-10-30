@@ -1,10 +1,28 @@
-.button {
+@mixin button($color: var(--color-primary)) {
         /* backgroundColor: props.active ? "inherit" : colors.first, */
+         background-color: $color;
+         font-family: 'Oxygen', sans-serif;
         padding: 5px 10px;
-        /* border: `1px solid ${colors.first}`, */
+        border: 1px solid $color;
         border-radius: 3px;
 
         &:hover {
           cursor: pointer;
         }
+}
+
+.button {
+    @include button($color: var(--color-primary));
+}
+
+.buttonActive {
+    @include button($color: var(--color-secondary));
+}
+
+.buttonIcon {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: inherit;
+    border: none;
 }

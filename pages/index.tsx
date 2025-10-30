@@ -30,7 +30,7 @@ const IndexPage: NextPage<{}> = ({}) => {
         const result = await getUserByAuth0Id(user?.sub as string);
         if (result.success) {
           const userData = result.data;
-          
+
           // Safely extract tune IDs
           const newTunes = userData?.knowTunes?.map(
             (tunes: { sessionId: number }) => tunes.sessionId
@@ -103,6 +103,7 @@ const IndexPage: NextPage<{}> = ({}) => {
               Tunes & Friends
             </Header>
 
+{/* Kolla in knapparna i den här tabellen. */}
             <ComponentErrorBoundary componentName="Newest Friends">
               <TableContent>
                 <Header color="blue" size={"small"} textAlign="center">
