@@ -1,0 +1,10 @@
+.button {
+        /* backgroundColor: props.active ? "inherit" : colors.first, */
+        padding: 5px 10px;
+        /* border: `1px solid ${colors.first}`, */
+        border-radius: 3px;
+
+        &:hover {
+          cursor: pointer;
+        }
+}

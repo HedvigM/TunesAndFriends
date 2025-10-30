@@ -20,6 +20,7 @@ import { getMyCache } from "services/functions";
 import { colors } from "styles/theme";
 import { TuneListWithTags } from "components/TuneListWithTag";
 import styled from "@emotion/styled";
+import { Button } from "styles/Button";
 
 export type TuneObject = {
     id: number;
@@ -102,12 +103,12 @@ const myTunes: NextPage<{}> = () => {
             <p style={{ fontSize: "12px", fontWeight: "bold" }}>Tags:</p>
             <div style={{ display: "flex", flexDirection: "row", gap: "5px" }}>
                 {tags.map((tag) => (
-                    <StyledButton
+                    <Button
                     active={tag.name === sortTag}
                     key={tag.id}
                     onClick={() => setSortTag(tag.name === sortTag ? "" : tag.name)}
                     > {tag.name}
-                    </StyledButton>
+                    </Button>
                 ))}
             </div>
         </div>

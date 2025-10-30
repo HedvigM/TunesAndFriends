@@ -10,6 +10,7 @@ import { UserProvider } from "@auth0/nextjs-auth0";
 import { MyAppProps } from "types/types";
 import { ErrorBoundary } from "components/errors/ErrorBoundary";
 import { ErrorFallback } from "components/errors/ErrorFallback";
+import "./app/global.scss";
 
 const clientSideEmotionCache = createCache({ key: "css", prepend: true });
 function MyApp({
