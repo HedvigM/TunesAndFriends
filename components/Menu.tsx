@@ -1,17 +1,11 @@
-import { Box, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-import { styled } from "@mui/material/styles";
 import Link from "next/link";
 import { getOrCreateUser } from "lib/api";
-import router from "next/router";
-import HomeIcon from "@mui/icons-material/Home";
-import MusicNoteIcon from "@mui/icons-material/MusicNote";
-import PeopleIcon from "@mui/icons-material/People";
-import { colors } from "styles/theme";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Typography } from "styles/Typography";
+import { Header } from "./Header";
 
-export const Menu = () => {
+export const Menu = (props: { title: string }) => {
   const { user, isLoading } = useUser();
 
   useEffect(() => {
@@ -25,78 +19,50 @@ export const Menu = () => {
   }, [user, isLoading]);
 
   return (
-    <Box>
-      <OuterContainer>
-        <LinkContainer href="/">
+
+      <div style={{ display: "flex", gap: "20px", alignItems: "center", margin: "10px" }}>
+          {props.title !== "T&F" && (
+            <div style={{width: "50px"}}>
+
+                    <Header textAlign="left" size="small">
+                        T&F
+                    </Header>
+            </div>
+                    )}
           <Link href="/">
             <Typography
-              variant="body1"
-              noWrap
-              sx={{
-                textDecoration: "none",
-                color: "black",
-                display: "flex",
-                justifyContent: "center",
-                alignContent: "center",
-              }}
+              variant="body"
             >
-              <HomeIcon />
+              Home
             </Typography>
           </Link>
-        </LinkContainer>
-        <LinkContainer href={`/friends`}>
+
           <Link href="/friends">
             <Typography
-              variant="body1"
-              noWrap
-              sx={{
-                textDecoration: "none",
-                color: "black",
-                display: "flex",
-                justifyContent: "center",
-                alignContent: "center",
-              }}
+              variant="body"
             >
-              <PeopleIcon />
+              Friends
             </Typography>
           </Link>
-        </LinkContainer>
-        <LinkContainer href={`/tunes`}>
+
+
           <Link href="/tunes">
             <Typography
-              variant="body1"
-              noWrap
-              sx={{
-                textDecoration: "none",
-                color: "black",
-                display: "flex",
-                justifyContent: "center",
-                alignContent: "center",
-              }}
+              variant="body"
             >
-              <MusicNoteIcon />
+              Tunes
             </Typography>
           </Link>
-        </LinkContainer>
-        <LinkContainer href={`/myTunes`}>
+
           <Link href="/myTunes">
             <Typography
-              variant="body1"
-              noWrap
-              sx={{
-                textDecoration: "none",
-                color: "black",
-                display: "flex",
-                justifyContent: "center",
-                alignContent: "center",
-              }}
+              variant="body"
             >
               My tunes
             </Typography>
           </Link>
-        </LinkContainer>
+
         {user && user.sub !== undefined && (
-          <LinkContainer href="/friend/[slug]">
             <Link
               href={{
                 pathname: "/friend/[slug]",
@@ -104,42 +70,12 @@ export const Menu = () => {
               }}
               >
             <Typography
-              variant="body1"
-              noWrap
-              sx={{
-                textDecoration: "none",
-                color: "black",
-                display: "flex",
-                justifyContent: "center",
-                alignContent: "center",
-              }}
+              variant="body"
               >
-              <AccountCircleIcon />
+              My profile
             </Typography>
           </Link>
-        </LinkContainer>
             )}
-      </OuterContainer>
-    </Box>
+      </div>
   );
 };
-
-const OuterContainer = styled("div")(() => ({
-  color: "black",
-  display: "grid",
-  gridTemplateColumns: "1fr 1fr 1fr 1fr",
-  padding: "0",
-}));
-
-type MenuhrefProps = {
-  href: string;
-};
-
-const LinkContainer = styled("div")<MenuhrefProps>((props) => ({
-  backgroundColor: router.asPath === props.href ? colors.first : colors.second,
-  height: "100%",
-  padding: "5px 10%",
-  display: "flex",
-  justifyContent: "center",
-  alignContent: "center",
-}));

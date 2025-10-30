@@ -49,7 +49,7 @@ const PageErrorFallback: React.FC = () => {
         </Button>
       </Box>
 
-      <Menu />
+      <Menu title="T&F" />
     </Container>
   );
 };

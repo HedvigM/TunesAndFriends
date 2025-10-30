@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
-import { Box, styled } from "@mui/material";
+import { Box } from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0";
 import { Header } from "components/Header";
 import { Login } from "components/Login";
@@ -10,6 +10,7 @@ import { getMyCache } from "services/functions";
 import { TUNE_URL } from "utils/urls";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
 import { Page } from "styles/Page";
+import styles from "styles/containers.module.scss";
 
 const IndexPage: NextPage<{}> = ({}) => {
   const { user } = useUser();
@@ -85,16 +86,16 @@ const IndexPage: NextPage<{}> = ({}) => {
   if (user) {
     return (
       <Page title="Tunes & Friends">
-{/* Kolla in knapparna i den här tabellen. */}
+        {/* Kolla in knapparna i den här tabellen. */}
+        <div className={styles.flexGap}>
             <ComponentErrorBoundary componentName="Newest Friends">
-              <TableContent>
                 <Header size={"small"} textAlign="center">
                   Newest Friends
                 </Header>
                 <div>
                   {friends &&
                     friends.map((data) => (
-                      <DataContainer key={data.id}>
+                      <div className="dataContainer" key={data.id}>
                         <StyledTable
                           onClickHandle={() => {}}
                           know={true}
@@ -102,21 +103,19 @@ const IndexPage: NextPage<{}> = ({}) => {
                           data={data}
                           slug={""}
                         />
-                      </DataContainer>
+                      </div>
                     ))}
                 </div>
-              </TableContent>
             </ComponentErrorBoundary>
 
             <ComponentErrorBoundary componentName="Newest Tunes">
-              <TableContent>
                 <Header size={"small"} textAlign="center">
                   Newest Tunes
                 </Header>
                 <div>
                   {tuneNames &&
                     tuneNames.map((tune) => (
-                      <DataContainer key={tune.id}>
+                        <div className="dataContainer" key={tune.id}>
                         <StyledTable
                           onClickHandle={() => {}}
                           know={true}
@@ -124,20 +123,18 @@ const IndexPage: NextPage<{}> = ({}) => {
                           data={tune}
                           slug={tune.id}
                         />
-                      </DataContainer>
+                      </div>
                     ))}
                 </div>
-              </TableContent>
             </ComponentErrorBoundary>
 
             <ComponentErrorBoundary componentName="Friends Newest Tunes">
-              <TableContent>
                 <Header size={"small"} textAlign="center">
                   Friends newest tunes
                 </Header>
                 <div>
                   {Data.map((data) => (
-                    <DataContainer key={data.id}>
+                    <div className="dataContainer" key={data.id}>
                       <StyledTable
                         onClickHandle={() => {}}
                         know={false}
@@ -145,25 +142,24 @@ const IndexPage: NextPage<{}> = ({}) => {
                         data={data}
                         slug={""}
                       />
-                    </DataContainer>
+                    </div>
                   ))}
                 </div>
-              </TableContent>
             </ComponentErrorBoundary>
+        </div>
+
+        <style jsx={true}>{`
+          .dataContainer {
+            padding-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+        `}</style>
       </Page>
     );
   }
   return null;
 };
-
-const TableContent = styled("div")`
-  padding-top: 30px;
-`;
-const DataContainer = styled("div")`
-  padding-top: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 export default IndexPage;

@@ -78,3 +78,20 @@
   .black {
     color: black;
   }
+.loginButton {
+    font-family: 'Oxygen', sans-serif;
+    font-weight: bold;
+    position: relative;
+  text-decoration: none;
+  font-weight: 400;
+  background-color: var(--color-primary);
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  &:hover {
+    cursor: pointer;
+    background-color: var(--color-third);
+    color: var(--color-fourth);
+  }
+}

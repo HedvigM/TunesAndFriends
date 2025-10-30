@@ -7,10 +7,10 @@ import {
 import { addNewRelation, getUser } from "services/local";
 import { NextPage } from "next";
 /* import { getCachedListOfUsers } from "services/functions"; */
-import { styled } from "@mui/material";
 import { StyledTable } from "components/Table";
 import { User as PrismaUser } from "@prisma/client";
 import { Page } from "styles/Page";
+import styles from "styles/containers.module.scss";
 /* import { UserProfile as User } from "@auth0/nextjs-auth0"; */
 
 const Friends: NextPage<{}> = () => {
@@ -66,7 +66,7 @@ const Friends: NextPage<{}> = () => {
 
   return (
     <Page title="Friends">
-        <DataContainer>
+        <div className={styles.dataContainer}>
           {usersList &&
             usersList
               .filter((item) => user && item.email !== user.email)
@@ -87,15 +87,9 @@ const Friends: NextPage<{}> = () => {
                   slug={friend.auth0UserId}
                 />
               ))}
-        </DataContainer>
+        </div>
     </Page>
   );
 };
-export const DataContainer = styled("div")`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 0;
-`;
 
 export default withPageAuthRequired<WithPageAuthRequiredProps>(Friends);

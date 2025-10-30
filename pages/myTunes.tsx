@@ -4,7 +4,6 @@ import {
     WithPageAuthRequiredProps,
   } from "@auth0/nextjs-auth0";
   import { NextPage } from "next";
-  import { Header } from "components/Header";
 import { useState, useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import { getTunesByUserId } from "lib/api/tunes";
@@ -80,11 +79,6 @@ const myTunes: NextPage<{}> = () => {
             height: "100%",
             }}
          >
-        <div style={{paddingBottom: "20px"}}>
-            <Header size="small" textAlign="center">
-             My tunes
-            </Header>
-        </div>
         <div style={{paddingBottom: "20px", display: "flex", gap: "10px", alignItems: "center"}}>
             <p style={{ fontSize: "12px", fontWeight: "bold" }}>Tags:</p>
             <div style={{ display: "flex", flexDirection: "row", gap: "5px" }}>

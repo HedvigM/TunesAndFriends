@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Pagination, PaginationItem, Stack } from "@mui/material";
+import { Pagination, PaginationItem, Stack } from "@mui/material";
 import { StyledTable } from "../components/Table";
 import { POPULAR_URL } from "utils/urls";
 import {
@@ -95,13 +95,7 @@ const Tunes: NextPage<{}> = () => {
             )}
           </ComponentErrorBoundary>
 
-          <Box
-            sx={{
-              padding: "25px 0",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
+          <div className={styles.centerContainer}>
             <Stack spacing={2}>
               <Pagination
                 count={10}
@@ -119,7 +113,7 @@ const Tunes: NextPage<{}> = () => {
                 )}
               />
             </Stack>
-          </Box>
+          </div>
     </Page>
   );
 };

@@ -13,12 +13,8 @@ export const Page = (props: PageProps) => {
         <PageErrorBoundary>
             <div className="outer-container">
                 <div className="header-container">
-                    {props.title && (
+                    <Menu title={props.title ? props.title : "T&F"}/>
 
-                        <Header textAlign="left" size="small">
-                        T&F
-                    </Header>
-                    )}
                     <div className="styled-content-container">
                         {props.title && (
                             <Header textAlign="center" size="large">
@@ -31,7 +27,7 @@ export const Page = (props: PageProps) => {
                     </div>
                 </div>
                 <StickyMenuContainer>
-                    <Menu />
+                    <div></div>
                 </StickyMenuContainer>
             </div>
 

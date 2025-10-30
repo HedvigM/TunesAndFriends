@@ -21,3 +21,22 @@
     align-items: center;
     margin-top: 20px;
 }
+
+.centerContainer {
+    display: flex;
+    justify-content: center;
+    padding: 25px 0;
+}
+
+.flexGap {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.dataContainer {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

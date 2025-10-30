@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { styled } from "@mui/material";
 import {
   useUser,
   withPageAuthRequired,
@@ -21,8 +20,8 @@ import { Button } from "styles/Button";
 import { TunesIncommon } from "components/TunesIncommon";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import Link from "next/link";
-import { DataContainer } from "pages/friends";
 import { Page } from "styles/Page";
+import styles from "styles/containers.module.scss";
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
@@ -143,7 +142,12 @@ const Friend: NextPage<{}> = () => {
                   <ArrowBackIosNewIcon />
                 </Button>
               </div>
-              <ProfileContainer>
+              <div style= {{
+                  padding: "20px 0",
+                  display: "flex",
+                  alignContent: "center",
+                  justifyContent: "center",
+              }}>
                 <div
                   style={{
                     display: "flex",
@@ -177,9 +181,9 @@ const Friend: NextPage<{}> = () => {
                   following={followingCount ?? 0}
                   followers={followersCount ?? 0}
                 />
-              </ProfileContainer>
+              </div>
 
-              <DataContainer>
+              <div className={styles.dataContainer}>
                 <div style={{ display: "flex" }}>
                   {user && user.sub !== slug && (
                     <Button
@@ -218,7 +222,7 @@ const Friend: NextPage<{}> = () => {
                     />
                   ))
                 )}
-              </DataContainer>
+              </div>
             </>
           )}
       </Page>
@@ -228,10 +232,3 @@ const Friend: NextPage<{}> = () => {
   }
 };
 export default withPageAuthRequired<WithPageAuthRequiredProps>(Friend);
-
-export const ProfileContainer = styled("div")`
-  padding: 20px 0;
-  display: flex;
-  align-content: center;
-  justify-content: center;
-`;
