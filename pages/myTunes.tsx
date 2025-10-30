@@ -4,23 +4,15 @@ import {
     WithPageAuthRequiredProps,
   } from "@auth0/nextjs-auth0";
   import { NextPage } from "next";
-  import {
-    ContentContainer,
-    LogoContainer,
-    OuterAppContainer,
-    StickyMenuContainer,
-  } from "styles/layout";
   import { Header } from "components/Header";
-import { Menu } from "components/Menu";
 import { useState, useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import { getTunesByUserId } from "lib/api/tunes";
 import { TUNE_URL } from "utils/urls";
 import { getMyCache } from "services/functions";
-import { colors } from "styles/theme";
 import { TuneListWithTags } from "components/TuneListWithTag";
-import styled from "@emotion/styled";
 import { Button } from "styles/Button";
+import { Page } from "styles/Page";
 
 export type TuneObject = {
     id: number;
@@ -81,13 +73,7 @@ const myTunes: NextPage<{}> = () => {
     }
 
     return (
-        <OuterAppContainer>
-        <LogoContainer>
-          <Header textAlign="left" size="small">
-            T&F
-          </Header>
-        </LogoContainer>
-        <ContentContainer>
+        <Page title="My tunes">
         <div
             style={{
             padding: "20px 20px 0px 20px",
@@ -121,29 +107,9 @@ const myTunes: NextPage<{}> = () => {
         ))}
     </div>
     </div>
-    </ContentContainer>
-    <StickyMenuContainer>
-        <Menu />
-    </StickyMenuContainer>
-    </OuterAppContainer>
+    </Page>
     );
 };
 
-type TagStyledProps = {
-    active: boolean;
-}
-
-const StyledButton = styled("button", {
-    shouldForwardProp: (prop: any) => prop !== "active",
-  })<TagStyledProps>((props: TagStyledProps) => ({
-    backgroundColor: props.active ? "inherit" : colors.first,
-    padding: "5px 10px",
-    border: `1px solid ${colors.first}`,
-    borderRadius: "3px",
-
-    "&:hover": {
-      cursor: "pointer",
-    },
-  }));
 export default withPageAuthRequired<WithPageAuthRequiredProps>(myTunes);
 

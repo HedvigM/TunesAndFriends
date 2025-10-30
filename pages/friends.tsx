@@ -8,16 +8,9 @@ import { addNewRelation, getUser } from "services/local";
 import { NextPage } from "next";
 /* import { getCachedListOfUsers } from "services/functions"; */
 import { styled } from "@mui/material";
-import { Menu } from "components/Menu";
-import { Header } from "components/Header";
 import { StyledTable } from "components/Table";
-import {
-  ContentContainer,
-  LogoContainer,
-  OuterAppContainer,
-  StickyMenuContainer,
-} from "styles/layout";
 import { User as PrismaUser } from "@prisma/client";
+import { Page } from "styles/Page";
 /* import { UserProfile as User } from "@auth0/nextjs-auth0"; */
 
 const Friends: NextPage<{}> = () => {
@@ -72,16 +65,7 @@ const Friends: NextPage<{}> = () => {
   }, [user]);
 
   return (
-    <OuterAppContainer>
-      <LogoContainer>
-        <Header textAlign="left" size="small">
-          T&F
-        </Header>
-      </LogoContainer>
-      <ContentContainer>
-        <Header textAlign="center" size="large">
-          Friends
-        </Header>
+    <Page title="Friends">
         <DataContainer>
           {usersList &&
             usersList
@@ -104,11 +88,7 @@ const Friends: NextPage<{}> = () => {
                 />
               ))}
         </DataContainer>
-      </ContentContainer>
-      <StickyMenuContainer>
-        <Menu />
-      </StickyMenuContainer>
-    </OuterAppContainer>
+    </Page>
   );
 };
 export const DataContainer = styled("div")`

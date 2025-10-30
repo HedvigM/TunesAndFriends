@@ -13,25 +13,16 @@ import {
   withPageAuthRequired,
   WithPageAuthRequiredProps,
 } from "@auth0/nextjs-auth0";
-import { Menu } from "components/Menu";
-import { Header } from "components/Header";
 import { AccountInfo } from "components/accountInfo";
 import { getUser, updateUser } from "services/local";
 import { User as PrismaUser } from "@prisma/client";
-import { colors } from "styles/theme";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ProfileImage } from "components/ProfileImage";
-import {
-  LogoContainer,
-  OuterAppContainer,
-  ContentContainer,
-  StickyMenuContainer,
-} from "styles/layout";
 import Link from "next/link";
 import { UpdateUserRequest } from "lib/api/types";
-import { PageErrorBoundary } from "components/errors/PageErrorBoundary";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
 import { Button } from "styles/Button";
+import { Page } from "styles/Page";
 
 const ProfilePage: NextPage<{}> = ({}) => {
   const [databaseUser, setDatabaseUser] = useState<PrismaUser>();
@@ -87,17 +78,8 @@ const ProfilePage: NextPage<{}> = ({}) => {
   };
 
   return (
-    <PageErrorBoundary>
-      <OuterAppContainer>
-        <LogoContainer>
-          <Header textAlign="left" size="small">
-            T&F
-          </Header>
-        </LogoContainer>
-        <ContentContainer>
-          <Header size="large" textAlign="center">
-            Profile
-          </Header>
+    <Page title="Profile">
+
           <ComponentErrorBoundary componentName="Profile Image">
             <div
               style={{
@@ -159,12 +141,7 @@ const ProfilePage: NextPage<{}> = ({}) => {
               </Button>
             </DialogActions>
           </Dialog>
-        </ContentContainer>
-        <StickyMenuContainer>
-          <Menu />
-        </StickyMenuContainer>
-      </OuterAppContainer>
-    </PageErrorBoundary>
+    </Page>
   );
 };
 

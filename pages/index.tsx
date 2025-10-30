@@ -2,21 +2,14 @@ import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
 import { Box, styled } from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0";
-import { Menu } from "components/Menu";
 import { Header } from "components/Header";
 import { Login } from "components/Login";
 import { TableData, StyledTable } from "components/Table";
 import { getUserByAuth0Id } from "lib/api";
 import { getMyCache } from "services/functions";
 import { TUNE_URL } from "utils/urls";
-import {
-  ContentContainer,
-  LogoContainer,
-  OuterAppContainer,
-  StickyMenuContainer,
-} from "styles/layout";
-import { PageErrorBoundary } from "components/errors/PageErrorBoundary";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
+import { Page } from "styles/Page";
 
 const IndexPage: NextPage<{}> = ({}) => {
   const { user } = useUser();
@@ -91,18 +84,7 @@ const IndexPage: NextPage<{}> = ({}) => {
 
   if (user) {
     return (
-      <PageErrorBoundary>
-        <OuterAppContainer>
-          <LogoContainer>
-            <Header  textAlign="left" size="small">
-              T&F
-            </Header>
-          </LogoContainer>
-          <ContentContainer>
-            <Header size={"large"} textAlign="center">
-              Tunes & Friends
-            </Header>
-
+      <Page title="Tunes & Friends">
 {/* Kolla in knapparna i den här tabellen. */}
             <ComponentErrorBoundary componentName="Newest Friends">
               <TableContent>
@@ -168,12 +150,7 @@ const IndexPage: NextPage<{}> = ({}) => {
                 </div>
               </TableContent>
             </ComponentErrorBoundary>
-          </ContentContainer>
-          <StickyMenuContainer>
-            <Menu />
-          </StickyMenuContainer>
-        </OuterAppContainer>
-      </PageErrorBoundary>
+      </Page>
     );
   }
   return null;

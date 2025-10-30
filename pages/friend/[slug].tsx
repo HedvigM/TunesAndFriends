@@ -15,21 +15,14 @@ import { getMyCache } from "services/functions";
 import { Header } from "components/Header";
 import { ProfileInfo } from "components/ProfileInfo";
 import { TableData, StyledTable } from "components/Table";
-import { Menu } from "components/Menu";
 import { ProfileImage } from "components/ProfileImage";
-import { colors } from "styles/theme";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { Button } from "styles/Button";
-import {
-  ContentContainer,
-  LogoContainer,
-  OuterAppContainer,
-  StickyMenuContainer,
-} from "styles/layout";
 import { TunesIncommon } from "components/TunesIncommon";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import Link from "next/link";
 import { DataContainer } from "pages/friends";
+import { Page } from "styles/Page";
 
 const Friend: NextPage<{}> = () => {
   const { user } = useUser();
@@ -127,13 +120,7 @@ const Friend: NextPage<{}> = () => {
 
   if (viewededUser && knowTuneNamesById) {
     return (
-      <OuterAppContainer>
-        <LogoContainer>
-          <Header textAlign="left" size="small">
-            T&F
-          </Header>
-        </LogoContainer>
-        <ContentContainer>
+      <Page>
           {viewededUser && (
             <>
               <div
@@ -234,11 +221,7 @@ const Friend: NextPage<{}> = () => {
               </DataContainer>
             </>
           )}
-        </ContentContainer>
-        <StickyMenuContainer>
-          <Menu />
-        </StickyMenuContainer>
-      </OuterAppContainer>
+      </Page>
     );
   } else {
     return <LoadingSpinner />;

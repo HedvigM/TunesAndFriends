@@ -9,21 +9,15 @@ import {
 } from "@auth0/nextjs-auth0";
 import { NextPage } from "next";
 import { getMyCache } from "services/functions";
-import { Menu } from "components/Menu";
 import { Header } from "components/Header";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { colors } from "styles/theme";
 import { TuneInfo } from "components/TuneInfo";
 import { addTune, getUser, listUsersWithTune } from "services/local";
-import {
-  ContentContainer,
-  LogoContainer,
-  OuterAppContainer,
-  StickyMenuContainer,
-} from "styles/layout";
 import { User } from "lib/api";
 import { TunePlayer } from "components/TunePlayer";
 import { Button } from "styles/Button";
+import { Page } from "styles/Page";
 
 
 
@@ -103,13 +97,7 @@ const detailedtune: NextPage<{}> = () => {
   };
 
   return (
-    <OuterAppContainer>
-      <LogoContainer>
-        <Header textAlign="left" size="small">
-          T&F
-        </Header>
-      </LogoContainer>
-      <ContentContainer>
+    <Page>
         <div
           style={{
             display: "flex",
@@ -149,11 +137,7 @@ const detailedtune: NextPage<{}> = () => {
             <TuneInfo type={details.type} knownBy={usersTuneList} />
           </div>
         </Box>
-      </ContentContainer>
-      <StickyMenuContainer>
-        <Menu />
-      </StickyMenuContainer>
-    </OuterAppContainer>
+    </Page>
   );
 };
 
@@ -165,21 +149,5 @@ export const StyleBackdButton = styled(Button)`
   justify-content: center;
   align-items: flex-end;
 `;
-
-type TuneStyledProps = {
-  know: boolean;
-};
-
-const StyledAddButton = styled("button")<TuneStyledProps>((props) => ({
-  backgroundColor: props.know ? "inherit" : colors.second,
-  padding: "5px 10px",
-  margin: "10px 0",
-  border: `1px solid ${colors.second}`,
-  borderRadius: "3px",
-
-  "&:hover": {
-    cursor: "pointer",
-  },
-}));
 
 export default withPageAuthRequired<WithPageAuthRequiredProps>(detailedtune);

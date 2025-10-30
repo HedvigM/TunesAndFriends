@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Pagination, PaginationItem, Stack, styled } from "@mui/material";
+import { Box, Pagination, PaginationItem, Stack } from "@mui/material";
 import { StyledTable } from "../components/Table";
 import { POPULAR_URL } from "utils/urls";
 import {
@@ -11,17 +11,10 @@ import { useRouter } from "next/router";
 import { addTune, getUser } from "services/local";
 import { NextPage } from "next";
 import { getMyCache } from "services/functions";
-import { Menu } from "components/Menu";
-import { Header } from "components/Header";
-import {
-  ContentContainer,
-  LogoContainer,
-  OuterAppContainer,
-  StickyMenuContainer,
-} from "styles/layout";
 import { LoadingSkeleton } from "components/loading";
-import { PageErrorBoundary } from "components/errors/PageErrorBoundary";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
+import { Page } from "styles/Page";
+import styles from "styles/containers.module.scss";
 
 type PopularTunesTypes = {
   id: number;
@@ -82,23 +75,12 @@ const Tunes: NextPage<{}> = () => {
   };
 
   return (
-    <PageErrorBoundary>
-      <OuterAppContainer>
-        <LogoContainer>
-          <Header textAlign="left" size="small">
-            T&F
-          </Header>
-        </LogoContainer>
-        <StyledContentContainer>
-          <Header textAlign="center" size="large">
-            popular tunes
-          </Header>
-
-          <ComponentErrorBoundary componentName="Popular Tunes List">
+    <Page title="popular tunes">
+      <ComponentErrorBoundary componentName="Popular Tunes List">
             {loading ? (
               <LoadingSkeleton variant="list" />
             ) : (
-              <TableContainer>
+              <div className={styles.tableContainer}>
                 {popularList.map((tune) => (
                   <StyledTable
                     key={tune.id}
@@ -109,7 +91,7 @@ const Tunes: NextPage<{}> = () => {
                     slug={tune.id}
                   />
                 ))}
-              </TableContainer>
+              </div>
             )}
           </ComponentErrorBoundary>
 
@@ -138,26 +120,8 @@ const Tunes: NextPage<{}> = () => {
               />
             </Stack>
           </Box>
-        </StyledContentContainer>
-        <StickyMenuContainer>
-          <Menu />
-        </StickyMenuContainer>
-      </OuterAppContainer>
-    </PageErrorBoundary>
+    </Page>
   );
 };
-
-const StyledContentContainer = styled(ContentContainer)`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-const TableContainer = styled("div")`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-`;
 
 export default withPageAuthRequired<WithPageAuthRequiredProps>(Tunes);
