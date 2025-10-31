@@ -35,27 +35,26 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "400px",
-        padding: 4,
-      }}
+    <div style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      minHeight: "400px",
+      padding: 4,
+    }}
     >
-      <Paper
-        elevation={3}
-        sx={{
+      <div
+
+        style={{
           padding: 4,
           maxWidth: 600,
           width: "100%",
           textAlign: "center",
         }}
       >
-        <ErrorOutlineIcon
-          sx={{
+        <div
+          style={{
             fontSize: 80,
             color: "error.main",
             marginBottom: 2,
@@ -71,7 +70,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
           the page or go back to the home page.
         </Typography>
 
-        <Box sx={{ display: "flex", gap: 2, justifyContent: "center", mb: 3 }}>
+        <div style={{ display: "flex", gap: 2, justifyContent: "center" }}>
           <Button
             element="button"
             active={true}
@@ -89,7 +88,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
           >
             Go Home
           </Button>
-        </Box>
+        </div>
 
         {process.env.NODE_ENV === "development" && error && (
           <>
@@ -101,9 +100,8 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
             >
               {showDetails ? "Hide" : "Show"} Error Details
             </Button>
-
-            <Collapse in={showDetails}>
-              <Alert severity="error" sx={{ textAlign: "left", mb: 2 }}>
+            <div style={{ display: showDetails ? "block" : "none" }}>
+              <Alert severity="error" style={{ textAlign: "left" }}>
                 <Typography
                   variant="subtitle2"
                   sx={{ fontWeight: "bold", mb: 1 }}
@@ -163,11 +161,11 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
                   </>
                 )}
               </Alert>
-            </Collapse>
+            </div>
           </>
         )}
-      </Paper>
-    </Box>
+      </div>
+    </div>
   );
 };
 

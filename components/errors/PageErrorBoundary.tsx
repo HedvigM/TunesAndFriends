@@ -1,11 +1,10 @@
 import React from "react";
 import { ErrorBoundary } from "./ErrorBoundary";
-import { Box, Container, Typography } from "@mui/material";
 import { Header } from "components/Header";
 import { Menu } from "components/Menu";
-import HomeIcon from "@mui/icons-material/Home";
 import { useRouter } from "next/router";
 import { Button } from "styles/Button";
+import { Typography } from "styles/Typography";
 interface PageErrorBoundaryProps {
   children: React.ReactNode;
 }
@@ -14,27 +13,35 @@ const PageErrorFallback: React.FC = () => {
   const router = useRouter();
 
   return (
-    <Container>
+    <div style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      minHeight: "60vh",
+      textAlign: "center",
+      padding: 4,
+      gap: "20px",
+    }}>
       <Header size="large" textAlign="center">
         Tunes & Friends
       </Header>
 
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          minHeight: "60vh",
-          textAlign: "center",
-          padding: 4,
-        }}
+      <div style={{
+         display: "flex",
+         flexDirection: "column",
+         alignItems: "center",
+         justifyContent: "center",
+         minHeight: "60vh",
+         textAlign: "center",
+         padding: 4,
+      }}
       >
-        <Typography variant="h3" gutterBottom>
+        <Typography variant="h3">
           😔 Page Error
         </Typography>
 
-        <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+        <Typography variant="body" color="black">
           This page encountered an error. Please try going back to the home
           page.
         </Typography>
@@ -42,15 +49,14 @@ const PageErrorFallback: React.FC = () => {
         <Button
           element="button"
           active={true}
-          icon={<HomeIcon />}
           onClick={() => router.push("/")}
         >
           Go to Home
         </Button>
-      </Box>
+      </div>
 
       <Menu title="T&F" />
-    </Container>
+    </div>
   );
 };
 

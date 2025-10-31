@@ -71,6 +71,7 @@
     font-size: 1rem;
     line-height: 1.6;
   }
+
   .bodyLink {
     font-family: 'Oxygen', sans-serif;
     font-size: 1rem;
@@ -80,6 +81,25 @@
     &:hover {
       opacity: 0.7;
       cursor: pointer;
+    }
+  }
+
+  .tableLink {
+    font-family: 'Oxygen', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: black;
+    display: inline;
+    width: fit-content;
+    text-align: left;
+    padding: 0 3px;
+
+    &:hover {
+      color: line-clamp;
+      background-color: var(--color-primary);
+      cursor: pointer;
+      width: fit-content;
+      border-radius: 3px;
     }
   }
 

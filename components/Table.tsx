@@ -1,7 +1,6 @@
-import { Box, Container, styled, Typography } from "@mui/material";
 import Link from "next/link";
 import { Button } from "styles/Button";
-import { colors } from "styles/theme";
+import styles from "styles/Typography.module.scss";
 
 interface TableProps {
   onClickHandle: (id: number) => void;
@@ -22,16 +21,18 @@ export const StyledTable = ({
   pathname,
   slug,
 }: TableProps) => {
+
+/* TODO: Hamnar inte i mitten när man gör fönstret mindre. */
   return (
-    <Container maxWidth="sm" sx={{ margin: "0" }}>
-      <Box
-        sx={{
+    <div style={{ margin: "0", maxWidth: "600px", minWidth: "300px", width: "100%" }}>
+      <div
+        style={{
           borderTop: "1px solid grey",
-          "&:last-child td, &:last-child th": { border: 0 },
           display: "grid",
           alignItems: "center",
           gridTemplateColumns: "80% 1fr",
-        }}
+          ":last-child td, :last-child th": { border: 0 },
+        } as React.CSSProperties}
       >
         <Link
           href={{
@@ -39,11 +40,11 @@ export const StyledTable = ({
             query: { slug: `${slug}` },
           }}
         >
-          <StyledTypography variant="body1">{data.name}</StyledTypography>
+          <p className={styles.tableLink}>{data.name}</p>
         </Link>
 
-        <Box
-          sx={{
+        <div
+          style={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -53,43 +54,8 @@ export const StyledTable = ({
           <Button element="button" active={know} onClick={() => onClickHandle(data.id)}>
             add
           </Button>
-        </Box>
-      </Box>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 };
-
-type TableStyledProps = {
-  know: boolean;
-};
-
-const StyledButton = styled("button", {
-  shouldForwardProp: (prop) => prop !== "know",
-})<TableStyledProps>((props) => ({
-  backgroundColor: props.know ? "inherit" : colors.first,
-  padding: "5px 10px",
-  border: `1px solid ${colors.first}`,
-  borderRadius: "3px",
-
-  "&:hover": {
-    cursor: "pointer",
-  },
-}));
-
-const StyledTypography = styled(Typography)`
-  font-size: 1rem;
-  font-weight: 400;
-  color: black;
-  display: inline;
-  width: fit-content;
-  padding-right: 10px;
-  padding-left: 2px;
-  text-align: left;
-  margin: 1px;
-
-  :hover {
-    color: line-clamp;
-    background-color: ${colors.first};
-    cursor: pointer;
-  }
-`;

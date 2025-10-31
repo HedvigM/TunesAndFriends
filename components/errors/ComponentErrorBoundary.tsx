@@ -1,8 +1,9 @@
 import React from "react";
 import { ErrorBoundary } from "./ErrorBoundary";
-import { Box, Typography, Alert } from "@mui/material";
+import { Alert } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { Button } from "styles/Button";
+import { Typography } from "styles/Typography";
 
 interface ComponentErrorBoundaryProps {
   children: React.ReactNode;
@@ -15,16 +16,14 @@ const ComponentErrorFallback: React.FC<{
   resetError?: () => void;
 }> = ({ componentName, resetError }) => {
   return (
-    <Box
-      sx={{
-        padding: 2,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "150px",
-      }}
-    >
+    <div style={{
+      padding: 2,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      minHeight: "150px",
+    }}>
       <Alert
         severity="error"
         sx={{
@@ -34,10 +33,10 @@ const ComponentErrorFallback: React.FC<{
           gap: 1,
         }}
       >
-        <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
+        <Typography variant="body">
           {componentName ? `${componentName} Error` : "Component Error"}
         </Typography>
-        <Typography variant="body2">
+        <Typography variant="body">
           This section encountered an error. Please try refreshing.
         </Typography>
 
@@ -52,7 +51,7 @@ const ComponentErrorFallback: React.FC<{
           </Button>
         )}
       </Alert>
-    </Box>
+    </div>
   );
 };
 

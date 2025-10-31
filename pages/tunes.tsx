@@ -11,10 +11,10 @@ import { useRouter } from "next/router";
 import { addTune, getUser } from "services/local";
 import { NextPage } from "next";
 import { getMyCache } from "services/functions";
-import { LoadingSkeleton } from "components/loading";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
 import { Page } from "styles/Page";
 import styles from "styles/containers.module.scss";
+import { LoadingSpinner } from "components/LoadingSpinner";
 
 type PopularTunesTypes = {
   id: number;
@@ -78,7 +78,7 @@ const Tunes: NextPage<{}> = () => {
     <Page title="popular tunes">
       <ComponentErrorBoundary componentName="Popular Tunes List">
             {loading ? (
-              <LoadingSkeleton variant="list" />
+              <LoadingSpinner size="large" />
             ) : (
               <div className={styles.tableContainer}>
                 {popularList.map((tune) => (
