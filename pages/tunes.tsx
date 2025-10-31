@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Pagination, PaginationItem, Stack } from "@mui/material";
 import { StyledTable } from "../components/Table";
 import { POPULAR_URL } from "utils/urls";
 import {
@@ -29,7 +28,7 @@ type PopularTunesTypes = {
   type: string;
   tunebooks: number;
 };
-
+/* TODO: Replace pagination with custom pagination component. */
 const Tunes: NextPage<{}> = () => {
   const [popularList, setPopularList] = useState<PopularTunesTypes[]>([]);
   const [mapKnow, setMapKnow] = useState<number[]>([]);
@@ -96,7 +95,7 @@ const Tunes: NextPage<{}> = () => {
           </ComponentErrorBoundary>
 
           <div className={styles.centerContainer}>
-            <Stack spacing={2}>
+        {/*     <div style={{ display: "flex", justifyContent: "center" }}>
               <Pagination
                 count={10}
                 page={page}
@@ -112,7 +111,7 @@ const Tunes: NextPage<{}> = () => {
                   />
                 )}
               />
-            </Stack>
+            </div> */}
           </div>
     </Page>
   );

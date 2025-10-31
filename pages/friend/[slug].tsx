@@ -15,10 +15,8 @@ import { Header } from "components/Header";
 import { ProfileInfo } from "components/ProfileInfo";
 import { TableData, StyledTable } from "components/Table";
 import { ProfileImage } from "components/ProfileImage";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { Button } from "styles/Button";
 import { TunesIncommon } from "components/TunesIncommon";
-import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import Link from "next/link";
 import { Page } from "styles/Page";
 import styles from "styles/containers.module.scss";
@@ -139,7 +137,7 @@ const Friend: NextPage<{}> = () => {
                   active={true}
                   onClick={onBackClickHandle}
                 >
-                  <ArrowBackIosNewIcon />
+                  {`<-- Back`}
                 </Button>
               </div>
               <div style= {{
@@ -171,7 +169,7 @@ const Friend: NextPage<{}> = () => {
                     </Button>
                   ) : (
                     <Link href="/profile">
-                      <SettingsSuggestIcon />
+                      {`Settings`}
                     </Link>
                   )}
                 </div>

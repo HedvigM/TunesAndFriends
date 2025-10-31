@@ -1,9 +1,7 @@
 import React from "react";
 import { ErrorBoundary } from "./ErrorBoundary";
-import { Alert } from "@mui/material";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import { Button } from "styles/Button";
-import { Typography } from "styles/Typography";
+/* import { Button } from "styles/Button";
+import { Typography } from "styles/Typography"; */
 
 interface ComponentErrorBoundaryProps {
   children: React.ReactNode;
@@ -14,7 +12,7 @@ interface ComponentErrorBoundaryProps {
 const ComponentErrorFallback: React.FC<{
   componentName?: string;
   resetError?: () => void;
-}> = ({ componentName, resetError }) => {
+}> = (/* { componentName, resetError } */) => {
   return (
     <div style={{
       padding: 2,
@@ -24,7 +22,7 @@ const ComponentErrorFallback: React.FC<{
       justifyContent: "center",
       minHeight: "150px",
     }}>
-      <Alert
+ {/*      <Alert
         severity="error"
         sx={{
           width: "100%",
@@ -50,7 +48,7 @@ const ComponentErrorFallback: React.FC<{
             Retry
           </Button>
         )}
-      </Alert>
+      </Alert> */}
     </div>
   );
 };

@@ -1,20 +1,17 @@
 import React, { useState } from "react";
-import { Box, Typography, Paper, Collapse, Alert } from "@mui/material";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import HomeIcon from "@mui/icons-material/Home";
 import { useRouter } from "next/router";
 import { Button } from "styles/Button";
+import { Typography } from "styles/Typography";
 
 interface ErrorFallbackProps {
   error: Error | null;
   errorInfo: React.ErrorInfo | null;
   resetError?: () => void;
 }
-
+/* TODO: Add alert */
 export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
   error,
-  errorInfo,
+  /* errorInfo, */
   resetError,
 }) => {
   const router = useRouter();
@@ -61,11 +58,11 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
           }}
         />
 
-        <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
+        <Typography variant="h4">
           Oops! Something went wrong
         </Typography>
 
-        <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+        <Typography variant="body">
           We're sorry, but something unexpected happened. Please try refreshing
           the page or go back to the home page.
         </Typography>
@@ -74,7 +71,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
           <Button
             element="button"
             active={true}
-            icon={<RefreshIcon />}
+            /* icon={<RefreshIcon />} */
             onClick={handleReload}
           >
             Reload Page
@@ -83,7 +80,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
           <Button
             element="button"
             active={true}
-            icon={<HomeIcon />}
+            /* icon={<HomeIcon />} */
             onClick={handleGoHome}
           >
             Go Home
@@ -95,12 +92,12 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
             <Button
               element="button"
               active={true}
-              icon={<ErrorOutlineIcon />}
+              /* icon={<ErrorOutlineIcon />} */
               onClick={() => setShowDetails(!showDetails)}
             >
               {showDetails ? "Hide" : "Show"} Error Details
             </Button>
-            <div style={{ display: showDetails ? "block" : "none" }}>
+         {/*    <div style={{ display: showDetails ? "block" : "none" }}>
               <Alert severity="error" style={{ textAlign: "left" }}>
                 <Typography
                   variant="subtitle2"
@@ -161,7 +158,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
                   </>
                 )}
               </Alert>
-            </div>
+            </div> */}
           </>
         )}
       </div>

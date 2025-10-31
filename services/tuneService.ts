@@ -6,7 +6,6 @@
 import { Tune } from "@prisma/client";
 import { tuneBasicSelect } from "lib/prisma/selects";
 import { BaseService, ServiceResult } from "./base/BaseService";
-import { prisma } from "lib/prisma";
 
 export interface SaveTuneInput {
   sessionId: number;
@@ -125,12 +124,12 @@ export class TuneService extends BaseService {
   }
 }
 
-async function getUsersTunes(userId: number): Promise<Tune[]> {
+/* async function getUsersTunes(userId: number): Promise<Tune[]> {
   const tunes = await prisma.tune.findMany({
     where: { knowedBy: { some: { id: userId } } },
   });
   return tunes || [];
-}
+} */
 
 // Export singleton instance
 export const tuneService = new TuneService();

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
-import { Box } from "@mui/material";
 import { useUser } from "@auth0/nextjs-auth0";
 import { Header } from "components/Header";
 import { Login } from "components/Login";
@@ -62,9 +61,9 @@ const IndexPage: NextPage<{}> = ({}) => {
 
   if (!user) {
     return (
-      <Box>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <Login />
-      </Box>
+      </div>
     );
   }
 

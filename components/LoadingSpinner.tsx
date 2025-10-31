@@ -1,5 +1,3 @@
-import { colors } from 'styles/theme';
-
 type LoadingSpinnerProps = {
   size?: 'small' | 'medium' | 'large';
   color?: string;
@@ -30,7 +28,7 @@ export const LoadingSpinner = ({ size = 'medium' }: LoadingSpinnerProps) => {
           width: ${spinnerSize}px;
           height: ${spinnerSize}px;
           border: 2px solid lightgrey;
-          border-top-color: ${ colors.third };
+          border-top-color: var(--color-third);
           border-radius: 50%;
           animation: spin 0.8s linear infinite;
         }

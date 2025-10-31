@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
 import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  styled,
-  Typography,
-} from "@mui/material";
-import {
   useUser,
   withPageAuthRequired,
   WithPageAuthRequiredProps,
@@ -16,19 +8,20 @@ import {
 import { AccountInfo } from "components/accountInfo";
 import { getUser, updateUser } from "services/local";
 import { User as PrismaUser } from "@prisma/client";
-import LogoutIcon from "@mui/icons-material/Logout";
 import { ProfileImage } from "components/ProfileImage";
 import Link from "next/link";
 import { UpdateUserRequest } from "lib/api/types";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
 import { Button } from "styles/Button";
 import { Page } from "styles/Page";
+import { Typography } from "styles/Typography";
 
+/* TODO: Add dialog for saving changes. */
 const ProfilePage: NextPage<{}> = ({}) => {
   const [databaseUser, setDatabaseUser] = useState<PrismaUser>();
   const [town, setTown] = useState("");
   const [profileText, setProfileText] = useState<string>("");
-  const [open, setOpen] = useState<boolean>(false);
+  const [_open, setOpen] = useState<boolean>(false);
   const { user } = useUser();
 
   const handleProfileChange = (profileText: string, town: string) => {
@@ -73,9 +66,9 @@ const ProfilePage: NextPage<{}> = ({}) => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  /* const handleClose = () => {
     setOpen(false);
-  };
+  }; */
 
   return (
     <Page title="Profile">
@@ -117,14 +110,13 @@ const ProfilePage: NextPage<{}> = ({}) => {
               padding: "30px 0",
             }}
           >
-            <LogoutContainer>
-              <Typography>Log out</Typography>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Typography variant="body">Log out</Typography>
               <Link href="/api/auth/logout">
-                <LogoutIcon />
               </Link>
-            </LogoutContainer>
+            </div>
           </div>
-          <Dialog
+         {/*  <Dialog
             open={open}
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
@@ -140,16 +132,9 @@ const ProfilePage: NextPage<{}> = ({}) => {
                 OK!
               </Button>
             </DialogActions>
-          </Dialog>
+          </Dialog> */}
     </Page>
   );
 };
-
-const LogoutContainer = styled("div")`
-  display: flex;
-  justify-content: space-around;
-  border: 1px solid red;
-  width: 100px;
-`;
 
 export default withPageAuthRequired<WithPageAuthRequiredProps>(ProfilePage);

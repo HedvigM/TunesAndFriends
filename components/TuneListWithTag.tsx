@@ -1,5 +1,4 @@
 import { TuneObject } from "pages/myTunes";
-import { colors } from "styles/theme";
 
 
 type TuneListWithTagsProps = {
@@ -36,7 +35,7 @@ export const TuneListWithTags = (props: TuneListWithTagsProps) => {
                     borderRadius: "5px",
                     width: "fit-content",
                     display: "inline-block",
-                    backgroundColor: `${tag.name === props.sortTag ? colors.second : colors.first}`
+                    backgroundColor: `${tag.name === props.sortTag ? "var(--color-secondary)" : "var(--color-primary)"}`
                     }}>
                         {tag.name}
                     </p>

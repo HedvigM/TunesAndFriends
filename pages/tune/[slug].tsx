@@ -1,4 +1,3 @@
-import { Box, styled } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { TUNE_URL } from "utils/urls";
@@ -10,8 +9,6 @@ import {
 import { NextPage } from "next";
 import { getMyCache } from "services/functions";
 import { Header } from "components/Header";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { colors } from "styles/theme";
 import { TuneInfo } from "components/TuneInfo";
 import { addTune, getUser, listUsersWithTune } from "services/local";
 import { User } from "lib/api";
@@ -109,15 +106,15 @@ const detailedtune: NextPage<{}> = () => {
             {details.name}
           </Header>
           <Button
-            color={colors.third as string}
-            active={true}
+            color="var(--color-third)"
+            active={false}
             element="button"
             onClick={onBackClickHandle}
-            icon={<ArrowBackIosNewIcon />}
-          ></Button>
+            /* icon={<ArrowBackIosNewIcon />} */
+          >{`<-- Back`}</Button>
         </div>
-        <Box
-          sx={{
+        <div
+          style={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -136,18 +133,9 @@ const detailedtune: NextPage<{}> = () => {
             </Button>
             <TuneInfo type={details.type} knownBy={usersTuneList} />
           </div>
-        </Box>
+        </div>
     </Page>
   );
 };
-
-export const StyleBackdButton = styled(Button)`
-  color: ${colors.third};
-  padding: 0;
-  min-width: fit-content;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-`;
 
 export default withPageAuthRequired<WithPageAuthRequiredProps>(detailedtune);

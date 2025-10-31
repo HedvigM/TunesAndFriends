@@ -1,5 +1,4 @@
 import { PageErrorBoundary } from "components/errors";
-import { StickyMenuContainer } from "./layout";
 import { Header } from "components/Header";
 import { Menu } from "components/Menu";
 
@@ -26,9 +25,9 @@ export const Page = (props: PageProps) => {
                         </div>
                     </div>
                 </div>
-                <StickyMenuContainer>
+                <div style={{ position: "sticky", bottom: 0, width: "100%" }}>
                     <div></div>
-                </StickyMenuContainer>
+                </div>
             </div>
 
             <style jsx={true}>
