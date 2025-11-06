@@ -38,60 +38,86 @@ const Friend: NextPage<{}> = () => {
   const { slug: slug } = router.query;
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchUser = async () => {
       if (slug) {
-        const fetchedUser = await getUser(slug as string);
-        if (fetchedUser.success) {
-          console.log("fetch: ", fetchedUser.data);
-          setViewedUser(fetchedUser.data as UserWithRelations);
-          if (Array.isArray(fetchedUser.data?.knowTunes)) {
-            Promise.all(
-              fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
-                getMyCache(TUNE_URL(tunes.sessionId)).then((response) => {
-                  return response;
-                })
-              )
-            )
+        try {
+          const fetchedUser = await getUser(slug as string);
+          if (isMounted && fetchedUser.success) {
+            console.log("fetch: ", fetchedUser.data);
+            setViewedUser(fetchedUser.data as UserWithRelations);
+            if (Array.isArray(fetchedUser.data?.knowTunes)) {
+              Promise.all(
+                fetchedUser.data.knowTunes.map((tunes: { sessionId: number }) =>
+                  getMyCache(TUNE_URL(tunes.sessionId)).then((response) => {
+                    return response;
+                  })
+                )
+              ).catch((error) => {
+                if (isMounted) {
+                  console.error("Error fetching tunes:", error);
+                }
+              });
+            }
+          }
+        } catch (error) {
+          if (isMounted) {
+            console.error("Error fetching user:", error);
           }
         }
       }
     };
     fetchUser();
+
+    return () => {
+      isMounted = false;
+    };
   }, [slug]);
 
   /* get logged in user*/
   useEffect(() => {
+    let isMounted = true;
+
     const fetchUser = async () => {
       if (user !== undefined && user.sub !== slug) {
         setShowCommonTunes(true);
-        const fetchedUser = await getUser(user.sub as string);
-        if (fetchedUser.success) {
-          setLoggedinUser(fetchedUser.data as UserWithRelations);
-          if (Array.isArray(fetchedUser.data?.following)) {
-          setMapFollowing(
-              fetchedUser.data.following.map((followedUsers: { id: number }) => {
-                return followedUsers.id;
-              })
+        try {
+          const fetchedUser = await getUser(user.sub as string);
+          if (isMounted && fetchedUser.success) {
+            setLoggedinUser(fetchedUser.data as UserWithRelations);
+            if (Array.isArray(fetchedUser.data?.following)) {
+              setMapFollowing(
+                fetchedUser.data.following.map((followedUsers: { id: number }) => {
+                  return followedUsers.id;
+                })
+              );
+            }
+            setLoggedinKnowTunesId(
+              fetchedUser.data?.knowTunes?.map((tune: { sessionId: number }) => tune.sessionId) || []
             );
           }
-          setLoggedinKnowTunesId(
-            fetchedUser.data?.knowTunes?.map((tune: { sessionId: number }) => tune.sessionId) || []
-          );
+        } catch (error) {
+          if (isMounted) {
+            console.error("Error fetching logged in user:", error);
+          }
         }
       }
     };
 
     fetchUser();
-  }, [user]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [user, slug]);
 
   const onClickHandle = (addingEmail: string, addedEmail: string) => {
     addNewRelation(addingEmail, addedEmail);
     setFollowingButton(false);
   };
   const onKnowHandle = (tuneId: number) => {
-    let newMapKnow = loggedinKnowTuneId.slice();
-    newMapKnow.push(tuneId);
-    setLoggedinKnowTunesId(newMapKnow);
+    setLoggedinKnowTunesId(prev => [...prev, tuneId]);
     if (user !== undefined && user.email) {
       addTune(tuneId, user.email, "know");
     }

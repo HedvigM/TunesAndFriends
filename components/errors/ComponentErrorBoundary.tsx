@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { ErrorBoundary } from "./ErrorBoundary";
 /* import { Button } from "styles/Button";
 import { Typography } from "styles/Typography"; */
@@ -9,10 +9,7 @@ interface ComponentErrorBoundaryProps {
   resetKeys?: Array<string | number>;
 }
 
-const ComponentErrorFallback: FC<{
-  componentName?: string;
-  resetError?: () => void;
-}> = (/* { componentName, resetError } */) => {
+function ComponentErrorFallback() {
   return (
     <div style={{
       padding: 2,
@@ -51,20 +48,20 @@ const ComponentErrorFallback: FC<{
       </Alert> */}
     </div>
   );
-};
+}
 
-export const ComponentErrorBoundary: FC<ComponentErrorBoundaryProps> = ({
+export function ComponentErrorBoundary({
   children,
-  componentName,
+  componentName: _componentName,
   resetKeys,
-}) => {
+}: ComponentErrorBoundaryProps) {
   return (
     <ErrorBoundary
-      fallback={<ComponentErrorFallback componentName={componentName} />}
+      fallback={<ComponentErrorFallback />}
       resetKeys={resetKeys}
     >
       {children}
     </ErrorBoundary>
   );
-};
+}
 

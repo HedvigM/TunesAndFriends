@@ -26,19 +26,33 @@ const myTunes: NextPage<{}> = () => {
     console.log({ tuneObjects });
 
     useEffect(() => {
+        let isMounted = true;
+
         console.log({ user });
         if (user) {
             const fetchTunes = async () => {
-                const tunes = await getTunesByUserId(user.sub as string);
-                if (tunes.success) {
-                    setTunes(tunes.data);
+                try {
+                    const tunes = await getTunesByUserId(user.sub as string);
+                    if (isMounted && tunes.success) {
+                        setTunes(tunes.data);
+                    }
+                } catch (error) {
+                    if (isMounted) {
+                        console.error("Error fetching tunes:", error);
+                    }
                 }
             };
             fetchTunes();
         }
+
+        return () => {
+            isMounted = false;
+        };
     }, [user]);
 
     useEffect(() => {
+        let isMounted = true;
+
         if (tunes && tunes.length > 0) {
           Promise.all(
             tunes.map((tune) =>
@@ -52,15 +66,25 @@ const myTunes: NextPage<{}> = () => {
               })
             )
           ).then((tuneObjectsData) => {
-            setTuneObjects(tuneObjectsData);
+            if (isMounted) {
+              setTuneObjects(tuneObjectsData);
 
-            const allTags = tuneObjectsData.flatMap((tune) => tune.tags);
-            const uniqueTags = allTags.filter((tag, index, self) =>
-              index === self.findIndex((filterTag) => filterTag.id === tag.id)
-            );
-            setTags(uniqueTags);
+              const allTags = tuneObjectsData.flatMap((tune) => tune.tags);
+              const uniqueTags = allTags.filter((tag, index, self) =>
+                index === self.findIndex((filterTag) => filterTag.id === tag.id)
+              );
+              setTags(uniqueTags);
+            }
+          }).catch((error) => {
+            if (isMounted) {
+              console.error("Error fetching tune objects:", error);
+            }
           });
         }
+
+        return () => {
+            isMounted = false;
+        };
       }, [tunes]);
 
     if (!user) {

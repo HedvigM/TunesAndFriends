@@ -9,13 +9,25 @@ export const Menu = (props: { title: string }) => {
   const { user, isLoading } = useUser();
 
   useEffect(() => {
+    let isMounted = true;
+
     if (typeof user !== "undefined" && isLoading === false && user) {
-      getOrCreateUser(user).then((result) => {
-        if (!result.success) {
-          console.error("Failed to get/create user in Menu:", result.error);
-        }
-      });
+      getOrCreateUser(user)
+        .then((result) => {
+          if (isMounted && !result.success) {
+            console.error("Failed to get/create user in Menu:", result.error);
+          }
+        })
+        .catch((error) => {
+          if (isMounted) {
+            console.error("Unexpected error in Menu:", error);
+          }
+        });
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [user, isLoading]);
 
 /* TODO: ändra till små bokstäver */

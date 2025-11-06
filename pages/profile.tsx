@@ -34,22 +34,34 @@ const ProfilePage: NextPage<{}> = ({}) => {
   /* Make the sum obligatorisk i typen */
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchUser = async () => {
       if (user && user.sub) {
-        const fetchedUser = await getUser(user.sub);
-        if (fetchedUser.success) {
-          setDatabaseUser(fetchedUser.data as PrismaUser);
-          if (fetchedUser.data?.town) {
-            setTown(fetchedUser.data.town);
+        try {
+          const fetchedUser = await getUser(user.sub);
+          if (isMounted && fetchedUser.success) {
+            setDatabaseUser(fetchedUser.data as PrismaUser);
+            if (fetchedUser.data?.town) {
+              setTown(fetchedUser.data.town);
+            }
+            if (fetchedUser.data?.profileText) {
+              setProfileText(fetchedUser.data.profileText);
+            }
           }
-          if (fetchedUser.data?.profileText) {
-            setProfileText(fetchedUser.data.profileText);
+        } catch (error) {
+          if (isMounted) {
+            console.error("Error fetching user:", error);
           }
         }
       }
     };
 
     fetchUser();
+
+    return () => {
+      isMounted = false;
+    };
   }, [user]);
 
   const setNewProfileText = (value: string) => {

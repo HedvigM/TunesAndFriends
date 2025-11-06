@@ -9,11 +9,11 @@ interface ErrorFallbackProps {
   resetError?: () => void;
 }
 /* TODO: Add alert */
-export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
+export function ErrorFallback({
   error,
   /* errorInfo, */
   resetError,
-}) => {
+}: ErrorFallbackProps) {
   const router = useRouter();
   const [showDetails, setShowDetails] = useState(false);
 
@@ -164,5 +164,5 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
       </div>
     </div>
   );
-};
+}
 

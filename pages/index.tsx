@@ -18,34 +18,48 @@ const IndexPage: NextPage<{}> = ({}) => {
   const [friends, setFriends] = useState<TableData[]>();
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchUserWithId = async () => {
       if (user) {
-        const result = await getUserByAuth0Id(user?.sub as string);
-        if (result.success) {
-          const userData = result.data;
+        try {
+          const result = await getUserByAuth0Id(user?.sub as string);
+          if (isMounted && result.success) {
+            const userData = result.data;
 
-          // Safely extract tune IDs
-          const newTunes = userData?.knowTunes?.map(
-            (tunes: { sessionId: number }) => tunes.sessionId
-          ) || [];
+            // Safely extract tune IDs
+            const newTunes = userData?.knowTunes?.map(
+              (tunes: { sessionId: number }) => tunes.sessionId
+            ) || [];
 
-          // Safely extract friends
-          const friendsList = userData?.following?.flatMap((friend: { name: string; id: number }) => {
-            return { name: friend.name, id: friend.id };
-          }) || [];
+            // Safely extract friends
+            const friendsList = userData?.following?.flatMap((friend: { name: string; id: number }) => {
+              return { name: friend.name, id: friend.id };
+            }) || [];
 
-          setFriends(friendsList);
-          setTuneIds(newTunes.slice(0, 3));
-        } else {
-          console.error("Failed to fetch user:", result.error);
+            setFriends(friendsList);
+            setTuneIds(newTunes.slice(0, 3));
+          } else if (isMounted && !result.success) {
+            console.error("Failed to fetch user:", result.error);
+          }
+        } catch (error) {
+          if (isMounted) {
+            console.error("Error fetching user:", error);
+          }
         }
       }
     };
 
     fetchUserWithId();
+
+    return () => {
+      isMounted = false;
+    };
   }, [user]);
 
   useEffect(() => {
+    let isMounted = true;
+
     if (tuneIds) {
       Promise.all(
         tuneIds.map((tunes) =>
@@ -54,9 +68,19 @@ const IndexPage: NextPage<{}> = ({}) => {
           })
         )
       ).then((values) => {
-        setTuneNames(values?.map((tune) => ({ name: tune.name, id: tune.id })));
+        if (isMounted) {
+          setTuneNames(values?.map((tune) => ({ name: tune.name, id: tune.id })));
+        }
+      }).catch((error) => {
+        if (isMounted) {
+          console.error("Error fetching tune names:", error);
+        }
       });
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [tuneIds]);
 
   if (!user) {

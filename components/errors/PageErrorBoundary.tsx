@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { Header } from "components/Header";
 import { Menu } from "components/Menu";
@@ -9,7 +9,7 @@ interface PageErrorBoundaryProps {
   children: ReactNode;
 }
 
-const PageErrorFallback: FC = () => {
+function PageErrorFallback() {
   const router = useRouter();
 
   return (
@@ -58,13 +58,13 @@ const PageErrorFallback: FC = () => {
       <Menu title="T&F" />
     </div>
   );
-};
+}
 
-export const PageErrorBoundary: FC<PageErrorBoundaryProps> = ({
+export function PageErrorBoundary({
   children,
-}) => {
+}: PageErrorBoundaryProps) {
   return (
     <ErrorBoundary fallback={<PageErrorFallback />}>{children}</ErrorBoundary>
   );
-};
+}
 

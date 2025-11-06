@@ -35,37 +35,62 @@ const Tunes: NextPage<{}> = () => {
   const page = parseInt((router.query.page as string) || "1", 10);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchUserWithId = async () => {
       if (user) {
-        const newUserWithId = await getUser(user?.sub as string);
-        if (newUserWithId.success) {
-          let newKnowTunes = await newUserWithId.data?.knowTunes?.map(
-            (tunes: { sessionId: number }) => tunes.sessionId
-          );
-          setMapKnow(newKnowTunes || [] as number[]);
+        try {
+          const newUserWithId = await getUser(user?.sub as string);
+          if (isMounted && newUserWithId.success) {
+            let newKnowTunes = await newUserWithId.data?.knowTunes?.map(
+              (tunes: { sessionId: number }) => tunes.sessionId
+            );
+            setMapKnow(newKnowTunes || [] as number[]);
+          }
+        } catch (error) {
+          if (isMounted) {
+            console.error("Error fetching user:", error);
+          }
         }
       }
     };
 
     fetchUserWithId();
+
+    return () => {
+      isMounted = false;
+    };
   }, [user]);
 
   useEffect(() => {
+    let isMounted = true;
+
     setLoading(true);
     const getPopularTunes = async () => {
-      const data = await getMyCache(POPULAR_URL(page));
-      setPopularList(data.tunes);
-      setLoading(false);
+      try {
+        const data = await getMyCache(POPULAR_URL(page));
+        if (isMounted) {
+          setPopularList(data.tunes);
+          setLoading(false);
+        }
+      } catch (error) {
+        if (isMounted) {
+          console.error("Error fetching popular tunes:", error);
+          setLoading(false);
+        }
+      }
     };
 
     getPopularTunes();
+
+    return () => {
+      isMounted = false;
+    };
   }, [page]);
 
   const onKnowHandle = (tuneId: number) => {
     if (!user || !user.email) return;
-    let newMapKnow = mapKnow.slice();
-    newMapKnow.push(tuneId);
-    setMapKnow(newMapKnow);
+    setMapKnow(prev => [...prev, tuneId]);
     addTune(tuneId, user.email, "know");
   };
 

@@ -12,7 +12,7 @@ import styles from "styles/containers.module.scss";
 const Friends: NextPage<{}> = () => {
   const [usersList, _setUsersList] = useState<PrismaUser[]>([]);
   const [_loading, setLoading] = useState(true);
-  const [mapFriendsId, setMapFriendsId] = useState<string[]>([]);
+  const [_mapFriendsId, setMapFriendsId] = useState<string[]>([]);
   const [friendsArray, setFiendsArray] = useState<string[]>([]);
   const { user } = useUser();
 
@@ -24,11 +24,19 @@ const Friends: NextPage<{}> = () => {
   }; */
 
   useEffect(() => {
+    let isMounted = true;
+
     setLoading(true);
     if (user) {
      /*  getUsersList(user); */
     }
-    setLoading(false);
+    if (isMounted) {
+      setLoading(false);
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, [user]);
 
   const onClickHandle = (
@@ -36,28 +44,41 @@ const Friends: NextPage<{}> = () => {
     addedEmail: string,
     addedId: string
   ) => {
-    let newMapFriendsId = mapFriendsId.slice();
-    newMapFriendsId.push(addedId);
-    setMapFriendsId(newMapFriendsId);
+    setMapFriendsId(prev => [...prev, addedId]);
     addNewRelation(addingEmail, addedEmail);
   };
 
   useEffect(() => {
+    let isMounted = true;
+
     setLoading(true);
     const fetchUserWithId = async () => {
       if (user) {
-        const newUserWithId = await getUser(user?.sub as string);
-        if (newUserWithId.success) {
-          let newFrindsArray = await newUserWithId.data?.following?.map(
-            (friend: { auth0UserId: string }) => friend.auth0UserId
-          );
-          setFiendsArray(newFrindsArray || [] as string[]);
+        try {
+          const newUserWithId = await getUser(user?.sub as string);
+          if (isMounted && newUserWithId.success) {
+            let newFrindsArray = await newUserWithId.data?.following?.map(
+              (friend: { auth0UserId: string }) => friend.auth0UserId
+            );
+            setFiendsArray(newFrindsArray || [] as string[]);
+          }
+        } catch (error) {
+          if (isMounted) {
+            console.error("Error fetching user:", error);
+          }
+        } finally {
+          if (isMounted) {
+            setLoading(false);
+          }
         }
-        setLoading(false);
       }
     };
 
     fetchUserWithId();
+
+    return () => {
+      isMounted = false;
+    };
   }, [user]);
 
   return (

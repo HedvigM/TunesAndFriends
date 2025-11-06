@@ -48,34 +48,61 @@ const detailedtune: NextPage<{}> = () => {
   /* const abcjs = process.browser ? require("abcjs") : null; */
 
   useEffect(() => {
+    let isMounted = true;
+
     if (parsedSlug) {
       getListOfTuneUsers(parsedSlug);
     }
     const fetchUserWithId = async () => {
       if (user) {
-        const newUserWithId = await getUser(user?.sub as string);
-        if (newUserWithId.success) {
-          let newKnowTunes = await newUserWithId.data?.knowTunes?.map(
-            (tunes: { sessionId: number }) => tunes.sessionId
-          );
-          setMapKnow(newKnowTunes || [] as number[]);
+        try {
+          const newUserWithId = await getUser(user?.sub as string);
+          if (isMounted && newUserWithId.success) {
+            let newKnowTunes = await newUserWithId.data?.knowTunes?.map(
+              (tunes: { sessionId: number }) => tunes.sessionId
+            );
+            setMapKnow(newKnowTunes || [] as number[]);
+          }
+        } catch (error) {
+          if (isMounted) {
+            console.error("Error fetching user:", error);
+          }
         }
       }
     };
 
     fetchUserWithId();
-  }, [user]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [user, parsedSlug]);
 
   useEffect(() => {
+    let isMounted = true;
+
     setLoading(true);
     const getDetailedTune = async () => {
-      const data = await getMyCache(TUNE_URL(slug));
-      setDetails(data);
+      try {
+        const data = await getMyCache(TUNE_URL(slug));
+        if (isMounted) {
+          setDetails(data);
 /* console.log("data: ", data.settings[0].abc); */
-      setAbc(data.settings[0].abc);
-      setLoading(false);
+          setAbc(data.settings[0].abc);
+          setLoading(false);
+        }
+      } catch (error) {
+        if (isMounted) {
+          console.error("Error fetching detailed tune:", error);
+          setLoading(false);
+        }
+      }
     };
     getDetailedTune();
+
+    return () => {
+      isMounted = false;
+    };
   }, [slug]);
 
   const onBackClickHandle = () => {
@@ -83,9 +110,8 @@ const detailedtune: NextPage<{}> = () => {
   };
   const onKnowHandle = () => {
     if (!user || !user.email) return;
-    let newMapKnow = mapKnow.slice();
-    newMapKnow.push(parseInt(details.id as string, 10));
-    setMapKnow(newMapKnow || [] as number[]);
+    const tuneId = parseInt(details.id as string, 10);
+    setMapKnow(prev => [...prev, tuneId]);
     addTune(details.id, user.email, "know");
   };
 
