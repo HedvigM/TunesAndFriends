@@ -1,15 +1,15 @@
-import React from "react";
+import type { FC, ReactNode } from "react";
 import { ErrorBoundary } from "./ErrorBoundary";
 /* import { Button } from "styles/Button";
 import { Typography } from "styles/Typography"; */
 
 interface ComponentErrorBoundaryProps {
-  children: React.ReactNode;
+  children: ReactNode;
   componentName?: string;
   resetKeys?: Array<string | number>;
 }
 
-const ComponentErrorFallback: React.FC<{
+const ComponentErrorFallback: FC<{
   componentName?: string;
   resetError?: () => void;
 }> = (/* { componentName, resetError } */) => {
@@ -53,7 +53,7 @@ const ComponentErrorFallback: React.FC<{
   );
 };
 
-export const ComponentErrorBoundary: React.FC<ComponentErrorBoundaryProps> = ({
+export const ComponentErrorBoundary: FC<ComponentErrorBoundaryProps> = ({
   children,
   componentName,
   resetKeys,

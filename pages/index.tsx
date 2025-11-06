@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { NextPage } from "next";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { Header } from "components/Header";

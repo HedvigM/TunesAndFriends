@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { StyledTable } from "./Table";
 import { ComponentErrorBoundary } from "./errors/ComponentErrorBoundary";
 

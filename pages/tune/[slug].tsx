@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { TUNE_URL } from "utils/urls";
 import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0/client";
 import { NextPage } from "next";

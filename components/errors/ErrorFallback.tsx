@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { Button } from "styles/Button";
 import { Typography } from "styles/Typography";

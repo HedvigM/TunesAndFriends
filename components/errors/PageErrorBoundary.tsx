@@ -1,4 +1,4 @@
-import React from "react";
+import type { FC, ReactNode } from "react";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { Header } from "components/Header";
 import { Menu } from "components/Menu";
@@ -6,10 +6,10 @@ import { useRouter } from "next/router";
 import { Button } from "styles/Button";
 import { Typography } from "styles/Typography";
 interface PageErrorBoundaryProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-const PageErrorFallback: React.FC = () => {
+const PageErrorFallback: FC = () => {
   const router = useRouter();
 
   return (
@@ -60,7 +60,7 @@ const PageErrorFallback: React.FC = () => {
   );
 };
 
-export const PageErrorBoundary: React.FC<PageErrorBoundaryProps> = ({
+export const PageErrorBoundary: FC<PageErrorBoundaryProps> = ({
   children,
 }) => {
   return (

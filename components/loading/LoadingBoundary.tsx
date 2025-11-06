@@ -1,12 +1,13 @@
-import React, { Suspense } from "react";
+import type { FC, ReactNode } from "react";
+import { Suspense } from "react";
 import { LoadingSpinner } from "components/LoadingSpinner";
 
 interface LoadingBoundaryProps {
-  children: React.ReactNode;
-  fallback?: React.ReactNode;
+  children: ReactNode;
+  fallback?: ReactNode;
 }
 
-export const LoadingBoundary: React.FC<LoadingBoundaryProps> = ({
+export const LoadingBoundary: FC<LoadingBoundaryProps> = ({
   children,
   fallback,
 }) => {

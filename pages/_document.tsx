@@ -1,4 +1,5 @@
-import React from 'react';
+import type { ComponentType } from 'react';
+import { Children as ReactChildren } from 'react';
 import createCache from '@emotion/cache';
 import createEmotionServer from '@emotion/server/create-instance';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
@@ -13,7 +14,7 @@ export default class MyDocument extends Document {
     ctx.renderPage = () =>
       originalRenderPage({
         // eslint-disable-next-line react/display-name
-        enhanceApp: (App: React.ComponentType<MyAppProps>) => (props) => <App emotionCache={cache} {...props} />,
+        enhanceApp: (App: ComponentType<MyAppProps>) => (props) => <App emotionCache={cache} {...props} />,
       });
 
     const initialProps = await Document.getInitialProps(ctx);
@@ -29,7 +30,7 @@ export default class MyDocument extends Document {
     return {
       ...initialProps,
       styles: [
-        ...React.Children.toArray(initialProps.styles),
+        ...ReactChildren.toArray(initialProps.styles),
         ...emotionStyleTags,
       ],
     };
