@@ -3,7 +3,7 @@
  * Handles all user-related business logic
  */
 
-import { UserProfile } from "@auth0/nextjs-auth0";
+import { UserProfile } from "@auth0/nextjs-auth0/client";
 import {
   userWithRelationsSelect,
   userListSelect,

@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  useUser,
-  withPageAuthRequired,
-  WithPageAuthRequiredProps,
-} from "@auth0/nextjs-auth0";
+import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/router";
 import { addNewRelation, addTune, getUser } from "services/local";
 import { Prisma } from "@prisma/client";
@@ -229,4 +225,4 @@ const Friend: NextPage<{}> = () => {
     return <LoadingSpinner />;
   }
 };
-export default withPageAuthRequired<WithPageAuthRequiredProps>(Friend);
+export default withPageAuthRequired(Friend);

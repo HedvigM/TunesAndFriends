@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyledTable } from "../components/Table";
 import { POPULAR_URL } from "utils/urls";
-import {
-  useUser,
-  withPageAuthRequired,
-  WithPageAuthRequiredProps,
-} from "@auth0/nextjs-auth0";
+import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/router";
 import { addTune, getUser } from "services/local";
 import { NextPage } from "next";
@@ -117,4 +113,4 @@ const Tunes: NextPage<{}> = () => {
   );
 };
 
-export default withPageAuthRequired<WithPageAuthRequiredProps>(Tunes);
+export default withPageAuthRequired(Tunes);

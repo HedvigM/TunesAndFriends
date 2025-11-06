@@ -6,7 +6,7 @@
 
 import { apiClient, ApiResult } from "./client";
 import { User, CreateUserRequest, UpdateUserRequest } from "./types";
-import { UserProfile } from "@auth0/nextjs-auth0";
+import { UserProfile } from "@auth0/nextjs-auth0/client";
 
 /**
  * Get all users

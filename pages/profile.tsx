@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
-import {
-  useUser,
-  withPageAuthRequired,
-  WithPageAuthRequiredProps,
-} from "@auth0/nextjs-auth0";
+import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0/client";
 import { AccountInfo } from "components/accountInfo";
 import { getUser, updateUser } from "services/local";
 import { User as PrismaUser } from "@prisma/client";
@@ -137,4 +133,4 @@ const ProfilePage: NextPage<{}> = ({}) => {
   );
 };
 
-export default withPageAuthRequired<WithPageAuthRequiredProps>(ProfilePage);
+export default withPageAuthRequired(ProfilePage);

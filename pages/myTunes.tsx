@@ -1,11 +1,7 @@
 "use client";
-import {
-    withPageAuthRequired,
-    WithPageAuthRequiredProps,
-  } from "@auth0/nextjs-auth0";
-  import { NextPage } from "next";
+import { NextPage } from "next";
 import { useState, useEffect } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0/client";
 import { getTunesByUserId } from "lib/api/tunes";
 import { TUNE_URL } from "utils/urls";
 import { getMyCache } from "services/functions";
@@ -105,5 +101,5 @@ const myTunes: NextPage<{}> = () => {
     );
 };
 
-export default withPageAuthRequired<WithPageAuthRequiredProps>(myTunes);
+export default withPageAuthRequired(myTunes);
 

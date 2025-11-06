@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  useUser,
-  withPageAuthRequired,
-  WithPageAuthRequiredProps,
-} from "@auth0/nextjs-auth0";
+import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0/client";
 import { addNewRelation, getUser } from "services/local";
 import { NextPage } from "next";
 /* import { getCachedListOfUsers } from "services/functions"; */
@@ -92,4 +88,4 @@ const Friends: NextPage<{}> = () => {
   );
 };
 
-export default withPageAuthRequired<WithPageAuthRequiredProps>(Friends);
+export default withPageAuthRequired(Friends);

@@ -2,7 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
-import { UserProvider } from "@auth0/nextjs-auth0";
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 import { MyAppProps } from "types/types";
 import { ErrorBoundary } from "components/errors/ErrorBoundary";
 import { ErrorFallback } from "components/errors/ErrorFallback";

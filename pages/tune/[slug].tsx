@@ -1,11 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { TUNE_URL } from "utils/urls";
-import {
-  useUser,
-  withPageAuthRequired,
-  WithPageAuthRequiredProps,
-} from "@auth0/nextjs-auth0";
+import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0/client";
 import { NextPage } from "next";
 import { getMyCache } from "services/functions";
 import { Header } from "components/Header";
@@ -138,4 +134,4 @@ const detailedtune: NextPage<{}> = () => {
   );
 };
 
-export default withPageAuthRequired<WithPageAuthRequiredProps>(detailedtune);
+export default withPageAuthRequired(detailedtune);

@@ -1,5 +1,5 @@
 import React from "react";
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { User } from "@prisma/client";
 import { LoadingSpinner } from "components/LoadingSpinner";
 import { Typography } from "styles/Typography";
@@ -31,12 +31,12 @@ export const AccountInfo = (props: AccountInfoProps) => {
       }}>
         <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", justifyContent: "space-between"}}>
             <Typography variant="body">First name: </Typography>
-            <Typography variant="body">{user.given_name}</Typography>
+            <Typography variant="body">{user.given_name as string}</Typography>
         </div>
 
         <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", justifyContent: "space-between"}}>
             <Typography variant="body">Last name: </Typography>
-            <Typography variant="body">{user.family_name}</Typography>
+            <Typography variant="body">{user.family_name as string}</Typography>
         </div>
 
         <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", justifyContent: "space-between"}}>
@@ -51,7 +51,7 @@ export const AccountInfo = (props: AccountInfoProps) => {
               <option value="he/him">He/Him</option>
               <option value="they/them">They/Them</option>
             </select>
-            <Typography variant="body">{user.pronouns}</Typography>
+            <Typography variant="body">{user.pronouns as string}</Typography>
         </div>
 
         <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", justifyContent: "space-between"}}>

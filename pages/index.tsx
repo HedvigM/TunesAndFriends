@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { Header } from "components/Header";
 import { Login } from "components/Login";
 import { TableData, StyledTable } from "components/Table";
