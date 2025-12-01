@@ -41,7 +41,6 @@ export const TunePlayer = (props: TunePlayerProps) => {
             }
           });
           await synth.prime();
-          console.log("Synth is ready to play");
         } catch (error) {
           console.error("Error initializing synth:", error);
         }

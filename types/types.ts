@@ -1,9 +1,6 @@
 import type { AppProps } from "next/app";
-import type { EmotionCache } from "@emotion/cache";
 
-export interface MyAppProps extends AppProps {
-  emotionCache?: EmotionCache;
-}
+export interface MyAppProps extends AppProps {}
 
 export interface SuccessResponse<T> {
     learnTunes: any;

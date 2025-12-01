@@ -60,7 +60,6 @@ const addTune = async (tune: number, email: string, knowOrLearn: string) => {
 };
 
 const tune = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log("jag körs")
   if (req.method === 'GET') {
     return new Promise((resolve) => {
       const { auth0UserId } = req.query;

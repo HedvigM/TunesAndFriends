@@ -42,9 +42,11 @@ export const TuneListWithTags = (props: TuneListWithTagsProps) => {
             ))}
             </div>
             </div>
-            <form >
+            <form style={{ display: "flex", gap: "5px" }}>
+
                 <input type="text" name="tag" />
                 <button name="tuneId" value={props.tune.id}>Save tag</button>
+
             </form>
             </div>
     )

@@ -68,7 +68,7 @@ const Tunes: NextPage<{}> = () => {
     setLoading(true);
     const getPopularTunes = async () => {
       try {
-        const data = await getMyCache(POPULAR_URL(page));
+        const data = await getMyCache(POPULAR_URL(2)); // Fixed page size to 2 for demonstration
         if (isMounted) {
           setPopularList(data.tunes);
           setLoading(false);

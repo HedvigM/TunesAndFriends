@@ -28,7 +28,6 @@ const myTunes: NextPage<{}> = () => {
     useEffect(() => {
         let isMounted = true;
 
-        console.log({ user });
         if (user) {
             const fetchTunes = async () => {
                 try {

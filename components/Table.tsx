@@ -31,7 +31,7 @@ export const StyledTable = ({
           display: "grid",
           alignItems: "center",
           gridTemplateColumns: "80% 1fr",
-          ":last-child td, :last-child th": { border: 0 },
+          ":lastChild td, :lastChild th": { border: 0 },
         } as React.CSSProperties}
       >
         <Link
@@ -51,6 +51,7 @@ export const StyledTable = ({
             padding: "5px 0",
           }}
         >
+          {/* Remove button, add tag? */}
           <Button element="button" active={know} onClick={() => onClickHandle(data.id)}>
             add
           </Button>
