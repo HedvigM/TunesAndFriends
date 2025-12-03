@@ -1,0 +1,74 @@
+// GLOBAL STYLES
+:root {
+    --color-primary: #D8F508;
+    --color-secondary: #9BBABB;
+    --color-third: #111F22;
+    --color-fourth: #D7D2BF;
+}
+
+.p-0 {
+    padding: 0;
+  }
+
+  body {
+    min-height: 100vh;
+    background: white;
+  /*   background: linear-gradient(180deg, #24242e 0, #111115 12rem) no-repeat,
+      #111115;  for dark mode??*/
+
+    --shadow-color: 240deg 19% 6%;
+    --shadow-elevation-medium: 0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.36),
+      0.9px 1.7px 2.2px -0.8px hsl(var(--shadow-color) / 0.37),
+      2.1px 4.3px 5.5px -1.6px hsl(var(--shadow-color) / 0.38),
+      5.1px 10.3px 13.2px -2.3px hsl(var(--shadow-color) / 0.39);
+  }
+
+// RESET
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-family: Futura, Helvetica, Arial, sans-serif;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+#root,
+#__next {
+  isolation: isolate;
+  height: 100%;
+}
+// END RESET

@@ -1,8 +1,8 @@
+"use client";
 import type { ReactNode } from "react";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { Header } from "components/Header";
 import { Menu } from "components/Menu";
-import { useRouter } from "next/router";
 import { Button } from "styles/Button";
 import { Typography } from "styles/Typography";
 interface PageErrorBoundaryProps {
@@ -10,7 +10,10 @@ interface PageErrorBoundaryProps {
 }
 
 function PageErrorFallback() {
-  const router = useRouter();
+  const handleGoHome = () => {
+    // Use window.location for universal navigation that works in both App Router and Pages Router
+    window.location.href = "/";
+  };
 
   return (
     <div style={{
@@ -49,7 +52,7 @@ function PageErrorFallback() {
         <Button
           element="button"
           active={true}
-          onClick={() => router.push("/")}
+          onClick={handleGoHome}
         >
           Go to Home
         </Button>

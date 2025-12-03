@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "styles/Button";
 
 export default function UsePagination() {

@@ -1,3 +1,4 @@
+"use client";
 import abcjs from "abcjs";
 import { useEffect, useState, useRef } from "react";
 import { Button } from "styles/Button";

@@ -1,3 +1,4 @@
+"use client";
 import type { ReactNode } from "react";
 import { ErrorBoundary } from "./ErrorBoundary";
 /* import { Button } from "styles/Button";

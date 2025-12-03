@@ -1,3 +1,4 @@
+"use client";
 import { Typography } from "styles/Typography";
 type TuneInfoProps = {
   type: string;

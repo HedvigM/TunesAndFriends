@@ -1,3 +1,4 @@
+"use client";
 import { useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
@@ -67,10 +68,7 @@ export const Menu = (props: { title: string }) => {
 
         {user && user.sub !== undefined && (
             <Link
-              href={{
-                pathname: "/friend/[slug]",
-                query: { slug: `${user.sub}` },
-              }}
+              href={`/friend/${user.sub}`}
               style={{ textDecoration: "none" }}
             >
               <p className={styles.bodyLink}>

@@ -1,3 +1,4 @@
+"use client";
 import { ReactNode } from "react";
 import headerStyles from "styles/Typography.module.scss";
 import containerStyles from "styles/containers.module.scss";

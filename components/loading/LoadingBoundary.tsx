@@ -1,3 +1,4 @@
+"use client";
 import type { ReactNode } from "react";
 import { Suspense } from "react";
 import { LoadingSpinner } from "components/LoadingSpinner";

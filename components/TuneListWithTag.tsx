@@ -1,3 +1,4 @@
+"use client";
 import { TuneObject } from "pages/myTunes";
 
 

@@ -1,3 +1,5 @@
+"use client";
+
 type LoadingSpinnerProps = {
   size?: 'small' | 'medium' | 'large';
   color?: string;
