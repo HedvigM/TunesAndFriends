@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { UserProvider } from "@auth0/nextjs-auth0/client";
 import { AppProviders } from "components/providers/AppProviders";
 import "./globals.scss";
 
@@ -30,9 +29,7 @@ export default function RootLayout({
       </head>
       <body>
         <AppProviders>
-          <UserProvider>
-            {children}
-          </UserProvider>
+          {children}
         </AppProviders>
       </body>
     </html>

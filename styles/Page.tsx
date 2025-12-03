@@ -1,3 +1,5 @@
+"use client";
+
 import { PageErrorBoundary } from "components/errors";
 import { Header } from "components/Header";
 import { Menu } from "components/Menu";

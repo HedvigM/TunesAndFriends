@@ -5,9 +5,10 @@
  * 
  * Wraps the app with providers that need to be client components.
  * This is used in the root layout to provide error boundary protection
- * for client components.
+ * and authentication context for client components.
  */
 
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 import { ErrorBoundary } from "components/errors/ErrorBoundary";
 import { ErrorFallback } from "components/errors/ErrorFallback";
 
@@ -26,7 +27,9 @@ export function AppProviders({ children }: AppProvidersProps) {
         // Sentry.captureException(error, { contexts: { react: { componentStack: errorInfo.componentStack } } });
       }}
     >
-      {children}
+      <UserProvider>
+        {children}
+      </UserProvider>
     </ErrorBoundary>
   );
 }

@@ -22,7 +22,7 @@ export const TuneInfo = ({ type, knownBy }: TuneInfoProps) => {
       <Typography variant="body">known by:</Typography>
           {knownBy && knownBy.length > 0 &&
             knownBy.map((knownBy: KnownByProp) => (
-              <Typography variant="body">{`${knownBy.name},`}</Typography>
+              <Typography key={knownBy.auth0UserId} variant="body">{`${knownBy.name},`}</Typography>
             ))}
           {knownBy && knownBy.length === 0 &&
             <Typography variant="body">No one knows this tune</Typography>

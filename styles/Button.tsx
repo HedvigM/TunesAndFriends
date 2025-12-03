@@ -23,15 +23,17 @@ export const Button = (props: Props) => {
       </div>
     );
   } else {
+    // Destructure props that shouldn't be passed to the button element
+    const { active, element, icon, color, ...buttonProps } = props;
+    
     return (
       <div /* className={styles.wrapper} */>
         <button
-        style={{ color: props.color }}
-        className={`${props.active ? styles.buttonActive : styles.button} ${props.icon && styles.buttonIcon}`}
-        active={props.active}
-        {...props}
+          style={{ color: color }}
+          className={`${active ? styles.buttonActive : styles.button} ${icon && styles.buttonIcon}`}
+          {...buttonProps}
         >
-          {props.icon}
+          {icon}
           {props.children}
         </button>
       </div>

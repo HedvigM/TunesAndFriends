@@ -4,7 +4,7 @@ import { Button } from "styles/Button";
 import styles from "styles/Typography.module.scss";
 
 interface TableProps {
-  onClickHandle: (id: number) => void;
+  onClickHandle?: (id: number) => void;
   know: boolean;
   pathname: string;
   slug: string | number;
@@ -36,10 +36,7 @@ export const StyledTable = ({
         } as React.CSSProperties}
       >
         <Link
-          href={{
-            pathname: `${pathname}`,
-            query: { slug: `${slug}` },
-          }}
+          href={pathname && slug ? `${pathname}/${slug}` : pathname || "#"}
         >
           <p className={styles.tableLink}>{data.name}</p>
         </Link>
@@ -53,7 +50,11 @@ export const StyledTable = ({
           }}
         >
           {/* Remove button, add tag? */}
-          <Button element="button" active={know} onClick={() => onClickHandle(data.id)}>
+          <Button 
+            element="button" 
+            active={know} 
+            onClick={onClickHandle ? () => onClickHandle(data.id) : undefined}
+          >
             add
           </Button>
         </div>
