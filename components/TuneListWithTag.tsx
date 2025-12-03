@@ -1,5 +1,5 @@
 "use client";
-import { TuneObject } from "pages/myTunes";
+import { TuneObject } from "types/tune";
 
 
 type TuneListWithTagsProps = {
