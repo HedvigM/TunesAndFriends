@@ -1,6 +1,6 @@
 "use client";
 import { TuneObject } from "types/tune";
-import { addTagToTuneAction } from "app/myTunes/actions";
+import { addTagToTuneAction } from "app/my-tunes/actions";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";

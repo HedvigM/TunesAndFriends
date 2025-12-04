@@ -60,7 +60,7 @@ export const Menu = (props: { title: string }) => {
             </p>
           </Link>
 
-          <Link href="/myTunes" style={{ textDecoration: "none" }}>
+          <Link href="/my-tunes" style={{ textDecoration: "none" }}>
             <p className={styles.bodyLink}>
               My tunes
             </p>
