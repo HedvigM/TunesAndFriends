@@ -8,11 +8,11 @@ import { Button } from "styles/Button";
 interface MyTunesClientProps {
   tuneObjects: TuneObject[];
   tags: { id: number; name: string }[];
+  userId: number;
 }
 
-export function MyTunesClient({ tuneObjects, tags }: MyTunesClientProps) {
+export function MyTunesClient({ tuneObjects, tags, userId }: MyTunesClientProps) {
   const [sortTag, setSortTag] = useState("");
-
   const filteredTunes = tuneObjects.filter(
     (tune) => !sortTag || tune.tags?.some((tag) => tag.name === sortTag)
   );
@@ -55,7 +55,7 @@ export function MyTunesClient({ tuneObjects, tags }: MyTunesClientProps) {
         }}
       >
         {filteredTunes.map((tune) => (
-          <TuneListWithTags key={tune.sessionId} tune={tune} sortTag={sortTag} />
+          <TuneListWithTags key={tune.sessionId} tune={tune} sortTag={sortTag} userId={userId} />
         ))}
       </div>
     </div>

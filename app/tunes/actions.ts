@@ -31,7 +31,7 @@ export async function addTuneAction(
       };
     }
 
-    const result = await tuneService.saveTune({
+    const result = await tuneService.saveNewTune({
       sessionId,
       email: session.user.email,
       knowOrLearn: "know",

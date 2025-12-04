@@ -18,6 +18,10 @@ model User {
   email          String          @unique
   town           String?
   profileText    String?
+  savedTunes     Tune[]          @relation("savedTunes")
+  tags           Tag[]           @relation("usersTags")
+  taggings       Tagging[]       @relation("taggings")
+  userTunes      UserTune[]      @relation("userTunes")
   knowTunes      Tune[]          @relation("knowTunes")
   starredTunes   Tune[]          @relation("starredTunes")
   following      User[]          @relation("follows")
@@ -41,17 +45,45 @@ enum Role {
 }
 
 model Tune {
-  id        Int    @id @default(autoincrement())
-  sessionId Int    @unique
-  knowedBy  User[] @relation("knowTunes")
-  starredBy User[] @relation("starredTunes")
-  tags      Tag[]  @relation("tags")
+  id        Int        @id @default(autoincrement())
+  sessionId Int        @unique
+  savedBy   User[]     @relation("savedTunes")
+  tags      Tag[]      @relation("tags")
+  taggings  Tagging[]  @relation("taggings")
+  knowedBy  User[]     @relation("knowTunes")
+  starredBy User[]     @relation("starredTunes")
+  userTunes UserTune[] @relation("userTunes")
+}
+
+model UserTune {
+  id     Int  @id @default(autoincrement())
+  user   User @relation("userTunes", fields: [userId], references: [id])
+  userId Int
+  tune   Tune @relation("userTunes", fields: [tuneId], references: [id])
+  tuneId Int
+  tag    Tag  @relation("userTunes", fields: [tagId], references: [id])
+  tagId  Int
+
+  @@unique([userId, tuneId])
 }
 
 model Tag {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  tunes Tune[] @relation("tags")
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  usersTags User[]     @relation("usersTags")
+  tunes     Tune[]     @relation("tags")
+  taggings  Tagging[]  @relation("taggings")
+  userTunes UserTune[] @relation("userTunes")
 }
 
-// uuid är en funktion som tillhandahåller randomiserade id:n - anses vara mkt säkrare än ett id system som bygger på increment.
+model Tagging {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  tuneId Int
+  tagId  Int
+  user   User @relation("taggings", fields: [userId], references: [id])
+  tune   Tune @relation("taggings", fields: [tuneId], references: [id])
+  tag    Tag  @relation("taggings", fields: [tagId], references: [id])
+
+  @@unique([userId, tuneId, tagId])
+}

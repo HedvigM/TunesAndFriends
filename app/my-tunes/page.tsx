@@ -1,3 +1,6 @@
+/* TODO: När man lägger till låtar (från nya tunes sidan... 
+kanske även från gamla tunes sidan?) så verkar dom hamna lite fel. Ser ut som att låtar 
+och taggar läggs på på fel användare och med taggar den inte ska ha? */
 import { requireAuth } from "lib/auth/app-router";
 import { userService } from "services";
 import { TUNE_URL } from "utils/urls";
@@ -86,7 +89,7 @@ export default async function MyTunesPage() {
   return (
     <Page title="My tunes">
       <ComponentErrorBoundary componentName="My Tunes">
-        <MyTunesClient tuneObjects={tuneObjects} tags={uniqueTags} />
+        <MyTunesClient tuneObjects={tuneObjects} tags={uniqueTags} userId={userData.id} />
       </ComponentErrorBoundary>
     </Page>
   );

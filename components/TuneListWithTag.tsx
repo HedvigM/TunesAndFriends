@@ -1,6 +1,6 @@
 "use client";
 import { TuneObject } from "types/tune";
-import { addTagToTuneAction } from "app/my-tunes/actions";
+import {  newAddTagToTuneAction } from "app/my-tunes/actions";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -8,6 +8,7 @@ import Link from "next/link";
 type TuneListWithTagsProps = {
     tune: TuneObject;
     sortTag: string;
+    userId: number;
 }
 
 export const TuneListWithTags = (props: TuneListWithTagsProps) => {
@@ -37,20 +38,26 @@ export const TuneListWithTags = (props: TuneListWithTagsProps) => {
         }
 
         startTransition(async () => {
-            const result = await addTagToTuneAction(tuneId, tagName);
+            const result = await newAddTagToTuneAction(tuneId, tagName);
 
-            if (result.success) {
+            if (result.success && !result.error) {
                 setSuccess(true);
-                // Reset form
                 (event.target as HTMLFormElement).reset();
-                // Clear success message after 2 seconds
                 setTimeout(() => {
                     setSuccess(false);
-                    // Refresh the page data to show the new tag
                     router.refresh();
                 }, 2000);
             } else {
-                setError(result.error || "Failed to add tag");
+                const errorMessage = result.error || "Failed to add tag";
+                setError(errorMessage);
+                // Clear the input field if the tag already exists
+                if (errorMessage === "Tune already has this tag") {
+                    (event.target as HTMLFormElement).reset();
+                    setTimeout(() => {
+                        setError(null);
+                        router.refresh();
+                    }, 2000);
+                }
             }
         });
     }
@@ -123,11 +130,13 @@ export const TuneListWithTags = (props: TuneListWithTagsProps) => {
                         {error}
                     </p>
                 )}
+               
                 {success && (
                     <p style={{ color: "green", fontSize: "12px", margin: "5px 0 0 0" }}>
                         Tag added successfully!
                     </p>
                 )}
+
             </form>
             </div>
     )
