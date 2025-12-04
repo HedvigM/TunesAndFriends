@@ -36,7 +36,8 @@ export const StyledTable = ({
         } as React.CSSProperties}
       >
         <Link
-          href={pathname && slug ? `${pathname}/${slug}` : pathname || "#"}
+          href={`${pathname}/${slug}`}
+          style={{ textDecoration: "none" }}
         >
           <p className={styles.tableLink}>{data.name}</p>
         </Link>

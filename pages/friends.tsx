@@ -4,35 +4,39 @@ import { addNewRelation, getUser } from "services/local";
 import { NextPage } from "next";
 /* import { getCachedListOfUsers } from "services/functions"; */
 import { StyledTable } from "components/Table";
-import { User as PrismaUser } from "@prisma/client";
+import { User as PrismaUser, User } from "@prisma/client";
 import { Page } from "styles/Page";
 import styles from "styles/containers.module.scss";
+import { getCachedListOfUsers } from "services/functions";
 /* import { UserProfile as User } from "@auth0/nextjs-auth0"; */
 
 const Friends: NextPage<{}> = () => {
-  const [usersList, _setUsersList] = useState<PrismaUser[]>([]);
+  const [usersList, setUsersList] = useState<PrismaUser[]>([]);
   const [_loading, setLoading] = useState(true);
   const [_mapFriendsId, setMapFriendsId] = useState<string[]>([]);
   const [friendsArray, setFiendsArray] = useState<string[]>([]);
   const { user } = useUser();
 
- /*  const getUsersList = async (user: User) => {
+ const getUsersList = async (user: User) => {
     const data = await getCachedListOfUsers(user);
       if (data) {
         setUsersList(data);
       }
-  }; */
+  }; 
 
   useEffect(() => {
     let isMounted = true;
 
-    setLoading(true);
-    if (user) {
-     /*  getUsersList(user); */
-    }
-    if (isMounted) {
-      setLoading(false);
-    }
+    const fetchUsers = async () => {
+      setLoading(true);
+      if (user) {
+        await getUsersList(user as User);
+      }
+      if (isMounted) {
+        setLoading(false);
+      }
+    };
+    fetchUsers();
 
     return () => {
       isMounted = false;
@@ -100,8 +104,8 @@ const Friends: NextPage<{}> = () => {
                     friendsArray.includes(friend.auth0UserId)
                   }
                   data={friend}
-                  pathname="/friend/[slug]"
-                  slug={friend.auth0UserId}
+                  pathname="/friend"
+                  slug={friend.id.toString()}
                 />
               ))}
         </div>

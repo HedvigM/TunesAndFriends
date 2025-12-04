@@ -101,7 +101,7 @@ export default async function HomePage() {
                 >
                   <StyledTable
                     know={true}
-                    pathname={""}
+                    pathname={"/friend"}
                     data={data}
                     slug={""}
                   />
@@ -154,7 +154,7 @@ export default async function HomePage() {
               >
                 <StyledTable
                   know={false}
-                  pathname={""}
+                  pathname={"/tune"}
                   data={data}
                   slug={""}
                 />

@@ -1,3 +1,6 @@
+/* TODO: separera inloggad user från viewed user till olika komponenter. */
+
+
 import { useEffect, useState } from "react";
 import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/router";
