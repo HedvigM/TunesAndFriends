@@ -10,7 +10,6 @@ import { UpdateUserRequest } from "lib/api/types";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
 import { Button } from "styles/Button";
 import { Page } from "styles/Page";
-import { Typography } from "styles/Typography";
 
 /* TODO: Add dialog for saving changes. */
 const ProfilePage: NextPage<{}> = ({}) => {
@@ -118,11 +117,11 @@ const ProfilePage: NextPage<{}> = ({}) => {
               padding: "30px 0",
             }}
           >
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <Typography variant="body">Log out</Typography>
-              <Link href="/api/auth/logout">
-              </Link>
-            </div>
+            <Link href="/api/auth/logout" style={{ textDecoration: "none" }}>
+              <Button element="button" active={false}>
+                Log out
+              </Button>
+            </Link>
           </div>
          {/*  <Dialog
             open={open}

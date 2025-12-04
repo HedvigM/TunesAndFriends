@@ -1,9 +1,4 @@
-/**
- * Tune Service
- * Handles all tune-related business logic
- */
-
-import { Tune } from "@prisma/client";
+import { Tune, Prisma } from "@prisma/client";
 import { tuneBasicSelect } from "lib/prisma/selects";
 import { BaseService, ServiceResult } from "./base/BaseService";
 
@@ -14,9 +9,6 @@ export interface SaveTuneInput {
 }
 
 export class TuneService extends BaseService {
-  /**
-   * Get tune by ID
-   */
   async getTuneById(id: number): Promise<ServiceResult<Tune>> {
     return this.execute(async () => {
       const tune = await this.prisma.tune.findUnique({
@@ -32,9 +24,6 @@ export class TuneService extends BaseService {
     }, "Failed to get tune");
   }
 
-  /**
-   * Get tune by session ID
-   */
   async getTuneBySessionId(sessionId: number): Promise<ServiceResult<Tune>> {
     return this.execute(async () => {
       const tune = await this.prisma.tune.findUnique({
@@ -50,12 +39,8 @@ export class TuneService extends BaseService {
     }, "Failed to get tune by session ID");
   }
 
-  /**
-   * Save tune for user (know or star)
-   */
   async saveTune(input: SaveTuneInput): Promise<ServiceResult<Tune>> {
     return this.execute(async () => {
-      // Find or create tune
       let tune = await this.prisma.tune.findUnique({
         where: { sessionId: input.sessionId },
       });
@@ -66,7 +51,6 @@ export class TuneService extends BaseService {
         });
       }
 
-      // Find user
       const user = await this.prisma.user.findUnique({
         where: { email: input.email },
       });
@@ -75,7 +59,6 @@ export class TuneService extends BaseService {
         throw new Error("User not found");
       }
 
-      // Connect tune to user based on type
       if (input.knowOrLearn === "know") {
         await this.prisma.user.update({
           where: { email: input.email },
@@ -100,9 +83,6 @@ export class TuneService extends BaseService {
     }, "Failed to save tune");
   }
 
-  /**
-   * Get users who know a tune
-   */
   async getUsersWhoKnowTune(tuneId: number): Promise<ServiceResult<any[]>> {
     return this.execute(async () => {
       const tune = await this.prisma.tune.findUnique({
@@ -121,6 +101,74 @@ export class TuneService extends BaseService {
 
       return tune?.knowedBy || [];
     }, "Failed to get users who know tune");
+  }
+
+  async addTagToTune(tuneId: number, tagName: string): Promise<ServiceResult<any>> {
+    return this.execute(async () => {
+      const normalizedTagName = tagName.trim().toLowerCase();
+
+      if (!normalizedTagName) {
+        throw new Error("Tag name cannot be empty");
+      }
+
+      const tune = await this.prisma.tune.findUnique({
+        where: { id: tuneId },
+        include: { tags: true },
+      });
+
+      if (!tune) {
+        throw new Error("Tune not found");
+      }
+
+      let tag = await this.prisma.tag.findUnique({
+        where: { name: normalizedTagName },
+      });
+
+      if (!tag) {
+        try {
+          tag = await this.prisma.tag.create({
+            data: { name: normalizedTagName },
+          });
+        } catch (error) {
+          if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+            tag = await this.prisma.tag.findUnique({
+              where: { name: normalizedTagName },
+            });
+            if (!tag) {
+              throw new Error("Failed to create or find tag");
+            }
+          } else {
+            throw error;
+          }
+        }
+      }
+
+      const isAlreadyConnected = tune.tags.some((t) => t.id === tag!.id);
+
+      if (isAlreadyConnected) {
+        return {
+          tag: tag,
+          tune: tune,
+        };
+      }
+
+      const updatedTune = await this.prisma.tune.update({
+        where: { id: tuneId },
+        data: {
+          tags: {
+            connect: { id: tag.id },
+          },
+        },
+        include: {
+          tags: true,
+        },
+      });
+
+      return {
+        tag: tag,
+        tune: updatedTune,
+      };
+    }, "Failed to add tag to tune");
   }
 }
 
