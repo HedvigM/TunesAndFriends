@@ -1,8 +1,3 @@
-/**
- * User Service
- * Handles all user-related business logic
- */
-
 import { UserProfile } from "@auth0/nextjs-auth0/client";
 import {
   userWithRelationsSelect,
@@ -23,9 +18,6 @@ export interface UpdateUserInput {
 }
 
 export class UserService extends BaseService {
-  /**
-   * Get user by internal ID
-   */
   async getUserById(id: number): Promise<ServiceResult<any>> {
     return this.execute(async () => {
       const user = await this.prisma.user.findUnique({
@@ -41,9 +33,6 @@ export class UserService extends BaseService {
     }, "Failed to get user by ID");
   }
 
-  /**
-   * Get user by Auth0 ID
-   */
   async getUserByAuth0Id(auth0UserId: string): Promise<ServiceResult<any>> {
     return this.execute(async () => {
       const user = await this.prisma.user.findUnique({
@@ -59,9 +48,6 @@ export class UserService extends BaseService {
     }, "Failed to get user by Auth0 ID");
   }
 
-  /**
-   * Get user by email
-   */
   async getUserByEmail(email: string): Promise<ServiceResult<any>> {
     return this.execute(async () => {
       return this.prisma.user.findUnique({
@@ -71,9 +57,6 @@ export class UserService extends BaseService {
     }, "Failed to get user by email");
   }
 
-  /**
-   * List all users with pagination
-   */
   async listUsers(
     limit: number = 100,
     offset: number = 0
@@ -88,9 +71,6 @@ export class UserService extends BaseService {
     }, "Failed to list users");
   }
 
-  /**
-   * List users who know a specific tune
-   */
   async listUsersWithTune(
     tuneId: number,
     limit: number = 50
@@ -109,34 +89,38 @@ export class UserService extends BaseService {
     }, "Failed to list users with tune");
   }
 
-  /**
-   * Create a new user
-   */
   async createUser(input: CreateUserInput): Promise<ServiceResult<any>> {
     return this.execute(async () => {
-      // Business rule: Check if user already exists
-      const existingUser = await this.prisma.user.findUnique({
+      // Business rule: Check if user already exists by email or auth0UserId
+      const existingUserByEmail = await this.prisma.user.findUnique({
         where: { email: input.email },
       });
 
-      if (existingUser) {
+      if (existingUserByEmail) {
         throw new Error("User with this email already exists");
       }
 
-      // Create user
-      return this.prisma.user.create({
+      const existingUserByAuth0Id = await this.prisma.user.findUnique({
+        where: { auth0UserId: input.auth0UserId },
+      });
+
+      if (existingUserByAuth0Id) {
+        throw new Error("User with this Auth0 ID already exists");
+      }
+
+      const newUser = await this.prisma.user.create({
         data: {
           name: input.name,
           email: input.email,
           auth0UserId: input.auth0UserId,
         },
       });
+
+      console.log("User created in database with ID:", newUser.id);
+      return newUser;
     }, "Failed to create user");
   }
 
-  /**
-   * Create user from Auth0 profile
-   */
   async createUserFromAuth0(
     profile: UserProfile
   ): Promise<ServiceResult<any>> {
@@ -147,24 +131,35 @@ export class UserService extends BaseService {
     });
   }
 
-  /**
-   * Get or create user (for login flow)
-   */
   async getOrCreateUser(profile: UserProfile): Promise<ServiceResult<any>> {
-    // Try to get existing user
     const existingUser = await this.getUserByAuth0Id(profile.sub!);
 
-    if (existingUser.success) {
+    if (existingUser.success && existingUser.data) {
+      console.log("User found, returning existing user:", existingUser.data.id);
       return existingUser;
     }
 
-    // User doesn't exist, create new one
-    return this.createUserFromAuth0(profile);
+    
+    const createResult = await this.createUserFromAuth0(profile);
+    
+    if (!createResult.success) {
+      console.error("Failed to create user:", createResult.error);
+      console.error("Create result:", createResult);
+      return createResult;
+    }
+
+    console.log("User created successfully:", createResult.data?.id);
+
+    if (createResult.data?.auth0UserId) {
+      const fetchedUser = await this.getUserByAuth0Id(createResult.data.auth0UserId);
+      if (fetchedUser.success) {
+        return fetchedUser;
+      }
+    }
+    
+    return createResult;
   }
 
-  /**
-   * Update user profile
-   */
   async updateUser(
     email: string,
     input: UpdateUserInput
@@ -177,12 +172,8 @@ export class UserService extends BaseService {
     }, "Failed to update user");
   }
 
-  /**
-   * Delete user
-   */
   async deleteUser(id: number): Promise<ServiceResult<any>> {
     return this.execute(async () => {
-      // Business rule: Cannot delete admin users
       const user = await this.prisma.user.findUnique({
         where: { id },
         select: { role: true },
@@ -199,6 +190,5 @@ export class UserService extends BaseService {
   }
 }
 
-// Export singleton instance
 export const userService = new UserService();
 

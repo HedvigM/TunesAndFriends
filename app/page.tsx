@@ -1,4 +1,4 @@
-import { getUserIdOrNull } from "lib/auth/data-fetching";
+import { requireAuth } from "lib/auth/app-router";
 import { userService } from "services/userService";
 import { TUNE_URL } from "utils/urls";
 import { Header } from "components/Header";
@@ -26,44 +26,26 @@ async function fetchTuneData(sessionId: number) {
 }
 
 export default async function HomePage() {
-  // Check if user is authenticated (optional auth for home page)
-  const userId = await getUserIdOrNull();
-  
-  console.log("HomePage - userId:", userId);
+  const session = await requireAuth();
 
-  // If not authenticated, show login
-  if (!userId) {
-    console.log("HomePage - No userId, showing login");
-    return (
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <Login />
-      </div>
-    );
-  }
+  const userProfile = {
+    sub: session.user.sub,
+    name: session.user.name || session.user.nickname || "",
+    email: session.user.email || "",
+  };
 
-  // Fetch user data directly from service layer (Server Component)
-  console.log("HomePage - Fetching user data for:", userId);
-  const userResult = await userService.getUserByAuth0Id(userId);
-  
-  console.log("HomePage - User result success:", userResult.success);
-  if (!userResult.success) {
-    console.log("HomePage - User fetch failed:", userResult.error);
-  }
-  
+  const userResult = await userService.getOrCreateUser(userProfile as any);
   if (!userResult.success || !userResult.data) {
-    console.log("HomePage - User fetch failed or no data, showing login");
+    console.log("HomePage - User fetch/create failed or no data, showing login");
     return (
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Login />
       </div>
     );
   }
-  
-  console.log("HomePage - User data fetched successfully, rendering page");
 
   const userData = userResult.data;
 
-  // Extract tune IDs and friends
   const tuneIds = userData?.knowTunes?.map(
     (tunes: { sessionId: number }) => tunes.sessionId
   ) || [];
@@ -75,7 +57,6 @@ export default async function HomePage() {
     })
   ) || [];
 
-  // Fetch tune names (limit to first 3)
   const tuneIdsToFetch = tuneIds.slice(0, 3);
   const tuneNamesResults = await Promise.all(
     tuneIdsToFetch.map((id: number) => fetchTuneData(id))
@@ -84,7 +65,6 @@ export default async function HomePage() {
     (tune): tune is TableData => tune !== null
   );
 
-  // Mock data for "Friends newest tunes" section
   const Data: TableData[] = [
     {
       name: "jorid",
