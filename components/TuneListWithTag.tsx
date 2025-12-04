@@ -3,6 +3,7 @@ import { TuneObject } from "types/tune";
 import { addTagToTuneAction } from "app/myTunes/actions";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type TuneListWithTagsProps = {
     tune: TuneObject;
@@ -66,7 +67,7 @@ export const TuneListWithTags = (props: TuneListWithTagsProps) => {
             }}
             >
                 <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-                <p style={{ margin: "0", padding: "0" }}>{props.tune.name}</p>
+                <Link href={`/tune/${props.tune.id}`} style={{ margin: "0", padding: "0" }}>{props.tune.name}</Link>
 
                 <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
                     {props.tune.tags?.length > 0 && props.tune.tags?.map((tag: { name: string }) =>
