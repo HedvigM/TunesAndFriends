@@ -51,14 +51,11 @@ export const userWithRelationsSelect = {
   },
 } as const;
 
-/**
- * Minimal user for lists
- * Use for: User lists, search results, trending users
- */
 export const userListSelect = {
   id: true,
   name: true,
   email: true,
+  auth0UserId: true,
   town: true,
 } as const;
 
