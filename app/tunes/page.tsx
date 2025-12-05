@@ -30,7 +30,7 @@ type PopularTunesResponse = {
 async function fetchPopularTunes(page: number = 1): Promise<PopularTunesResponse | null> {
   try {
     const response = await fetch(POPULAR_URL(page), {
-      cache: "no-store", // TODO: Can be optimized with revalidation later
+      next: { revalidate: 300 }, // Cache for 5 minutes, then revalidate (popular list changes more often)
     });
 
     if (!response.ok) {

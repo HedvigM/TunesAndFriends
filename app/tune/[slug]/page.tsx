@@ -21,7 +21,7 @@ interface TunePageProps {
 async function fetchTuneDetails(sessionId: number): Promise<TuneDetails | null> {
   try {
     const response = await fetch(TUNE_URL(sessionId), {
-      cache: "no-store", // Don't cache for now, can be optimized later
+      next: { revalidate: 3600 }, // Cache for 1 hour, then revalidate
     });
     if (!response.ok) {
       throw new Error(`Failed to fetch tune: ${response.statusText}`);

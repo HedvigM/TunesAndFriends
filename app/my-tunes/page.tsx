@@ -16,7 +16,7 @@ type TuneWithTags = {
 async function fetchTuneData(sessionId: number) {
   try {
     const response = await fetch(TUNE_URL(sessionId), {
-      cache: "no-store", /* TODO: Don't cache for now, can be optimized later */
+      next: { revalidate: 3600 }, // Cache for 1 hour, then revalidate
     });
     if (!response.ok) {
       throw new Error(`Failed to fetch tune: ${response.statusText}`);
