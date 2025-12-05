@@ -6,7 +6,7 @@ interface RouteParams {
 }
 
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: RouteParams
 ) {
   try {

@@ -34,9 +34,9 @@ export function PopularTunesClient({
   knownTuneIds,
 }: PopularTunesClientProps) {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const [knownTunes, setKnownTunes] = useState<number[]>(knownTuneIds);
-  const [pendingTuneId, setPendingTuneId] = useState<number | null>(null);
+  const [, setPendingTuneId] = useState<number | null>(null);
 
   const handleAddTune = (tuneId: number) => {
     // Optimistically update UI

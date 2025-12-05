@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Header } from "components/Header";
 import { TuneInfo } from "components/TuneInfo";
 import { TunePlayer } from "components/TunePlayer";
 import { Button } from "styles/Button";
@@ -20,7 +19,6 @@ interface TuneClientProps {
 }
 
 export function TuneClient({
-  tuneName,
   tuneType,
   sessionId,
   abcNotes,

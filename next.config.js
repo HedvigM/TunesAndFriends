@@ -19,6 +19,24 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
   
+  // Image optimization configuration for external images (e.g., Auth0 profile pictures)
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',  // Google profile pictures
+      },
+      {
+        protocol: 'https',
+        hostname: 's.gravatar.com',  // Gravatar images
+      },
+      {
+        protocol: 'https',
+        hostname: '*.auth0.com',  // Auth0 default avatars
+      },
+    ],
+  },
+  
   // Note: ESLint configuration is now handled via next lint command
   // and eslint.config.js/.eslintrc.json files, not in next.config.js
 };

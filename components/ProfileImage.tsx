@@ -1,31 +1,37 @@
+import Image from "next/image";
+
 type ProfileImageProps = {
   size: "small" | "large";
   picture: string | null;
 };
 
 export const ProfileImage = ({size, picture}: ProfileImageProps) => {
+  const dimensions = size === "small" ? 80 : 110;
+  
   return (
     <div style={{
-      height: size === "small" ? "80px" : "110px",
-      width: size === "small" ? "80px" : "110px",
+      height: `${dimensions}px`,
+      width: `${dimensions}px`,
       borderRadius: "50%",
       backgroundColor: `var(--color-secondary)`,
       border: picture ? "1px solid black" : "none",
       overflow: "hidden",
       display: "flex",
       alignItems: "center",
-      justifyContent: "center"
+      justifyContent: "center",
+      position: "relative"
     }}>
       {picture ? (
-        <img
+        <Image
           src={picture}
-          alt="profile image"
+          alt="Profile picture"
+          width={dimensions}
+          height={dimensions}
           style={{
-            width: "100%",
-            height: "100%",
             objectFit: "cover",
             borderRadius: "50%"
           }}
+          unoptimized // Use unoptimized for external URLs not in remotePatterns
         />
       ) : null}
     </div>

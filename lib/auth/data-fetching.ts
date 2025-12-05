@@ -8,10 +8,8 @@
 import { 
   getAuthSession, 
   requireAuth, 
-  getAuthenticatedUserId as getUserId,
-  getAuthenticatedUserEmail as getUserEmail
+  getAuthenticatedUserId as getUserId
 } from "./app-router";
-import { redirect } from "next/navigation";
 
 /**
  * Get the authenticated user's Auth0 ID.
