@@ -74,7 +74,7 @@ export const TuneListWithTags = (props: TuneListWithTagsProps) => {
             }}
             >
                 <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-                <Link href={`/tune/${props.tune.id}`} style={{ margin: "0", padding: "0" }}>{props.tune.name}</Link>
+                <Link href={`/tune/${props.tune.sessionId}`} style={{ margin: "0", padding: "0" }}>{props.tune.name}</Link>
 
                 <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
                     {props.tune.tags?.length > 0 && props.tune.tags?.map((tag: { name: string }) =>

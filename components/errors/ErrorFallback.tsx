@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "styles/Button";
 import { Typography } from "styles/Typography";
 
@@ -8,27 +9,28 @@ interface ErrorFallbackProps {
   errorInfo: React.ErrorInfo | null;
   resetError?: () => void;
 }
+
 /* TODO: Add alert */
 export function ErrorFallback({
   error,
   /* errorInfo, */
   resetError,
 }: ErrorFallbackProps) {
+  const router = useRouter();
   const [showDetails, setShowDetails] = useState(false);
 
   const handleReload = () => {
     if (resetError) {
       resetError();
     }
-    window.location.reload();
+    router.refresh();
   };
 
   const handleGoHome = () => {
     if (resetError) {
       resetError();
     }
-    // Use window.location for universal navigation that works in both App Router and Pages Router
-    window.location.href = "/";
+    router.push("/");
   };
 
   return (

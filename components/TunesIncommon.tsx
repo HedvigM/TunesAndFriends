@@ -39,7 +39,7 @@ export const TunesIncommon = ({
             key={tune.id}
             onClickHandle={() => {}}
             know={true}
-            pathname="/tune/[slug]"
+            pathname="/tune"
             slug={tune.id}
             data={tune}
           />
