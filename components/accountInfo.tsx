@@ -1,14 +1,18 @@
 "use client";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { User } from "@prisma/client";
 import { LoadingSpinner } from "components/LoadingSpinner";
 import { Typography } from "styles/Typography";
+
+type UserData = {
+  town: string | null;
+  profileText: string | null;
+};
 
 type AccountInfoProps = {
   handleProfileChange: (profileText: string, town: string) => void;
   newProfileText: (profileText: string) => void;
   newTownText: (town: string) => void;
-  databaseUser: User;
+  databaseUser: UserData;
 };
 
 export const AccountInfo = (props: AccountInfoProps) => {

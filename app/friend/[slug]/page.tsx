@@ -1,4 +1,4 @@
-import { requireAuth } from "lib/auth/app-router";
+import { requireAuthWithUser } from "lib/auth/app-router";
 import { userService } from "services";
 import { TUNE_URL } from "utils/urls";
 import { Page } from "styles/Page";
@@ -38,10 +38,8 @@ interface FriendPageProps {
 export default async function FriendPage({ params }: FriendPageProps) {
   const { slug } = await params;
   
-  // Require authentication
-  const session = await requireAuth();
-  const currentUserAuth0Id = session.user.sub;
-
+  // Require authentication and get logged-in user
+  const { user: loggedInUser } = await requireAuthWithUser();
 
   // Parse slug as numeric ID (from FriendsClient, slug is friend.id.toString())
   const userId = parseInt(slug, 10);
@@ -72,28 +70,14 @@ export default async function FriendPage({ params }: FriendPageProps) {
 
   const viewedUser = viewedUserResult.data as UserWithRelations;
 
-  // Fetch the logged-in user (for comparison and following status)
-  let mapFollowing: number[] = [];
-  let loggedinKnowTuneId: number[] = [];
-
-  const loggedInUserResult = await userService.getUserByAuth0Id(currentUserAuth0Id);
-  if (loggedInUserResult.success && loggedInUserResult.data) {
-    const loggedInUser = loggedInUserResult.data as UserWithRelations;
-    
-    // Extract following IDs
-    if (Array.isArray(loggedInUser.following)) {
-      mapFollowing = loggedInUser.following.map(
-        (followedUser: { id: number }) => followedUser.id
-      );
-    }
-    
-    // Extract known tune IDs
-    if (Array.isArray(loggedInUser.knowTunes)) {
-      loggedinKnowTuneId = loggedInUser.knowTunes.map(
-        (tune: { sessionId: number }) => tune.sessionId
-      );
-    }
-  }
+  // Get logged-in user's following and known tunes
+  const mapFollowing = loggedInUser.following?.map(
+    (followedUser) => followedUser.id
+  ) || [];
+  
+  const loggedinKnowTuneId = loggedInUser.knowTunes?.map(
+    (tune) => tune.sessionId
+  ) || [];
 
   // Fetch tune data for viewed user's knowTunes
   const knowTunes: TableData[] = [];

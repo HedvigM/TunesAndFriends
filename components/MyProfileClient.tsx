@@ -1,10 +1,16 @@
 "use client";
-import { User as PrismaUser } from "@prisma/client";
 import Link from "next/link";
 import { Button } from "styles/Button";
 
+type UserData = {
+  email: string;
+  name: string;
+  town: string | null;
+  profileText: string | null;
+};
+
 type MyProfileClientProps = {
-  databaseUser: PrismaUser;
+  databaseUser: UserData;
 };
 
 export function MyProfileClient({ databaseUser }: MyProfileClientProps) {

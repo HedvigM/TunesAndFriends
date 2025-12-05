@@ -1,8 +1,7 @@
 /* TODO: När man lägger till låtar (från nya tunes sidan... 
 kanske även från gamla tunes sidan?) så verkar dom hamna lite fel. Ser ut som att låtar 
 och taggar läggs på på fel användare och med taggar den inte ska ha? */
-import { requireAuth } from "lib/auth/app-router";
-import { userService } from "services";
+import { requireAuthWithUser } from "lib/auth/app-router";
 import { TUNE_URL } from "utils/urls";
 import { Page } from "styles/Page";
 import { MyTunesClient } from "components/MyTunesClient";
@@ -31,23 +30,7 @@ async function fetchTuneData(sessionId: number) {
 }
 
 export default async function MyTunesPage() {
-  const session = await requireAuth();
-  const auth0UserId = session.user.sub;
-
-  const userResult = await userService.getUserByAuth0Id(auth0UserId);
-
-  if (!userResult.success || !userResult.data) {
-    console.error("Failed to fetch user data:", userResult.error);
-    return (
-      <Page title="My tunes">
-        <div style={{ padding: "20px", textAlign: "center" }}>
-          <p>Failed to load your tunes. Please try again later.</p>
-        </div>
-      </Page>
-    );
-  }
-
-  const userData = userResult.data;
+  const { user: userData } = await requireAuthWithUser();
 
   const tunes = (userData?.knowTunes || []) as TuneWithTags[];
 

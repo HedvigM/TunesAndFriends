@@ -1,35 +1,12 @@
 "use client";
-import { useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
-import { getOrCreateUser } from "lib/api";
 import { Header } from "./Header";
 import styles from "styles/Typography.module.scss";
 
 export const Menu = (props: { title: string }) => {
-  const { user, isLoading } = useUser();
+  const { user } = useUser();
 
-  useEffect(() => {
-    let isMounted = true;
-
-    if (typeof user !== "undefined" && isLoading === false && user) {
-      getOrCreateUser(user)
-        .then((result) => {
-          if (isMounted && !result.success) {
-            console.error("Failed to get/create user in Menu:", result.error);
-          }
-        })
-        .catch((error) => {
-          if (isMounted) {
-            console.error("Unexpected error in Menu:", error);
-          }
-        });
-    }
-
-    return () => {
-      isMounted = false;
-    };
-  }, [user, isLoading]);
 
 /* TODO: ändra till små bokstäver */
 

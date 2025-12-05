@@ -1,10 +1,8 @@
-import { requireAuth } from "lib/auth/app-router";
-import { userService } from "services";
+import { requireAuthWithUser } from "lib/auth/app-router";
 import { POPULAR_URL } from "utils/urls";
 import { Page } from "styles/Page";
 import { PopularTunesClient } from "components/PopularTunesClient";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
-import { LoadingSpinner } from "components/LoadingSpinner";
 import styles from "styles/containers.module.scss";
 
 type PopularTunesResponse = {
@@ -52,22 +50,15 @@ interface TunesPageProps {
 }
 
 export default async function TunesPage({ searchParams }: TunesPageProps) {
-  const session = await requireAuth();
-  const auth0UserId = session.user.sub;
+  const { user: userData } = await requireAuthWithUser();
 
   // Get page number from searchParams
   const page = parseInt(searchParams.page || "1", 10);
 
-  // Fetch user's known tunes
-  const userResult = await userService.getUserByAuth0Id(auth0UserId);
-
-  let knownTuneIds: number[] = [];
-  if (userResult.success && userResult.data) {
-    knownTuneIds =
-      userResult.data.knowTunes?.map(
-        (tune: { sessionId: number }) => tune.sessionId
-      ) || [];
-  }
+  // Get user's known tune IDs
+  const knownTuneIds = userData.knowTunes?.map(
+    (tune) => tune.sessionId
+  ) || [];
 
   // Fetch popular tunes from external API
   const popularTunesData = await fetchPopularTunes(page);

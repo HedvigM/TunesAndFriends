@@ -1,8 +1,6 @@
-import { requireAuth } from "lib/auth/app-router";
-import { userService } from "services/userService";
+import { requireAuthWithUser } from "lib/auth/app-router";
 import { TUNE_URL } from "utils/urls";
 import { Header } from "components/Header";
-import { Login } from "components/Login";
 import { TableData, StyledTable } from "components/Table";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
 import { Page } from "styles/Page";
@@ -26,25 +24,7 @@ async function fetchTuneData(sessionId: number) {
 }
 
 export default async function HomePage() {
-  const session = await requireAuth();
-
-  const userProfile = {
-    sub: session.user.sub,
-    name: session.user.name || session.user.nickname || "",
-    email: session.user.email || "",
-  };
-
-  const userResult = await userService.getOrCreateUser(userProfile as any);
-  if (!userResult.success || !userResult.data) {
-    console.log("HomePage - User fetch/create failed or no data, showing login");
-    return (
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <Login />
-      </div>
-    );
-  }
-
-  const userData = userResult.data;
+  const { user: userData } = await requireAuthWithUser();
 
   const tuneIds = userData?.knowTunes?.map(
     (tunes: { sessionId: number }) => tunes.sessionId

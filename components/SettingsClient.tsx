@@ -2,7 +2,6 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { User as PrismaUser } from "@prisma/client";
 import { AccountInfo } from "components/accountInfo";
 import { ProfileImage } from "components/ProfileImage";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
@@ -10,8 +9,15 @@ import { Button } from "styles/Button";
 import Link from "next/link";
 import { updateUserProfileAction } from "app/my-profile/settings/actions";
 
+type UserData = {
+  id: number;
+  email: string;
+  town: string | null;
+  profileText: string | null;
+};
+
 type ProfileClientProps = {
-  databaseUser: PrismaUser;
+  databaseUser: UserData;
   userPicture: string | null;
 };
 

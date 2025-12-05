@@ -156,3 +156,71 @@ export async function getAuthenticatedUserEmail(): Promise<string | undefined> {
   return session.user.email;
 }
 
+/**
+ * Database user type returned by requireAuthWithUser
+ */
+export interface DatabaseUser {
+  id: number;
+  name: string;
+  email: string;
+  auth0UserId: string;
+  role: "USER" | "ADMIN";
+  createdAt: Date;
+  town: string | null;
+  profileText: string | null;
+  picture: string | null;
+  knowTunes?: Array<{ id: number; sessionId: number; tags?: Array<{ id: number; name: string }> }>;
+  following?: Array<{ id: number; name: string; auth0UserId?: string }>;
+  followedBy?: Array<{ id: number; name: string }>;
+}
+
+/**
+ * Auth result with both session and database user
+ */
+export interface AuthWithUser {
+  session: Session;
+  user: DatabaseUser;
+}
+
+/**
+ * Require authentication AND ensure user exists in database.
+ * Redirects to login if not authenticated.
+ * Creates user in database if they don't exist yet.
+ * 
+ * Use this when you need both the Auth0 session and the database user.
+ * This is the recommended way to protect pages that need user data.
+ * 
+ * @example
+ * ```tsx
+ * const { session, user } = await requireAuthWithUser();
+ * // User is guaranteed to be authenticated AND exist in the database
+ * const userId = user.id;
+ * const tunes = user.knowTunes;
+ * ```
+ */
+export async function requireAuthWithUser(): Promise<AuthWithUser> {
+  // Import here to avoid circular dependency
+  const { userService } = await import("services/userService");
+  
+  const session = await requireAuth();
+  
+  const userProfile = {
+    sub: session.user.sub,
+    name: session.user.name || session.user.nickname || "",
+    email: session.user.email || "",
+  };
+  
+  const userResult = await userService.getOrCreateUser(userProfile as any);
+  
+  if (!userResult.success || !userResult.data) {
+    // This should rarely happen - only if database is down
+    console.error("Failed to get/create user in database:", userResult.error);
+    throw new Error("Failed to load user data. Please try again later.");
+  }
+  
+  return {
+    session,
+    user: userResult.data as DatabaseUser,
+  };
+}
+

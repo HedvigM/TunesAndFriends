@@ -1,4 +1,4 @@
-import { requireAuth } from "lib/auth/app-router";
+import { requireAuthWithUser } from "lib/auth/app-router";
 import { userService } from "services";
 import { TUNE_URL } from "utils/urls";
 import { Page } from "styles/Page";
@@ -36,8 +36,7 @@ async function fetchTuneDetails(sessionId: number): Promise<TuneDetails | null> 
 
 export default async function TunePage({ params }: TunePageProps) {
   const { slug } = await params;
-  const session = await requireAuth();
-  const currentUserAuth0Id = session.user.sub;
+  const { user: loggedInUser } = await requireAuthWithUser();
   const sessionId = parseInt(slug, 10);
 
   if (isNaN(sessionId)) {
@@ -67,15 +66,10 @@ export default async function TunePage({ params }: TunePageProps) {
     ? usersWithTuneResult.data
     : [];
 
-  let loggedinKnowTuneIds: number[] = [];
-  const loggedInUserResult = await userService.getUserByAuth0Id(currentUserAuth0Id);
-  if (loggedInUserResult.success && loggedInUserResult.data) {
-    if (Array.isArray(loggedInUserResult.data.knowTunes)) {
-      loggedinKnowTuneIds = loggedInUserResult.data.knowTunes.map(
-        (tune: { sessionId: number }) => tune.sessionId
-      );
-    }
-  }
+  // Get logged-in user's known tune IDs
+  const loggedinKnowTuneIds = loggedInUser.knowTunes?.map(
+    (tune) => tune.sessionId
+  ) || [];
 
   const abcNotes = tuneDetails.settings?.[0]?.abc || "";
   const isKnown = loggedinKnowTuneIds.includes(sessionId);
