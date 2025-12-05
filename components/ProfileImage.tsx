@@ -1,55 +1,39 @@
-import { colors } from "styles/theme";
-import AddIcon from "@mui/icons-material/Add";
-import { Avatar, styled } from "@mui/material";
-import { useUser } from "@auth0/nextjs-auth0";
+import Image from "next/image";
 
 type ProfileImageProps = {
   size: "small" | "large";
+  picture: string | null;
 };
 
-export const ProfileImage = (props: ProfileImageProps) => {
-  const { user } = useUser();
+export const ProfileImage = ({size, picture}: ProfileImageProps) => {
+  const dimensions = size === "small" ? 80 : 110;
+  
   return (
-    <OuterContainer size={props.size}>
-      {user?.picture ? (
-        <StyledAvatar size={props.size} src={user.picture}></StyledAvatar>
-      ) : (
-        <StyledAvatar size={props.size} color="primary"></StyledAvatar>
-      )}
-      <PlusContainer size={props.size}>
-        <AddIcon />
-      </PlusContainer>
-    </OuterContainer>
+    <div style={{
+      height: `${dimensions}px`,
+      width: `${dimensions}px`,
+      borderRadius: "50%",
+      backgroundColor: `var(--color-secondary)`,
+      border: picture ? "1px solid black" : "none",
+      overflow: "hidden",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      position: "relative"
+    }}>
+      {picture ? (
+        <Image
+          src={picture}
+          alt="Profile picture"
+          width={dimensions}
+          height={dimensions}
+          style={{
+            objectFit: "cover",
+            borderRadius: "50%"
+          }}
+          unoptimized // Use unoptimized for external URLs not in remotePatterns
+        />
+      ) : null}
+    </div>
   );
 };
-
-const OuterContainer = styled("div", {
-  shouldForwardProp: (prop) => prop !== "size",
-})<ProfileImageProps>((props) => ({
-  height: props.size === "small" ? "80px" : "110px",
-  width: props.size === "small" ? "80px" : "110px",
-}));
-
-const StyledAvatar = styled(Avatar, {
-  shouldForwardProp: (prop) => prop !== "size",
-})<ProfileImageProps>((props) => ({
-  height: props.size === "small" ? "80px" : "110px",
-  width: props.size === "small" ? "80px" : "110px",
-  borderRadius: "50%",
-  backgroundColor: `${colors.second}`,
-  border: "1px solid black",
-  zIndex: -1,
-}));
-
-const PlusContainer = styled("div", {
-  shouldForwardProp: (prop) => prop !== "size",
-})<ProfileImageProps>((props) => ({
-  display: props.size === "small" && "none",
-  height: "30px",
-  width: "30px",
-  borderRadius: "50%",
-  backgroundColor: `${colors.first}`,
-  border: "1px solid black",
-  margin: "-31px 79px",
-  zIndex: "2",
-}));

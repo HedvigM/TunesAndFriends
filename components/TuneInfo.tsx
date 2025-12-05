@@ -1,49 +1,34 @@
-import { styled, Typography } from "@mui/material";
+import { Typography } from "styles/Typography";
 
-type TuneInfo = {
+type TuneInfoProps = {
   type: string;
-  knownBy?: KnownByProp[];
+  knownBy: KnownByProp[];
 };
+
 type KnownByProp = {
   name: string;
   auth0UserId: string;
 };
 
-export const TuneInfo = ({ type, knownBy }) => {
+export const TuneInfo = ({ type, knownBy }: TuneInfoProps) => {
   return (
-    <OuterContainer>
-      <TuneType>type: {type}</TuneType>
-      <FriendsContainer>
-        <div>known by:</div>
-        <FriendsList>
-          {knownBy &&
+    <div>
+      <div style={{ display: "flex", flexDirection: "row", gap: "5px" }}>
+      <Typography variant="body">Type:</Typography>
+      <Typography variant="body">{type}</Typography>
+      </div>
+
+        <div style={{ display: "flex", flexDirection: "row", gap: "5px" }}>
+      <Typography variant="body">known by:</Typography>
+          {knownBy && knownBy.length > 0 &&
             knownBy.map((knownBy: KnownByProp) => (
-              <Typography fontSize="small">{`${knownBy.name},`}</Typography>
+              <Typography key={knownBy.auth0UserId} variant="body">{`${knownBy.name},`}</Typography>
             ))}
-        </FriendsList>
-      </FriendsContainer>
-    </OuterContainer>
+          {knownBy && knownBy.length === 0 &&
+            <Typography variant="body">No one knows this tune</Typography>
+          }
+        </div>
+      </div>
   );
 };
 
-const OuterContainer = styled("div")`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-`;
-const TuneType = styled("div")`
-  border: 1px solid black;
-  border-bottom: none;
-`;
-const FriendsContainer = styled("div")`
-  border: 1px solid black;
-  grid-column-start: 1;
-  grid-column-end: 3;
-  grid-row-start: 2;
-  grid-row-end: 4;
-`;
-const FriendsList = styled("div")`
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-`;

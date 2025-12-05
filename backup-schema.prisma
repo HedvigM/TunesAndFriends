@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int             @id @default(autoincrement())
+  createdAt      DateTime        @default(now())
+  name           String
+  auth0UserId    String          @unique
+  email          String          @unique
+  town           String?
+  profileText    String?
+  role           Role            @default(BASIC)
+  userPreference UserPreference?
+  users_A        User[]          @relation("follows")
+  users_B        User[]          @relation("follows")
+  knowTunes      Tune[]          @relation("knowTunes")
+  starredTunes   Tune[]          @relation("starredTunes")
+
+  @@map("users")
+}
+
+model UserPreference {
+  id           Int     @id @default(autoincrement())
+  emailUpdates Boolean
+  userId       Int     @unique
+  user         User    @relation(fields: [userId], references: [id])
+}
+
+model Tune {
+  id        Int    @id @default(autoincrement())
+  sessionId Int    @unique
+  knowedBy  User[] @relation("knowTunes")
+  starredBy User[] @relation("starredTunes")
+  tags      Tag[]  @relation("tags")
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  tunes Tune[] @relation("tags")
+}
+
+enum Role {
+  BASIC
+  ADMIN
+}
+
+

@@ -1,0 +1,129 @@
+
+.base {
+    font-family: 'Oxygen', sans-serif;
+    line-height: 1.2;
+    color: black;
+  }
+
+  .margin {
+    margin-bottom: 20px;
+  }
+
+  @mixin header($color: var(--color-primary), $height: 20px) {
+    font-family: 'Oxygen', sans-serif;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    font-weight: bold;
+
+    &::before {
+      content: "";
+      background-color: $color;
+      /* backgroundColor: props.color === "blue" ? colors.second : colors.first, */
+      height: $height;
+      bottom: 0;
+      position: absolute;
+      z-index: -1;
+      margin: 0 -10px;
+      width: -webkit-fill-available;
+    }
+  }
+
+  .h1 {
+    @include header($color: var(--color-primary), $height: 20px);
+  }
+
+  .h2 {
+    @include header($color: var(--color-secondary), $height: 14px);
+  }
+
+  .h3 {
+    @include header($color: var(--color-secondary), $height: 14px);
+  }
+
+  .h4 {
+    font-size: 1.728rem;
+
+    @media (max-width: 767px) {
+      font-size: 1.215rem;
+    }
+  }
+
+  .h5 {
+    font-size: 1.44rem;
+
+    @media (max-width: 767px) {
+      font-size: 1.138rem;
+    }
+  }
+
+  .h6 {
+    font-size: 1.2rem;
+
+    @media (max-width: 767px) {
+      font-size: 1.067rem;
+    }
+  }
+
+  .body {
+    font-family: 'Oxygen', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .bodyLink {
+    font-family: 'Oxygen', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    text-decoration: none;
+    color: black;
+    &:hover {
+      opacity: 0.7;
+      cursor: pointer;
+    }
+  }
+
+  .tableLink {
+    font-family: 'Oxygen', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: black;
+    display: inline;
+    width: fit-content;
+    text-align: left;
+    padding: 0 3px;
+
+    &:hover {
+      color: line-clamp;
+      background-color: var(--color-primary);
+      cursor: pointer;
+      width: fit-content;
+      border-radius: 3px;
+    }
+  }
+
+  .white {
+    color: var(--color-text-primary);
+  }
+
+  .black {
+    color: black;
+  }
+.loginButton {
+    font-family: 'Oxygen', sans-serif;
+    font-weight: bold;
+    position: relative;
+  text-decoration: none;
+  font-weight: 400;
+  background-color: var(--color-primary);
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  &:hover {
+    cursor: pointer;
+    background-color: var(--color-third);
+    color: var(--color-fourth);
+  }
+}

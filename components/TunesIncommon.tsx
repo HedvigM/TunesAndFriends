@@ -1,6 +1,7 @@
-import { Container } from "@mui/material";
-import React, { useEffect, useState } from "react";
+"use client";
+import { useMemo } from "react";
 import { StyledTable } from "./Table";
+import { ComponentErrorBoundary } from "./errors/ComponentErrorBoundary";
 
 type TunesIncommonProps = {
   logedinKnowTuneId: number[];
@@ -14,34 +15,26 @@ export const TunesIncommon = ({
   logedinKnowTuneId,
   knowTunes,
 }: TunesIncommonProps) => {
-  const [commonTunes, setCommonTunes] =
-    useState<TunesIncommonProps["knowTunes"]>();
-
-  useEffect(() => {
-    if (logedinKnowTuneId && knowTunes) {
-      const commonTunes = knowTunes.filter(
-        (knowTune) =>
-          logedinKnowTuneId.findIndex(
-            (loggedInKnowTuneSingleId) =>
-              loggedInKnowTuneSingleId == knowTune.id
-          ) > -1
-      );
-      setCommonTunes(commonTunes);
-    }
+  // Compute common tunes directly from props - no need for useEffect
+  const commonTunes = useMemo(() => {
+    if (!logedinKnowTuneId || !knowTunes) return [];
+    return knowTunes.filter((knowTune) =>
+      logedinKnowTuneId.includes(knowTune.id)
+    );
   }, [logedinKnowTuneId, knowTunes]);
 
   return (
-    <>
-      {commonTunes &&
-        commonTunes.map((tune) => (
-          <StyledTable
-            onClickHandle={() => {}}
-            know={true}
-            pathname="/tune/[slug]"
-            slug={tune.id}
-            data={tune}
-          />
-        ))}
-    </>
+    <ComponentErrorBoundary componentName="Tunes in Common">
+      {commonTunes.map((tune) => (
+        <StyledTable
+          key={tune.id}
+          onClickHandle={() => {}}
+          know={true}
+          pathname="/tune"
+          slug={tune.id}
+          data={tune}
+        />
+      ))}
+    </ComponentErrorBoundary>
   );
 };

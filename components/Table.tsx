@@ -1,9 +1,10 @@
-import { Box, Container, styled, Typography } from "@mui/material";
+"use client";
 import Link from "next/link";
-import { colors } from "styles/theme";
+import { Button } from "styles/Button";
+import styles from "styles/Typography.module.scss";
 
 interface TableProps {
-  onClickHandle: (id: number) => void;
+  onClickHandle?: (id: number) => void;
   know: boolean;
   pathname: string;
   slug: string | number;
@@ -21,74 +22,44 @@ export const StyledTable = ({
   pathname,
   slug,
 }: TableProps) => {
+
+/* TODO: Hamnar inte i mitten när man gör fönstret mindre. */
   return (
-    <Container maxWidth="sm" sx={{ margin: "0" }}>
-      <Box
-        sx={{
+    <div style={{ margin: "0", maxWidth: "600px", minWidth: "300px", width: "100%" }}>
+      <div
+        style={{
           borderTop: "1px solid grey",
-          "&:last-child td, &:last-child th": { border: 0 },
           display: "grid",
           alignItems: "center",
           gridTemplateColumns: "80% 1fr",
-        }}
+          ":lastChild td, :lastChild th": { border: 0 },
+        } as React.CSSProperties}
       >
         <Link
-          href={{
-            pathname: `${pathname}`,
-            query: { slug: `${slug}` },
-          }}
+          href={`${pathname}/${slug}`}
+          style={{ textDecoration: "none" }}
         >
-          <StyledTypography variant="body1">{data.name}</StyledTypography>
+          <p className={styles.tableLink}>{data.name}</p>
         </Link>
 
-        <Box
-          sx={{
+        <div
+          style={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             padding: "5px 0",
           }}
         >
-          <StyledButton know={know} onClick={() => onClickHandle(data.id)}>
+          {/* Remove button, add tag? */}
+          <Button 
+            element="button" 
+            active={know} 
+            onClick={onClickHandle ? () => onClickHandle(data.id) : undefined}
+          >
             add
-          </StyledButton>
-        </Box>
-      </Box>
-    </Container>
+          </Button>
+        </div>
+      </div>
+    </div>
   );
 };
-
-type TableStyledProps = {
-  know: boolean;
-};
-
-const StyledButton = styled("button", {
-  shouldForwardProp: (prop) => prop !== "know",
-})<TableStyledProps>((props) => ({
-  backgroundColor: props.know ? "inherit" : colors.first,
-  padding: "5px 10px",
-  border: `1px solid ${colors.first}`,
-  borderRadius: "3px",
-
-  "&:hover": {
-    cursor: "pointer",
-  },
-}));
-
-const StyledTypography = styled(Typography)`
-  font-size: 1rem;
-  font-weight: 400;
-  color: black;
-  display: inline;
-  width: fit-content;
-  padding-right: 10px;
-  padding-left: 2px;
-  text-align: left;
-  margin: 1px;
-
-  :hover {
-    color: line-clamp;
-    background-color: ${colors.first};
-    cursor: pointer;
-  }
-`;
