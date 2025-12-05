@@ -168,7 +168,6 @@ export interface DatabaseUser {
   createdAt: Date;
   town: string | null;
   profileText: string | null;
-  picture: string | null;
   knowTunes?: Array<{ id: number; sessionId: number; tags?: Array<{ id: number; name: string }> }>;
   following?: Array<{ id: number; name: string; auth0UserId?: string }>;
   followedBy?: Array<{ id: number; name: string }>;
