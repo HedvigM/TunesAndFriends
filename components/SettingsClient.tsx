@@ -12,9 +12,10 @@ import { updateUserProfileAction } from "app/my-profile/settings/actions";
 
 type ProfileClientProps = {
   databaseUser: PrismaUser;
+  userPicture: string | null;
 };
 
-export function ProfileClient({ databaseUser }: ProfileClientProps) {
+export function ProfileClient({ databaseUser, userPicture }: ProfileClientProps) {
   const [town, setTown] = useState(databaseUser.town || "");
   const [profileText, setProfileText] = useState(databaseUser.profileText || "");
   const [isPending, startTransition] = useTransition();
@@ -69,7 +70,7 @@ export function ProfileClient({ databaseUser }: ProfileClientProps) {
             justifyContent: "center",
           }}
         >
-          <ProfileImage size={"large"} />
+          <ProfileImage size={"large"} picture={userPicture} />
         </div>
       </ComponentErrorBoundary>
       <ComponentErrorBoundary componentName="Account Information">

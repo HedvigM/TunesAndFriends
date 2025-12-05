@@ -1,47 +1,33 @@
-"use client";
-import { useUser } from "@auth0/nextjs-auth0/client";
-
 type ProfileImageProps = {
   size: "small" | "large";
+  picture: string | null;
 };
 
-const smallProfileImage = (userPicture: string) => {
+export const ProfileImage = ({size, picture}: ProfileImageProps) => {
   return (
     <div style={{
-      height: "80px",
-      width: "80px",
+      height: size === "small" ? "80px" : "110px",
+      width: size === "small" ? "80px" : "110px",
       borderRadius: "50%",
       backgroundColor: `var(--color-secondary)`,
-      border: "1px solid black",
-      zIndex: -1,
-      overflow: "hidden"
+      border: picture ? "1px solid black" : "none",
+      overflow: "hidden",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
     }}>
-      <img src={userPicture} alt="small profile image" />
-    </div>
-  )
-}
-
-const largeProfileImage = (userPicture: string) => {
-  return (
-    <div style={{
-      height: "110px",
-      width: "110px",
-      borderRadius: "50%",
-      backgroundColor: `var(--color-secondary)`,
-      border: "1px solid black",
-      zIndex: -1,
-      overflow: "hidden"
-    }}>
-      <img src={userPicture} alt="large profile image" style={{width: "100%", height: "100%"}} />
-    </div>
-  )
-}
-
-export const ProfileImage = (props: ProfileImageProps) => {
-  const { user } = useUser();
-  return (
-    <div>
-      {props.size === "small" ? smallProfileImage(user?.picture || "") : largeProfileImage(user?.picture || "")}
+      {picture ? (
+        <img
+          src={picture}
+          alt="profile image"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            borderRadius: "50%"
+          }}
+        />
+      ) : null}
     </div>
   );
 };
