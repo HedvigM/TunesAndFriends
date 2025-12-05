@@ -14,6 +14,7 @@ export const userBasicSelect = {
   town: true,
   createdAt: true,
   role: true,
+  picture: true,
 } as const;
 
 export const userWithProfileSelect = {
@@ -57,6 +58,7 @@ export const userListSelect = {
   email: true,
   auth0UserId: true,
   town: true,
+  picture: true,
 } as const;
 
 /**
