@@ -10,6 +10,7 @@ export interface CreateUserInput {
   name: string;
   email: string;
   auth0UserId: string;
+  picture?: string | null;
 }
 
 export interface UpdateUserInput {
@@ -113,6 +114,7 @@ export class UserService extends BaseService {
           name: input.name,
           email: input.email,
           auth0UserId: input.auth0UserId,
+          picture: input.picture || null,
         },
       });
 
@@ -122,12 +124,13 @@ export class UserService extends BaseService {
   }
 
   async createUserFromAuth0(
-    profile: UserProfile
+    profile: UserProfile & { picture?: string | null }
   ): Promise<ServiceResult<any>> {
     return this.createUser({
       name: profile.name || "",
       email: profile.email || "",
       auth0UserId: profile.sub || "",
+      picture: profile.picture || null,
     });
   }
 

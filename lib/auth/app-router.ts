@@ -168,6 +168,7 @@ export interface DatabaseUser {
   createdAt: Date;
   town: string | null;
   profileText: string | null;
+  picture: string | null;
   knowTunes?: Array<{ id: number; sessionId: number; tags?: Array<{ id: number; name: string }> }>;
   following?: Array<{ id: number; name: string; auth0UserId?: string }>;
   followedBy?: Array<{ id: number; name: string }>;
@@ -207,6 +208,7 @@ export async function requireAuthWithUser(): Promise<AuthWithUser> {
     sub: session.user.sub,
     name: session.user.name || session.user.nickname || "",
     email: session.user.email || "",
+    picture: session.user.picture || null,
   };
   
   const userResult = await userService.getOrCreateUser(userProfile as any);
