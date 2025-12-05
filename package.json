@@ -19,7 +19,7 @@
     "prisma:migrate:dev": "dotenv -e .env.local -- prisma migrate dev"
   },
   "dependencies": {
-    "@auth0/auth0-react": "^2.8.0",
+    "@auth0/auth0-react": "^2.10.0",
     "@auth0/nextjs-auth0": "^3.8.0",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-brands-svg-icons": "^6.1.1",
@@ -30,19 +30,19 @@
     "clsx": "^2.1.1",
     "dotenv": "^16.0.2",
     "dotenv-cli": "^6.0.0",
-    "next": "^16.0.1",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "sass": "^1.93.2"
+    "next": "^16.0.7",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "sass": "^1.94.2"
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
-    "@types/node": "^24.10.0",
-    "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.2",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "eslint": "^7.31.0",
-    "eslint-config-next": "^16.0.1",
+    "eslint-config-next": "^16.0.7",
     "eslint-plugin-jest": "^24.4.0",
     "jest": "^27.0.6",
     "prisma": "^6.19.0",
