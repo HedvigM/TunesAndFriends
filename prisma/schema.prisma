@@ -18,6 +18,7 @@ model User {
   email          String          @unique
   town           String?
   profileText    String?
+  picture        String?
   savedTunes     Tune[]          @relation("savedTunes")
   tags           Tag[]           @relation("usersTags")
   taggings       Tagging[]       @relation("taggings")
