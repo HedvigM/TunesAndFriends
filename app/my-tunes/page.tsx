@@ -2,6 +2,9 @@
 kanske även från gamla tunes sidan?) så verkar dom hamna lite fel. Ser ut som att låtar 
 och taggar läggs på på fel användare och med taggar den inte ska ha? */
 import { requireAuthWithUser } from "lib/auth/app-router";
+
+// Force dynamic rendering since this page uses cookies for auth
+export const dynamic = 'force-dynamic';
 import { TUNE_URL } from "utils/urls";
 import { Page } from "styles/Page";
 import { MyTunesClient } from "components/MyTunesClient";

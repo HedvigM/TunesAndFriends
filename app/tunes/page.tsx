@@ -1,5 +1,8 @@
 import { requireAuthWithUser } from "lib/auth/app-router";
 import { POPULAR_URL } from "utils/urls";
+
+// Force dynamic rendering since this page uses cookies for auth
+export const dynamic = 'force-dynamic';
 import { Page } from "styles/Page";
 import { PopularTunesClient } from "components/PopularTunesClient";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
