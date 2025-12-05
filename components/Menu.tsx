@@ -68,7 +68,7 @@ export const Menu = (props: { title: string }) => {
 
         {user && user.sub !== undefined && (
             <Link
-              href={`/friend/${user.sub}`}
+              href={`/my-profile`}
               style={{ textDecoration: "none" }}
             >
               <p className={styles.bodyLink}>
