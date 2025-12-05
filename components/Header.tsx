@@ -1,4 +1,3 @@
-"use client";
 import { ReactNode } from "react";
 import headerStyles from "styles/Typography.module.scss";
 import containerStyles from "styles/containers.module.scss";
@@ -8,6 +7,7 @@ type HeaderProps = {
   size: "small" | "medium" | "large";
   textAlign: "left" | "center";
 };
+
 export const Header = ({ children, size, textAlign }: HeaderProps) => (
   <div className={textAlign === "left" ? containerStyles.outerContainerLeft : containerStyles.outerContainerCenter} /* textAlign={textAlign} */>
     <div className={containerStyles.headerContainer}>

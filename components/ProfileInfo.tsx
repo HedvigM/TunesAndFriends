@@ -1,4 +1,3 @@
-"use client";
 import { Typography } from "styles/Typography";
 
 type ProfileInfoProps = {
