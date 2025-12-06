@@ -78,8 +78,8 @@ function validateEnv(): { valid: boolean; errors: ValidationError[] } {
   // Database validation
   const databaseError = validateEnvVar('DATABASE_URL', process.env.DATABASE_URL, {
     required: true,
-    pattern: /^postgresql:\/\/.+/,
-    customMessage: 'DATABASE_URL must be a valid PostgreSQL connection string (postgresql://...)',
+    pattern: /^postgres:\/\/.+/,
+    customMessage: 'DATABASE_URL must be a valid PostgreSQL connection string (postgres://...)',
   });
   if (databaseError) errors.push(databaseError);
 
