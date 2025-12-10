@@ -21,13 +21,11 @@ export interface PopularTune {
 }
 
 export interface PopularTunesResponse {
+  format: string;
+  page: number;
+  pages: number;
+  total: number;
   tunes: PopularTune[];
-  pagination: {
-    page: number;
-    per_page: number;
-    pages: number;
-    total: number;
-  };
 }
 
 /**
@@ -79,6 +77,15 @@ export async function getTunesDetails(
 
 /**
  * Fetch popular tunes from TheSession.org
+ * 
+ * API Response format:
+ * {
+ *   format: "json",
+ *   pages: 2276,      // Total pages
+ *   page: 1,          // Current page
+ *   total: 22755,     // Total tunes
+ *   tunes: [...]      // Tune array
+ * }
  */
 export const getPopularTunes = cache(
   async (page: number = 1): Promise<PopularTunesResponse | null> => {

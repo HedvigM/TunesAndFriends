@@ -8,14 +8,14 @@ import { Page } from "styles/Page";
 import { PopularTunesClient } from "components/PopularTunesClient";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
 import { PopularTunesSkeleton } from "components/skeletons";
-import styles from "styles/containers.module.scss";
+import { Pagination } from "components/Pagination";
 
 interface TunesPageProps {
   searchParams: Promise<{ page?: string }>;
 }
 
-// Async component that fetches popular tunes
-async function PopularTunesList({ page }: { page: number }) {
+// Async component that fetches popular tunes and returns pagination info
+async function PopularTunesWithPagination({ page }: { page: number }) {
   // Parallel fetch: auth and popular tunes don't depend on each other
   const [{ user: userData }, popularTunesData] = await Promise.all([
     requireAuthWithUser(),
@@ -35,12 +35,26 @@ async function PopularTunesList({ page }: { page: number }) {
     );
   }
 
+  // TheSession.org API returns pagination at root level
+  const currentPage = popularTunesData.page || page;
+  const totalPages = popularTunesData.pages || 1;
+
   return (
-    <PopularTunesClient
-      userId={userData.id}
-      popularTunes={popularTunesData.tunes}
-      knownTuneIds={knownTuneIds}
-    />
+    <>
+      <PopularTunesClient
+        userId={userData.id}
+        popularTunes={popularTunesData.tunes}
+        knownTuneIds={knownTuneIds}
+      />
+      
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          baseUrl="/tunes"
+        />
+      )}
+    </>
   );
 }
 
@@ -52,13 +66,9 @@ export default async function TunesPage({ searchParams }: TunesPageProps) {
     <Page title="Popular Tunes">
       <ComponentErrorBoundary componentName="Popular Tunes List">
         <Suspense fallback={<PopularTunesSkeleton count={10} />}>
-          <PopularTunesList page={page} />
+          <PopularTunesWithPagination page={page} />
         </Suspense>
       </ComponentErrorBoundary>
-
-      <div className={styles.centerContainer}>
-        {/* TODO: Add pagination component */}
-      </div>
     </Page>
   );
 }
