@@ -1,4 +1,4 @@
-import { requireAuthWithUser } from "lib/auth/app-router";
+import { getAuthSession, requireAuthWithUser } from "lib/auth/app-router";
 import { getTunesBasicInfo } from "services/externalTuneService";
 
 // Force dynamic rendering since this page uses cookies for auth
@@ -6,6 +6,7 @@ export const dynamic = 'force-dynamic';
 import { Header } from "components/Header";
 import { TableData, StyledTable } from "components/Table";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
+import { Login } from "components/Login";
 import { Page } from "styles/Page";
 import styles from "styles/containers.module.scss";
 
@@ -17,6 +18,12 @@ type UserTuneData = {
 };
 
 export default async function HomePage() {
+  const session = await getAuthSession();
+
+  if (!session) {
+    return <Login />;
+  }
+
   const { user: userData } = await requireAuthWithUser();
 
   const userTunes = (userData?.userTunes || []) as UserTuneData[];

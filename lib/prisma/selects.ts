@@ -52,11 +52,29 @@ export const userWithRelationsSelect = {
     take: 50, // Limit to 50 most recent
   },
   following: {
-    select: userBasicSelect,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      auth0UserId: true,
+      town: true,
+      createdAt: true,
+      role: true,
+      picture: true,
+    },
     take: 100, // Limit to 100 following
   },
   followedBy: {
-    select: userBasicSelect,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      auth0UserId: true,
+      town: true,
+      createdAt: true,
+      role: true,
+      picture: true,
+    },
     take: 100, // Limit to 100 followers
   },
 } as const;

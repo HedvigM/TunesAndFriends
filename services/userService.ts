@@ -38,7 +38,17 @@ export class UserService extends BaseService {
     return this.execute(async () => {
       const user = await this.prisma.user.findUnique({
         where: { auth0UserId },
-        select: userWithRelationsSelect,
+        include: {
+          userTunes: {
+            include: {
+              tune: true,
+              tags: true,
+            },
+            take: 50,
+          },
+          following: true,
+          followedBy: true,
+        },
       });
 
       if (!user) {

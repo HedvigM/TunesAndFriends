@@ -24,7 +24,7 @@ export default async function FriendsPage() {
   }
 
   const friendsArray = (currentUser.following || []).map(
-    (friend: { auth0UserId?: string }) => friend.auth0UserId || ""
+    (friend: { id: number }) => friend.id
   );
 
   return (

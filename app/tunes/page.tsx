@@ -11,7 +11,7 @@ import { PopularTunesSkeleton } from "components/skeletons";
 import styles from "styles/containers.module.scss";
 
 interface TunesPageProps {
-  searchParams: { page?: string };
+  searchParams: Promise<{ page?: string }>;
 }
 
 // Async component that fetches popular tunes
@@ -44,8 +44,9 @@ async function PopularTunesList({ page }: { page: number }) {
   );
 }
 
-export default function TunesPage({ searchParams }: TunesPageProps) {
-  const page = parseInt(searchParams.page || "1", 10);
+export default async function TunesPage({ searchParams }: TunesPageProps) {
+  const resolvedSearchParams = await searchParams;
+  const page = parseInt(resolvedSearchParams.page || "1", 10);
 
   return (
     <Page title="Popular Tunes">
