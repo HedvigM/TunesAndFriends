@@ -11,8 +11,8 @@ const path = require('path');
 const REQUIRED_VARS = [
   {
     name: 'DATABASE_URL',
-    pattern: /^postgres:\/\/.+/,
-    message: 'Must be a valid PostgreSQL connection string (postgres://...)',
+    pattern: /^postgresql:\/\/.+/,
+    message: 'Must be a valid PostgreSQL connection string (postgresql://...)',
   },
   {
     name: 'AUTH0_SECRET',
@@ -128,7 +128,7 @@ function main() {
   
   // Show current configuration (masked sensitive values)
   console.log('📋 Current configuration:');
-  console.log(`  • DATABASE_URL: ${process.env.DATABASE_URL.substring(0, 30)}...`);
+  console.log(`  • DATABASE_URL: ${process.env.DATABASE_URL.substring(0, 30)}...`); /* TODO: Den här checken behöver passa både prod och dev... */
   console.log(`  • AUTH0_BASE_URL: ${process.env.AUTH0_BASE_URL}`);
   console.log(`  • AUTH0_ISSUER_BASE_URL: ${process.env.AUTH0_ISSUER_BASE_URL}`);
   console.log(`  • AUTH0_CLIENT_ID: ${process.env.AUTH0_CLIENT_ID.substring(0, 10)}...`);

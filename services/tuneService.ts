@@ -109,15 +109,6 @@ export class TuneService extends BaseService {
             },
           },
         });
-      } else {
-        await this.prisma.user.update({
-          where: { email: input.email },
-          data: {
-            starredTunes: {
-              connect: { id: tune.id },
-            },
-          },
-        });
       }
 
       return tune;

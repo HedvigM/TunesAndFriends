@@ -38,10 +38,6 @@ export const userWithRelationsSelect = {
     select: tuneBasicSelect,
     take: 50, // Limit to 50 most recent
   },
-  starredTunes: {
-    select: tuneBasicSelect,
-    take: 20, // Limit to 20 starred
-  },
   following: {
     select: userBasicSelect,
     take: 100, // Limit to 100 following

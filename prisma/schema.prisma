@@ -24,7 +24,6 @@ model User {
   taggings       Tagging[]       @relation("taggings")
   userTunes      UserTune[]      @relation("userTunes")
   knowTunes      Tune[]          @relation("knowTunes")
-  starredTunes   Tune[]          @relation("starredTunes")
   following      User[]          @relation("follows")
   followedBy     User[]          @relation("follows")
   userPreference UserPreference?
@@ -52,7 +51,6 @@ model Tune {
   tags      Tag[]      @relation("tags")
   taggings  Tagging[]  @relation("taggings")
   knowedBy  User[]     @relation("knowTunes")
-  starredBy User[]     @relation("starredTunes")
   userTunes UserTune[] @relation("userTunes")
 }
 

@@ -14,7 +14,6 @@ export interface User {
   profileText: string | null;
   role: "BASIC" | "ADMIN";
   knowTunes?: Tune[];
-  starredTunes?: Tune[];
   following?: User[];
   followedBy?: User[];
 }
