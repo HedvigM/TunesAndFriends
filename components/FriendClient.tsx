@@ -10,11 +10,26 @@ import { TunesIncommon } from "components/TunesIncommon";
 import styles from "styles/containers.module.scss";
 import { addRelationAction } from "app/friends/actions";
 import { addTuneAction } from "app/tunes/actions";
-import { Prisma } from "@prisma/client";
-
-type UserWithRelations = Prisma.UserGetPayload<{
-  include: { following: true; followedBy: true; knowTunes: true };
-}>;
+// Type for user with relations from userWithRelationsSelect
+type UserWithRelations = {
+  id: number;
+  name: string;
+  email: string;
+  auth0UserId: string;
+  town: string | null;
+  picture: string | null;
+  profileText: string | null;
+  userTunes: {
+    id: number;
+    tune: {
+      id: number;
+      sessionId: number;
+    };
+    tag: { id: number; name: string } | null;
+  }[];
+  following: { id: number; name: string }[];
+  followedBy: { id: number; name: string }[];
+};
 
 interface FriendClientProps {
   viewedUser: UserWithRelations;
@@ -22,9 +37,10 @@ interface FriendClientProps {
   tuneCount: number;
   followingCount: number;
   followersCount: number;
-  knowTunes: TableData[];
+  userTunes: TableData[];
   loggedinKnowTuneId: number[];
   mapFollowing: number[];
+  userId: number;
 }
 
 export function FriendClient({
@@ -33,9 +49,10 @@ export function FriendClient({
   tuneCount,
   followingCount,
   followersCount,
-  knowTunes,
+  userTunes,
   loggedinKnowTuneId: initialLoggedinKnowTuneId,
   mapFollowing: initialMapFollowing,
+  userId,
 }: FriendClientProps) {
   const router = useRouter();
   const [showCommonTunes, setShowCommonTunes] = useState(false);
@@ -43,7 +60,7 @@ export function FriendClient({
     initialLoggedinKnowTuneId
   );
   const [isFollowing, setIsFollowing] = useState(
-    initialMapFollowing.includes(viewedUser.id)
+    initialMapFollowing.includes(userId)
   );
 
   const onBackClickHandle = () => {
@@ -69,7 +86,7 @@ export function FriendClient({
   const onKnowHandle = async (tuneId: number) => {
     setLoggedinKnowTuneId((prev) => [...prev, tuneId]);
 
-    const result = await addTuneAction(tuneId);
+    const result = await addTuneAction(tuneId, viewedUser.id);
 
     if (!result.success) {
       setLoggedinKnowTuneId((prev) => prev.filter((id) => id !== tuneId));
@@ -153,10 +170,10 @@ export function FriendClient({
         {showCommonTunes ? (
           <TunesIncommon
             logedinKnowTuneId={loggedinKnowTuneId}
-            knowTunes={knowTunes}
+            userTunes={userTunes}
           />
         ) : (
-          knowTunes?.map((tune) => (
+          userTunes?.map((tune) => (
             <StyledTable
               key={tune.id}
               onClickHandle={onKnowHandle}

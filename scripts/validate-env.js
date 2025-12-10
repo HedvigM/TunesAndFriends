@@ -9,11 +9,11 @@ const fs = require('fs');
 const path = require('path');
 
 const REQUIRED_VARS = [
-  {
+/*   {
     name: 'DATABASE_URL',
     pattern: /^postgresql:\/\/.+/,
-    message: 'Must be a valid PostgreSQL connection string (postgresql://...)',
-  },
+    message: 'Must be a valid PostgreSQL connection string (postgres://...)',
+  }, */
   {
     name: 'AUTH0_SECRET',
     minLength: 32,

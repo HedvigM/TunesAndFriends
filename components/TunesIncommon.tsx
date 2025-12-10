@@ -5,7 +5,7 @@ import { ComponentErrorBoundary } from "./errors/ComponentErrorBoundary";
 
 type TunesIncommonProps = {
   logedinKnowTuneId: number[];
-  knowTunes: {
+  userTunes: {
     id: number;
     name: string;
   }[];
@@ -13,15 +13,15 @@ type TunesIncommonProps = {
 
 export const TunesIncommon = ({
   logedinKnowTuneId,
-  knowTunes,
+  userTunes,
 }: TunesIncommonProps) => {
   // Compute common tunes directly from props - no need for useEffect
   const commonTunes = useMemo(() => {
-    if (!logedinKnowTuneId || !knowTunes) return [];
-    return knowTunes.filter((knowTune) =>
-      logedinKnowTuneId.includes(knowTune.id)
+    if (!logedinKnowTuneId || !userTunes) return [];
+    return userTunes.filter((tune) =>
+      logedinKnowTuneId.includes(tune.id)
     );
-  }, [logedinKnowTuneId, knowTunes]);
+  }, [logedinKnowTuneId, userTunes]);
 
   return (
     <ComponentErrorBoundary componentName="Tunes in Common">

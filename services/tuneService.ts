@@ -1,11 +1,18 @@
-import { Tune, Prisma } from "@prisma/client";
+import { Tune, Prisma, User } from "@prisma/client";
 import { tuneBasicSelect } from "lib/prisma/selects";
 import { BaseService, ServiceResult } from "./base/BaseService";
+import { getTuneDetails } from "./externalTuneService";
 
 export interface SaveTuneInput {
   sessionId: number;
   email: string;
-  knowOrLearn: "know" | "learn";
+  tagName: string | undefined;
+}
+
+export interface NewSaveTuneInput {
+  sessionId: number;
+  userId: number;
+  tagName: string | undefined;
 }
 
 export class TuneService extends BaseService {
@@ -39,99 +46,81 @@ export class TuneService extends BaseService {
     }, "Failed to get tune by session ID");
   }
 
-  async saveNewTune(input: SaveTuneInput): Promise<ServiceResult<Tune>> {
+  async saveNewTune(input: NewSaveTuneInput): Promise<ServiceResult<Tune>> {
     return this.execute(async () => {
       let tune = await this.prisma.tune.findUnique({
         where: { sessionId: input.sessionId },
       });
 
       if (!tune) {
+        // Fetch tune details from external API and cache them
+        const externalTune = await getTuneDetails(input.sessionId);
+        
         tune = await this.prisma.tune.create({
-          data: { sessionId: input.sessionId },
+          data: {
+            sessionId: input.sessionId,
+            name: externalTune?.name || null,
+            type: externalTune?.type || null,
+            lastFetched: new Date(),
+          },
         });
+      } else if (!tune.name) {
+        // Tune exists but has no cached name - fetch and update
+        const externalTune = await getTuneDetails(input.sessionId);
+        
+        if (externalTune) {
+          tune = await this.prisma.tune.update({
+            where: { id: tune.id },
+            data: {
+              name: externalTune.name,
+              type: externalTune.type,
+              lastFetched: new Date(),
+            },
+          });
+        }
       }
 
       const user = await this.prisma.user.findUnique({
-        where: { email: input.email },
+        where: { id: input.userId },
       });
 
       if (!user) {
         throw new Error("User not found");
       }
 
-        await this.prisma.user.update({
-          where: { email: input.email },
-          data: {
-            savedTunes: {
-              connect: { id: tune.id },
-            },
-          },
-        })
-        await this.prisma.tune.update({
-          where: { id: tune.id },
-          data: {
-            savedBy: {
-              connect: { id: user.id },
-            },
-          },
-        });
-
-      return tune;
-    }, "Failed to save tune");
-  }
-
-  async saveTune(input: SaveTuneInput): Promise<ServiceResult<Tune>> {
-    return this.execute(async () => {
-      let tune = await this.prisma.tune.findUnique({
-        where: { sessionId: input.sessionId },
-      });
-
-      if (!tune) {
-        tune = await this.prisma.tune.create({
-          data: { sessionId: input.sessionId },
-        });
-      }
-
-      const user = await this.prisma.user.findUnique({
-        where: { email: input.email },
-      });
-
-      if (!user) {
-        throw new Error("User not found");
-      }
-
-      if (input.knowOrLearn === "know") {
-        await this.prisma.user.update({
-          where: { email: input.email },
-          data: {
-            knowTunes: {
-              connect: { id: tune.id },
-            },
-          },
-        });
-      }
-
-      return tune;
-    }, "Failed to save tune");
-  }
-
-  async getUsersWhoKnowTune(tuneId: number): Promise<ServiceResult<any[]>> {
-    return this.execute(async () => {
-      const tune = await this.prisma.tune.findUnique({
-        where: { id: tuneId },
-        include: {
-          knowedBy: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-            },
-            take: 50,
+      // Check if UserTune already exists
+      const existingUserTune = await this.prisma.userTune.findUnique({
+        where: {
+          userId_tuneId: {
+            userId: input.userId,
+            tuneId: tune.id,
           },
         },
       });
 
-      return tune?.knowedBy || [];
+      if (!existingUserTune) {
+        await this.prisma.userTune.create({
+          data: {
+            userId: input.userId,
+            tuneId: tune.id,
+          },
+        });
+      }
+
+      return tune;
+    }, "Failed to save tune");
+  }
+
+  async getUsersWhoKnowTune(tuneId: number): Promise<ServiceResult<User[]>> {
+    return this.execute(async () => {
+      const userTunes = await this.prisma.userTune.findMany({
+        where: { tuneId: tuneId },
+        include: {
+          user: true,
+        },
+      });
+
+      return userTunes?.map((userTune) => userTune.user) || [];
     }, "Failed to get users who know tune");
   }
 
@@ -211,22 +200,19 @@ export class TuneService extends BaseService {
         throw new Error("Tag name cannot be empty");
       }
 
-      // Verify tune exists
-      const tune = await this.prisma.tune.findUnique({
-        where: { id: tuneId },
+      // Find the UserTune (the user's relationship to this tune)
+      const userTune = await this.prisma.userTune.findFirst({
+        where: {
+          userId: userId,
+          tuneId: tuneId,
+        },
+        include: {
+          tags: true,
+        },
       });
 
-      if (!tune) {
-        throw new Error("Tune not found");
-      }
-
-      // Verify user exists
-      const user = await this.prisma.user.findUnique({
-        where: { id: userId },
-      });
-
-      if (!user) {
-        throw new Error("User not found");
+      if (!userTune) {
+        throw new Error("You haven't saved this tune yet");
       }
 
       // Create or find the tag
@@ -253,33 +239,16 @@ export class TuneService extends BaseService {
         }
       }
 
-      // Check if the tune already has this exact tag for this user
-      const existingTagging = await this.prisma.tagging.findUnique({
-        where: {
-          userId_tuneId_tagId: {
-            userId: userId,
-            tuneId: tuneId,
-            tagId: tag.id,
-          },
-        },
-      });
+      // Check if the UserTune already has this tag
+      const alreadyHasTag = userTune.tags.some((t) => t.id === tag!.id);
 
-      if (existingTagging) {
+      if (alreadyHasTag) {
         throw new Error("Tune already has this tag");
       }
 
-      // Create the Tagging record (connection between tag, user, and tune)
-      const tagging = await this.prisma.tagging.create({
-        data: {
-          userId: userId,
-          tuneId: tuneId,
-          tagId: tag.id,
-        },
-      });
-
-      // Also connect the tag to the tune (many-to-many relation)
-      const updatedTune = await this.prisma.tune.update({
-        where: { id: tuneId },
+      // Connect the tag to the UserTune (user's personal tags for this tune)
+      const updatedUserTune = await this.prisma.userTune.update({
+        where: { id: userTune.id },
         data: {
           tags: {
             connect: { id: tag.id },
@@ -287,13 +256,13 @@ export class TuneService extends BaseService {
         },
         include: {
           tags: true,
+          tune: true,
         },
       });
 
       return {
         tag: tag,
-        tune: updatedTune,
-        tagging: tagging,
+        userTune: updatedUserTune,
       };
     }, "Failed to add tag to tune");
   }

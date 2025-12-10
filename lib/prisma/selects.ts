@@ -25,7 +25,9 @@ export const userWithProfileSelect = {
 export const tuneBasicSelect = {
   id: true,
   sessionId: true,
-  tags: true,
+  name: true,      // Cached from TheSession.org
+  type: true,      // Cached from TheSession.org
+  lastFetched: true,
 } as const;
 
 /**
@@ -34,8 +36,19 @@ export const tuneBasicSelect = {
  */
 export const userWithRelationsSelect = {
   ...userWithProfileSelect,
-  knowTunes: {
-    select: tuneBasicSelect,
+  userTunes: {
+    select: {
+      id: true,
+      tune: {
+        select: tuneBasicSelect,
+      },
+      tags: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
     take: 50, // Limit to 50 most recent
   },
   following: {
@@ -57,15 +70,28 @@ export const userListSelect = {
   picture: true,
 } as const;
 
+export const userTuneBasicSelect = {
+  id: true,
+  name: true,
+} as const;
+
 /**
  * User with specific tune relation
  * Use for: Finding users who know a specific tune
  */
-export const userWithTuneSelect = (tuneId: number) => ({
+export const userWithTuneSelect = (sessionId: number) => ({
   ...userListSelect,
-  knowTunes: {
-    where: { sessionId: tuneId },
-    select: tuneBasicSelect,
+  userTunes: {
+    where: {
+      tune: {
+        sessionId: sessionId,
+      },
+    },
+    select: {
+      tune: {
+        select: tuneBasicSelect,
+      },
+    },
   },
 });
 

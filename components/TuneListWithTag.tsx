@@ -77,24 +77,22 @@ export const TuneListWithTags = (props: TuneListWithTagsProps) => {
                 <Link href={`/tune/${props.tune.sessionId}`} style={{ margin: "0", padding: "0" }}>{props.tune.name}</Link>
 
                 <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
-                    {props.tune.tags?.length > 0 && props.tune.tags?.map((tag: { name: string }) =>
-                    tag.name && tag.name.length > 0 && (
-
-                    <p
-                    key={tag.name}
-                    style={{
-                    margin: "0",
-                    padding: "2px 3px",
-                    fontSize: "12px",
-                    borderRadius: "5px",
-                    width: "fit-content",
-                    display: "inline-block",
-                    backgroundColor: `${tag.name === props.sortTag ? "var(--color-secondary)" : "var(--color-primary)"}`
-                    }}>
-                        {tag.name}
-                    </p>
-            ))}
-            </div>
+                    {props.tune.tags?.map((tag) => (
+                        <p
+                            key={tag.id}
+                            style={{
+                                margin: "0",
+                                padding: "2px 3px",
+                                fontSize: "12px",
+                                borderRadius: "5px",
+                                width: "fit-content",
+                                display: "inline-block",
+                                backgroundColor: `${tag.name === props.sortTag ? "var(--color-secondary)" : "var(--color-primary)"}`
+                            }}>
+                            {tag.name}
+                        </p>
+                    ))}
+                </div>
             </div>
             <form style={{ display: "flex", gap: "5px", flexDirection: "column" }} onSubmit={handleSubmit}>
                 <div style={{ display: "flex", gap: "5px" }}>

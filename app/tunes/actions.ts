@@ -1,6 +1,5 @@
 "use server";
 
-import { requireAuth } from "lib/auth/app-router";
 import { tuneService } from "services/tuneService";
 
 export interface AddTuneResult {
@@ -8,33 +7,23 @@ export interface AddTuneResult {
   error?: string;
 }
 
-/**
- * Server action to add a tune to user's known tunes
- */
 export async function addTuneAction(
-  sessionId: number
+  sessionId: number,
+  userId: number,
 ): Promise<AddTuneResult> {
   try {
-    const session = await requireAuth();
 
-    if (!session.user.email) {
+    if (!userId) {
       return {
         success: false,
-        error: "User email not found",
-      };
-    }
-
-    if (!sessionId) {
-      return {
-        success: false,
-        error: "Tune session ID is required",
+        error: "User ID not found",
       };
     }
 
     const result = await tuneService.saveNewTune({
       sessionId,
-      email: session.user.email,
-      knowOrLearn: "know",
+      userId: userId,
+      tagName: undefined,
     });
 
     if (!result.success) {

@@ -169,7 +169,16 @@ export interface DatabaseUser {
   town: string | null;
   profileText: string | null;
   picture: string | null;
-  knowTunes?: Array<{ id: number; sessionId: number; tags?: Array<{ id: number; name: string }> }>;
+  userTunes?: Array<{
+    id: number;
+    tune: {
+      id: number;
+      sessionId: number;
+      name: string | null;    // Cached from TheSession.org
+      type: string | null;    // Cached from TheSession.org
+    };
+    tags: Array<{ id: number; name: string }>;
+  }>;
   following?: Array<{ id: number; name: string; auth0UserId?: string }>;
   followedBy?: Array<{ id: number; name: string }>;
 }
@@ -195,7 +204,7 @@ export interface AuthWithUser {
  * const { session, user } = await requireAuthWithUser();
  * // User is guaranteed to be authenticated AND exist in the database
  * const userId = user.id;
- * const tunes = user.knowTunes;
+ * const tunes = user.userTunes;
  * ```
  */
 export async function requireAuthWithUser(): Promise<AuthWithUser> {
