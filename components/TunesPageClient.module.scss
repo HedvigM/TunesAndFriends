@@ -1,0 +1,85 @@
+.container {
+  padding: 20px;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 0;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: var(--color-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: var(--color-third);
+    text-decoration: underline;
+  }
+}
+
+.error {
+  padding: 24px;
+  text-align: center;
+  background-color: #fff5f5;
+  border: 1px solid #ffcdd2;
+  border-radius: 8px;
+  margin-bottom: 16px;
+
+  p {
+    color: #c62828;
+    margin: 0 0 12px 0;
+    font-size: 14px;
+  }
+
+  button {
+    padding: 8px 16px;
+    font-size: 14px;
+    color: white;
+    background-color: #c62828;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
+
+.sectionHeader {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-fourth);
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-third);
+  margin: 0 0 4px 0;
+}
+
+.sectionSubtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px 12px;
+  }
+
+  .sectionTitle {
+    font-size: 16px;
+  }
+
+  .sectionSubtitle {
+    font-size: 13px;
+  }
+}
+

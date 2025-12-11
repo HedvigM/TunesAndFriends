@@ -5,17 +5,16 @@ import { getPopularTunes } from "services/externalTuneService";
 // Force dynamic rendering since this page uses cookies for auth
 export const dynamic = 'force-dynamic';
 import { Page } from "styles/Page";
-import { PopularTunesClient } from "components/PopularTunesClient";
+import { TunesPageClient } from "components/TunesPageClient";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
 import { PopularTunesSkeleton } from "components/skeletons";
-import { Pagination } from "components/Pagination";
 
 interface TunesPageProps {
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{ page?: string; q?: string }>;
 }
 
-// Async component that fetches popular tunes and returns pagination info
-async function PopularTunesWithPagination({ page }: { page: number }) {
+// Async component that fetches data and renders the client component
+async function TunesContent({ page }: { page: number }) {
   // Parallel fetch: auth and popular tunes don't depend on each other
   const [{ user: userData }, popularTunesData] = await Promise.all([
     requireAuthWithUser(),
@@ -40,21 +39,13 @@ async function PopularTunesWithPagination({ page }: { page: number }) {
   const totalPages = popularTunesData.pages || 1;
 
   return (
-    <>
-      <PopularTunesClient
-        userId={userData.id}
-        popularTunes={popularTunesData.tunes}
-        knownTuneIds={knownTuneIds}
-      />
-      
-      {totalPages > 1 && (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          baseUrl="/tunes"
-        />
-      )}
-    </>
+    <TunesPageClient
+      userId={userData.id}
+      knownTuneIds={knownTuneIds}
+      popularTunes={popularTunesData.tunes}
+      popularCurrentPage={currentPage}
+      popularTotalPages={totalPages}
+    />
   );
 }
 
@@ -62,11 +53,15 @@ export default async function TunesPage({ searchParams }: TunesPageProps) {
   const resolvedSearchParams = await searchParams;
   const page = parseInt(resolvedSearchParams.page || "1", 10);
 
+  // Dynamic title based on search
+  const searchQuery = resolvedSearchParams.q;
+  const pageTitle = searchQuery ? `Search: ${searchQuery}` : "Tunes";
+
   return (
-    <Page title="Popular Tunes">
-      <ComponentErrorBoundary componentName="Popular Tunes List">
+    <Page title={pageTitle}>
+      <ComponentErrorBoundary componentName="Tunes">
         <Suspense fallback={<PopularTunesSkeleton count={10} />}>
-          <PopularTunesWithPagination page={page} />
+          <TunesContent page={page} />
         </Suspense>
       </ComponentErrorBoundary>
     </Page>
