@@ -6,7 +6,7 @@
 
 interface EnvConfig {
   // Database
-  /* DATABASE_URL: string; */
+  DATABASE_URL: string;
 
   // Auth0
   AUTH0_SECRET: string;
@@ -75,13 +75,13 @@ function validateEnvVar(
 function validateEnv(): { valid: boolean; errors: ValidationError[] } {
   const errors: ValidationError[] = [];
 
-  // Database validation
-/*   const databaseError = validateEnvVar('DATABASE_URL', process.env.DATABASE_URL, {
+  // Database validation - accepts both postgresql:// (dev) and postgres:// (prod)
+  const databaseError = validateEnvVar('DATABASE_URL', process.env.DATABASE_URL, {
     required: true,
-    pattern: /^postgresql:\/\/.+/, // TODO: Den här checken behöver passa både prod och dev...
-    customMessage: 'DATABASE_URL must be a valid PostgreSQL connection string (postgres://...)',
-  }); */
-  /* if (databaseError) errors.push(databaseError); */
+    pattern: /^postgres(ql)?:\/\/.+/,
+    customMessage: 'DATABASE_URL must be a valid PostgreSQL connection string (postgresql://... or postgres://...)',
+  });
+  if (databaseError) errors.push(databaseError);
 
   // Auth0 Secret validation (should be long and random)
   const secretError = validateEnvVar('AUTH0_SECRET', process.env.AUTH0_SECRET, {
@@ -157,7 +157,7 @@ export function getEnv(): EnvConfig {
   }
 
   return {
-    /* DATABASE_URL: process.env.DATABASE_URL!, */
+    DATABASE_URL: process.env.DATABASE_URL!,
     AUTH0_SECRET: process.env.AUTH0_SECRET!,
     AUTH0_BASE_URL: process.env.AUTH0_BASE_URL!,
     AUTH0_ISSUER_BASE_URL: process.env.AUTH0_ISSUER_BASE_URL!,
@@ -211,7 +211,7 @@ function getValidatedEnv(): EnvConfig {
 
 // Convenience exports
 export const env = {
-  /* get DATABASE_URL() { return getValidatedEnv().DATABASE_URL; }, */
+  get DATABASE_URL() { return getValidatedEnv().DATABASE_URL; },
   get AUTH0_SECRET() { return getValidatedEnv().AUTH0_SECRET; },
   get AUTH0_BASE_URL() { return getValidatedEnv().AUTH0_BASE_URL; },
   get AUTH0_ISSUER_BASE_URL() { return getValidatedEnv().AUTH0_ISSUER_BASE_URL; },

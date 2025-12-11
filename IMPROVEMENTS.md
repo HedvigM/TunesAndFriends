@@ -90,7 +90,7 @@ npm uninstall @auth0/auth0-react
 ```typescript
 // lib/env.ts
 const requiredEnvVars = [
-  /* "DATABASE_URL", */
+  "DATABASE_URL",
   "AUTH0_SECRET",
   "AUTH0_BASE_URL",
   "AUTH0_ISSUER_BASE_URL",

@@ -92,7 +92,7 @@ if (env.isDevelopment) {
 
 | Variable                | Validation                      | Description                                                 |
 | ----------------------- | ------------------------------- | ----------------------------------------------------------- |
-| `DATABASE_URL`          | Pattern: `postgresql://...`     | PostgreSQL connection string                                |
+| `DATABASE_URL`          | Pattern: `postgres(ql)?://...`  | PostgreSQL connection string                                |
 | `AUTH0_SECRET`          | Min length: 32 chars            | Auth0 session secret (generate with `openssl rand -hex 32`) |
 | `AUTH0_BASE_URL`        | Pattern: `http(s)://...`        | Your application URL                                        |
 | `AUTH0_ISSUER_BASE_URL` | Pattern: `https://...auth0.com` | Auth0 tenant domain                                         |
@@ -117,7 +117,7 @@ if (env.isDevelopment) {
 ```
 ❌ Environment variable validation failed:
 
-  • DATABASE_URL: DATABASE_URL must be a valid PostgreSQL connection string (postgresql://...)
+  • DATABASE_URL: DATABASE_URL must be a valid PostgreSQL connection string (postgresql://... or postgres://...)
   • AUTH0_SECRET: AUTH0_SECRET must be at least 32 characters long. Generate with: openssl rand -hex 32
 
 💡 Please check your .env.local file and fix the errors above.
