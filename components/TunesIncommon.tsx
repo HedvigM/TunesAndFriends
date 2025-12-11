@@ -4,7 +4,7 @@ import { StyledTable } from "./Table";
 import { ComponentErrorBoundary } from "./errors/ComponentErrorBoundary";
 
 type TunesIncommonProps = {
-  logedinKnowTuneId: number[];
+  friendTuneIds: number[];
   userTunes: {
     id: number;
     name: string;
@@ -12,16 +12,15 @@ type TunesIncommonProps = {
 };
 
 export const TunesIncommon = ({
-  logedinKnowTuneId,
+  friendTuneIds,
   userTunes,
 }: TunesIncommonProps) => {
-  // Compute common tunes directly from props - no need for useEffect
   const commonTunes = useMemo(() => {
-    if (!logedinKnowTuneId || !userTunes) return [];
+    if (!friendTuneIds || !userTunes) return [];
     return userTunes.filter((tune) =>
-      logedinKnowTuneId.includes(tune.id)
+      friendTuneIds.includes(tune.id)
     );
-  }, [logedinKnowTuneId, userTunes]);
+  }, [friendTuneIds, userTunes]);
 
   return (
     <ComponentErrorBoundary componentName="Tunes in Common">

@@ -41,15 +41,13 @@ interface FriendPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Async component that fetches friend data
 async function FriendProfile({ userId }: { userId: number }) {
-  // Parallel fetch: auth and user lookup don't depend on each other
-  const [{ user: loggedInUser }, viewedUserResult] = await Promise.all([
+  const [{ user }, friend] = await Promise.all([
     requireAuthWithUser(),
     userService.getUserById(userId),
   ]);
 
-  if (!viewedUserResult.success || !viewedUserResult.data) {
+  if (!friend.success || !friend.data) {
     return (
       <div style={{ padding: "20px", textAlign: "center" }}>
         <p>User not found. Please try again later.</p>
@@ -57,49 +55,45 @@ async function FriendProfile({ userId }: { userId: number }) {
     );
   }
 
-  const viewedUser = viewedUserResult.data as UserWithRelations;
+  const friendData = friend.data as UserWithRelations;
 
-  const mapFollowing = loggedInUser.following?.map(
+  const mapFollowing = user.following?.map(
     (followedUser) => followedUser.id
   ) || [];
   
-  const loggedinKnowTuneId = loggedInUser.userTunes?.map(
+  const friendsTuneIds = user.userTunes?.map(
     (userTune) => userTune.tune.sessionId
   ) || [];
 
-  // Find tunes without cached names
-  const uncachedSessionIds = (viewedUser.userTunes || [])
+  const uncachedSessionIds = (friendData.userTunes || [])
     .filter((ut) => !ut.tune.name)
     .map((ut) => ut.tune.sessionId);
 
-  // Only fetch from external API for uncached tunes
   const externalTunes = uncachedSessionIds.length > 0
     ? await getTunesBasicInfo(uncachedSessionIds)
     : [];
   const externalTuneMap = new Map(externalTunes.map((t) => [t.id, t.name]));
 
-  // Build tune list using cached names or fallback to external
-  const userTunesList: TableData[] = (viewedUser.userTunes || [])
+  const userTunesList: TableData[] = (friendData.userTunes || [])
     .map((ut) => ({
       id: ut.tune.sessionId,
       name: ut.tune.name || externalTuneMap.get(ut.tune.sessionId) || null,
     }))
     .filter((t): t is TableData => t.name !== null);
 
-  const tuneCount = viewedUser.userTunes?.length || 0;
-  const followersCount = viewedUser.followedBy?.length || 0;
-  const followingCount = viewedUser.following?.length || 0;
+  const tuneCount = friendData.userTunes?.length || 0;
+  const followersCount = friendData.followedBy?.length || 0;
+  const followingCount = friendData.following?.length || 0;
 
   return (
     <FriendClient
       userId={userId}
-      viewedUser={viewedUser}
+      friendData={friendData}
       tuneCount={tuneCount}
       followingCount={followingCount}
       followersCount={followersCount}
-      friendPicture={viewedUser.picture ?? ""}
       userTunes={userTunesList}
-      loggedinKnowTuneId={loggedinKnowTuneId}
+      friendsTuneIds={friendsTuneIds}
       mapFollowing={mapFollowing}
     />
   );

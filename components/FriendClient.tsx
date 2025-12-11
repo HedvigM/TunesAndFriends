@@ -32,35 +32,33 @@ type UserWithRelations = {
 };
 
 interface FriendClientProps {
-  viewedUser: UserWithRelations;
-  friendPicture: string;
+  friendData: UserWithRelations;
   tuneCount: number;
   followingCount: number;
   followersCount: number;
   userTunes: TableData[];
-  loggedinKnowTuneId: number[];
+  friendsTuneIds: number[];
   mapFollowing: number[];
   userId: number;
 }
 
 export function FriendClient({
-  viewedUser,
-  friendPicture,
+  friendData,
   tuneCount,
   followingCount,
   followersCount,
   userTunes,
-  loggedinKnowTuneId: initialLoggedinKnowTuneId,
-  mapFollowing: initialMapFollowing,
+  friendsTuneIds,
+  mapFollowing,
   userId,
 }: FriendClientProps) {
   const router = useRouter();
   const [showCommonTunes, setShowCommonTunes] = useState(false);
-  const [loggedinKnowTuneId, setLoggedinKnowTuneId] = useState<number[]>(
-    initialLoggedinKnowTuneId
+  const [friendTuneIds, setFriendTuneIds] = useState<number[]>(
+    friendsTuneIds
   );
   const [isFollowing, setIsFollowing] = useState(
-    initialMapFollowing.includes(userId)
+    mapFollowing.includes(userId)
   );
 
   const onBackClickHandle = () => {
@@ -75,7 +73,7 @@ export function FriendClient({
 
     setIsFollowing(true);
 
-    const result = await addRelationAction(viewedUser.id);
+    const result = await addRelationAction(friendData.id);
 
     if (!result.success) {
       setIsFollowing(false);
@@ -84,12 +82,12 @@ export function FriendClient({
   };
 
   const onKnowHandle = async (tuneId: number) => {
-    setLoggedinKnowTuneId((prev) => [...prev, tuneId]);
+    setFriendTuneIds((prev) => [...prev, tuneId]);
 
-    const result = await addTuneAction(tuneId, viewedUser.id);
+    const result = await addTuneAction(tuneId, friendData.id);
 
     if (!result.success) {
-      setLoggedinKnowTuneId((prev) => prev.filter((id) => id !== tuneId));
+      setFriendTuneIds((prev) => prev.filter((id) => id !== tuneId));
       console.error("Failed to add tune:", result.error);
     }
   };
@@ -133,7 +131,7 @@ export function FriendClient({
             paddingRight: "10px",
           }}
         >
-          <ProfileImage size={"small"} picture={friendPicture} />
+          <ProfileImage size={"small"} picture={friendData.picture ?? ""} />
           <Button
             element="button"
             onClick={onClickHandle}
@@ -143,7 +141,7 @@ export function FriendClient({
           </Button>
         </div>
         <ProfileInfo
-          profileText={viewedUser.profileText ?? ""}
+          profileText={friendData.profileText ?? ""}
           tunesCount={tuneCount}
           following={followingCount}
           followers={followersCount}
@@ -169,7 +167,7 @@ export function FriendClient({
         </div>
         {showCommonTunes ? (
           <TunesIncommon
-            logedinKnowTuneId={loggedinKnowTuneId}
+            friendTuneIds={friendTuneIds}
             userTunes={userTunes}
           />
         ) : (
@@ -178,8 +176,8 @@ export function FriendClient({
               key={tune.id}
               onClickHandle={onKnowHandle}
               know={
-                loggedinKnowTuneId !== undefined &&
-                loggedinKnowTuneId.includes(tune.id)
+                friendTuneIds !== undefined &&
+                friendTuneIds.includes(tune.id)
               }
               pathname="/tune"
               slug={tune.id}

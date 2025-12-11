@@ -65,10 +65,9 @@ export const AccountInfo = (props: AccountInfoProps) => {
               rows={1}
               onChange={(event) => props.newTownText(event.target.value)}
             ></textarea>
-            <Typography variant="body">{props.databaseUser.profileText}</Typography>
         </div>
 
-          <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", justifyContent: "space-between"}}>
+          <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", justifyContent: "space-between", marginTop: "10px"}}>
           <Typography variant="body">Profile text: </Typography>
             <textarea
               placeholder={props.databaseUser.profileText ? props.databaseUser.profileText : "Profile text"}
