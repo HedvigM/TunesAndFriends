@@ -14,7 +14,6 @@ import styles from "./TunesPageClient.module.scss";
 interface TunesPageClientProps {
   userId: number;
   knownTuneIds: number[];
-  // Popular tunes data (shown when not searching)
   popularTunes: PopularTune[];
   popularCurrentPage: number;
   popularTotalPages: number;
@@ -29,10 +28,10 @@ export function TunesPageClient({
 }: TunesPageClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [isPending, startTransition] = useTransition();
+  const [_isPending, startTransition] = useTransition();
 
   // Search state
-  const initialQuery = searchParams.get("q") || "";
+  const initialQuery = searchParams?.get("q") ?? "";
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [searchResults, setSearchResults] = useState<SearchTune[]>([]);
   const [searchTotal, setSearchTotal] = useState(0);
@@ -60,8 +59,6 @@ export function TunesPageClient({
       setHasSearched(false);
       setSearchCurrentPage(1);
       setSearchTotalPages(1);
-      
-      // Update URL
       startTransition(() => {
         router.push("/tunes");
       });
@@ -74,7 +71,6 @@ export function TunesPageClient({
 
     try {
       const results = await searchTunes(query, page);
-      
       if (results) {
         setSearchResults(results.tunes);
         setSearchTotal(results.total);
@@ -102,14 +98,12 @@ export function TunesPageClient({
     }
   }, [router]);
 
-  // Handle search page change
   const handleSearchPageChange = useCallback((page: number) => {
     if (searchQuery) {
       handleSearch(searchQuery, page);
     }
   }, [searchQuery, handleSearch]);
 
-  // Handle adding a tune
   const handleAddTune = useCallback(async (sessionId: number) => {
     setAddingTuneId(sessionId);
 
@@ -117,7 +111,6 @@ export function TunesPageClient({
       const result = await addTuneAction(sessionId, userId);
 
       if (result.success) {
-        // Add to known tunes
         setKnownTuneIds((prev) => [...prev, sessionId]);
       } else {
         console.error("Failed to add tune:", result.error);
@@ -135,7 +128,6 @@ export function TunesPageClient({
 
   return (
     <div className={styles.container}>
-      {/* Search Input */}
       <TuneSearchInput
         onSearch={(query) => handleSearch(query, 1)}
         initialValue={searchQuery}
@@ -143,10 +135,8 @@ export function TunesPageClient({
         placeholder="Search for tunes..."
       />
 
-      {/* Content: Search Results or Popular Tunes */}
       {isShowingSearch ? (
         <>
-          {/* Back to popular tunes link */}
           {!isSearching && (
             <button
               onClick={() => handleSearch("")}
@@ -156,7 +146,6 @@ export function TunesPageClient({
             </button>
           )}
 
-          {/* Error state */}
           {searchError && (
             <div className={styles.error}>
               <p>{searchError}</p>
@@ -166,7 +155,6 @@ export function TunesPageClient({
             </div>
           )}
 
-          {/* Search results */}
           {!searchError && (
             <SearchResults
               results={searchResults}
@@ -179,7 +167,6 @@ export function TunesPageClient({
             />
           )}
 
-          {/* Search pagination (client-side) */}
           {!isSearching && !searchError && searchResults.length > 0 && searchTotalPages > 1 && (
             <ClientPagination
               currentPage={searchCurrentPage}
@@ -190,7 +177,6 @@ export function TunesPageClient({
         </>
       ) : (
         <>
-          {/* Popular tunes header */}
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>Popular Tunes</h2>
             <p className={styles.sectionSubtitle}>
@@ -204,7 +190,6 @@ export function TunesPageClient({
             knownTuneIds={knownTuneIds}
           />
 
-          {/* Popular tunes pagination (server-side via URL) */}
           {popularTotalPages > 1 && (
             <Pagination
               currentPage={popularCurrentPage}

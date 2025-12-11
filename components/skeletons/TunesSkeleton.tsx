@@ -28,7 +28,6 @@ export function TuneListItemSkeleton() {
 export function TunesSkeleton({ count = 5 }: { count?: number }) {
   return (
     <div style={{ padding: "20px" }}>
-      {/* Tags filter skeleton */}
       <div
         style={{
           display: "flex",
@@ -45,7 +44,6 @@ export function TunesSkeleton({ count = 5 }: { count?: number }) {
         </div>
       </div>
 
-      {/* Tune list skeleton */}
       <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
         {Array.from({ length: count }).map((_, i) => (
           <TuneListItemSkeleton key={i} />
@@ -58,7 +56,6 @@ export function TunesSkeleton({ count = 5 }: { count?: number }) {
 export function PopularTunesSkeleton({ count = 10 }: { count?: number }) {
   return (
     <div style={{ padding: "20px" }}>
-      {/* Search input skeleton */}
       <div
         style={{
           display: "flex",
@@ -70,13 +67,11 @@ export function PopularTunesSkeleton({ count = 10 }: { count?: number }) {
         <Skeleton width="100px" height="48px" borderRadius="8px" />
       </div>
 
-      {/* Section header skeleton */}
       <div style={{ marginBottom: "16px", paddingBottom: "12px", borderBottom: "1px solid var(--color-fourth)" }}>
         <Skeleton width="150px" height="1.25rem" />
-        <Skeleton width="250px" height="0.875rem" style={{ marginTop: "8px" }} />
+        <Skeleton width="250px" height="0.875rem" />
       </div>
 
-      {/* Tune list skeleton */}
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
@@ -102,10 +97,8 @@ export function PopularTunesSkeleton({ count = 10 }: { count?: number }) {
 export function SearchResultsSkeleton({ count = 8 }: { count?: number }) {
   return (
     <div>
-      {/* Result count skeleton */}
-      <Skeleton width="200px" height="0.875rem" style={{ marginBottom: "16px" }} />
+      <Skeleton width="200px" height="0.875rem" />
 
-      {/* Results skeleton */}
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}

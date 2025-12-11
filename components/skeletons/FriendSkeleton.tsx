@@ -1,6 +1,6 @@
 "use client";
 
-import { Skeleton, SkeletonCircle, SkeletonButton, SkeletonText } from "./Skeleton";
+import { Skeleton, SkeletonCircle, SkeletonButton } from "./Skeleton";
 
 export function FriendProfileSkeleton() {
   return (

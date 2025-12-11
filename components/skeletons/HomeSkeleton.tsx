@@ -2,15 +2,13 @@
 
 import { Skeleton } from "./Skeleton";
 
-function SectionSkeleton({ title, count = 3 }: { title: string; count?: number }) {
+function SectionSkeleton({ count = 3 }: { title: string; count?: number }) {
   return (
     <div style={{ marginBottom: "24px" }}>
-      {/* Section header */}
       <div style={{ textAlign: "center", marginBottom: "12px" }}>
-        <Skeleton width={120} height="1.25rem" style={{ margin: "0 auto" }} />
+        <Skeleton width={120} height="1.25rem" />
       </div>
 
-      {/* Items */}
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}

@@ -1,5 +1,5 @@
 import { User } from "@auth0/auth0-react";
-import { listUsers } from "./local";
+import { userService } from "./userService";
 
 /* Cached Tunes from the session */
 export const getMyCache = async (url: string) => {
@@ -28,7 +28,7 @@ export const getCachedListOfUsers = async (user: User) => {
   if (cachedResponse && cachedResponse.timestamp > expiryTime) {
     return cachedResponse.data;
   } else {
-    const fetchedList = await listUsers();
+    const fetchedList = await userService.listUsers();
     if (fetchedList.success) {
       const object = {
         data: fetchedList.data,
