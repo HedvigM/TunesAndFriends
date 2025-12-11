@@ -14,8 +14,9 @@ interface TuneClientProps {
   tuneId: string;
   sessionId: number;
   abcNotes: string;
-  usersTuneList: User[];
+  usersTuneList: User[]; // use the new basig userTuneBasicSelect
   isKnown: boolean;
+  userId: number;
 }
 
 export function TuneClient({
@@ -24,6 +25,7 @@ export function TuneClient({
   abcNotes,
   usersTuneList,
   isKnown: initialIsKnown,
+  userId,
 }: TuneClientProps) {
   const router = useRouter();
   const [isKnown, setIsKnown] = useState(initialIsKnown);
@@ -35,7 +37,7 @@ export function TuneClient({
   const onKnowHandle = async () => {
     setIsKnown(true);
 
-    const result = await addTuneAction(sessionId);
+    const result = await addTuneAction(sessionId, userId);
 
     if (!result.success) {
       setIsKnown(false);
@@ -46,7 +48,7 @@ export function TuneClient({
   // Transform users list to the format expected by TuneInfo
   const knownBy = usersTuneList.map((user) => ({
     name: user.name,
-    auth0UserId: user.auth0UserId || "",
+    id: user.id,
   }));
 
   return (

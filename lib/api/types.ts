@@ -13,8 +13,7 @@ export interface User {
   town: string | null;
   profileText: string | null;
   role: "BASIC" | "ADMIN";
-  knowTunes?: Tune[];
-  starredTunes?: Tune[];
+  userTunes?: Tune[];
   following?: User[];
   followedBy?: User[];
 }

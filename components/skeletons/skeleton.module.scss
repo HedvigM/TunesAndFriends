@@ -1,0 +1,26 @@
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-fourth) 0%,
+    #e8e4d8 50%,
+    var(--color-fourth) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+

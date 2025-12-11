@@ -3,8 +3,6 @@ import type { AppProps } from "next/app";
 export interface MyAppProps extends AppProps {}
 
 export interface SuccessResponse<T> {
-    learnTunes: any;
-    knowTunes: any;
     success: true;
     data: T;
   }

@@ -25,8 +25,9 @@ export const ProfileImage = ({size, picture}: ProfileImageProps) => {
         <Image
           src={picture}
           alt="Profile picture"
-          width={dimensions}
-          height={dimensions}
+          fill
+          sizes={`${dimensions}px`}
+          priority
           style={{
             objectFit: "cover",
             borderRadius: "50%"

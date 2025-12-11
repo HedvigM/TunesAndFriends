@@ -25,7 +25,9 @@ export const userWithProfileSelect = {
 export const tuneBasicSelect = {
   id: true,
   sessionId: true,
-  tags: true,
+  name: true,      // Cached from TheSession.org
+  type: true,      // Cached from TheSession.org
+  lastFetched: true,
 } as const;
 
 /**
@@ -34,20 +36,45 @@ export const tuneBasicSelect = {
  */
 export const userWithRelationsSelect = {
   ...userWithProfileSelect,
-  knowTunes: {
-    select: tuneBasicSelect,
+  userTunes: {
+    select: {
+      id: true,
+      tune: {
+        select: tuneBasicSelect,
+      },
+      tags: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
     take: 50, // Limit to 50 most recent
   },
-  starredTunes: {
-    select: tuneBasicSelect,
-    take: 20, // Limit to 20 starred
-  },
   following: {
-    select: userBasicSelect,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      auth0UserId: true,
+      town: true,
+      createdAt: true,
+      role: true,
+      picture: true,
+    },
     take: 100, // Limit to 100 following
   },
   followedBy: {
-    select: userBasicSelect,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      auth0UserId: true,
+      town: true,
+      createdAt: true,
+      role: true,
+      picture: true,
+    },
     take: 100, // Limit to 100 followers
   },
 } as const;
@@ -61,15 +88,28 @@ export const userListSelect = {
   picture: true,
 } as const;
 
+export const userTuneBasicSelect = {
+  id: true,
+  name: true,
+} as const;
+
 /**
  * User with specific tune relation
  * Use for: Finding users who know a specific tune
  */
-export const userWithTuneSelect = (tuneId: number) => ({
+export const userWithTuneSelect = (sessionId: number) => ({
   ...userListSelect,
-  knowTunes: {
-    where: { sessionId: tuneId },
-    select: tuneBasicSelect,
+  userTunes: {
+    where: {
+      tune: {
+        sessionId: sessionId,
+      },
+    },
+    select: {
+      tune: {
+        select: tuneBasicSelect,
+      },
+    },
   },
 });
 

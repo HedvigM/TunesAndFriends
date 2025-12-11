@@ -45,11 +45,11 @@ export const Menu = (props: { title: string }) => {
 
         {user && user.sub !== undefined && (
             <Link
-              href={`/my-profile`}
+              href={`/settings`}
               style={{ textDecoration: "none" }}
             >
               <p className={styles.bodyLink}>
-                My profile
+                Settings
               </p>
             </Link>
         )}

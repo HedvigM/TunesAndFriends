@@ -1,70 +1,64 @@
-/* TODO: När man lägger till låtar (från nya tunes sidan... 
-kanske även från gamla tunes sidan?) så verkar dom hamna lite fel. Ser ut som att låtar 
-och taggar läggs på på fel användare och med taggar den inte ska ha? */
+import { Suspense } from "react";
 import { requireAuthWithUser } from "lib/auth/app-router";
+import { getTunesDetails } from "services/externalTuneService";
 
-// Force dynamic rendering since this page uses cookies for auth
 export const dynamic = 'force-dynamic';
-import { TUNE_URL } from "utils/urls";
 import { Page } from "styles/Page";
 import { MyTunesClient } from "components/MyTunesClient";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
+import { TunesSkeleton } from "components/skeletons";
 
-type TuneWithTags = {
+type UserTuneWithDetails = {
   id: number;
-  sessionId: number;
+  tune: {
+    id: number;
+    sessionId: number;
+    name: string | null;
+    type: string | null;
+  };
   tags: { id: number; name: string }[];
 };
 
-async function fetchTuneData(sessionId: number) {
-  try {
-    const response = await fetch(TUNE_URL(sessionId), {
-      next: { revalidate: 3600 }, // Cache for 1 hour, then revalidate
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to fetch tune: ${response.statusText}`);
-    }
-    const data = await response.json();
-    return { name: data.name, id: sessionId };
-  } catch (error) {
-    console.error(`Error fetching tune ${sessionId}:`, error);
-    return null;
-  }
-}
-
-export default async function MyTunesPage() {
+// Async component that fetches and renders tunes
+async function MyTunesList() {
   const { user: userData } = await requireAuthWithUser();
 
-  const tunes = (userData?.knowTunes || []) as TuneWithTags[];
+  const userTunes = (userData?.userTunes || []) as UserTuneWithDetails[];
 
-  if (tunes.length === 0) {
+  if (userTunes.length === 0) {
     return (
-      <Page title="My tunes">
-        <div style={{ padding: "20px", textAlign: "center" }}>
-          <p>You don't have any tunes yet.</p>
-        </div>
-      </Page>
+      <div style={{ padding: "20px", textAlign: "center" }}>
+        <p>You don&apos;t have any tunes yet.</p>
+      </div>
     );
   }
 
-  const tuneObjectsResults = await Promise.all(
-    tunes.map(async (tune: TuneWithTags) => {
-      const tuneData = await fetchTuneData(tune.sessionId);
-      if (!tuneData) {
-        return null;
-      }
+  // Find tunes that don't have cached names
+  const uncachedSessionIds = userTunes
+    .filter((ut) => !ut.tune.name)
+    .map((ut) => ut.tune.sessionId);
+
+  // Only fetch from external API for uncached tunes
+  const externalTuneMap = uncachedSessionIds.length > 0
+    ? await getTunesDetails(uncachedSessionIds)
+    : new Map();
+
+  // Build tune objects using cached names or fallback
+  const tuneObjects = userTunes
+    .map((userTune) => {
+      const tuneName = userTune.tune.name 
+        || externalTuneMap.get(userTune.tune.sessionId)?.name;
+      
+      if (!tuneName) return null;
+      
       return {
-        id: tune.id,
-        sessionId: tune.sessionId,
-        name: tuneData.name,
-        tags: tune.tags || [],
+        id: userTune.tune.id,
+        sessionId: userTune.tune.sessionId,
+        name: tuneName,
+        tags: userTune.tags || [],
       };
     })
-  );
-
-  const tuneObjects = tuneObjectsResults.filter(
-    (tune): tune is NonNullable<typeof tune> => tune !== null
-  );
+    .filter((tune): tune is NonNullable<typeof tune> => tune !== null);
 
   const allTags = tuneObjects.flatMap((tune) => tune.tags);
   const uniqueTags = allTags.filter(
@@ -73,9 +67,17 @@ export default async function MyTunesPage() {
   );
 
   return (
+    <MyTunesClient tuneObjects={tuneObjects} tags={uniqueTags} userId={userData.id} />
+  );
+}
+
+export default function MyTunesPage() {
+  return (
     <Page title="My tunes">
       <ComponentErrorBoundary componentName="My Tunes">
-        <MyTunesClient tuneObjects={tuneObjects} tags={uniqueTags} userId={userData.id} />
+        <Suspense fallback={<TunesSkeleton count={8} />}>
+          <MyTunesList />
+        </Suspense>
       </ComponentErrorBoundary>
     </Page>
   );

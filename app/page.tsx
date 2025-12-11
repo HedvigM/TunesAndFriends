@@ -1,37 +1,32 @@
-import { requireAuthWithUser } from "lib/auth/app-router";
-import { TUNE_URL } from "utils/urls";
+import { getAuthSession, requireAuthWithUser } from "lib/auth/app-router";
+import { getTunesBasicInfo } from "services/externalTuneService";
 
 // Force dynamic rendering since this page uses cookies for auth
 export const dynamic = 'force-dynamic';
 import { Header } from "components/Header";
 import { TableData, StyledTable } from "components/Table";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
+import { Login } from "components/Login";
 import { Page } from "styles/Page";
 import styles from "styles/containers.module.scss";
 
-// Fetch tune data from external API
-async function fetchTuneData(sessionId: number) {
-  try {
-    const response = await fetch(TUNE_URL(sessionId), {
-      next: { revalidate: 3600 }, // Cache for 1 hour, then revalidate
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to fetch tune: ${response.statusText}`);
-    }
-    const data = await response.json();
-    return { name: data.name, id: sessionId };
-  } catch (error) {
-    console.error(`Error fetching tune ${sessionId}:`, error);
-    return null;
-  }
-}
+type UserTuneData = {
+  tune: {
+    sessionId: number;
+    name: string | null;
+  };
+};
 
 export default async function HomePage() {
+  const session = await getAuthSession();
+
+  if (!session) {
+    return <Login />;
+  }
+
   const { user: userData } = await requireAuthWithUser();
 
-  const tuneIds = userData?.knowTunes?.map(
-    (tunes: { sessionId: number }) => tunes.sessionId
-  ) || [];
+  const userTunes = (userData?.userTunes || []) as UserTuneData[];
 
   const friends: TableData[] = userData?.following?.flatMap(
     (friend: { name: string; id: number }) => ({
@@ -40,13 +35,27 @@ export default async function HomePage() {
     })
   ) || [];
 
-  const tuneIdsToFetch = tuneIds.slice(0, 3);
-  const tuneNamesResults = await Promise.all(
-    tuneIdsToFetch.map((id: number) => fetchTuneData(id))
-  );
-  const tuneNames: TableData[] = tuneNamesResults.filter(
-    (tune): tune is TableData => tune !== null
-  );
+  // Get the 3 most recent tunes
+  const recentTunes = userTunes.slice(0, 3);
+  
+  // Find tunes without cached names
+  const uncachedSessionIds = recentTunes
+    .filter((ut) => !ut.tune.name)
+    .map((ut) => ut.tune.sessionId);
+
+  // Only fetch from external API for uncached tunes
+  const externalTunes = uncachedSessionIds.length > 0
+    ? await getTunesBasicInfo(uncachedSessionIds)
+    : [];
+  const externalTuneMap = new Map(externalTunes.map((t) => [t.id, t.name]));
+
+  // Build tune list using cached names or fallback to external
+  const tuneNames: TableData[] = recentTunes
+    .map((ut) => ({
+      id: ut.tune.sessionId,
+      name: ut.tune.name || externalTuneMap.get(ut.tune.sessionId) || "Unknown",
+    }))
+    .filter((t) => t.name !== "Unknown");
 
   const Data: TableData[] = [
     {

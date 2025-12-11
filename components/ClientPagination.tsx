@@ -1,22 +1,21 @@
 "use client";
 
-import Link from "next/link";
 import styles from "./Pagination.module.scss";
 
-interface PaginationProps {
+interface ClientPaginationProps {
   currentPage: number;
   totalPages: number;
-  baseUrl: string;
+  onPageChange: (page: number) => void;
   /** Number of pages to show on each side of current page (desktop) */
   siblingCount?: number;
 }
 
-export function Pagination({ 
+export function ClientPagination({ 
   currentPage, 
   totalPages, 
-  baseUrl,
+  onPageChange,
   siblingCount = 2,
-}: PaginationProps) {
+}: ClientPaginationProps) {
   // Don't show pagination if only one page
   if (totalPages <= 1) return null;
 
@@ -56,28 +55,18 @@ export function Pagination({
 
   const pageNumbers = getPageNumbers();
 
-  const getPageUrl = (page: number) => {
-    return `${baseUrl}?page=${page}`;
-  };
-
   return (
     <nav className={styles.pagination} aria-label="Pagination">
       {/* Previous button */}
-      {currentPage > 1 ? (
-        <Link
-          href={getPageUrl(currentPage - 1)}
-          className={styles.navButton}
-          aria-label="Go to previous page"
-        >
-          <span className={styles.navButtonText}>← Prev</span>
-          <span className={styles.navButtonIcon}>←</span>
-        </Link>
-      ) : (
-        <span className={`${styles.navButton} ${styles.disabled}`} aria-disabled="true">
-          <span className={styles.navButtonText}>← Prev</span>
-          <span className={styles.navButtonIcon}>←</span>
-        </span>
-      )}
+      <button
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage <= 1}
+        className={`${styles.navButton} ${currentPage <= 1 ? styles.disabled : ""}`}
+        aria-label="Go to previous page"
+      >
+        <span className={styles.navButtonText}>← Prev</span>
+        <span className={styles.navButtonIcon}>←</span>
+      </button>
 
       {/* Desktop: Page numbers (Option B) */}
       <div className={styles.pageNumbers}>
@@ -92,23 +81,17 @@ export function Pagination({
 
           const isCurrentPage = page === currentPage;
 
-          return isCurrentPage ? (
-            <span
+          return (
+            <button
               key={page}
-              className={`${styles.pageNumber} ${styles.active}`}
-              aria-current="page"
-            >
-              {page}
-            </span>
-          ) : (
-            <Link
-              key={page}
-              href={getPageUrl(page)}
-              className={styles.pageNumber}
+              onClick={() => onPageChange(page)}
+              disabled={isCurrentPage}
+              className={`${styles.pageNumber} ${isCurrentPage ? styles.active : ""}`}
+              aria-current={isCurrentPage ? "page" : undefined}
               aria-label={`Go to page ${page}`}
             >
               {page}
-            </Link>
+            </button>
           );
         })}
       </div>
@@ -116,28 +99,23 @@ export function Pagination({
       {/* Mobile: Compact display (Option C) */}
       <div className={styles.compactDisplay}>
         <span className={styles.pageInfo}>
-          Page <strong>{currentPage}</strong> of <strong>{totalPages.toLocaleString()}</strong>
+          Page <strong>{currentPage}</strong> of <strong>{totalPages}</strong>
         </span>
       </div>
 
       {/* Next button */}
-      {currentPage < totalPages ? (
-        <Link
-          href={getPageUrl(currentPage + 1)}
-          className={styles.navButton}
-          aria-label="Go to next page"
-        >
-          <span className={styles.navButtonText}>Next →</span>
-          <span className={styles.navButtonIcon}>→</span>
-        </Link>
-      ) : (
-        <span className={`${styles.navButton} ${styles.disabled}`} aria-disabled="true">
-          <span className={styles.navButtonText}>Next →</span>
-          <span className={styles.navButtonIcon}>→</span>
-        </span>
-      )}
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage >= totalPages}
+        className={`${styles.navButton} ${currentPage >= totalPages ? styles.disabled : ""}`}
+        aria-label="Go to next page"
+      >
+        <span className={styles.navButtonText}>Next →</span>
+        <span className={styles.navButtonIcon}>→</span>
+      </button>
     </nav>
   );
 }
 
-export default Pagination;
+export default ClientPagination;
+

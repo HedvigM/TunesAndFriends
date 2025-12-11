@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Typography } from "styles/Typography";
 
 type TuneInfoProps = {
@@ -7,7 +8,7 @@ type TuneInfoProps = {
 
 type KnownByProp = {
   name: string;
-  auth0UserId: string;
+  id: number;
 };
 
 export const TuneInfo = ({ type, knownBy }: TuneInfoProps) => {
@@ -21,8 +22,10 @@ export const TuneInfo = ({ type, knownBy }: TuneInfoProps) => {
         <div style={{ display: "flex", flexDirection: "row", gap: "5px" }}>
       <Typography variant="body">known by:</Typography>
           {knownBy && knownBy.length > 0 &&
-            knownBy.map((knownBy: KnownByProp) => (
-              <Typography key={knownBy.auth0UserId} variant="body">{`${knownBy.name},`}</Typography>
+            knownBy.map((user: KnownByProp) => (
+              <Link key={user.id} href={`/friend/${user.id}`}>
+              <Typography  variant="body">{`${user.name},`}</Typography>
+              </Link>
             ))}
           {knownBy && knownBy.length === 0 &&
             <Typography variant="body">No one knows this tune</Typography>

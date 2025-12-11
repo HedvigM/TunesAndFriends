@@ -10,40 +10,55 @@ import { TunesIncommon } from "components/TunesIncommon";
 import styles from "styles/containers.module.scss";
 import { addRelationAction } from "app/friends/actions";
 import { addTuneAction } from "app/tunes/actions";
-import { Prisma } from "@prisma/client";
-
-type UserWithRelations = Prisma.UserGetPayload<{
-  include: { following: true; followedBy: true; knowTunes: true };
-}>;
+// Type for user with relations from userWithRelationsSelect
+type UserWithRelations = {
+  id: number;
+  name: string;
+  email: string;
+  auth0UserId: string;
+  town: string | null;
+  picture: string | null;
+  profileText: string | null;
+  userTunes: {
+    id: number;
+    tune: {
+      id: number;
+      sessionId: number;
+    };
+    tag: { id: number; name: string } | null;
+  }[];
+  following: { id: number; name: string }[];
+  followedBy: { id: number; name: string }[];
+};
 
 interface FriendClientProps {
-  viewedUser: UserWithRelations;
-  friendPicture: string;
+  friendData: UserWithRelations;
   tuneCount: number;
   followingCount: number;
   followersCount: number;
-  knowTunes: TableData[];
-  loggedinKnowTuneId: number[];
+  userTunes: TableData[];
+  friendsTuneIds: number[];
   mapFollowing: number[];
+  userId: number;
 }
 
 export function FriendClient({
-  viewedUser,
-  friendPicture,
+  friendData,
   tuneCount,
   followingCount,
   followersCount,
-  knowTunes,
-  loggedinKnowTuneId: initialLoggedinKnowTuneId,
-  mapFollowing: initialMapFollowing,
+  userTunes,
+  friendsTuneIds,
+  mapFollowing,
+  userId,
 }: FriendClientProps) {
   const router = useRouter();
   const [showCommonTunes, setShowCommonTunes] = useState(false);
-  const [loggedinKnowTuneId, setLoggedinKnowTuneId] = useState<number[]>(
-    initialLoggedinKnowTuneId
+  const [friendTuneIds, setFriendTuneIds] = useState<number[]>(
+    friendsTuneIds
   );
   const [isFollowing, setIsFollowing] = useState(
-    initialMapFollowing.includes(viewedUser.id)
+    mapFollowing.includes(userId)
   );
 
   const onBackClickHandle = () => {
@@ -58,7 +73,7 @@ export function FriendClient({
 
     setIsFollowing(true);
 
-    const result = await addRelationAction(viewedUser.id);
+    const result = await addRelationAction(friendData.id);
 
     if (!result.success) {
       setIsFollowing(false);
@@ -67,12 +82,12 @@ export function FriendClient({
   };
 
   const onKnowHandle = async (tuneId: number) => {
-    setLoggedinKnowTuneId((prev) => [...prev, tuneId]);
+    setFriendTuneIds((prev) => [...prev, tuneId]);
 
-    const result = await addTuneAction(tuneId);
+    const result = await addTuneAction(tuneId, friendData.id);
 
     if (!result.success) {
-      setLoggedinKnowTuneId((prev) => prev.filter((id) => id !== tuneId));
+      setFriendTuneIds((prev) => prev.filter((id) => id !== tuneId));
       console.error("Failed to add tune:", result.error);
     }
   };
@@ -116,7 +131,7 @@ export function FriendClient({
             paddingRight: "10px",
           }}
         >
-          <ProfileImage size={"small"} picture={friendPicture} />
+          <ProfileImage size={"small"} picture={friendData.picture ?? ""} />
           <Button
             element="button"
             onClick={onClickHandle}
@@ -126,7 +141,7 @@ export function FriendClient({
           </Button>
         </div>
         <ProfileInfo
-          profileText={viewedUser.profileText ?? ""}
+          profileText={friendData.profileText ?? ""}
           tunesCount={tuneCount}
           following={followingCount}
           followers={followersCount}
@@ -152,17 +167,17 @@ export function FriendClient({
         </div>
         {showCommonTunes ? (
           <TunesIncommon
-            logedinKnowTuneId={loggedinKnowTuneId}
-            knowTunes={knowTunes}
+            friendTuneIds={friendTuneIds}
+            userTunes={userTunes}
           />
         ) : (
-          knowTunes?.map((tune) => (
+          userTunes?.map((tune) => (
             <StyledTable
               key={tune.id}
               onClickHandle={onKnowHandle}
               know={
-                loggedinKnowTuneId !== undefined &&
-                loggedinKnowTuneId.includes(tune.id)
+                friendTuneIds !== undefined &&
+                friendTuneIds.includes(tune.id)
               }
               pathname="/tune"
               slug={tune.id}

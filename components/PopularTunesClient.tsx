@@ -27,11 +27,13 @@ type PopularTune = {
 interface PopularTunesClientProps {
   popularTunes: PopularTune[];
   knownTuneIds: number[];
+  userId: number;
 }
 
 export function PopularTunesClient({
   popularTunes,
   knownTuneIds,
+  userId,
 }: PopularTunesClientProps) {
   const router = useRouter();
   const [, startTransition] = useTransition();
@@ -44,7 +46,7 @@ export function PopularTunesClient({
     setPendingTuneId(tuneId);
 
     startTransition(async () => {
-      const result = await addTuneAction(tuneId);
+      const result = await addTuneAction(tuneId, userId);
 
       if (!result.success) {
         // Revert optimistic update on error

@@ -2,7 +2,7 @@ import { UserProfile } from "@auth0/nextjs-auth0/client";
 import {
   userWithRelationsSelect,
   userListSelect,
-  userWithTuneSelect,
+  userTuneBasicSelect,
 } from "lib/prisma/selects";
 import { BaseService, ServiceResult } from "./base/BaseService";
 
@@ -38,7 +38,17 @@ export class UserService extends BaseService {
     return this.execute(async () => {
       const user = await this.prisma.user.findUnique({
         where: { auth0UserId },
-        select: userWithRelationsSelect,
+        include: {
+          userTunes: {
+            include: {
+              tune: true,
+              tags: true,
+            },
+            take: 50,
+          },
+          following: true,
+          followedBy: true,
+        },
       });
 
       if (!user) {
@@ -73,20 +83,25 @@ export class UserService extends BaseService {
   }
 
   async listUsersWithTune(
-    tuneId: number,
+    sessionId: number,
     limit: number = 50
   ): Promise<ServiceResult<any[]>> {
     return this.execute(async () => {
-      return this.prisma.user.findMany({
+      const users = await this.prisma.user.findMany({
         where: {
-          knowTunes: {
-            some: { sessionId: tuneId },
+          userTunes: {
+            some: {
+              tune: {
+                sessionId: sessionId,
+              },
+            },
           },
         },
-        select: userWithTuneSelect(tuneId),
+        select: userTuneBasicSelect,
         take: limit,
         orderBy: { createdAt: "desc" },
       });
+      return users || [];
     }, "Failed to list users with tune");
   }
 

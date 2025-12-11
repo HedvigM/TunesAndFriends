@@ -7,7 +7,7 @@ import { ProfileImage } from "components/ProfileImage";
 import { ComponentErrorBoundary } from "components/errors/ComponentErrorBoundary";
 import { Button } from "styles/Button";
 import Link from "next/link";
-import { updateUserProfileAction } from "app/my-profile/settings/actions";
+import { updateUserProfileAction } from "app/settings/actions";
 
 type UserData = {
   id: number;
